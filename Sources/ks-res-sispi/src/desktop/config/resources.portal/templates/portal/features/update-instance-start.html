@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" @view="portal/master-portale">
+    <head @ignore>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Istanza</title>
+    </head>
+    <body>
+        <script @server id="data-user" @ftl-model="user" type="application/json" src="/portale/v1/user/${$.userInfo.username}"></script>
+        <script @server id="data-instance" @ftl-model="instance" type="application/json" src="/portale/v1/instance/{upid}"></script>
+        <script @server id="data-configuration" @ftl-model="configuration" type="application/json" src="/bpm/v1/configurations/${instance.proceeding.configurationId}"></script>
+        <script @server type="application/javascript" @ftl-model="form">
+            var map = new com.fasterxml.jackson.databind.ObjectMapper().readValue(instance.model, java.lang.Class.forName("java.util.Map"));
+            map.userinfo = user;
+            const body = {
+                'type': 'vue',
+                'options': {render: 'template', identifier: 'start-form'},
+                'modelOverrides': map//JSON.parse(instance.model)
+            };
+            var conf = configuration.id;
+        
+            var res = Packages.keysuite.desktop.DesktopUtils.POST("/bpm/v1/configurations/"+conf+"/forms/start/views",null,body,java.lang.Class.forName("java.lang.String"));
+            res;
+        </script>
+        <script id="form-script" type="application/javascript" src="/bpm/v1/configurations/${configuration.id}/forms/start/script"></script>
+        <script id="app-template" type="x-template">${form}</script>
+        
+        <div v-cloak id="start-form2">
+            <div class="container form-manager">
+                <h2>{{instance.proceeding.title}}</h2>
+                <h3>Servizio della sezione {{instance.proceeding.service.name}}</h3>
+                <ks-form tabIndex="1" disabled="false" formId="start-form"  ref="form" :model="model" template="#app-template" />
+            </div>
+        </div>
+
+        <script type="module" src="/static/portal/js/features/update-instance-start.js?no-cache"></script>
+    </body>
+</html>

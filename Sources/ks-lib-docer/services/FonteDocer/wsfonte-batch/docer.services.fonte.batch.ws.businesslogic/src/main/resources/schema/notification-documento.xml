@@ -1,0 +1,20 @@
+		<notification>
+			<saveOrUpdate>
+				<record >
+					<commonFields>
+					</commonFields>
+					<EntitaDocumentale>
+						<Documento>
+							<numero/>
+							<classifica/>
+							<tipologiaDocumentaria>
+								<codice/>
+								<denominazione/>
+							</tipologiaDocumentaria>							
+							<stato statoAttivo="true"/>
+							<registrazioni />
+						</Documento>
+					</EntitaDocumentale>
+				</record>
+			</saveOrUpdate>
+		</notification>

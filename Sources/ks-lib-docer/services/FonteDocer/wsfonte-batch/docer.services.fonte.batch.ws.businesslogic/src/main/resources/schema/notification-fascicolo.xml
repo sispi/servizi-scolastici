@@ -1,0 +1,18 @@
+<notification>
+	<saveOrUpdate>
+		<record>
+			<commonFields>
+				<creation-timestamp/>
+				<last-update-timestamp/>
+				<codice-ente/>
+				<latitudine>0.0</latitudine>
+				<longitudine>0.0</longitudine>
+				<descrizione/>
+			</commonFields>
+			<EntitaDocumentale>
+				<Fascicolo>
+				</Fascicolo>
+			</EntitaDocumentale>
+		</record>
+	</saveOrUpdate>
+</notification>

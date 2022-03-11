@@ -1,0 +1,31 @@
+<script @server-model="body" >
+
+    var type = request.getParameter("TYPE");
+    var output;
+
+    switch (type) {
+        case "documento":
+            var docnum = request.getParameter("DOCNUM");
+            var profile = apiClient.documenti().get(docnum);
+            var DOCNAME = profile.docname;
+            var action = request.getParameter("action");
+
+            if (action=="download"){
+                response.setHeader("Content-Disposition", org.springframework.http.ContentDisposition.builder("attachment").filename(DOCNAME).build() );
+                output = apiClient.documenti().download(docnum,null,null);
+            } else {
+                output = profile;
+            }
+            break;
+        case "fascicolo":
+            output = apiClient.fascicoli().get(request.getParameter("CLASSIFICA")+"/"+request.getParameter("ANNO_FASCICOLO")+"/"+request.getParameter("PROGR_FASCICOLO"));
+            break;
+        case "cartella":
+            output = apiClient.cartelle().get(request.getParameter("FOLDER_ID"));
+            break;
+        default:
+            output = apiClient[type]().get(request.getParameter("ID"));
+    }
+    output;
+
+</script>

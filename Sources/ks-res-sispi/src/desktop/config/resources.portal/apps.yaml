@@ -1,0 +1,88 @@
+#   attributi root:
+#   locales: lista dei locales utilizzati con chiave parte dell'url e valore il locale
+#   baseUrl: da specificare se si vuole stabilizzare il baseUrl per i link relativi delle app
+#
+#   menu: default menu se non esiste il menu dell'app
+#   home: homepage area autenticata che per default è /
+#   public-home: homepage per l'utente guest che per default è l'home
+#
+#   theme: default theme page (altrimenti è default). Può essere una semplice stringa o una mappa per specificare parametri del tema
+#
+#   ogni app può avere i seguenti attributi:
+#
+#   appName (o name) : identifica l'app . Questo attriuto o il link va specificato obbligatoriamente.
+#
+#   link: è il link sull'header, per default è /appName. Se inizia per http:
+#         - viene aggiunto il tag per passare il Bearer al cambio app
+#         - il match degli url viene fatto sulla base della prima parte dell'host che deve essere alfanumerico
+#
+#   regex: la espressione che relaziona gli url all'app.
+#         - per default se link è sel tipo http://context.domain/... : ^https?://<context>\\.[^/](?:/.*)?$
+#         - per default se link è sel tipo http://context/... : ^https?://<context>(?:/.*)?$
+#         - per default se link è sel tipo /context... : ^https?://[^/]+(/<context>)(?:/.*)?$
+#
+#   il capture è utilizzato per estrarre il context (sempre vuoto nei primi due casi)
+#
+#   roles: specifica i ruoli che possono accedere all'app. L'area pubblica deve avere "guest"
+#
+#   order: per specificare l'ordine di presentazione
+#   folder: per specificare un sub-folder per i templates (per default è l'appName)
+#   menu: può essere null, string, list o map. Per default il menu è il path (folder) dell'app o , se esiste, il menu omonimo
+#         se è una string può rappresentare la chiave in menus.yaml oppure un path (/...) in resources/templates
+#         altrimenti direttamente la chiave "menu" del modello per il template ftl
+#
+#   Le seguenti chiavi (insieme a tutte le altre eventualmente presenti) vengono utilizzate dall'header.ftl:
+#
+#       - icon: icona accostata al nome
+#       - title: testo presentato, per default l'appName
+#       - visible: nasconde l'app dall'header
+#
+#   Le chiavi destinate a divenire parte della pagina (ad esempio il title) possno usare la sintassi $[...] per essere tradotte
+#
+#   Le seguenti chiavi vengono utilizzate dallo zuul proxy:
+#   targetUri:  se presente imposta l'app come web application proxata da zuul
+#               se include $ viene processato come regex/replace
+#   template: ftl che produce l'html iniettita facendo proxy, per default è proxy/proxy.ftl
+#   FormBodyWrapperFilter: abilita/disabilita il filtro per intercettare i form body in zuul (default true)
+
+#logo: "/static/images/KeySuite-LOGO.png"
+#altTitle: Keysuite
+#baseUrl: http://aoo-test.test:8082
+
+
+theme:
+  name: portal
+  logo: url(/static/images/logo.png)
+  header-height: 70px
+  subheader-height: 35px
+  footer-height: 35px
+  menu-width: 200px
+  header-bg-color: royalblue
+  footer-bg-color: royalblue
+  header-text-color: white;
+
+locales:
+  it: it-IT
+  en: en-GB
+  es: es-ES
+  fr: fr-FR
+  de: de-DE
+
+menu: null
+home: /portal/features/myPractices
+public-home: /public/index
+#baseUrl: http://ks-portal:8082
+defaultAoo: 'AOO1'
+
+apps:
+  - link: /public/index
+    title: Public
+    visible: false
+    roles: [guest]
+    menu: main
+
+  - link: /portal/features/myPractices
+    title: Portal
+    roles: [portal_user]
+    menu: main
+    

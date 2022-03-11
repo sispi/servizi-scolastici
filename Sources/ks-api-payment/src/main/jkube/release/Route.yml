@@ -1,0 +1,14 @@
+kind: Route
+metadata:
+    name: ${deployment.id}
+    labels:
+      application: ${deployment.id}
+    annotations:
+        haproxy.router.openshift.io/disable_cookies: "true"
+        haproxy.router.openshift.io/balance: "roundrobin"
+spec:
+    port:
+      targetPort: 8080
+    to:
+      kind: Service
+      name: ${deployment.id}

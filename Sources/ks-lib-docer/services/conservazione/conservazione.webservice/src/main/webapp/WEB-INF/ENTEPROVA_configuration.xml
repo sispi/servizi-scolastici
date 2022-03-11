@@ -1,0 +1,393 @@
+<configuration xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:kforms="http://kforms.tempuri.org" xmlns:xbl="http://www.w3.org/ns/xbl" xmlns:version="java:org.orbeon.oxf.common.Version" xmlns:sxc="http://sxc.tempuri.org" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:fr="http://orbeon.org/oxf/xml/form-runner" xmlns:fn="http://www.w3.org/2005/02/xpath-functions" xmlns:xxforms="http://orbeon.org/oxf/xml/xforms" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><group name="business_logic_variables">
+		<section name="props">
+			<titolario_separator value="." />
+			<fascicolo_separator value="/" />
+			<migration_mode value="true" />
+			<fascicoli_secondari_mapping anno_fascicolo_position="$2" classifica_position="$1" progr_fascicolo_position="$3" regexp="^([^/]+)/([12][0-9][0-9][0-9])/(.+)$" />
+		</section>
+</group><group description="abc" name="impianto" readonly="true">
+		<section name="fields">
+			<enabled type="xs:boolean" />
+			<des_ente format=".+" type="xs:string" />
+			<des_aoo format=".+" type="xs:string" />
+			<des_titolario format=".+" type="xs:string" />
+			<des_fascicolo format=".+" type="xs:string" />
+			<docnum type="xs:string" />
+			<stato_pantarei format="^[1-6]$" type="xs:string" />
+			<docname type="xs:string" />
+			<abstract type="xs:string" />
+			<default_extension position="1" type="xs:string" />
+			<type_id type="xs:string" />
+			<cod_ente format=".+" type="xs:string" />
+			<cod_aoo format=".+" type="xs:string" />
+			<classifica format=".*" type="xs:string" />
+			<cod_area anagraficaTypeId="area_tematica" displayName="Codice Area" format=".+" type="xs:string" />
+			<des_area anagraficaTypeId="area_tematica" displayName="Descrizione Area" format=".+" type="xs:string" />
+			<anno_fascicolo format="^$|^0$|^(19[0-9][0-9])$|^(20[0-9][0-9])$" type="xs:int" />
+			<progr_fascicolo format=".*" type="xs:string" />
+			<anno_pg format="^$^0$|^(19[0-9][0-9])$|^(20[0-9][0-9])$" type="xs:int" />
+			<num_pg format=".*" type="xs:string" />
+			<oggetto_pg format=".*" type="xs:string" />
+			<registro_pg format=".*" type="xs:string" />
+			<data_pg format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+			<author_id format=".+" type="xs:string" />
+			<typist_id format=".+" type="xs:string" />
+			<creation_date format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+			<fasc_secondari format="^$|^([^/]+)/([12][0-9][0-9][0-9])/(.+)$" type="xs:string" />
+			<d_registraz format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+			<n_registraz format=".+" type="xs:string" />
+			<a_registraz format="^0$|^(19[0-9][0-9])$|^(20[0-9][0-9])$" type="xs:int" />
+			<o_registraz format=".*" type="xs:string" />
+			<id_registro format=".+" type="xs:string" />
+			<stato_conserv format="^(|0|1|2|3|4)$" type="xs:string" />
+			<usa_d_co_cer format=".*" type="xs:string" />
+			<t_d_contr_cer format=".*" type="xs:string" />
+			<d_co_cer format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+			<forza_coll format=".+" type="xs:string" />
+			<forza_accettaz format=".*" type="xs:string" />
+			<forza_conserv format=".*" type="xs:string" />
+			<flag_conserv format=".*" type="xs:string" />
+			<t_conserv format=".*" type="xs:string" />
+			<doc_url format=".*" type="xs:string" />
+			<archive_type format=".*" type="xs:string" />
+			<cod_titolario format=".*" type="xs:string" />
+			<num_fascicolo format=".*" type="xs:string" />
+			<app_versante format=".*" type="xs:string" />
+			<data_bu format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+			<annata_bu format="^0$|^(19[0-9][0-9])$|^(20[0-9][0-9])$" type="xs:int" />
+			<parte_bu format=".*" type="xs:string" />
+			<ms_t_registraz format=".*" type="xs:string" />
+			<numerazione_bu format=".*" type="xs:string" />
+			<numero_bu format=".*" type="xs:string" />
+			<tipo_componente format="^(|PRINCIPALE|ANNESSO|ANNOTAZIONE|ALLEGATO)$" type="xs:string" />
+			<docnum_princ type="xs:int" />
+			<parent_classifica format=".+" type="xs:string" />
+			<parent_progr_fascicolo format=".+" type="xs:string" />
+			<numero_pub type="xs:string" />
+			<registro_pub type="xs:string" />
+			<pubblicato type="xs:string" />
+			<anno_pub format="^0$|^(19[0-9][0-9])$|^(20[0-9][0-9])$" type="xs:int" />
+			<oggetto_pub type="xs:string" />
+			<data_inizio_pub type="xs:dateTime" />
+			<data_fine_pub type="xs:dateTime" />
+			<stato_archivistico format="^(|0|1|2|3|4|5|6)$" type="xs:string" />
+			<stato_business format="^(|0|1|2|3|4)$" type="xs:string" />
+			<mittenti type="xs:string" />
+			<destinatari type="xs:string" />
+			<tipo_protocollazione type="xs:string" />
+			<tipo_firma type="xs:string" />
+			<firmatario type="xs:string" />
+			<custom_document_1 custom="true" displayName="Campo Custom 1" format=".+" multivalue="false" position="0" type="xs:string" />
+			<custom_ente_1 custom="true" displayName="Custom Ente 1" format=".+" multivalue="false" position="0" type="xs:string" />
+			<custom_aoo_1 custom="true" displayName="Custom AOO 1" format=".+" multivalue="false" position="0" type="xs:string" />
+			<custom_titolario_1 custom="true" displayName="Custom Titolario" format=".+" multivalue="false" position="0" type="xs:string" />
+			<custom_fascicolo_1 custom="true" displayName="Custom Fasc 1" format=".+" multivalue="false" position="0" type="xs:string" />
+			<custom_field_string custom="true" displayName="Custom Tipo String" format=".*" type="xs:string" />
+			<custom_field_int custom="true" displayName="Custom Tipo Int" format=".*" type="xs:int" />
+			<custom_field_datetime custom="true" displayName="Custom Tipo Datetime" format=".*" type="xs:date" />
+			<custom_field_boolean custom="true" displayName="Custom Tipo Boolean" format=".*" type="xs:boolean" />
+			<custom_field_decimal custom="true" displayName="Custom Tipo Decimal" format=".*" type="xs:decimal" />
+			<secondary_group_id custom="true" displayName="Gruppo AOO Utente" format=".*" type="xs:string" />
+			<cod_cliente anagraficaTypeId="cliente" displayName="Codice Cliente" format=".+" type="xs:string" />
+			<des_cliente anagraficaTypeId="cliente" displayName="Descrizione Cliente" format=".*" type="xs:string" />
+			<cod_fornitore anagraficaTypeId="fornitore" displayName="Codice Fornitore" format=".+" type="xs:string" />
+			<des_fornitore anagraficaTypeId="fornitore" displayName="Descrizione Fornitore" format=".*" type="xs:string" />			
+			
+			<docnum_record type="xs:string" />
+			<ud_version type="xs:string" />			
+			<doc_hash type="xs:string" />
+			<data_apertura type="xs:dateTime" />
+			<data_chiusura type="xs:dateTime" />
+			<cf_persona type="xs:string" />
+			<cf_azienda type="xs:string" />
+			<id_proc type="xs:string" />
+			<id_immobile type="xs:string" />
+			
+		</section>
+		<section name="baseprofile">
+			<docnum />
+			<stato_pantarei />
+			<stato_business />
+			<docname />
+			<abstract />
+			<default_extension />
+			<type_id />
+			<cod_ente />
+			<cod_aoo />
+			<classifica />
+			<anno_fascicolo />
+			<progr_fascicolo />
+			<cod_titolario />
+			<num_fascicolo />
+			<anno_pg />
+			<num_pg />
+			<oggetto_pg />
+			<registro_pg />
+			<data_pg />
+			<author_id />
+			<typist_id />
+			<creation_date />
+			<fasc_secondari />
+			<d_registraz />
+			<n_registraz />
+			<a_registraz />
+			<o_registraz />
+			<id_registro />
+			<stato_conserv />
+			<usa_d_co_cer />
+			<t_d_contr_cer />
+			<d_co_cer />
+			<forza_coll />
+			<forza_accettaz />
+			<forza_conserv />
+			<flag_conserv />
+			<t_conserv />
+			<doc_url />
+			<archive_type />
+			<app_versante />
+			<data_bu />
+			<annata_bu />
+			<parte_bu />
+			<ms_t_registraz />
+			<numerazione_bu />
+			<numero_bu />
+			<tipo_componente />
+			<docnum_princ />
+			<registro_pub />
+			<pubblicato />
+			<numero_pub />
+			<anno_pub />
+			<oggetto_pub />
+			<data_inizio_pub />
+			<data_fine_pub />
+			<stato_archivistico />
+			<mittenti />
+			<destinatari />
+			<tipo_protocollazione />
+			<tipo_firma />
+			<firmatario />
+			<docnum_record />
+			<ud_version />
+			<doc_hash />
+			
+		</section>
+		<section name="document_types">
+			<type description="Documento" name="DOCUMENTO" providerTypeId="documento">
+				<cod_cliente role="codice" />
+				<des_cliente role="descrizione" />
+				<cod_fornitore role="codice" />
+				<des_fornitore role="descrizione" />
+				<cod_area role="codice" />
+				<des_area role="descrizione" />
+				<custom_document_1 />
+				<custom_ente_1 />
+				<custom_aoo_1 />
+				<custom_titolario_1 />
+				<custom_fascicolo_1 />
+				<custom_field_string />
+				<custom_field_int />
+				<custom_field_datetime />
+				<custom_field_boolean />
+				<custom_field_decimal />
+			</type>
+			<type description="Repertorio 1" name="REPERTORIO1" providerTypeId="documento">
+				<cod_cliente role="codice" />
+				<des_cliente role="descrizione" />
+				<cod_fornitore role="codice" />
+				<des_fornitore role="descrizione" />
+				<custom_document_1 />
+				<custom_ente_1 />
+				<custom_aoo_1 />
+				<custom_titolario_1 />
+				<custom_fascicolo_1 />
+				<custom_field_string />
+				<custom_field_int />
+				<custom_field_datetime />
+				<custom_field_boolean />
+				<custom_field_decimal />
+			</type>
+			<type description="Repertorio 2" name="REPERTORIO2" providerTypeId="documento">
+				<cod_cliente role="codice" />
+				<des_cliente role="descrizione" />
+				<cod_fornitore role="codice" />
+				<des_fornitore role="descrizione" />
+				<custom_document_1 />
+				<custom_ente_1 />
+				<custom_aoo_1 />
+				<custom_titolario_1 />
+				<custom_fascicolo_1 />
+				<custom_field_string />
+				<custom_field_int />
+				<custom_field_datetime />
+				<custom_field_boolean />
+				<custom_field_decimal />
+			</type>
+		</section>
+		<section name="anagrafiche_types">
+			<type name="ente">
+				<cod_ente />
+				<des_ente />
+				<enabled />
+			</type>
+			<type name="aoo">
+				<cod_ente />
+				<cod_aoo />
+				<des_aoo />
+				<enabled />
+			</type>
+			<type name="titolario">
+				<cod_ente />
+				<cod_aoo />
+				<classifica />
+				<cod_titolario />
+				<parent_classifica />
+				<des_titolario />
+				<enabled />
+			</type>
+			<type name="fascicolo">
+				<cod_ente />
+				<cod_aoo />
+				<classifica />
+				<cod_titolario />
+				<num_fascicolo />
+				<progr_fascicolo />
+				<anno_fascicolo />
+				<parent_progr_fascicolo />
+				<des_fascicolo />
+				<enabled />
+			    <data_apertura />
+			    <data_chiusura />
+			    <cf_persona />
+			    <cf_azienda />
+			    <id_proc />
+			    <id_immobile />
+			
+			
+			</type>
+			<type custom="true" displayName="Area Tematica" name="area_tematica">
+				<cod_ente />
+				<cod_aoo />
+				<cod_area role="codice" />
+				<des_area role="descrizione" />
+				<enabled />
+			</type>
+			<type custom="true" displayName="Cliente" name="cliente">
+				<cod_ente />
+				<cod_aoo />
+				<cod_cliente role="codice" />
+				<des_cliente role="descrizione" />
+			</type>
+			<type custom="true" displayName="Fornitori" name="fornitore">
+				<cod_ente />
+				<cod_aoo />
+				<cod_fornitore role="codice" />
+				<des_fornitore role="descrizione" />
+			</type>
+		</section>
+		<section name="hitlists">
+			<type description="Hitlist Documenti" name="hitlist">
+				<docnum />
+				<stato_pantarei />
+				<docname />
+				<abstract />
+				<default_extension />
+				<type_id />
+				<cod_ente />
+				<cod_aoo />
+				<tipo_componente />
+				<anno_pg />
+				<num_pg />
+				<registro_pg />
+				<n_registraz />
+				<a_registraz />
+				<id_registro />
+				<stato_archivistico />
+			</type>
+			<type name="hitlist_ente">
+				<cod_ente />
+				<des_ente />
+				<enabled />
+			</type>
+			<type name="hitlist_aoo">
+				<cod_ente />
+				<cod_aoo />
+				<des_aoo />
+				<enabled />
+			</type>
+			<type name="hitlist_titolario">
+				<cod_ente />
+				<cod_aoo />
+				<classifica />
+				<parent_classifica />
+				<des_titolario />
+				<enabled />
+			</type>
+			<type name="hitlist_fascicolo">
+				<cod_ente />
+				<cod_aoo />
+				<classifica />
+				<progr_fascicolo />
+				<anno_fascicolo />
+				<parent_progr_fascicolo />
+				<des_fascicolo />
+				<enabled />
+			</type>
+			<type name="hitlist_area_tematica">
+				<cod_ente />
+				<cod_aoo />
+				<cod_area />
+				<des_area />
+			</type>
+			<type name="hitlist_cliente">
+				<cod_ente />
+				<cod_aoo />
+				<cod_cliente />
+				<des_cliente />
+			</type>
+			<type name="hitlist_fornitore">
+				<cod_ente />
+				<cod_aoo />
+				<cod_fornitore />
+				<des_fornitore />
+			</type>
+		</section>
+	</group><group description="abc" name="form_dinamiche">
+		<section name="documenti">
+			<ente id="ENTE1">
+				<aoo id="AOO11">
+					<documento type="DOCUMENTO" />
+					<documento type="REPERTORIO1">
+						<cliente anagrafica="true" type="anagrafica" displayName="Cliente" position="" group="Campi anag" />
+					</documento>
+				</aoo>
+			</ente>
+		</section>
+		<section name="anagrafiche">
+
+		</section>
+	</group><group name="conservazione">
+  <section name="configuration">
+  <tempDir>/tmp/docer</tempDir>
+  <templatesDir>/home/lorenxs/workspaces/DocER/services/conservazione/conservazione.converter/src/main/resources/templates</templatesDir>
+  <usersFile>/home/lorenxs/workspaces/DocER/services/conservazione/conservazione.provider.parer/src/main/resources/users</usersFile>
+  <simulation>true</simulation>
+</section>
+  <section name="parer">
+
+<sacerHost>
+https://parer.regione.emilia-romagna.it/sacertest/VersamentoSync
+</sacerHost>
+<sacerVersion>1.3</sacerVersion>
+<deleteAfterSend>false</deleteAfterSend>
+<useHttps>true</useHttps>
+
+</section>
+  <section name="docer">
+
+  <provider>it.kdm.docer.alfresco.provider.Provider</provider>
+  <primarySearchMaxRows>10</primarySearchMaxRows>
+  <diskBufferDirectory>/tmp/docer</diskBufferDirectory>
+  <maxFileLength>3000000</maxFileLength>
+
+</section>
+</group></configuration>

@@ -1,0 +1,377 @@
+<dataConfig>
+
+    <!--
+
+    Parametri:
+
+    ticket=...			ticket di amministratore
+    ente=...			codice ente
+    aoo=...				codice aoo
+    domain=...          dominio mail (es. anm.it)
+    profiles=true       indica se importare i profili associati ai gruppi
+    [password=...]		eventuale password per gli utenti (altrimenti viene impostata in automatico MD5)
+    [secret=...]		eventuale secret per gli utenti (altrimenti viene impostata in automatico con SECRET)
+
+    es:
+    ente=ANM&aoo=ANM_AOO&ticket=admin&password=napoli.081&domain=anm.it
+
+    -->
+
+    <propertyWriter dateFormat="yyyy-MM-dd'T'HH:mm:ss'Z'" type0="SimplePropertiesWriter" type="ZKPropertiesWriter" directory="data" filename="protocollo.properties" />
+
+    <dataSource name="csv" encoding="UTF-8" connectionTimeout="5000" readTimeout="10000" type="FileDataSource" basePath="/opt/protocollo/" />
+
+    <script><![CDATA[
+
+				var logger = org.slf4j.LoggerFactory.getLogger(org.apache.solr.handler.dataimport.DataImportHandler);
+
+				function getRoles(al_groups)
+				{
+				    var q = "+id:("+ java.lang.String.join(" ",al_groups)+")";
+					q+= " +roles:*";
+
+				    var params = new org.apache.solr.client.solrj.SolrQuery();
+				    params["set(java.lang.String,java.lang.String[])"]( "ticket" , "admin" );
+				    params.setQuery(q);
+                    params.addField( "id" );
+                    params.addField( "roles" );
+                    params.setRows( 100 );
+
+                    var rolesDoc = Packages.it.kdm.solr.client.CoreClient.getInstance().query( params ).getResults();
+
+                    for ( var i=0; i<rolesDoc.size(); i++  )
+                    {
+                        var role = rolesDoc.get(i);
+
+                        var profileRoles = role.getFieldValues( "roles" ).toArray();
+
+                        for ( var j=0; j<profileRoles.length; j++  )
+                            al_groups.add( profileRoles[j].toString()+"@group" );
+                    }
+
+                    return al_groups;
+                }
+
+                function get(vals,idx)
+                {
+                    var val = vals[idx];
+
+					if (val==null)
+						return null;
+					else if (val.toString() == "jdk.nashorn.internal.runtime.Undefined" )
+						return null;
+					else if (val.trim)
+						return val.trim().replace(/^\"|\"$|^,|,$/g,"");
+					else
+						return val;
+                }
+
+				function titolario(row,context)
+                {
+                    /*
+                        Colonne:
+                        0 - CLASSIFICA
+                        1 - DES_TITOLARIO
+                        2 - PARENT_CLASSIFICA
+                        3 - ACL
+                        4 - RISERVATEZZA
+                        5 - DISABLED
+                    */
+
+					var ente = context.resolve("dataimporter.request.ente") ;
+					var aoo = context.resolve("dataimporter.request.aoo") ;
+
+                    var line = ""+row["rawLine"];
+                    var vals = line.match(/[^,\"]+|"[^"]*"|,,|^,|,$/g);
+
+                    if (vals[0]=="Classifica" || vals[0]=="CLASSIFICA")
+						return null;
+
+                    row.clear();
+
+					row.put("COD_ENTE",ente);
+					row.put("COD_AOO",aoo);
+					row.put("type","titolario");
+					row.put("CLASSIFICA",get(vals,0));
+					row.put("classifica_sort", get(vals,0).replace( /(^|\.)(\d)(?!\d)/g, "$10$2" ) );
+					row.put("import_dt" , new Date( Date.now() ).toISOString() );
+					row.put("DES_TITOLARIO",get(vals,1));
+					row.put("PARENT_CLASSIFICA",get(vals,2) || "__NULL__" );
+
+					var acl = new java.util.ArrayList();
+					acl.add(ente+"@group:readOnly");
+					acl.add("ADMINS_AOO_"+aoo+"@group:fullAccess");
+
+					var competenti = get(vals,3);
+
+					if (competenti)
+					{
+						competenti = competenti.split(",");
+						for( var i=0; i< competenti.length ; i++ )
+						{
+						    var comp = competenti[i].trim();
+						    if (comp=="*")
+						    {
+						        acl.add("*_FASC@group:normalAccess");
+						        acl.add("UOFASC@group:normalAccess");
+						        acl.add("UORESP@group:normalAccess");
+						    }
+						    else
+						    {
+						        acl.add(""+comp+"_FASC@group:normalAccess");
+							    acl.add(""+comp+"_RESP@group:normalAccess");
+						    }
+						}
+					}
+
+					row.put("acl_explicit",acl);
+
+					var riservatezza = get(vals,4,"N");
+					if (riservatezza.startsWith("N"))
+					    riservatezza = "3";
+					else if (riservatezza.startsWith("R"))
+					    riservatezza = "0";
+					else if (riservatezza.startsWith("U"))
+					    riservatezza = "1";
+					else if (riservatezza.startsWith("P"))
+					    riservatezza = "2";
+
+					row.put("RISERVATEZZA",riservatezza);
+
+					var DISABLED = get(vals,5);
+
+                    var enabled = true;
+					if (DISABLED=="S")
+					    row.put("ENABLED",false);
+
+					return row;
+                }
+
+				function group(row,context)
+                {
+					var ente = context.resolve("dataimporter.request.ente") ;
+					var aoo = context.resolve("dataimporter.request.aoo") ;
+					var domain = context.resolve("dataimporter.request.domain") ;
+
+                    var line = ""+row["rawLine"];
+                    var vals = line.match(/[^,\"]+|"[^"]*"|,,|^,|,$/g);
+
+                    if (vals[0]=="DESCRIZIONE")
+						return null;
+
+					//DESCRIZIONE,GROUP_MAIL,GROUP_ID,PARENT_GROUP_ID,GRUPPO_STRUTTURA,ALTERNATIVES,COST
+
+                    var GS = get(vals,4) == "S" ? true : false;
+
+                    var row1 = new java.util.HashMap();
+
+                    var uomail = ""+get(vals,2);
+                    uomail = uomail.replace(/_/g,"");
+
+                    row1.put("COD_ENTE",ente);
+					row1.put("COD_AOO",aoo);
+					row1.put("type","group");
+					row1.put("GROUP_ID",get(vals,2));
+					row1.put("GROUP_NAME",get(vals,0));
+					row1.put("PARENT_GROUP_ID",get(vals,3) || "__NULL__");
+					row1.put("GROUP_MAIL",uomail+"@"+domain );
+					row1.put("GRUPPO_STRUTTURA", GS );
+
+                    var cost = get(vals,6);
+					if (cost)
+					    row1.put("cost",cost);
+
+					if (!GS)
+					    return row1;
+
+                    var row2 = new java.util.HashMap();
+
+                    row2.put("COD_ENTE",ente);
+					row2.put("COD_AOO",aoo);
+					row2.put("type","group");
+					row2.put("GROUP_ID",get(vals,2) + "_FASC" );
+					row2.put("GROUP_NAME","Fascicolatori " + get(vals,2));
+					row2.put("PARENT_GROUP_ID",get(vals,2));
+					row2.put("GROUP_MAIL",uomail+".fas@"+domain);
+					row2.put("GRUPPO_STRUTTURA", false );
+
+                    var row3 = new java.util.HashMap();
+
+                    row3.put("COD_ENTE",ente);
+					row3.put("COD_AOO",aoo);
+					row3.put("type","group");
+					row3.put("GROUP_ID",get(vals,2) + "_PROT" );
+					row3.put("GROUP_NAME","Protocollatori " + get(vals,2));
+					row3.put("PARENT_GROUP_ID",get(vals,2));
+					row3.put("GROUP_MAIL",uomail+".pro@"+domain);
+					row3.put("GRUPPO_STRUTTURA", false );
+
+					var row4 = new java.util.HashMap();
+
+                    row4.put("COD_ENTE",ente);
+					row4.put("COD_AOO",aoo);
+					row4.put("type","group");
+					row4.put("GROUP_ID",get(vals,2) + "_RESP" );
+					row4.put("GROUP_NAME","Responsabili " + get(vals,2));
+					row4.put("PARENT_GROUP_ID",get(vals,2));
+					row4.put("GROUP_MAIL",uomail+".res@"+domain);
+					row4.put("GRUPPO_STRUTTURA", false );
+
+					var alternatives = get(vals,5);
+
+                    var alts = new java.util.ArrayList();
+
+                    alts.add( get(vals,2)+"_FASC");
+                    alts.add( get(vals,2)+"_PROT");
+                    alts.add( get(vals,2)+"_PEC");
+
+                    if (alternatives!=null && alternatives!="")
+                    {
+
+					    alternatives=alternatives.split(",")
+						for( var i=0; i< alternatives.length ; i++ )
+						{
+						    alts.add( alternatives[i]+"");
+						    alts.add( alternatives[i]+"_RESP");
+						    alts.add( alternatives[i]+"_FASC");
+						    alts.add( alternatives[i]+"_PROT");
+						    alts.add( alternatives[i]+"_PEC");
+						}
+                    }
+
+                    row4.put("roles" , alts );
+
+                    var row5 = new java.util.HashMap();
+
+                    row5.put("COD_ENTE",ente);
+					row5.put("COD_AOO",aoo);
+					row5.put("type","group");
+					row5.put("GROUP_ID",get(vals,2) + "_PEC" );
+					row5.put("GROUP_NAME","PEC " + get(vals,2));
+					row5.put("PARENT_GROUP_ID",get(vals,2));
+					row5.put("GROUP_MAIL",uomail+".pec@"+domain);
+					row5.put("GRUPPO_STRUTTURA", false );
+
+                    var list = new java.util.ArrayList();
+                    list.add(row1);
+                    list.add(row2);
+                    list.add(row3);
+                    list.add(row4);
+                    list.add(row5);
+
+
+                    return list;
+                }
+
+				function user(row,context)
+                {
+					var ente = context.resolve("dataimporter.request.ente") ;
+					var aoo = context.resolve("dataimporter.request.aoo") ;
+
+                    var line = ""+row["rawLine"];
+                    var vals = line.match(/[^,\"]+|"[^"]*"|,,|^,|,$/g);
+
+                    if (vals[0]=="DESCRIZIONE")
+						return null;
+
+					//DESCRIZIONE,USER_MAIL,USER_ID,GRUPPI
+
+                    var group_id = get(vals,2);
+                    var descrizione = get(vals,0);
+                    var parent_group = get(vals,3);
+                    var mail = get(vals,1);
+					var struttura = get(vals,4);
+
+                    row.clear();
+
+					row.put("COD_ENTE",ente);
+					row.put("COD_AOO",aoo);
+					row.put("type","user");
+					row.put("USER_ID",get(vals,2));
+					row.put("FULL_NAME",get(vals,0));
+					row.put("USER_MAIL",get(vals,1));
+					//row.put("USER_MAIL","__NULL__");
+					row.put("USER_PASSWORD", context.resolve("dataimporter.request.password") || org.apache.commons.codec.digest.DigestUtils.md5Hex(get(vals,2)+ (context.resolve("dataimporter.request.secret") || "SECRET") ));
+
+					var groups = new java.util.HashSet();
+					groups.add(ente+"@group");
+					groups.add(aoo+"@group");
+					groups.add("everyone@group");
+
+					var gruppi = get(vals,3);
+
+					if (gruppi)
+					{
+						gruppi = gruppi.split(",");
+						for( var i=0; i< gruppi.length ; i++ )
+						{
+							var g = ""+gruppi[i].trim();
+							if (g.endsWith("_F"))
+								g = g + "ASC";
+							if (g.endsWith("_P"))
+								g = g + "ROT";
+							if (g.endsWith("_R"))
+								g = g + "ESP";
+							groups.add(""+g+"@group");
+
+							if (g == "RESP_PROT")
+                            {
+                                groups.add("PROTOCOLLATORI@group");
+                                groups.add("REGISTRO_ANNULLAMENTI_REGISTRAZ@group");
+                            }
+                            else if (g.match(/_RESP$|_PROT$|_FASC$/))
+							{
+							    var uo = g.substring(0,g.length-5);
+							    var role = g.substring(g.length-4);
+							    groups.add(uo+"@group");
+							    groups.add("UO"+role+"@group");
+							}
+						}
+
+					}
+
+					if (context.resolve("dataimporter.request.profiles") == "true")
+					    groups = getRoles(groups);
+
+					row.put("groups",groups);
+
+                    return row;
+                }
+
+
+
+        ]]></script>
+
+    <document>
+        <entity name="titolario"
+                processor="LineEntityProcessor"
+                url="Anagrafiche.xlsx - Titolario.csv"
+                dataSource="csv"
+                transformer="script:titolario"
+
+
+        >
+        </entity>
+
+        <entity name="gruppi"
+                processor="LineEntityProcessor"
+                url="Anagrafiche.xlsx - Gruppi.csv"
+                dataSource="csv"
+                transformer="script:group"
+
+
+        >
+        </entity>
+
+        <entity name="utenti"
+                processor="LineEntityProcessor"
+                url="Anagrafiche.xlsx - Utenti.csv"
+                dataSource="csv"
+                transformer="script:user"
+
+
+        >
+        </entity>
+    </document>
+
+</dataConfig>

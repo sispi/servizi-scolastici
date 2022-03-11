@@ -1,0 +1,555 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.digitPa.gov.it/protocollo/" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.digitPa.gov.it/protocollo/">
+    <xs:complexType name="Segnatura">
+        <xs:sequence>
+            <xs:element ref="tns:Intestazione"/>
+            <xs:element minOccurs="0" ref="tns:Riferimenti"/>
+            <xs:element ref="tns:Descrizione"/>
+            <xs:element minOccurs="0" ref="tns:PiuInfo"/>
+        </xs:sequence>
+        <xs:attribute fixed="aaaa-mmgg" name="versione" type="xs:NMTOKEN"/>
+        <xs:attribute fixed="it" name="xml-lang"/>
+    </xs:complexType>
+    <xs:element name="Segnatura" type="tns:Segnatura"/>
+    <xs:complexType name="Intestazione">
+        <xs:sequence>
+            <xs:element ref="tns:Identificatore"/>
+            <xs:element minOccurs="0" ref="tns:PrimaRegistrazione"/>
+            <xs:element minOccurs="0" ref="tns:OraRegistrazione"/>
+            <xs:element ref="tns:Origine"/>
+            <xs:element maxOccurs="unbounded" ref="tns:Destinazione"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:PerConoscenza"/>
+            <xs:element minOccurs="0" ref="tns:Risposta"/>
+            <xs:element minOccurs="0" ref="tns:Riservato"/>
+            <xs:element minOccurs="0" ref="tns:InterventoOperatore"/>
+            <xs:element minOccurs="0" ref="tns:RiferimentoDocumentiCartacei"/>
+            <xs:element minOccurs="0" ref="tns:RiferimentiTelematici"/>
+            <xs:element ref="tns:Oggetto"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:Classifica"/>
+            <xs:element minOccurs="0" ref="tns:Note"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Intestazione" type="tns:Intestazione"/>
+    <xs:complexType name="Identificatore">
+        <xs:sequence>
+            <xs:element ref="tns:CodiceAmministrazione"/>
+            <xs:element ref="tns:CodiceAOO"/>
+            <xs:element ref="tns:CodiceRegistro"/>
+            <xs:element ref="tns:NumeroRegistrazione"/>
+            <xs:element ref="tns:DataRegistrazione"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Identificatore" type="tns:Identificatore"/>
+    <xs:complexType mixed="true" name="CodiceAmministrazione"/>
+    <xs:element name="CodiceAmministrazione" type="tns:CodiceAmministrazione"/>
+    <xs:complexType mixed="true" name="CodiceAOO"/>
+    <xs:element name="CodiceAOO" type="tns:CodiceAOO"/>
+    <xs:complexType mixed="true" name="CodiceRegistro"/>
+    <xs:element name="CodiceRegistro" type="tns:CodiceRegistro"/>
+    <xs:complexType mixed="true" name="NumeroRegistrazione"/>
+    <xs:element name="NumeroRegistrazione" type="tns:NumeroRegistrazione"/>
+    <xs:complexType mixed="true" name="DataRegistrazione"/>
+    <xs:element name="DataRegistrazione" type="tns:DataRegistrazione"/>
+    <xs:complexType name="PrimaRegistrazione">
+        <xs:sequence>
+            <xs:element ref="tns:Identificatore"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="PrimaRegistrazione" type="tns:PrimaRegistrazione"/>
+    <xs:complexType mixed="true" name="OraRegistrazione">
+        <xs:attribute default="locale" name="tempo">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="spc"/>
+                    <xs:enumeration value="NMTOKEN"/>
+                    <xs:enumeration value="locale"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:element name="OraRegistrazione" type="tns:OraRegistrazione"/>
+    <xs:complexType name="Origine">
+        <xs:sequence>
+            <xs:element ref="tns:IndirizzoTelematico"/>
+            <xs:element ref="tns:Mittente"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Origine" type="tns:Origine"/>
+    <xs:complexType name="Destinazione">
+        <xs:sequence>
+            <xs:element ref="tns:IndirizzoTelematico"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:Destinatario"/>
+        </xs:sequence>
+        <xs:attribute default="no" name="confermaRicezione">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="si"/>
+                    <xs:enumeration value="no"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:element name="Destinazione" type="tns:Destinazione"/>
+    <xs:complexType name="PerConoscenza">
+        <xs:sequence>
+            <xs:element ref="tns:IndirizzoTelematico"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:Destinatario"/>
+        </xs:sequence>
+        <xs:attribute default="no" name="confermaRicezione">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="si"/>
+                    <xs:enumeration value="no"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:element name="PerConoscenza" type="tns:PerConoscenza"/>
+    <xs:complexType name="Risposta">
+        <xs:sequence>
+            <xs:element ref="tns:IndirizzoTelematico"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Risposta" type="tns:Risposta"/>
+    <xs:complexType mixed="true" name="IndirizzoTelematico">
+        <xs:attribute default="smtp" name="tipo">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="uri"/>
+                    <xs:enumeration value="smtp"/>
+                    <xs:enumeration value="NMTOKEN"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="note" type="xs:anySimpleType"/>
+    </xs:complexType>
+    <xs:element name="IndirizzoTelematico" type="tns:IndirizzoTelematico"/>
+    <xs:complexType mixed="true" name="InterventoOperatore"/>
+    <xs:element name="InterventoOperatore" type="tns:InterventoOperatore"/>
+    <xs:complexType mixed="true" name="Riservato"/>
+    <xs:element name="Riservato" type="tns:Riservato"/>
+    <xs:complexType name="RiferimentoDocumentiCartacei"/>
+    <xs:element name="RiferimentoDocumentiCartacei" type="tns:RiferimentoDocumentiCartacei"/>
+    <xs:complexType name="RiferimentiTelematici"/>
+    <xs:element name="RiferimentiTelematici" type="tns:RiferimentiTelematici"/>
+    <xs:complexType mixed="true" name="Oggetto"/>
+    <xs:element name="Oggetto" type="tns:Oggetto"/>
+    <xs:complexType name="Classifica">
+        <xs:sequence>
+            <xs:element minOccurs="0" ref="tns:CodiceAmministrazione"/>
+            <xs:element minOccurs="0" ref="tns:CodiceAOO"/>
+            <xs:element minOccurs="0" ref="tns:Denominazione"/>
+            <xs:element maxOccurs="unbounded" ref="tns:Livello"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Classifica" type="tns:Classifica"/>
+    <xs:complexType mixed="true" name="Denominazione"/>
+    <xs:element name="Denominazione" type="tns:Denominazione"/>
+    <xs:complexType mixed="true" name="Livello">
+        <xs:attribute name="nome" type="xs:anySimpleType"/>
+    </xs:complexType>
+    <xs:element name="Livello" type="tns:Livello"/>
+    <xs:complexType mixed="true" name="Identificativo"/>
+    <xs:element name="Identificativo" type="tns:Identificativo"/>
+    <xs:complexType mixed="true" name="Note"/>
+    <xs:element name="Note" type="tns:Note"/>
+    <xs:complexType name="Mittente">
+        <xs:sequence>
+            <xs:element ref="tns:Amministrazione"/>
+            <xs:element ref="tns:AOO"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Mittente" type="tns:Mittente"/>
+    <xs:complexType name="Destinatario">
+        <xs:sequence>
+            <xs:choice>
+                <xs:sequence>
+                    <xs:element ref="tns:Amministrazione"/>
+                    <xs:element minOccurs="0" ref="tns:AOO"/>
+                </xs:sequence>
+                <xs:sequence>
+                    <xs:element ref="tns:Denominazione"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:Persona"/>
+                </xs:sequence>
+                <xs:element maxOccurs="unbounded" ref="tns:Persona"/>
+            </xs:choice>
+            <xs:element minOccurs="0" ref="tns:IndirizzoTelematico"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:Telefono"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:Fax"/>
+            <xs:element minOccurs="0" ref="tns:IndirizzoPostale"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Destinatario" type="tns:Destinatario"/>
+    <xs:complexType name="Amministrazione">
+        <xs:sequence>
+            <xs:element ref="tns:Denominazione"/>
+            <xs:element minOccurs="0" ref="tns:CodiceAmministrazione"/>
+            <xs:choice>
+                <xs:element ref="tns:UnitaOrganizzativa"/>
+                <xs:sequence>
+                    <xs:choice maxOccurs="unbounded" minOccurs="0">
+                        <xs:element ref="tns:Ruolo"/>
+                        <xs:element ref="tns:Persona"/>
+                    </xs:choice>
+                    <xs:element ref="tns:IndirizzoPostale"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:IndirizzoTelematico"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:Telefono"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:Fax"/>
+                </xs:sequence>
+            </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Amministrazione" type="tns:Amministrazione"/>
+    <xs:complexType name="UnitaOrganizzativa">
+        <xs:sequence>
+            <xs:element ref="tns:Denominazione"/>
+            <xs:element minOccurs="0" ref="tns:Identificativo"/>
+            <xs:choice>
+                <xs:element ref="tns:UnitaOrganizzativa"/>
+                <xs:sequence>
+                    <xs:choice maxOccurs="unbounded" minOccurs="0">
+                        <xs:element ref="tns:Ruolo"/>
+                        <xs:element ref="tns:Persona"/>
+                    </xs:choice>
+                    <xs:element ref="tns:IndirizzoPostale"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:IndirizzoTelematico"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:Telefono"/>
+                    <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:Fax"/>
+                </xs:sequence>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute default="permanente" name="tipo">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="permanente"/>
+                    <xs:enumeration value="temporanea"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:element name="UnitaOrganizzativa" type="tns:UnitaOrganizzativa"/>
+    <xs:complexType name="AOO">
+        <xs:sequence>
+            <xs:element ref="tns:Denominazione"/>
+            <xs:element minOccurs="0" ref="tns:CodiceAOO"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="AOO" type="tns:AOO"/>
+    <xs:complexType name="Ruolo">
+        <xs:sequence>
+            <xs:element ref="tns:Denominazione"/>
+            <xs:element minOccurs="0" ref="tns:Identificativo"/>
+            <xs:element minOccurs="0" ref="tns:Persona"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Ruolo" type="tns:Ruolo"/>
+    <xs:complexType name="Persona">
+        <xs:sequence>
+            <xs:choice>
+                <xs:element ref="tns:Denominazione"/>
+                <xs:sequence>
+                    <xs:element minOccurs="0" ref="tns:Nome"/>
+                    <xs:element ref="tns:Cognome"/>
+                    <xs:element minOccurs="0" ref="tns:Titolo"/>
+                    <xs:element minOccurs="0" ref="tns:CodiceFiscale"/>
+                </xs:sequence>
+            </xs:choice>
+            <xs:element minOccurs="0" ref="tns:Identificativo"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID"/>
+        <xs:attribute name="rife" type="xs:IDREF"/>
+    </xs:complexType>
+    <xs:element name="Persona" type="tns:Persona"/>
+    <xs:complexType mixed="true" name="Nome"/>
+    <xs:element name="Nome" type="tns:Nome"/>
+    <xs:complexType mixed="true" name="Cognome"/>
+    <xs:element name="Cognome" type="tns:Cognome"/>
+    <xs:complexType mixed="true" name="Titolo"/>
+    <xs:element name="Titolo" type="tns:Titolo"/>
+    <xs:complexType mixed="true" name="CodiceFiscale"/>
+    <xs:element name="CodiceFiscale" type="tns:CodiceFiscale"/>
+    <xs:complexType name="Indirizzo">
+        <xs:sequence>
+            <xs:element ref="tns:Toponimo"/>
+            <xs:element ref="tns:Civico"/>
+            <xs:element ref="tns:CAP"/>
+            <xs:element ref="tns:Comune"/>
+            <xs:element ref="tns:Provincia"/>
+            <xs:element minOccurs="0" ref="tns:Nazione"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Indirizzo" type="tns:Indirizzo"/>
+    <xs:complexType name="IndirizzoPostale">
+        <xs:choice>
+            <xs:element ref="tns:Denominazione"/>
+            <xs:element ref="tns:Indirizzo"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:element name="IndirizzoPostale" type="tns:IndirizzoPostale"/>
+    <xs:complexType mixed="true" name="Toponimo">
+        <xs:attribute name="dug" type="xs:anySimpleType"/>
+    </xs:complexType>
+    <xs:element name="Toponimo" type="tns:Toponimo"/>
+    <xs:complexType mixed="true" name="Civico"/>
+    <xs:element name="Civico" type="tns:Civico"/>
+    <xs:complexType mixed="true" name="CAP"/>
+    <xs:element name="CAP" type="tns:CAP"/>
+    <xs:complexType mixed="true" name="Comune">
+        <xs:attribute name="codiceISTAT" type="xs:anySimpleType"/>
+    </xs:complexType>
+    <xs:element name="Comune" type="tns:Comune"/>
+    <xs:complexType mixed="true" name="Provincia"/>
+    <xs:element name="Provincia" type="tns:Provincia"/>
+    <xs:complexType mixed="true" name="Nazione"/>
+    <xs:element name="Nazione" type="tns:Nazione"/>
+    <xs:complexType mixed="true" name="Telefono">
+        <xs:attribute name="note" type="xs:anySimpleType"/>
+    </xs:complexType>
+    <xs:element name="Telefono" type="tns:Telefono"/>
+    <xs:complexType mixed="true" name="Fax">
+        <xs:attribute name="note" type="xs:anySimpleType"/>
+    </xs:complexType>
+    <xs:element name="Fax" type="tns:Fax"/>
+    <xs:complexType name="Riferimenti">
+        <xs:choice maxOccurs="unbounded">
+            <xs:element ref="tns:Messaggio"/>
+            <xs:element ref="tns:ContestoProcedurale"/>
+            <xs:element ref="tns:Procedimento"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:element name="Riferimenti" type="tns:Riferimenti"/>
+    <xs:complexType name="Messaggio">
+        <xs:sequence>
+            <xs:choice>
+                <xs:element ref="tns:Identificatore"/>
+                <xs:element ref="tns:DescrizioneMessaggio"/>
+            </xs:choice>
+            <xs:element minOccurs="0" ref="tns:PrimaRegistrazione"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Messaggio" type="tns:Messaggio"/>
+    <xs:complexType mixed="true" name="DescrizioneMessaggio"/>
+    <xs:element name="DescrizioneMessaggio" type="tns:DescrizioneMessaggio"/>
+    <xs:complexType name="ContestoProcedurale">
+        <xs:sequence>
+            <xs:element ref="tns:CodiceAmministrazione"/>
+            <xs:element ref="tns:CodiceAOO"/>
+            <xs:element ref="tns:Identificativo"/>
+            <xs:element minOccurs="0" ref="tns:TipoContestoProcedurale"/>
+            <xs:element minOccurs="0" ref="tns:Oggetto"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:Classifica"/>
+            <xs:element minOccurs="0" ref="tns:DataAvvio"/>
+            <xs:element minOccurs="0" ref="tns:Note"/>
+            <xs:element minOccurs="0" ref="tns:PiuInfo"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID"/>
+        <xs:attribute name="rife" type="xs:IDREF"/>
+    </xs:complexType>
+    <xs:element name="ContestoProcedurale" type="tns:ContestoProcedurale"/>
+    <xs:complexType mixed="true" name="TipoContestoProcedurale"/>
+    <xs:element name="TipoContestoProcedurale" type="tns:TipoContestoProcedurale"/>
+    <xs:complexType mixed="true" name="DataAvvio"/>
+    <xs:element name="DataAvvio" type="tns:DataAvvio"/>
+    <xs:complexType name="Procedimento">
+        <xs:sequence>
+            <xs:element ref="tns:CodiceAmministrazione"/>
+            <xs:element ref="tns:CodiceAOO"/>
+            <xs:element ref="tns:Identificativo"/>
+            <xs:element minOccurs="0" ref="tns:TipoProcedimento"/>
+            <xs:element minOccurs="0" ref="tns:Oggetto"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:Classifica"/>
+            <xs:element minOccurs="0" ref="tns:Responsabile"/>
+            <xs:element minOccurs="0" ref="tns:DataAvvio"/>
+            <xs:element minOccurs="0" ref="tns:DataTermine"/>
+            <xs:element minOccurs="0" ref="tns:Note"/>
+            <xs:element minOccurs="0" ref="tns:PiuInfo"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID"/>
+        <xs:attribute name="rife" type="xs:IDREF"/>
+    </xs:complexType>
+    <xs:element name="Procedimento" type="tns:Procedimento"/>
+    <xs:complexType mixed="true" name="TipoProcedimento"/>
+    <xs:element name="TipoProcedimento" type="tns:TipoProcedimento"/>
+    <xs:complexType name="Responsabile">
+        <xs:sequence>
+            <xs:element ref="tns:Persona"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Responsabile" type="tns:Responsabile"/>
+    <xs:complexType mixed="true" name="DataTermine"/>
+    <xs:element name="DataTermine" type="tns:DataTermine"/>
+    <xs:complexType name="Descrizione">
+        <xs:sequence>
+            <xs:choice>
+                <xs:element ref="tns:Documento"/>
+                <xs:element ref="tns:TestoDelMessaggio"/>
+            </xs:choice>
+            <xs:element minOccurs="0" ref="tns:Allegati"/>
+            <xs:element minOccurs="0" ref="tns:Note"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:element name="Descrizione" type="tns:Descrizione"/>
+    <xs:complexType name="Documento">
+        <xs:sequence>
+            <xs:sequence minOccurs="0">
+                <xs:element ref="tns:CollocazioneTelematica"/>
+                <xs:element minOccurs="0" ref="tns:Impronta"/>
+            </xs:sequence>
+            <xs:element minOccurs="0" ref="tns:TitoloDocumento"/>
+            <xs:element minOccurs="0" ref="tns:PrimaRegistrazione"/>
+            <xs:element minOccurs="0" ref="tns:TipoDocumento"/>
+            <xs:element minOccurs="0" ref="tns:Oggetto"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:Classifica"/>
+            <xs:element minOccurs="0" ref="tns:NumeroPagine"/>
+            <xs:element minOccurs="0" ref="tns:Note"/>
+            <xs:element minOccurs="0" ref="tns:PiuInfo"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID"/>
+        <xs:attribute name="rife" type="xs:IDREF"/>
+        <xs:attribute name="nome" type="xs:anySimpleType"/>
+        <xs:attribute name="tipoMIME" type="xs:anySimpleType"/>
+        <xs:attribute default="MIME" name="tipoRiferimento">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="cartaceo"/>
+                    <xs:enumeration value="telematico"/>
+                    <xs:enumeration value="MIME"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+    </xs:complexType>
+    <xs:element name="Documento" type="tns:Documento"/>
+    <xs:complexType mixed="true" name="TitoloDocumento"/>
+    <xs:element name="TitoloDocumento" type="tns:TitoloDocumento"/>
+    <xs:complexType mixed="true" name="TipoDocumento"/>
+    <xs:element name="TipoDocumento" type="tns:TipoDocumento"/>
+    <xs:complexType mixed="true" name="NumeroPagine"/>
+    <xs:element name="NumeroPagine" type="tns:NumeroPagine"/>
+    <xs:complexType mixed="true" name="CollocazioneTelematica"/>
+    <xs:element name="CollocazioneTelematica" type="tns:CollocazioneTelematica"/>
+    <xs:complexType mixed="true" name="Impronta">
+        <xs:attribute fixed="SHA-256" name="algoritmo" type="xs:anySimpleType"/>
+        <xs:attribute fixed="base64" name="codifica" type="xs:anySimpleType"/>
+    </xs:complexType>
+    <xs:element name="Impronta" type="tns:Impronta"/>
+    <xs:complexType name="TestoDelMessaggio">
+        <xs:attribute name="id" type="xs:anySimpleType"/>
+        <xs:attribute name="tipoMIME" type="xs:anySimpleType"/>
+        <xs:attribute fixed="MIME" name="tipoRiferimento" type="xs:NMTOKEN"/>
+    </xs:complexType>
+    <xs:element name="TestoDelMessaggio" type="tns:TestoDelMessaggio"/>
+    <xs:complexType name="Allegati">
+        <xs:choice maxOccurs="unbounded">
+            <xs:element ref="tns:Documento"/>
+            <xs:element ref="tns:Fascicolo"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:element name="Allegati" type="tns:Allegati"/>
+    <xs:complexType name="Fascicolo">
+        <xs:sequence>
+            <xs:element minOccurs="0" ref="tns:CodiceAmministrazione"/>
+            <xs:element minOccurs="0" ref="tns:CodiceAOO"/>
+            <xs:element minOccurs="0" ref="tns:Oggetto"/>
+            <xs:element minOccurs="0" ref="tns:Identificativo"/>
+            <xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:Classifica"/>
+            <xs:element minOccurs="0" ref="tns:Note"/>
+            <xs:element minOccurs="0" ref="tns:PiuInfo"/>
+            <xs:choice maxOccurs="unbounded">
+                <xs:element ref="tns:Documento"/>
+                <xs:element ref="tns:Fascicolo"/>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:ID"/>
+        <xs:attribute name="rife" type="xs:IDREF"/>
+    </xs:complexType>
+    <xs:element name="Fascicolo" type="tns:Fascicolo"/>
+    <xs:complexType name="PiuInfo">
+        <xs:choice>
+            <xs:element ref="tns:MetadatiInterni"/>
+            <xs:element ref="tns:MetadatiEsterni"/>
+        </xs:choice>
+        <xs:attribute name="XMLSchema" type="xs:NMTOKEN" use="required"/>
+    </xs:complexType>
+    <xs:element name="PiuInfo" type="tns:PiuInfo"/>
+    <xs:complexType mixed="true" name="MetadatiInterni"/>
+    <xs:element name="MetadatiInterni" type="tns:MetadatiInterni"/>
+    <xs:complexType name="MetadatiEsterni">
+        <xs:sequence>
+            <xs:element ref="tns:NomeFile"/>
+            <xs:element minOccurs="0" ref="tns:Impronta"/>
+        </xs:sequence>
+        <xs:attribute name="codifica" use="required">
+            <xs:simpleType>
+                <xs:restriction base="xs:NMTOKEN">
+                    <xs:enumeration value="binary"/>
+                    <xs:enumeration value="xtoken"/>
+                    <xs:enumeration value="quotedprintable"/>
+                    <xs:enumeration value="7bit"/>
+                    <xs:enumeration value="base64"/>
+                    <xs:enumeration value="8bit"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="estensione" type="xs:NMTOKEN"/>
+        <xs:attribute name="formato" type="xs:anySimpleType" use="required"/>
+    </xs:complexType>
+    <xs:element name="MetadatiEsterni" type="tns:MetadatiEsterni"/>
+    <xs:complexType mixed="true" name="NomeFile"/>
+    <xs:element name="NomeFile" type="tns:NomeFile"/>
+    <xs:complexType name="ConfermaRicezione">
+        <xs:sequence>
+            <xs:element ref="tns:Identificatore"/>
+            <xs:element ref="tns:MessaggioRicevuto"/>
+            <xs:element minOccurs="0" ref="tns:Riferimenti"/>
+            <xs:element minOccurs="0" ref="tns:Descrizione"/>
+        </xs:sequence>
+        <xs:attribute fixed="aaaa-mmgg" name="versione" type="xs:NMTOKEN"/>
+        <xs:attribute fixed="it" name="xml-lang"/>
+    </xs:complexType>
+    <xs:element name="ConfermaRicezione" type="tns:ConfermaRicezione"/>
+    <xs:complexType name="MessaggioRicevuto">
+        <xs:choice>
+            <xs:sequence>
+                <xs:element ref="tns:Identificatore"/>
+                <xs:element minOccurs="0" ref="tns:PrimaRegistrazione"/>
+            </xs:sequence>
+            <xs:element ref="tns:DescrizioneMessaggio"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:element name="MessaggioRicevuto" type="tns:MessaggioRicevuto"/>
+    <xs:complexType name="AggiornamentoConferma">
+        <xs:sequence>
+            <xs:element ref="tns:Identificatore"/>
+            <xs:element ref="tns:MessaggioRicevuto"/>
+            <xs:element minOccurs="0" ref="tns:Riferimenti"/>
+            <xs:element minOccurs="0" ref="tns:Descrizione"/>
+        </xs:sequence>
+        <xs:attribute fixed="aaaa-mmgg" name="versione" type="xs:NMTOKEN"/>
+        <xs:attribute fixed="it" name="xml-lang"/>
+    </xs:complexType>
+    <xs:element name="AggiornamentoConferma" type="tns:AggiornamentoConferma"/>
+    <xs:complexType name="NotificaEccezione">
+        <xs:sequence>
+            <xs:element minOccurs="0" ref="tns:Identificatore"/>
+            <xs:element ref="tns:MessaggioRicevuto"/>
+            <xs:element ref="tns:Motivo"/>
+        </xs:sequence>
+        <xs:attribute fixed="aaaa-mmgg" name="versione" type="xs:NMTOKEN"/>
+        <xs:attribute fixed="it" name="xml-lang"/>
+    </xs:complexType>
+    <xs:element name="NotificaEccezione" type="tns:NotificaEccezione"/>
+    <xs:complexType mixed="true" name="Motivo"/>
+    <xs:element name="Motivo" type="tns:Motivo"/>
+    <xs:complexType name="AnnullamentoProtocollazione">
+        <xs:sequence>
+            <xs:element ref="tns:Identificatore"/>
+            <xs:element ref="tns:Motivo"/>
+            <xs:element ref="tns:Provvedimento"/>
+        </xs:sequence>
+        <xs:attribute fixed="aaaa-mmgg" name="versione" type="xs:NMTOKEN"/>
+        <xs:attribute fixed="it" name="xml-lang"/>
+    </xs:complexType>
+    <xs:element name="AnnullamentoProtocollazione" type="tns:AnnullamentoProtocollazione"/>
+    <xs:complexType mixed="true" name="Provvedimento"/>
+    <xs:element name="Provvedimento" type="tns:Provvedimento"/>
+</xs:schema>

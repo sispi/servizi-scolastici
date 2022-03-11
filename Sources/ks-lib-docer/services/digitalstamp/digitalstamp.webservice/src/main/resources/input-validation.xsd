@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="DigitalStampInfo">
+        <xs:complexType>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element ref="stampPage"/>
+                <xs:element ref="positionX"/>
+                <xs:element ref="positionY"/>
+                <xs:element ref="positionTag"/>
+                <xs:element ref="correctionLevel"/>
+                <xs:element ref="signer"/>
+                <xs:element ref="pin"/>
+                <xs:element ref="otp"/>
+                <xs:element ref="action"/>
+                <xs:element ref="qrsize"/>
+                <xs:element ref="isShortnedURL"/>
+                <xs:element ref="typeDoc"/>
+                <xs:element ref="templateName"/>
+                <xs:element ref="locale"/>
+                <xs:element ref="title"/>
+                <xs:element ref="exDate"/>
+                <xs:element ref="metadata"/>
+            </xs:choice>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="stampPage">
+        <xs:simpleType>
+            <xs:restriction base="xs:integer">
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="positionX">
+        <xs:simpleType>
+            <xs:restriction base="xs:integer">
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="positionY">
+        <xs:simpleType>
+            <xs:restriction base="xs:integer">
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="positionTag">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="correctionLevel">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="L"/>
+                <xs:enumeration value="M"/>
+                <xs:enumeration value="Q"/>
+                <xs:enumeration value="H"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="signer">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="pin">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="otp">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="action">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="1"/>
+                <xs:enumeration value="3"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="qrsize">
+        <xs:simpleType>
+            <xs:restriction base="xs:integer">
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="isShortnedURL">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="true"/>
+                <xs:enumeration value="false"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="typeDoc">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="templateName">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="locale">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="title">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:minLength value="1"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="exDate">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="metadata">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element minOccurs="0" maxOccurs="unbounded" ref="digitalStampMeta"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="digitalStampMeta">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="key"/>
+                <xs:element ref="value"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="key">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+    <xs:element name="value">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:element>
+</xs:schema>

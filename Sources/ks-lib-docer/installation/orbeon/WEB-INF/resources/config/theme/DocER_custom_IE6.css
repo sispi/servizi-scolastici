@@ -1,0 +1,153 @@
+/*
+ORBEON.CSS
+*/ 
+
+* html {
+	padding-top: 0 !important;
+	margin-top: 0;
+/*	background: red
+*/}
+
+
+
+
+
+* html .tabs { margin-bottom: 0}
+
+* html div.menu *{
+	margin:0 !important;
+	padding:0 !important}
+
+	
+* html .menu {
+	background: url(docER-images/ie6-ie7-menubkg.jpg) no-repeat center top;
+	border-bottom: 10px solid #fff;
+	padding:0;
+	width:210px;
+}
+
+* html .menu p{
+	width:210px;
+	display:block;
+	padding: 0;
+	background: url(docER-images/ie6-ie7-menuhead.jpg) no-repeat center top ;
+	height: 2.3em;
+ }
+
+
+* html div.menu {
+	width:210px;
+	margin-bottom: 22px}
+	
+* html ul.tree-items {
+	padding: 10px !important;
+	background: none;
+	margin-bottom:22px !important}
+	
+* html ul.tree-items li{
+	width: 190px !important;
+	padding-top:3px !important;
+	padding-bottom: 3px !important;
+	text-align:left}
+
+* html li.tree-section { 
+	display:block !important;
+	height: 2em !important;
+	padding-top:3px !important;
+	padding-bottom: 4px !important;}
+
+* html li.tree-items, * html li.tree-items-selected {
+	/* margin-left:10px !important */}
+
+* html .login-form p {
+	margin-top:0 !important}
+
+* html .upload-control button{
+margin-bottom: 0;}
+
+* html .maintitle {
+display: block;
+height: 3em;
+}
+
+* html .maintitle h1 {
+	float:left;
+}
+
+* html .help-control a {
+	float:left;
+	clear:right;
+	padding-top: 5px;
+}
+
+
+
+* html .treeview-row {
+	display:block !important}
+	
+* html  div.res-info  div.xforms-group {
+	display: inline !important;}
+	
+	
+	
+* html .kforms-lookup-panel .lookup-row {
+white-space:pre !important;
+}
+
+
+* html .lookup-row	{
+	display:block !important;
+	margin-top:10px;
+}
+
+* html .kforms-lookup-panel .kforms-add , * html .kforms-lookup-panel .kforms-value-label{
+    display: inline !important;
+}
+
+
+
+* html #leftcontent {
+    padding: 0.7em 0 1em 1.5em !important;
+}
+
+* html  .kforms-label-lookup {
+display:inline !important
+}
+
+* html  .keforma-value {
+width:18em !important;
+}
+
+* html  li.tree-items-selected , * html   li.tree-items-selected {
+display:block;
+height:2em !important;
+}
+
+* html  .narrow .kforms-lookup-panel .kforms-add , * html  .narrow .kforms-lookup-panel .kforms-value-label{
+    display: block !important;
+	text-align:left;
+}
+
+* html  .narrow .kforms-lookup-panel .lookup-row {
+text-transform:lowercase;
+}
+
+* html  .narrow .kforms-lookup-panel  {
+}
+
+* html  .narrow .kforms-form-field-lookup .kforms-label a.kforms-select{
+/* padding-top: 1em;
+ */float:left}
+
+* html  td.selection .res-info .kforms-form-field .kforms-value{border-right:none}
+
+* html  td.tree {width:300px }
+* html  .treeview-row { width:250px; overflow:hidden }
+* html  span.tv_title a {overflow: hidden; text-overflow: ellipsis;}
+* html  table.actor-table{table-layout:fixed;}
+* html   td.selection .res-info .kforms-form-field .kforms-value{border-right:none}
+
+
+
+
+

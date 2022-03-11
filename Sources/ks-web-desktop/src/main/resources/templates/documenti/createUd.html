@@ -1,0 +1,432 @@
+<html @view="master.ftl">
+<head @ignore>
+    <base href="file:///C:/Users/daniele.damiani/Desktop/vuetest/">
+    <title>createUd</title>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="vendor/jquery-3.5.1.min.js"></script>
+    <script src="vendor/jquery-migrate-3.3.0.min.js"></script>
+    <script>
+        axios.interceptors.request.use(function(config) {
+            config.headers.KS_AUTH_GROUP = "admin|ANM|ANM_AOO|SYS_ADMINS|admins";
+            return config;
+        });
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,700&display=swap" rel="stylesheet"><!-- Google Font Roboto-->
+    <link rel="stylesheet" href="bootstrap-4.3.1-dist/css/bootstrap.min.css"><!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/base-style.css"><!-- css presonalizzato -->
+    <link rel="stylesheet" href="vendor/fontawesome/all.min.css"><!-- icone -->
+    <script src="vendor/moment.js"></script><!-- moment -->
+    <script src="vendor/vue-scrollto.js"></script><!-- scrollto -->
+    <script src="vendor/popper-1.14.7.min.js"></script>
+    <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/modal-style.css">
+    <script type="application/json" id="riferimenti-model" src="./static/templates/json-template/riferimenti.json"></script><!-- riferimenti in locale -->
+</head>
+
+<body class="body">
+
+
+<script>
+    var currentCodiceAOO = '${$.userInfo.aoo.cod}';
+    var currentDenominazioneAOO = '${$.userInfo.aoo.desc}';
+    var currentCodiceAmm = '${$.userInfo.ente.cod}';
+    var currentDenominazioneAmm = '${$.userInfo.ente.desc}';
+    var utenteLoggato = '${$.userInfo.username}';
+
+
+	var userGroups = ${$.toJson($.clientCache.getUserGroups($.userInfo.codAoo,$.userInfo.username))} ;
+	var uos = [];
+	for( var g in userGroups ){
+		var grp = userGroups[g];
+		if (grp.GRUPPO_STRUTTURA && grp.type=="group")
+			uos.push({
+				COD_UO : grp.GROUP_ID,
+				NAME: grp.displayName
+			});
+	}
+
+</script>
+
+<script type="application/json" id="messages-model" @server src="/messages?filter=viewProfile.**,label.**,listaRisultati.**,common.**"></script>
+
+<link rel="stylesheet" href="/static/css/doc-style.css">
+<link rel="stylesheet" href="/static/css/upload-component.css">
+<script src="/static/js/components/upload-component.js" ></script>
+
+<div id="createUd" v-cloak>
+    <br>
+    <div class="card">
+        
+        <span class="page-type"><i class="bi bi-three-dots-vertical mainColor"></i>{{messages["viewProfile.creaUd"] || "Crea Unita' documentaria"}} {{versoTitle}}</span>
+        
+        <div class="card-body">
+            <h5 class="card-title">
+                <span><i class="far fa-file"></i></span> {{messages["viewProfile.nuovoDocumento"] || "Nuovo documento"}}
+            </h5>
+            
+            <div class="space-2h"></div>
+            <div class="form-group">
+                <label class="labelNew">*{{messages["viewProfile.ufficio"] || "Ufficio"}}</label>
+                <select class="form-control" v-model="ufficio">
+                    <option v-for="ufficio in uos" :key="ufficio" :value="ufficio.COD_UO">{{ufficio.NAME}}</option>
+                </select>
+            </div>
+            <div class="form-group row">
+                <div class="col-md-4">
+                    <label style="font-size: 14px;">
+                        <input id="cartaceo" type="checkbox" v-model="cartaceo"> {{messages["viewProfile.docCartaceo"] || "Documento Cartaceo"}}
+                    </label>
+                </div>
+                <div style="display: none" id="noFileContent" class="col-md-4">
+                    <label style="font-size: 14px;">
+                        <input id="noFile" type="checkbox" v-model="noFile"> {{messages["viewProfile.senzaFile"] || "Senza File"}}
+                    </label>
+                </div>
+                <div style="display: none" id="allegati" class="col-md-4">
+                    <label class="labelNew">{{messages["viewProfile.allegati"] || "Allegati"}}</label>
+                    <select class="form-control" v-model="allegati">
+                        <option>0</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">                                
+                <div style="display: none" id="nomeDocumentoContent" class="col-md-6">
+                    <label class="labelNew">{{messages["viewProfile.nomeDocumento"] || "Nome documento"}}</label>
+                    <input id="nomeDocumento" class="form-control" v-model="nomeDocumento"></input>
+                </div>
+                <div style="display: none" id="tipologieDocumentoContent" class="col-md-6">
+                    <label class="labelNew">{{messages["viewProfile.tipoDocumento"] || "Tipo documento"}}</label>
+                    <select id="tipologieDocumento" class="form-control" v-model="tipoDocumento">
+                        <option v-for="tipo in tipologieDocumento" :key="tipo" :value="tipo">{{tipo}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="space-2h"></div>
+            <div class="form-group">
+                <label class="labelNew">{{messages["viewProfile.note"] || "Note"}}</label>
+                <textarea class="form-control" rows="4" v-model="note"></textarea>
+            </div>
+            <hr>
+            <!-- upload files -->
+            <div id="app-upload">
+                <file v-on:input="addDefaultTypeDoc" flatten="false" id="file0" in-bg-color="lightgray" icon="fas fa-upload" v-model="files" placeholder="upload" multiple="true">
+                    <template v-slot:header>
+                        <span class="upl"><i class="bi bi-cloud-upload mainColor"></i> &nbsp;Clicca qui o trascina per aggiungere un file</span>
+                        <hr style="margin-bottom: 0rem;">
+                    </template>
+                    <template slot-scope="{ file, remove, index }">
+                        <table class="table table-sm table-striped">
+                            <thead>
+                                <tr>
+                                    <template v-if="index==0">
+                                        <th style="width: 50%">{{messages["viewProfile.nomeFile"] || "Nome file"}}</th>
+                                        <th style="width: 15%"></th>
+                                        <th style="width: 25%; text-align: center;">{{messages["viewProfile.tipoDocumento"] || "Tipo documento"}}</th>
+                                        <th style="width: 10%"></th>
+                                    </template>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <a style="font-size: 14px;" :href="file.url">
+                                            {{ file.name }} {{bytesToSize(file.size) ? '('+bytesToSize(file.size)+')' : ''}}
+                                        </a>
+                                    </td>
+                                    <template v-if="index==0">
+                                    	<td style="width: 15%; width: 15%; color: #717171;font-style: italic;">Principale</td>
+	                                        <td style="width: 25%">
+	                                            <select class="form-control" v-model="file.option">
+	                                                <option v-for="tipo in tipologiePrincipale" :key="tipo" :value="tipo">{{tipo}}</option>
+	                                            </select>
+	                                        </td>
+                                    </template>
+                                    <template v-else>
+                                        <td style="width: 15%; width: 15%; color: #717171;font-style: italic;">Allegato</td>
+                                        <td style="width: 25%">
+                                            <select class="form-control" v-model="file.option">
+                                                <option v-for="tipo in tipologieAllegato" :key="tipo" :value="tipo">{{tipo}}</option>
+                                            </select>
+                                        </td>
+                                    </template>
+                                    <td style="width: 10%">
+                                        <button @click="remove(file)" class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Elimina">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </template>
+                    <template v-slot:footer>
+                        <button style="display: none;" id="btn-uploadDoc" @click="caricaFile(files, null)" class="mt-2 btn btn-primary btn-100">{{messages["viewProfile.salva"] || "Salva"}}</button>
+                        <button id="btn-caricaFileProto" style="display: none" @click="caricaFile(files, $('#btn-caricaFileProto').val() )" class="mt-2 btn btn-warning btn-100">{{messages["viewProfile.protocolla"] || "Protocolla"}}</button>
+                        <button id="btn-editDoc" style="display: none;" @click="caricaFile(files, $('#btn-editDoc').val() )" class="mt-2 btn btn-default btn-100">{{messages["viewProfile.modifica"] || "Modifica"}}</button>
+                    </template>
+                </file>
+            </div>
+            <button style="display: none" id="btn-salvaNoFile" @click="salvaNoFile()" class="mt-2 btn btn-primary">{{messages["viewProfile.salva"] || "Salva"}}</button>
+            <div class="space-h"></div>
+
+        </div>
+    </div>
+
+</div><!-- chiusura createUd-->
+
+<!-- Modal success -->
+<div style="margin-top:64px;" class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body msgModal">
+                <div class="modal-body msgModalTxt" id="messageModalTxt"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script >
+
+    //createUd
+    var app = new Vue({
+        el: '#createUd',
+        data: function() {
+            var messages = data("messages-model");
+            return {
+                messages: messages,
+                files: [],
+                tipologiePrincipale:[],
+                tipologieAllegato:[],
+                cartaceo:false,
+                note:"",
+                noFile:false,
+                allegati:"0",
+                nomeDocumento: "",
+                tipoDocumento: "Documento",
+                ufficio:[],
+                versoTitle: "",
+                entrata: messages['viewProfile.protocollaEntrata']||'e protocolla in entrata',
+                interno: messages['viewProfile.protocollaInterna']||'e protocolla internamente',
+                uscita: messages['viewProfile.protocollaUscita']||'e protocolla in uscita',
+            }
+        },
+        created() {
+        	let uri = window.location.search.substring(1);
+            if(uri.includes("TYPE_ID")){
+            	tipo = uri.split("=")[1];
+                this.tipologiePrincipale = {DOCUMENTO: tipo};
+                this.tipologieDocumento = {DOCUMENTO: tipo};
+            } else {
+            	//axios.get("/docer/v1/documenti/tipologie?tipo=PRINCIPALE")
+            	axios.get("/docer/v1/documenti/tipologie?tipo=*") //query temporanea
+                .then(response => {
+                    this.tipologiePrincipale = response.data;
+                    this.tipologieDocumento = response.data;
+                })
+                .catch(error => {
+                    showError(error.response.data);
+                });
+            }
+
+            //axios.get("/docer/v1/documenti/tipologie?tipo=ALLEGATO")
+            axios.get("/docer/v1/documenti/tipologie?tipo=*") //query temporanea
+                .then(response => {
+                    this.tipologieAllegato = response.data;
+                })
+                .catch(error => {
+                    showError(error.response.data);
+                });
+
+            //modifico titolo pagina se protocollo    
+            let url_string = window.location.href;
+            var url = new URL(url_string);
+            var versoProtocollo = url.searchParams.get("verso");
+            if(versoProtocollo=="E"){
+                this.versoTitle = this.entrata;
+            }
+            if(versoProtocollo=="I"){
+                this.versoTitle = this.interno;
+            }
+            if(versoProtocollo=="U"){
+                this.versoTitle = this.uscita;
+            }
+
+        },
+        updated() {
+        },
+        methods: {
+            addDefaultTypeDoc: function (files) {
+                for (var i = 0; i < files.length; i++) {
+                    if( files[i].option==null ){
+                        files[i].option = "Documento";    
+                    }
+                }
+                
+                if(files.length>0){
+                    $("#btn-uploadDoc").show();
+                    let uri = window.location.search.substring(1);
+                    if(uri=="verso=E"){
+                        $("#btn-caricaFileProto").show().val("E");
+                    }
+                    if(uri=="verso=I"){
+                        $("#btn-caricaFileProto").show().val("I");
+                    }
+                    if(uri=="verso=U"){
+                        $("#btn-caricaFileProto").show().val("U");
+                    }
+                    if(!uri.includes("TYPE_ID")){
+                        $("#btn-editDoc").show().val("edit");
+                    }
+                }else{
+                    $("#btn-uploadDoc").hide();
+                    $("#btn-editDoc").hide();
+                    $("#btn-caricaFileProto").hide();
+                }
+
+            },
+            caricaFile: function(files, verso){
+                console.log(files);
+                if(files.length>0){
+                	if(this.ufficio.length>0){
+	                    var data = [];
+	                    for(idx in files) {
+	                        data.push({ 
+	                            "DOCNAME" : files[idx].name,
+	                            "url" : files[idx].url,
+	                            "TYPE_ID" : files[idx].option
+	                        });
+	                    }
+	                    data[0].COD_UO = this.ufficio;
+	                    if(this.note){
+	                    	data[0].ABSTRACT = this.note;	
+	                    }
+	                    if(this.cartaceo==true){
+	                    	data[0].ARCHIVE_TYPE = "PAPER";	
+	                    }
+	                    axios.post("/docer/v1/documenti/multi?relate=true",data )
+	                        .then(response => {
+	                            if(response.status==201){
+	                            	if(verso){
+	                            		if(verso!="edit"){
+	                            			goToProto("UD creata con successo!", response.data[0].DOCNUM, verso);
+	                            		}else{
+	                            			goToEdit(response.data[0].DOCNUM);
+	                            		}
+	                                } else {
+	                                	goToUd("UD creata con successo!", response.data[0].DOCNUM);
+	                                }
+	                            }
+	                        }).catch(error => {
+	                        showError(error.response.data);
+	                    });
+	                } else {
+	                	alert("Ufficio obbligatorio");
+                	}
+                } else {
+                	alert("Nessun file caricato");
+                }
+            },
+            salvaNoFile: function() {
+            	var files = [{
+            		name:this.nomeDocumento+".pdf",
+            		option:this.tipoDocumento,
+            	}];
+            	for(i=0;i<this.allegati;i++) {
+                    files.push({
+                        name:"Allegato "+i+".pdf",
+                        option:"Documento"
+                    });
+                }
+            	console.log(files);
+            	if(this.ufficio.length>0){
+                    var data = [];
+                    for(idx in files) {
+                        data.push({
+                            "DOCNAME" : files[idx].name,
+                            "TYPE_ID" : files[idx].option,
+                            "ARCHIVE_TYPE" : "PAPER",
+                            "SENZA_FILE" : "true"
+                        });
+                    }
+                    data[0].COD_UO = this.ufficio;
+                    if(this.note){
+                    	data[0].ABSTRACT = this.note;	
+                    }	
+                    axios.post("/docer/v1/documenti/multi?relate=true",data )
+                        .then(response => {
+                            if(response.status==201){
+                            	goToUd("UD creata con successo!", response.data[0].DOCNUM);
+                            }
+                        }).catch(error => {
+                        showError(error.response.data);
+                    });
+                } else {
+                	alert("Ufficio obbligatorio");
+            	}
+            },
+        }
+    });
+
+    function goToUd(message, docnum){
+        $("#messageModal").modal('show');
+        $('#messageModalTxt').text(message);
+        setTimeout(function(){
+            $("#messageModal").modal('hide');
+            $('#messageModalTxt').text("");
+            window.location.href = "/documenti/viewProfile?DOCNUM="+docnum;
+        },2000);
+    }
+    function goToEdit(docnum){
+        window.location.href = "/documenti/viewProfile?DOCNUM="+docnum+"&EDIT_UD=edit";	
+    }
+    function goToProto(message, docnum, verso){
+        $("#messageModal").modal('show');
+        $('#messageModalTxt').text(message);
+        setTimeout(function(){
+            $("#messageModal").modal('hide');
+            $('#messageModalTxt').text("");
+            window.location.href = "/documenti/protocollo?DOCNUM="+docnum+"&verso="+verso;
+        },2000);
+    }
+
+
+
+
+
+$('#cartaceo').click(function () {
+    if ($(this).is(':checked')) {
+        $("#noFileContent").show();
+    } else {
+        $("#noFileContent, #allegati, #nomeDocumentoContent, #tipologieDocumentoContent").hide();
+        $('#noFile').prop("checked", false);
+        $("#app-upload").show();
+        $("#btn-salvaNoFile").hide();
+    }
+});
+
+$('#noFile').click(function () {
+    if ($(this).is(':checked')) {
+        $("#allegati, #nomeDocumentoContent, #tipologieDocumentoContent").show();
+    	$("#app-upload").hide();
+    	$("#btn-salvaNoFile").show();
+    } else {
+        $("#allegati, #nomeDocumentoContent, #tipologieDocumentoContent").hide();
+        $("#app-upload").show();
+        $("#btn-salvaNoFile").hide();
+    }
+});
+
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,7 @@
+kind: ConfigMap
+metadata:
+    name: ${deployment.id}
+    labels:
+        application: ${deployment.id}    
+    annotations:
+        maven.jkube.io/cm/application.yml: ${project.build.outputDirectory}/application-${deployment.profile}.yml

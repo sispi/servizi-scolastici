@@ -1,0 +1,70 @@
+<service name="DocerServices">
+	<Description>
+		Please Type your service description here
+	</Description>
+	<messageReceivers>
+		<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only"
+			class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
+		<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-out"
+			class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+	</messageReceivers>
+	<parameter name="ServiceClass" locked="false">it.kdm.docer.webservices.DocerServices
+	</parameter><!-- <operation name="addRelated"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="createAnagraficaCustom"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="createAOO"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="createAreaTematica"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="createEnte"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="createFascicolo"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="createGroup"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="createTitolario"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="createUser"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="deleteDocument"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="lockDocument"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="logout"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="removeRelated"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="replaceLastVersion"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="setACLDocument"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="setGroupsOfUser"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="setUsersOfGroup"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="unlockDocument"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="updateAnagraficaCustom"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="updateAOO"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="updateAreaTematica"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="updateEnte"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="updateFascicolo"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="updateGroup"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="updateGroupsOfUser"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="updateProfileDocument"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="updateTitolario"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="updateUser"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> 
+		<operation name="updateUsersOfGroup"> <messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only" 
+		class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" /> </operation> -->
+</service>

@@ -1,0 +1,3 @@
+type,       COD_AOO,        ID,                         NAME,                               PARENT,         PREFIX, GRUPPO_SSO
+ente,       ,               ENTE1,                      ENTE 1,                             ,               false,  
+aoo,        ,               AOO1,                       AOO 1,                              ENTE1,          ,

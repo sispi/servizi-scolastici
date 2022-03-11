@@ -1,0 +1,1169 @@
+<configuration>
+	<auth-providers expirationToken="D1" >
+		<ldap>
+            <omit-groups>false</omit-groups>
+            <legacy-apps>legacy</legacy-apps>
+            <class>it.kdm.docer.core.authentication.LDAPProvider</class>
+            <!--<secret>SECRET</secret>-->
+            <use-prefix>false</use-prefix>
+            <epr></epr>
+            <ldap-user-dn-format></ldap-user-dn-format>
+            <configuration>
+                <prefix>true</prefix>
+                <ente>ente</ente>
+                <epr>xxx.xxx.xxx.xxx:389</epr>
+                <ldap-user-dn-format>...</ldap-user-dn-format>
+            </configuration>
+		</ldap>
+	</auth-providers>
+
+    <group name="business_logic_variables">
+        <section name="props">
+            <!-- libera il controllo sull'esistenza di tipologie, anagrafiche e campi custom -->
+            <dynamic_schema value="true" />
+            <migration_mode value="false" />
+            <admins_groups>SYS_ADMINS,ADMINS</admins_groups>
+            <type_id_modificabile>true</type_id_modificabile>
+            <allow_record_add_allegato>true</allow_record_add_allegato>
+            <allow_record_add_allegato value="*" sample="DOCUMENTO,TYPE2,TYPE3" />
+            <allow_propagate_acl value="*" sample="DOCUMENTO,TYPE2,TYPE3" />
+            <default_no_file value="default_file.pdf" />
+
+            <piano_class anno="2021" value="" aoo="*" />
+            <piano_class anno="*-2020" value="" aoo="*" />
+
+            <!--<piano_class_default active="true" value="" ente="CRSA" aoo="CREA-AA" />
+            <piano_class_default active="false" value="" ente="ENTE_TEST" aoo="AOO_TEST" />
+            <storico_piano anno="2020" value="" ente="CRSA" aoo="CREA-AA" />
+            <storico_piano anno="2019" value="" ente="CRSA" aoo="CREA-AA" />-->
+        </section>
+    </group>
+
+    <group description="impianto" name="impianto" readonly="true">
+
+        <section name="fields">
+
+            <guid type="xs:string" />
+            <acl_explicit_ss multivalue="true" displayName="ACL_EXPLICIT" format=".*" type="xs:string" />
+            <groups multivalue="true" displayName="GROUPS" format=".*" type="xs:string" />
+
+            <oggetto_protocollazione type="xs:string" />
+            <custom_field_ss custom="true" multivalue="true" displayName="Custom Tipo String MM" format=".*" type="xs:string" />
+            <data_pg_emergenza displayName="Data di protocollazione" format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+            <num_pg_emergenza displayName="Numero" format=".*" type="xs:string" />
+            <data_documento format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+            <riservatezza displayName="Ver." type="xs:string" />
+            <doc_version displayName="Ver." type="xs:string" />
+            <des_area displayName="Descrizione" type="xs:string" />
+            <cod_area displayName="Codice" type="xs:string" />
+            <inherits_acl displayName="inherits_acl" type="xs:string" />
+            <enabled type="xs:boolean" />
+            <identificativosdi type="xs:string" />
+            <des_ente format=".+" type="xs:string" />
+            <des_aoo format=".+" type="xs:string" />
+            <des_titolario type="xs:string" />
+            <des_fascicolo type="xs:string" />
+            <docnum type="xs:string" />
+            <stato_pantarei format="^[1-6]$" type="xs:string" />
+            <docname type="xs:string" />
+            <abstract type="xs:string" />
+            <default_extension position="1" type="xs:string" />
+            <type_id type="xs:string" />
+            <cod_ente format=".+" type="xs:string" />
+            <cod_aoo format=".+" type="xs:string" />
+            <classifica format=".*" type="xs:string" />
+            <anno_fascicolo format="^$|^0$|^(19[0-9][0-9])$|^(20[0-9][0-9])$" type="xs:int" />
+            <progr_fascicolo format=".*" type="xs:string" />
+            <anno_pg format="^$^0$|^(19[0-9][0-9])$|^(20[0-9][0-9])$" type="xs:int" />
+            <num_pg format=".*" type="xs:string" />
+            <oggetto_pg format=".*" type="xs:string" />
+            <registro_pg format=".*" type="xs:string" />
+            <data_pg format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+            <author_id format=".+" type="xs:string" />
+            <typist_id format=".+" type="xs:string" />
+            <creation_date format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+            <fasc_secondari format=".*" type="xs:string" />
+            <d_registraz format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+            <n_registraz format=".+" type="xs:string" />
+            <a_registraz format="^0$|^(19[0-9][0-9])$|^(20[0-9][0-9])$" type="xs:int" />
+
+            <esito_istanza custom="true" displayName="Esito istanza" format=".*" type="xs:string" />
+
+            <o_registraz format=".*" type="xs:string" />
+            <id_registro format=".+" type="xs:string" />
+            <stato_conserv format="^(|0|1|2|3|4)$" type="xs:string" />
+            <usa_d_co_cer format=".*" type="xs:string" />
+            <t_d_contr_cer format=".*" type="xs:string" />
+            <d_co_cer format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+            <forza_coll format=".+" type="xs:string" />
+            <forza_accettaz format=".*" type="xs:string" />
+            <forza_conserv format=".*" type="xs:string" />
+            <flag_conserv format=".*" type="xs:string" />
+            <t_conserv format=".*" type="xs:string" />
+            <doc_url format=".*" type="xs:string" />
+            <archive_type format="^(ARCHIVE|URL|PAPER)$" type="xs:string" />
+            <cod_titolario format=".*" type="xs:string" />
+            <num_fascicolo format=".*" type="xs:string" />
+            <app_versante format=".*" type="xs:string" />
+            <ms_t_registraz format=".*" type="xs:string" />
+
+            <tipo_componente format="^(|PRINCIPALE|ANNESSO|ANNOTAZIONE|ALLEGATO)$" type="xs:string" />
+            <docnum_princ type="xs:int" />
+            <parent_classifica format=".*" type="xs:string" />
+            <parent_progr_fascicolo format=".*" type="xs:string" />
+            <numero_pub type="xs:string" />
+            <registro_pub type="xs:string" />
+            <pubblicato format="^(true|false)$" type="xs:string" />
+            <anno_pub format="^0$|^(19[0-9][0-9])$|^(20[0-9][0-9])$" type="xs:int" />
+            <oggetto_pub type="xs:string" />
+            <data_inizio_pub type="xs:dateTime" />
+            <data_fine_pub type="xs:dateTime" />
+            <stato_archivistico format="^(|0|1|2|3|4|5|6)$" type="xs:string" />
+            <stato_business format="^(|0|1|2|3|4|5|6|7|8)$" type="xs:string" />
+            <mittenti type="xs:string" />
+            <destinatari type="xs:string" />
+            <tipo_protocollazione format="^(|E|I|U|ND)$" type="xs:string" />
+            <tipo_firma format="^(|FD|FE|F|NF)$" type="xs:string" />
+            <firmatario type="xs:string" />
+            <custom_field_string custom="true" displayName="Custom Tipo String" format=".*" type="xs:string" />
+            <custom_field_int custom="true" displayName="Custom Tipo Int" format=".*" type="xs:int" />
+            <custom_field_datetime custom="true" displayName="Custom Tipo Datetime" format=".*" type="xs:date" />
+            <custom_field_boolean custom="true" displayName="Custom Tipo Boolean" format=".*" type="xs:boolean" />
+            <custom_field_decimal custom="true" displayName="Custom Tipo Decimal" format=".*" type="xs:decimal" />
+            <docnum_record type="xs:string" />
+            <ud_version type="xs:string" />
+            <doc_hash type="xs:string" />
+            <data_apertura type="xs:dateTime" />
+            <data_chiusura type="xs:dateTime" />
+            <cf_persona type="xs:string" />
+            <cf_azienda type="xs:string" />
+            <id_proc type="xs:string" />
+            <id_immobile type="xs:string" />
+            <inserimento_scrivania custom="true" displayName="Inserimento Scrivania" format=".*" multivalue="false" position="0" type="xs:string" />
+
+            <num_pg_mittente displayName="Numero Protocollo Mittente" multivalue="false" position="" type="xs:string" />
+            <data_pg_mittente displayName="Data Protocollo Mittente" format="(^$)|(yyyy-MM-dd'T'HH:mm:ss)" position="" type="xs:dateTime" />
+            <cod_ente_mittente displayName="Codice Ente Mittente" multivalue="false" position="" type="xs:string" />
+            <cod_aoo_mittente displayName="Codice Aoo Mittente" multivalue="false" position="" type="xs:string" />
+            <classifica_mittente displayName="Classifica Mittente" multivalue="false" position="" type="xs:string" />
+            <fascicolo_mittente displayName="Fascicolo Mittente" multivalue="false" position="" type="xs:string" />
+            <annullato_pg displayName="Validita'" multivalue="false" position="" type="xs:string" />
+            <d_annull_pg displayName="Data Annullamento" format="(^$)|(yyyy-MM-dd'T'HH:mm:ss)" position="" type="xs:dateTime" />
+            <m_annull_pg displayName="Motivo Annullamento" multivalue="false" position="" type="xs:string" />
+            <annull_registraz displayName="Protocollo Annullato" multivalue="false" position="" type="xs:string" />
+            <d_annull_registraz displayName="Data Annullamento" format="(^$)|(yyyy-MM-dd'T'HH:mm:ss)" position="" type="xs:dateTime" />
+            <m_annull_registraz displayName="Motivo Annullamento" multivalue="false" position="" type="xs:string" />
+            <ms_mod_tx custom="true" displayName="Modalita' di trasmissione" format=".*" multivalue="false" position="" type="xs:string" />
+            <ms_operatore custom="true" displayName="Operatore di protocollo" format=".*" multivalue="false" position="" type="xs:string" />
+            <ms_tipologia custom="true" displayName="Documento tipo" format=".*" multivalue="false" position="" type="xs:string" />
+            <p_annull_pg displayName="Provvedimento di annullamento" format=".*" multivalue="false" position="" type="xs:string" />
+            <p_annull_registraz displayName="Provvedimento di annullamento registrazione" format=".*" multivalue="false" position="" type="xs:string" />
+            <e_annull_pg custom="true" displayName="Esecutore annullamento" format=".*" multivalue="false" position="" type="xs:string" />
+
+            <eseguibile_immediatamente custom="true" displayName="Immediatamente eseguibile" format="^(|TRUE|FALSE)$" multivalue="false" position="" type="xs:string" />
+            <numero_proposta custom="true" displayName="Numero proposta" format=".*" multivalue="false" position="" type="xs:string" />
+            <m_annull_pubb custom="true" displayName="Motivo annullamento pubblicazione" format=".*" multivalue="false" position="" type="xs:string" />
+
+            <data_proposta custom="true" displayName="Data proposta" format="(^$)|(yyyy-MM-dd'T'HH:mm:ss)" position="" type="xs:dateTime" />
+            <tipo_seduta custom="true" displayName="Tipo seduta" format=".*" multivalue="false" position="" type="xs:string" />
+            <tipo_sessione custom="true" displayName="Tipo sessione" format=".*" multivalue="false" position="" type="xs:string" />
+            <tipo_delibera custom="true" displayName="Tipo delibera" format="^(CONSIGLIO|GIUNTA)$" multivalue="false" position="" type="xs:string" />
+            <esito_discussione custom="true" displayName="Esito discussione" format=".*" multivalue="false" position="" type="xs:string" />
+            <determina_rilevanza_contabile custom="true" displayName="Determina rilevanza contabile" format="^(|TRUE|FALSE)$" multivalue="false" position="" type="xs:string" />
+            <data_firma custom="true" displayName="Data firma" format="(^$)|(yyyy-MM-dd'T'HH:mm:ss)" position="" type="xs:dateTime" />
+            <d_annull_pubb custom="true" displayName="Data annullamento pubblicazione" format="(^$)|(yyyy-MM-dd'T'HH:mm:ss)" position="" type="xs:dateTime" />
+            <punto_seduta custom="true" displayName="Punto seduta" format=".*" type="xs:string" />
+            <esito_parere custom="true" displayName="Esito parere" format=".*" multivalue="false" position="" type="xs:string" />
+            <numero_seduta custom="true" displayName="Numero seduta" format=".*" type="xs:string" />
+            <anno_seduta_dt custom="true" displayName="Anno proposta" format=".*" type="xs:date" />
+            <id_proposta custom="true" displayName="identificativo proposta" format=".*" multivalue="false" position="" type="xs:int" />
+            <unita_proponente custom="true" displayName="unita' proponente" format=".*" multivalue="false" position="" type="xs:string" />
+            <firm_atto custom="true" displayName="firmatario atto" format=".+" multivalue="false" position="" type="xs:string" />
+            <ruolo_firm_atto custom="true" displayName="ruolo firmatario atto" format=".+" multivalue="false" position="" type="xs:string" />
+            <fac_funz_ruolo_firm_atto custom="true" displayName="facente funzione ruolo firmatario atto" format="^(|si|no)$" multivalue="false" position="" type="xs:string" />
+            <data_firma_regolarita_contabile_dt custom="true" displayName="Data firma parere regolarita contabile" format=".*" type="xs:date" />
+            <firm_contr_cont custom="true" displayName="Nominativo funzionario" format=".*" type="xs:string" />
+            <ruolo_firm_contr_cont custom="true" displayName="Ruolo funzionario" format=".*" type="xs:string" />
+            <fac_funz_ruolo_firm_contr_cont custom="true" displayName="facente funzione ruolo firmatario controllo contabile" format="^(|si|no)$" multivalue="false" position="" type="xs:string" />
+            <data_contr_cont custom="true" displayName="data controllo contabile" format=".+" multivalue="false" position="" type="xs:date" />
+            <esito_regolarita_contabile custom="true" displayName="Esito regolarita contabile" format=".*" type="xs:string" />
+            <tipo_pubbl custom="true" displayName="tipo pubblicazione" format="^(|pubblicazione integrale|pubblicazione per estratto|non precisato)$" multivalue="false" position="" type="xs:string" />
+            <funz_pubbl custom="true" displayName="funzionario incaricato pubblicazione" format=".*" multivalue="false" position="" type="xs:string" />
+            <firma_funz_pubbl custom="true" displayName="funzionario incaricato pubblicazione firmatario" format="^(|si|no)$" multivalue="false" position="" type="xs:string" />
+            <data_inizio_ripubblicazione_dt custom="true" displayName="Data inizio ripubblicazione" format=".*" type="xs:date" />
+            <data_fine_ripubblicazione_dt custom="true" displayName="Data fine ripubblicazione" format=".*" type="xs:date" />
+            <data_ann_pubb_dt custom="true" displayName="Data annullamento pubblicazione" format=".*" type="xs:date" />
+
+            <data_ann_pubb custom="true" displayName="data annullamento pubblicazione" format="yyyy-MM-dd'T'HH:mm:ss" multivalue="false" position="" type="xs:date" />
+
+            <motivo_ann_pubb custom="true" displayName="motivo annullamento pubblicazione" format=".*" multivalue="false" position="" type="xs:string" />
+            <data_esec_atto custom="true" displayName="data esecutivita'" format=".+" multivalue="false" position="" type="xs:date" />
+            <funz_cert_esec custom="true" displayName="funzionario incaricato certificazione esecutiva" format=".*" multivalue="false" position="" type="xs:string" />
+            <firma_funz_cert_esec custom="true" displayName="funzionario incaricato certificazione esecutiva firmatario" format="^(|si|no)$" multivalue="false" position="" type="xs:string" />
+            <revoca_atto custom="true" displayName="revoca atto" format="^(|non revocato|revocato)$" multivalue="false" position="" type="xs:string" />
+            <rimozione_atto custom="true" displayName="rimozione atto" format="^(|non rimosso|rimosso)$" multivalue="false" position="" type="xs:string" />
+            <rettifica_atto custom="true" displayName="rettifica atto" format="^(|non rettificato|rettificato)$" multivalue="false" position="" type="xs:string" />
+            <annullamento_atto custom="true" displayName="annullamento atto" format="^(|non annullato|annullato)$" multivalue="false" position="" type="xs:string" />
+            <tipo_determina custom="true" displayName="tipo determina" format="^(|con impegno di spesa|senza impegno di spesa)$" type="xs:string" />
+            <impegno_spesa custom="true" displayName="impegno di spesa" format=".*" type="xs:string" />
+            <dest_inoltro_atto custom="true" displayName="destinatari inoltro atto" format=".*" type="xs:string" />
+            <funz_inoltro_atto custom="true" displayName="funzionario incaricato inoltro atto" format=".*" type="xs:string" />
+            <data_inizio_ripubblicazione custom="true" displayName="data inizio ripubblicazione" format="yyyy-mm-dd't'hh:mm:ss" multivalue="false" position="" type="xs:dateTime" />
+            <data_fine_ripubblicazione custom="true" displayName="data fine ripubblicazione" format="yyyy-mm-dd't'hh:mm:ss" multivalue="false" position="" type="xs:dateTime" />
+            <identificazione_repository custom="true" displayName="identificazione repository" format=".*" multivalue="false" position="" type="xs:string" />
+            <tempo_di_conservazione custom="true" displayName="tempo di conservazione" format=".*" multivalue="false" position="" type="xs:string" />
+            <data_firma_regolarita_tecnica custom="true" displayName="data firma regolarita tecnica" format="yyyy-mm-dd't'hh:mm:ss" multivalue="false" position="" type="xs:dateTime" />
+            <firmatario_regolarita_tecnica custom="true" displayName="firmatario regolarita tecnica" format=".+" multivalue="false" position="" type="xs:string" />
+            <esito_regolarita_tecnica custom="true" displayName="esito regolarita tecnica" format="^(positivo|negativo)$" multivalue="false" position="" type="xs:string" />
+            <data_regolarita_tecnica custom="true" displayName="data regolarita tecnica" format="yyyy-mm-dd't'hh:mm:ss" multivalue="false" position="" type="xs:dateTime" />
+            <presenti_alla_seduta custom="true" displayName="presenti alla seduta" format=".*" multivalue="false" position="" type="xs:string" />
+            <immediatamente_eseguibile custom="true" displayName="immediatamente eseguibile" format="^(|si|no)$" multivalue="false" position="" type="xs:string" />
+            <formacontratto custom="true" displayName="formacontratto" format="^(forma pubblica amministrativa|scrittura privata|scrittura privata autenticata)$" multivalue="false" position="" type="xs:string" />
+            <naturaatto custom="true" displayName="naturaatto" format=".*" multivalue="false" position="" type="xs:string" />
+            <datastipula custom="true" displayName="datastipula" format="yyyy-mm-dd't'hh:mm:ss" multivalue="false" position="" type="xs:dateTime" />
+            <luogostipula custom="true" displayName="luogostipula" format=".*" multivalue="false" position="" type="xs:string" />
+            <firmatarioente custom="true" displayName="firmatarioente" format=".+" multivalue="false" position="" type="xs:string" />
+            <firmatarioenteruolo custom="true" displayName="firmatarioenteruolo" format=".*" multivalue="false" position="" type="xs:string" />
+            <attodiautorizzazione custom="true" displayName="attodiautorizzazione" format=".*" multivalue="false" position="" type="xs:string" />
+            <contraenti custom="true" displayName="contraenti" format=".+" multivalue="false" position="" type="xs:string" />
+            <valore custom="true" displayName="valore" multivalue="false" position="" type="xs:decimal" />
+            <cig custom="true" displayName="cig" format=".*" multivalue="false" position="" type="xs:string" />
+            <cup custom="true" displayName="cup" format=".*" multivalue="false" position="" type="xs:string" />
+            <notecontratti custom="true" displayName="note" format=".*" multivalue="false" position="" type="xs:string" />
+            <ufficialerogante custom="true" displayName="ufficialerogante" format=".*" multivalue="false" position="" type="xs:string" />
+            <ufficialerogantecf custom="true" displayName="ufficialerogantecf" format=".*" multivalue="false" position="" type="xs:string" />
+            <ufficialeroganteruolo custom="true" displayName="ufficialeroganteruolo" format=".*" multivalue="false" position="" type="xs:string" />
+            <registrazione custom="true" displayName="registrazione" format="^(si|no|caso d'uso)$" multivalue="false" position="" type="xs:string" />
+            <adedatainvio custom="true" displayName="adedatainvio" format="yyyy-mm-dd't'hh:mm:ss" multivalue="false" position="" type="xs:dateTime" />
+            <adeestremiregistrazione custom="true" displayName="adeestremiregistrazione" format=".*" multivalue="false" position="" type="xs:string" />
+            <adedataregistrazione custom="true" displayName="adedataregistrazione" format="yyyy-mm-dd't'hh:mm:ss" multivalue="false" position="" type="xs:dateTime" />
+            <adeufficiocompetente custom="true" displayName="adeufficiocompetente" format=".*" multivalue="false" position="" type="xs:string" />
+            <adeimpostetotali custom="true" displayName="adeimpostetotali" multivalue="false" position="" type="xs:decimal" />
+
+            <modalita_trasmissione custom="true" displayName="modalita trasmissione" format=".*" multivalue="false" position="" type="xs:string" />
+            <descrizione_documento custom="true" displayName="descrizione documento" format=".*" multivalue="false" position="" type="xs:string" />
+            <note_doc_prot custom="true" displayName="note" format=".*" multivalue="false" position="" type="xs:string" />
+            <operatore_di_protocollo custom="true" displayName="operatore di protocollo" format=".*" multivalue="false" position="" type="xs:string" />
+            <reg_emergenza_registro custom="true" displayName="reg emergenza registro" format=".*" multivalue="false" position="" type="xs:string" />
+            <reg_emergenza_anno custom="true" displayName="reg emergenza anno" format=".*" multivalue="false" position="" type="xs:string" />
+            <reg_emergenza_numero custom="true" displayName="reg emergenza numero" format=".*" multivalue="false" position="" type="xs:string" />
+            <reg_emergenza_data custom="true" displayName="reg emergenza data" format="yyyy-mm-dd't'hh:mm:ss" multivalue="false" position="" type="xs:dateTime" />
+            <validita custom="true" displayName="validita" format=".*" multivalue="false" position="" type="xs:string" />
+            <esecutore_annullamento custom="true" displayName="esecutore annullamento" format=".*" multivalue="false" position="" type="xs:string" />
+            <versions displayName="Versions" format=".*" multivalue="false" position="" type="xs:string" />
+            <custom_field_string_2 custom="true" displayName="Custom Tipo String 2" format=".*" type="xs:string" />
+            <custom_field_string_3 custom="true" displayName="Custom Tipo String 3" format=".*" type="xs:string" />
+            <custom_field_string_4 custom="true" displayName="Custom Tipo String 4" format=".*" type="xs:string" />
+            <custom_field_string_5 custom="true" displayName="Custom Tipo String 5" format=".*" type="xs:string" />
+            <proc_id format=".*" type="xs:string" />
+            <modifier displayName="Modifier" format=".*" type="xs:string" />
+            <modified displayName="Modified" format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+            <created displayName="Modifier" format=".*" type="xs:string" />
+            <creator displayName="Creator" format=".*" type="xs:string" />
+
+            <tipo_provvedimento custom="true" displayName="Tipo provvedimento" format=".*" type="xs:string" />
+            <tipo_adempimento custom="true" displayName="Tipo adempimento" format=".*" type="xs:string" />
+            <nome_richiedente custom="true" displayName="Nome richiedente" format=".*" type="xs:string" />
+            <cognome_richiedente custom="true" displayName="Cognome richiedente" format=".*" type="xs:string" />
+            <cf_richiedente custom="true" displayName="CF richiedente" format=".*" type="xs:string" />
+            <ragione_sociale_richiedente custom="true" displayName="Ragione sociale richiedente" format=".*" type="xs:string" />
+            <piva_richiedente custom="true" displayName="P.IVA richiedente" format=".*" type="xs:string" />
+            <cognome_tecnico custom="true" displayName="Cognome tecnico" format=".*" type="xs:string" />
+            <cf_tecnico custom="true" displayName="CF tecnico" format=".*" type="xs:string" />
+            <piva_tecnico custom="true" displayName="P.IVA tecnico" format=".*" type="xs:string" />
+            <indirizzi_toponomastici custom="true" displayName="Indirizzi toponomastici" format=".*" type="xs:string" />
+            <riferimenti_catastali custom="true" displayName="Riferimenti catastali" format=".*" type="xs:string" />
+            <oggetto_istanza custom="true" displayName="Oggetto istanza" format=".*" type="xs:string" />
+            <ente_riferimento custom="true" displayName="Ente riferimento" format=".*" type="xs:string" />
+            <numero_istanza custom="true" displayName="Numero istanza" format=".*" type="xs:string" />
+
+            <riferimento_istanza custom="true" displayName="Riferimento istanza" format=".*" type="xs:string" />
+
+            <nome_tecnico custom="true" displayName="Nome tecnico" format=".*" type="xs:string" />
+
+            <data_firma_dt custom="true" displayName="Data firma" format=".*" type="xs:date" />
+            <note_decreto custom="true" displayName="Note decreto" format=".*" type="xs:string" />
+            <ruolo_firm_contr_tecnica custom="true" displayName="Ruolo firmatario regolarita tecnica" format=".*" type="xs:string" />
+            <data_proposta_dt custom="true" displayName="Data proposta" format=".*" type="xs:date" />
+            <data_firma_regolarita_tecnica_dt custom="true" displayName="Data firma regolarita tecnica" format=".*" type="xs:date" />
+            <ruolo_firm_regolarita_tecnica custom="true" displayName="Ruolo funzionario regolarita tecnica" format=".*" type="xs:string" />
+            <fac_funz_ruolo_firm_contr_tecnico custom="true" displayName="Facente funzione funzionario regolarita tecnica" format=".*" type="xs:string" />
+            <note custom="true" displayName="Note" format=".*" type="xs:string" />
+            <data_invio_capigruppo_dt custom="true" displayName="Data invio ai capigruppo" format=".*" type="xs:date" />
+            <anno_comunicazione_invio_capigruppo custom="true" displayName="Anno comunicazione invio ai capigruppo" format=".*" type="xs:string" />
+            <numero_invio_capigruppo custom="true" displayName="Numero invio ai capigruppo" format=".*" type="xs:string" />
+            <data_esec_atto_dt custom="true" displayName="Data esecutivita delibera" format=".*" type="xs:date" />
+            <funz_esecutivita custom="true" displayName="Soggetto attestante esecutivita" format=".*" type="xs:string" />
+            <firma_funz_esecutivita custom="true" displayName="Firma soggetto attestante esecutivita" format=".*" type="xs:string" />
+            <note_regolarita_contabile custom="true" displayName="Note regolarita contabile" format=".*" type="xs:string" />
+            <comune custom="true" displayName="Comune" format=".*" type="xs:string" />
+            <indirizzo custom="true" displayName="Indirizzo" format=".*" type="xs:string" />
+            <num_pg_richiesta custom="true" displayName="Numero protocollo richiesta" format=".*" type="xs:string" />
+            <anno_pg_richiesta custom="true" displayName="Anno protocollo richiesta" format=".*" type="xs:string" />
+            <data_inizio_validita_dt custom="true" displayName="Data inizio validita" format=".*" type="xs:date" />
+            <ora_inizio_validita custom="true" displayName="Ora inizio validita" format=".*" type="xs:string" />
+            <data_fine_validita_dt custom="true" displayName="Data fine validita" format=".*" type="xs:date" />
+            <data_scadenza_dt custom="true" displayName="Data scadenza" format=".*" type="xs:date" />
+            <note_ordinanze custom="true" displayName="Note ordinanze" format=".*" type="xs:string" />
+
+
+            <tipo_istanza custom="true" displayName="Tipo istanza" format=".*" type="xs:string" />
+            <qualifica_istanza custom="true" displayName="Qualifica istanza" format=".*" type="xs:string" />
+            <id_edifici custom="true" displayName="Identificativi edifici" format=".*" type="xs:string" />
+            <id_unita_immobiliari custom="true" displayName="Identificativi unita' immobiliari" format=".*" type="xs:string" />
+            <tipo_intervento custom="true" displayName="Tipo intervento" format=".*" type="xs:string" />
+            <destinazione_uso_prevalente custom="true" displayName="Destinazione uso prevalente" format=".*" type="xs:string" />
+            <data_seduta_cqaep_dt custom="true" displayName="Data seduta commissione qualita' architettonica e paesaggio" format=".*" type="xs:date" />
+            <parere_cqaep custom="true" displayName="Parere commissione qualita' architettonica e paesaggio" format=".*" type="xs:string" />
+            <prescrizioni custom="true" displayName="Prescrizioni" format=".*" type="xs:string" />
+
+            <work_item_key custom="true" displayName="work item key" format=".*" multivalue="false" position="" type="xs:string" />
+
+            <visto displayName="Visto" multivalue="false" position="" type="xs:string" />
+            <stato_business format="^(|0|1|2|3|4|5|6|7|8)$" type="xs:string" />
+
+
+
+            <cf_delegante custom="true" displayName="Codice fiscale delegante" format=".*" multivalue="false" position="" type="xs:string" />
+            <nome_delegante custom="true" displayName="Nome delegante" format=".*" multivalue="false" position="" type="xs:string" />
+            <cognome_delegante custom="true" displayName="Cognome delegante" format=".*" multivalue="false" position="" type="xs:string" />
+            <id_pratica custom="true" displayName="ID pratica" format=".*" multivalue="false" position="" type="xs:string" />
+            <indirizzo_telematico_mittente custom="true" displayName="Indirizzo telematico mittente" format=".*" multivalue="false" position="" type="xs:string" />
+            <anno_registro_determina custom="true" displayName="Anno registro determina" format=".*" multivalue="false" position="" type="xs:string" />
+            <numero_registro_determina custom="true" displayName="Numero registro determina" format=".*" multivalue="false" position="" type="xs:string" />
+            <nome_registro_determina custom="true" displayName="Nome registro determina" format=".*" multivalue="false" position="" type="xs:string" />
+            <oggetto_determina custom="true" displayName="Oggetto determina" format=".*" multivalue="false" position="" type="xs:string" />
+            <esito_affidamento custom="true" displayName="Esito affidamento" format=".*" multivalue="false" position="" type="xs:string" />
+            <tipo_verbale custom="true" displayName="Tipo verbale" format=".*" multivalue="false" position="" type="xs:string" />
+
+            <rif_buono custom="true" displayName="Numero buono contabile" format=".*" multivalue="false" position="" type="xs:string" />
+
+            <funz_inoltro_atto custom="true" displayName="Funzionario incaricato inoltro atto" format=".*" multivalue="false" position="" type="xs:string" />
+            <sezione_pubblicazione custom="true" displayName="Sezione di pubblicazione" format=".*" multivalue="false" position="" type="xs:string" />
+            <contenuto_determina custom="true" displayName="Contenuto determina" format=".*" multivalue="false" position="" type="xs:string" />
+            <spesa_prevista custom="true" displayName="Spesa prevista" format=".*" multivalue="false" position="" type="xs:string" />
+            <estremi_doc_principali custom="true" displayName="Estremi documenti principali" format=".*" multivalue="false" position="" type="xs:string" />
+            <oggetto_fornitura custom="true" displayName="Oggetto fornitura" format=".*" multivalue="false" position="" type="xs:string" />
+            <nome_procedimento custom="true" displayName="Nome procedimento" format=".*" multivalue="false" position="" type="xs:string" />
+            <elenco_partecipanti custom="true" displayName="Elenco partecipanti" format=".*" multivalue="false" position="" type="xs:string" />
+            <impresa_aggiudicataria custom="true" displayName="Impresa aggiudicataria" format=".*" multivalue="false" position="" type="xs:string" />
+            <importo_aggiudicazione custom="true" displayName="Importo aggiudicazione" format=".*" multivalue="false" position="" type="xs:string" />
+            <data_inizio_lavori custom="true" displayName="Data inizio lavori" format=".*" multivalue="false" position="" type="xs:string" />
+            <data_fine_lavori custom="true" displayName="Data fine lavori" format=".*" multivalue="false" position="" type="xs:string" />
+            <anno_registro custom="true" displayName="Anno registro" format=".*" multivalue="false" position="" type="xs:string" />
+            <numero_registro custom="true" displayName="Numero registro" format=".*" multivalue="false" position="" type="xs:string" />
+            <nome_registro custom="true" displayName="Nome registro" format=".*" multivalue="false" position="" type="xs:string" />
+            <anno_registro_1 custom="true" displayName="Anno registrazione determina" format=".*" multivalue="false" position="" type="xs:string" />
+            <numero_registro_1 custom="true" displayName="Numero registrazione determina" format=".*" multivalue="false" position="" type="xs:string" />
+            <nome_registro_1 custom="true" displayName="Nome registrazione determina" format=".*" multivalue="false" position="" type="xs:string" />
+            <oggetto_determina_1 custom="true" displayName="Oggetto determina" format=".*" multivalue="false" position="" type="xs:string" />
+
+            <rif_bollo_virtuale custom="true" displayName="Riferimento bollo virtuale" format=".*" multivalue="false" position="" type="xs:string" />
+
+
+
+            <trasmittente_paese_id custom="true" displayName="ID paese trasmittente" format=".*" multivalue="false" position="" type="xs:string" />
+            <trasmittente_codice_id custom="true" displayName="ID codice trasmittente" format=".*" multivalue="false" position="" type="xs:string" />
+            <rappresentante_fiscale_iva_paese_id custom="true" displayName="ID paese rappresentante fiscale" format=".*" multivalue="false" position="" type="xs:string" />
+            <rappresentante_fiscale_iva_codice_id custom="true" displayName="ID codice rappresentante fiscale" format=".*" multivalue="false" position="" type="xs:string" />
+            <rappresentante_fiscale_cf custom="true" displayName="Codice fiscale rappresentante fiscale" format=".*" multivalue="false" position="" type="xs:string" />
+            <rappresentante_fiscale_denominazione custom="true" displayName="Denominazione rappresentante fiscale" format=".*" multivalue="false" position="" type="xs:string" />
+            <terzo_intermediario_o_emittente_iva_paese_id custom="true" displayName="Codice nazione soggetto terzo emittente fattura" format=".*" multivalue="false" position="" type="xs:string" />
+            <terzo_intermediario_o_emittente_iva_codice_id custom="true" displayName="Identificativo fiscale soggetto terzo emittente fattura" format=".*" multivalue="false" position="" type="xs:string" />
+            <terzo_intermediario_o_emittente_cf custom="true" displayName="Codice fiscale soggetto terzo emittente fattura" format=".*" multivalue="false" position="" type="xs:string" />
+            <terzo_intermediario_o_emittente_denominazione custom="true" displayName="Denominazione soggetto terzo emittente fattura" format=".*" multivalue="false" position="" type="xs:string" />
+            <cedente_prestatore_denominazione custom="true" displayName="Nome creditore" format=".*" multivalue="false" position="" type="xs:string" />
+            <cedente_prestatore_tipo_denominazione custom="true" displayName="Natura denominazione mittente" format=".*" multivalue="false" position="" type="xs:string" />
+            <cedente_prestatore_forma_giuridica custom="true" displayName="Forma giuridica mittente" format=".*" multivalue="false" position="" type="xs:string" />
+            <cedente_prestatore_comune custom="true" displayName="Comune cedente" format=".*" multivalue="false" position="" type="xs:string" />
+            <cedente_prestatore_sede_provincia custom="true" displayName="Provincia cedente" format=".*" multivalue="false" position="" type="xs:string" />
+            <cedente_prestatore_sede_nazione custom="true" displayName="Nazione cedente" format=".*" multivalue="false" position="" type="xs:string" />
+            <cedente_prestatore_iva_paese_id custom="true" displayName="Codice nazione del cedente" format=".*" multivalue="false" position="" type="xs:string" />
+            <cedente_prestatore_iva_codice_id custom="true" displayName="Codice identificativo fiscale cedente" format=".*" multivalue="false" position="" type="xs:string" />
+            <cedente_prestatore_cf custom="true" displayName="Codice fiscale fiscale cedente" format=".*" multivalue="false" position="" type="xs:string" />
+            <cedente_prestatore_tipo_identificativo custom="true" displayName="Natura identificativo del Mittente" format=".*" multivalue="false" position="" type="xs:string" />
+            <cedente_prestatore_iscrizione_rea_ufficio custom="true" displayName="Iscrizione ufficio REA del cedente" format=".*" multivalue="false" position="" type="xs:string" />
+            <cedente_prestatore_iscrizione_rea_numero custom="true" displayName="Numero iscrizione ufficio REA del cedente" format=".*" multivalue="false" position="" type="xs:string" />
+            <codice_uo_fornitura custom="true" displayName="Codice UO fornitura" format=".*" multivalue="false" position="" type="xs:string" />
+            <descrizione_uo_fornitura custom="true" displayName="Descrizione UO fornitura" format=".*" multivalue="false" position="" type="xs:string" />
+            <numero_ruf custom="true" displayName="Codice registrazione fattura" format=".*" multivalue="false" position="" type="xs:string" />
+            <data_registrazione_ruf_dt custom="true" displayName="Data registrazione nel registro fatture" format=".*" type="xs:date" />
+            <rilevanza_iva custom="true" displayName="Rilevanza IVA" format="^(|si|no)$" multivalue="false" position="" type="xs:string" />
+            <codice_registro_iva custom="true" displayName="Codice registro IVA" format=".*" multivalue="false" position="" type="xs:string" />
+            <numero_registro_iva custom="true" displayName="Numero registro IVA" format=".*" multivalue="false" position="" type="xs:string" />
+            <data_registrazione_iva_dt custom="true" displayName="Data registrazione nel registro IVA" format=".*" type="xs:date" />
+            <numero_emissione custom="true" displayName="Numero emissione" format=".*" multivalue="false" position="" type="xs:string" />
+            <data_emissione_dt custom="true" displayName="Data emissione fattura" format=".*" type="xs:date" />
+            <importo_totale custom="true" displayName="Importo totale" format=".*" type="xs:decimal" />
+            <scadenza_dt custom="true" displayName="Scadenza fattura" format=".*" type="xs:date" />
+            <riferimento_contabile custom="true" displayName="Riferimento contabile" format=".*" multivalue="false" position="" type="xs:string" />
+            <tipo_rif_contabile custom="true" displayName="Tipo riferimento contabile" format=".*" multivalue="false" position="" type="xs:string" />
+            <stato_liquidazione custom="true" displayName="Stato liquidazione" format="^(|Liquidata|Non liquidata)$" multivalue="false" position="" type="xs:string" />
+            <bollo_virtuale custom="true" displayName="Bollo virtuale" format=".*" multivalue="false" position="" type="xs:string" />
+            <albo_professionale custom="true" displayName="Albo professionale" format=".*" multivalue="false" position="" type="xs:string" />
+            <provincia_albo_professionale custom="true" displayName="Provincia albo professionale" format=".*" multivalue="false" position="" type="xs:string" />
+
+            <mail_state custom="true" displayName="Stato email" format="^(|1|2|3|4|5|6|7|8|14)$" type="xs:string" />
+            <mail_box custom="true" displayName="Casella email" format=".*" type="xs:string" />
+            <mail_from custom="true" displayName="Mail from" format=".*" multivalue="true" type="xs:string" />
+            <mail_to custom="true" displayName="Mail to" format=".*" multivalue="true" type="xs:string" />
+            <mail_cc custom="true" displayName="Mail cc" format=".*" multivalue="true" type="xs:string" />
+            <mail_bcc custom="true" displayName="Mail bcc" format=".*" multivalue="true" type="xs:string" />
+            <mail_subject custom="true" displayName="Oggetto email" format=".*" type="xs:string" />
+            <mail_body custom="true" displayName="Body email" format=".*" type="xs:string" />
+            <mail_date custom="true" displayName="Data email" format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+            <mail_msgid custom="true" displayName="Id email" format=".*" type="xs:string" />
+            <mail_tipo_ricevuta custom="true" displayName="Tipo ricevuta" format=".*" type="xs:string" />
+            <numero_iniziale custom="true" displayName="Numero iniziale" format=".*" type="xs:string" />
+            <numero_finale custom="true" displayName="Numero finale" format=".*" type="xs:string" />
+            <data_inizio_registrazioni custom="true" displayName="Data inizio registrazioni" format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+            <data_fine_registrazioni custom="true" displayName="Data fine registrazioni" format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+            <piano_class type="xs:string" />
+            <cod_uo type="xs:string" />
+
+            <senza_file type="xs:string" />
+
+            <numero_fatt custom="true" displayName="numero_fatt" format=".*" type="xs:string" />
+            <anno_fatt custom="true" displayName="anno_fatt" format=".*" type="xs:string" />
+            <importo_fatt custom="true" displayName="importo_fatt" format=".*" type="xs:string" />
+            <intestatario_fatt custom="true" displayName="intestatario_fatt" format=".*" type="xs:string" />
+            <piva_fatt custom="true" displayName="piva_fatt" format=".*" type="xs:string" />
+
+            <TipoAttoStrIntestaz custom="true" displayName="Intestazione" format=".*" multivalue="false" position="" type="xs:string" />
+            <TipoAttoCompetenza custom="true" displayName="Competenza" format=".*" multivalue="false" position="" type="xs:string" />
+            <IntCodSett custom="true" displayName="Codice settore/Direzione/DG" format=".*" multivalue="false" position="" type="xs:string" />
+            <IntDescrSett custom="true" displayName="Settore/Direzione/DG" format=".*" multivalue="false" position="" type="xs:string" />
+            <IntCodUffProp custom="true" displayName="Codice ufficio/servizio proponente" format=".*" multivalue="false" position="" type="xs:string" />
+            <IntDescrUffProp custom="true" displayName="Descrizione Ufficio/servizio" format=".*" multivalue="false" position="" type="xs:string" />
+            <IntCodDUP custom="true" displayName="Codice DUP" format=".*" multivalue="false" position="" type="xs:string" />
+            <IntDescrDUP custom="true" displayName="Descrizione DUP" format=".*" multivalue="false" position="" type="xs:string" />
+            <IntCodCDRProc custom="true" displayName="Codice Processo" format=".*" multivalue="false" position="" type="xs:string" />
+            <IntDescrCDRProc custom="true" displayName="Descrizione Processo" format=".*" multivalue="false" position="" type="xs:string" />
+            <IntRespCDRProc custom="true" displayName="Responsabile Processo" format=".*" multivalue="false" position="" type="xs:string" />
+            <IntDispCIG custom="true" displayName="Dispositivo CIG" format=".*" multivalue="false" position="" type="xs:string" />
+            <IntDispCUP custom="true" displayName="Dispositivo CUP" format=".*" multivalue="false" position="" type="xs:string" />
+            <Intoggetto custom="true" displayName="Oggetto" format=".*" multivalue="false" position="" type="xs:string" />
+            <AttoPremesse custom="true" displayName="Premesse" format=".*" multivalue="false" position="" type="xs:string" />
+            <AttoPresuppostiFatto custom="true" displayName="Presupposti di fatto" format=".*" multivalue="false" position="" type="xs:string" />
+            <AttoVerifPresupp custom="true" displayName="Verifica presupposti di fatto" format=".*" multivalue="false" position="" type="xs:string" />
+            <AttoFinalita custom="true" displayName="Finalit?? perseguite" format=".*" multivalue="false" position="" type="xs:string" />
+            <AttoAttiPrec custom="true" displayName="Atti precedenti" format=".*" multivalue="false" position="" type="xs:string" />
+            <AttoPareriIstr custom="true" displayName="Pareri Istruttoria" format=".*" multivalue="false" position="" type="xs:string" />
+            <AttoCertifNullaosta custom="true" displayName="Certificazioni/Nullaosta" format=".*" multivalue="false" position="" type="xs:string" />
+            <AttoStakehold custom="true" displayName="Stakeholder" format=".*" multivalue="false" position="" type="xs:string" />
+            <AttoNormativaUE custom="true" displayName="Normativa UE" format=".*" multivalue="false" position="" type="xs:string" />
+            <AttoNormativaStatale custom="true" displayName="Normativa statale" format=".*" multivalue="false" position="" type="xs:string" />
+            <AttoNormativaRegionale custom="true" displayName="Normativa regionale" format=".*" multivalue="false" position="" type="xs:string" />
+            <AttoNormativaComunale custom="true" displayName="Normativa comunale" format=".*" multivalue="false" position="" type="xs:string" />
+            <AttoTestoLibero custom="true" displayName="Testo libero" format=".*" multivalue="false" position="" type="xs:string" />
+            <PgmTriennLavPOP custom="true" displayName="POP" format=".*" multivalue="false" position="" type="xs:string" />
+            <DatiBilDescrTipoBil custom="true" displayName="Descrizione tipo bilancio" format=".*" multivalue="false" position="" type="xs:string" />
+            <DatiBilParereCont custom="true" displayName="Parere Contabile" format=".*" multivalue="false" position="" type="xs:string" />
+            <DatiBilTestoImp custom="true" displayName="Testo impegno" format=".*" multivalue="false" position="" type="xs:string" />
+            <DatiBilTestoANAC custom="true" displayName="Testo ANAC" format=".*" multivalue="false" position="" type="xs:string" />
+            <DatiBilTestoAcc custom="true" displayName="Testo accertamento" format=".*" multivalue="false" position="" type="xs:string" />
+            <DispDisp1 custom="true" displayName="Dispositivo principale" format=".*" multivalue="false" position="" type="xs:string" />
+            <DispDispDestin custom="true" displayName="Destinatari" format=".*" multivalue="false" position="" type="xs:string" />
+            <DispDispBenef custom="true" displayName="Beneficiari" format=".*" multivalue="false" position="" type="xs:string" />
+            <DispDispContr custom="true" displayName="Contraenti" format=".*" multivalue="false" position="" type="xs:string" />
+            <DispAdempSucc custom="true" displayName="Adempimenti successivi" format=".*" multivalue="false" position="" type="xs:string" />
+            <DispAltriDisp custom="true" displayName="Altri dispositivi" format=".*" multivalue="false" position="" type="xs:string" />
+            <DispImmediataEseg custom="true" displayName="Immediata eseguibilit??" format=".*" multivalue="false" position="" type="xs:string" />
+            <TipoAttoParereTecnico custom="true" displayName="Parere tecnico" format=".*" multivalue="false" position="" type="xs:string" />
+            <tabellaImpegno custom="true" displayName="Tabella impegno" format=".*" multivalue="false" position="" type="xs:string" />
+            <tabellaAccertamento custom="true" displayName="Tabella accertamento" format=".*" multivalue="false" position="" type="xs:string" />
+            <tabellaANAC custom="true" displayName="Tabella ANAC" format=".*" multivalue="false" position="" type="xs:string" />
+
+            <AttoPP custom="true" displayName="Piano delle performance" format=".*" multivalue="false" position="" type="xs:string" />
+            <AttoVariazPP custom="true" displayName="Variazione piano performance" format=".*" multivalue="false" position="" type="xs:string" />
+            <DispProcContr custom="true" displayName="Procedure di controllo" format=".*" multivalue="false" position="" type="xs:string" />
+            <AttoAggDUP custom="true" displayName="Aggiornamento DUP" format=".*" multivalue="false" position="" type="xs:string" />
+            <AttoDUP custom="true" displayName="DUP" format=".*" multivalue="false" position="" type="xs:string" />
+
+            <DescrizioneAssessore custom="true" displayName="DescrizioneAssessore" format=".*" multivalue="false" position="" type="xs:string" />
+            <TipoAzione custom="true" displayName="TipoAzione" format=".*" multivalue="false" position="" type="xs:string" />
+            <stato_atto custom="true" displayName="Stato atto" format=".*" multivalue="false" position="" type="xs:string" />
+            <direttore_deliberante custom="true" displayName="Direttore deliberante" format=".*" multivalue="false" position="" type="xs:string" />
+            <dirigente_delega custom="true" displayName="Dirigente delega" format=".*" multivalue="false" position="" type="xs:string" />
+            <numero_delega custom="true" displayName="Numero delega" format=".*" multivalue="false" position="" type="xs:string" />
+            <data_delega custom="true" displayName="Data delega" format=".*" multivalue="false" position="" type="xs:dateTime" />
+            <esito_delibera custom="true" displayName="Esito delibera" format=".*" multivalue="false" position="" type="xs:string" />
+            <ck_tipo_firma custom="true" displayName="Ck Tipo Firma" format=".*" type="xs:string" />
+            <annullamento custom="true" displayName="Annullamento" format=".*" type="xs:string" />
+            <Trasparenza custom="true" displayName="Trasparenza" format=".*" type="xs:string" />
+            <P_iva_mitt custom="true" displayName="P.IVA mittente" format=".*" type="xs:string" />
+            <Cod_Fisc_mitt custom="true" displayName="Cod. Fisc. mittente" format=".*" type="xs:string" />
+
+            <oggetto_cig custom="true" displayName="Oggetto cig" format=".*" multivalue="false" position="" type="xs:string" />
+            <istanzaKeysuite custom="true" displayName="Istanza Keysuite" format=".*" multivalue="false" position="" type="xs:string" />
+            <procedura_scelta custom="true" displayName="Procedura scelta" format=".*" multivalue="false" position="" type="xs:string" />
+
+
+
+            <cod_rubrica displayName="Codice rubrica" format=".+" type="xs:string" />
+            <des_rubrica displayName="Descrizione rubrica" type="xs:string" />
+            <parent_cod_rubrica displayName="Parent rubrica" type="xs:string" />
+            <tipo_rubrica custom="true" displayName="Tipo" format=".*" type="xs:string" />
+            <indirizzo_pec custom="true" displayName="Indirizzo Telematico" format=".*" type="xs:string" />
+            <indirizzo_peo custom="true" displayName="Indirizzo PEO" format=".*" type="xs:string" />
+            <indirizzo_postale custom="true" displayName="Indirizzo Postale" format=".*" type="xs:string" />
+            <telefono custom="true" displayName="Telefono" format=".*" type="xs:string" />
+            <fax custom="true" displayName="Fax" format=".*" type="xs:string" />
+
+            <public_version custom="true" displayName="public_version" format=".*" type="xs:string" />
+
+
+
+
+
+
+
+
+
+
+
+
+            <cod_soggetto displayName="Codice fiscale" format=".+" type="xs:string" />
+            <des_soggetto displayName="Descrizione soggetto" type="xs:string" />
+            <tipo_soggetto custom="true" displayName="Tipo" format=".*" type="xs:string" />
+            <indirizzo_pec custom="true" displayName="Indirizzo Telematico" format=".*" type="xs:string" />
+            <indirizzo_peo custom="true" displayName="Indirizzo PEO" format=".*" type="xs:string" />
+            <indirizzo_postale custom="true" displayName="Indirizzo Postale" format=".*" type="xs:string" />
+            <telefono custom="true" displayName="Telefono" format=".*" type="xs:string" />
+            <fax custom="true" displayName="Fax" format=".*" type="xs:string" />
+            <inherits_acl custom="true" displayName="INHERITS_ACL " format=".*" type="xs:string" />
+
+
+
+            <id_polizza custom="true" displayName="" format=".*" type="xs:string" />
+            <cod_polizza custom="true" displayName="" format=".*" type="xs:string" />
+            <des_polizza custom="true" displayName="" format=".*" type="xs:string" />
+            <num_polizza custom="true" displayName="" format=".*" type="xs:string" />
+            <cod_compagnia custom="true" displayName="" format=".*" type="xs:string" />
+            <data_evento_dt custom="true" displayName="" format=".*" type="xs:string" />
+            <data_consegna_rapporto_dt custom="true" displayName="" format=".*" type="xs:string" />
+            <matricola_autista custom="true" displayName="" format=".*" type="xs:string" />
+            <des_evento custom="true" displayName="" format=".*" type="xs:string" />
+            <causa_evento custom="true" displayName="" format=".*" type="xs:string" />
+            <conseguenze_evento custom="true" displayName="" format=".*" type="xs:string" />
+            <infortunati_ss custom="true" displayName="" format=".*" type="xs:string" />
+            <tipo_titolo_viaggio custom="true" displayName="" format=".*" type="xs:string" />
+            <num_titolo_viaggio custom="true" displayName="" format=".*" type="xs:string" />
+            <scadenza_titolo_viaggio_dt custom="true" displayName="" format=".*" type="xs:string" />
+            <testimoni_ss custom="true" displayName="" format=".*" type="xs:string" />
+            <tipologia_sinistro custom="true" displayName="" format=".*" type="xs:string" />
+            <tipologia_evento custom="true" displayName="" format=".*" type="xs:string" />
+            <tipologia_id custom="true" displayName="" format=".*" type="xs:string" />
+            <tipologia custom="true" displayName="" format=".*" type="xs:string" />
+            <legale_controparte custom="true" displayName="" format=".*" type="xs:string" />
+
+
+            <ruolo_ss custom="true" displayName="" format=".*" type="xs:string" />
+            <stato custom="true" displayName="" format=".*" type="xs:string" />
+            <residenza custom="true" displayName="" format=".*" type="xs:string" />
+            <domicilio custom="true" displayName="" format=".*" type="xs:string" />
+            <nome custom="true" displayName="" format=".*" type="xs:string" />
+            <cognome custom="true" displayName="" format=".*" type="xs:string" />
+            <num_patente custom="true" displayName="" format=".*" type="xs:string" />
+            <num_documento custom="true" displayName="" format=".*" type="xs:string" />
+
+
+            <mezzo_anm custom="true" displayName="" format=".*" type="xs:string" />
+            <treno_i custom="true" displayName="" format=".*" type="xs:string" />
+            <luogo_evento custom="true" displayName="" format=".*" type="xs:string" />
+            <luogo_evento_t custom="true" displayName="" format=".*" type="xs:string" />
+            <danni_mezzo_anm_b custom="true" displayName="" format=".*" type="xs:string" />
+            <danni_autista_b custom="true" displayName="" format=".*" type="xs:string" />
+            <danni_mezzi_b custom="true" displayName="" format=".*" type="xs:string" />
+            <danni_persone_b custom="true" displayName="" format=".*" type="xs:string" />
+            <disabili_coinvolti_b custom="true" displayName="" format=".*" type="xs:string" />
+            <roadscan custom="true" displayName="" format=".*" type="xs:string" />
+            <autorita_ss custom="true" displayName="" format=".*" type="xs:string" />
+            <graduati_anm_ss custom="true" displayName="" format=".*" type="xs:string" />
+            <danni_conducente custom="true" displayName="" format=".*" type="xs:string" />
+            <danni_mezzo_anm custom="true" displayName="" format=".*" type="xs:string" />
+            <mezzo_controparte_ss custom="true" displayName="" format=".*" type="xs:string" />
+            <conducenti_ss custom="true" displayName="" format=".*" type="xs:string" />
+            <proprietari_ss custom="true" displayName="" format=".*" type="xs:string" />
+            <danni_ss custom="true" displayName="" format=".*" type="xs:string" />
+            <cod_luogo custom="true" displayName="" format=".*" type="xs:string" />
+            <numero_corsa custom="true" displayName="" format=".*" type="xs:string" />
+            <asciutto_b custom="true" displayName="" format=".*" type="xs:string" />
+            <pulito_b custom="true" displayName="" format=".*" type="xs:string" />
+            <integro_b custom="true" displayName="" format=".*" type="xs:string" />
+            <funzionante_b custom="true" displayName="" format=".*" type="xs:string" />
+            <libero_b custom="true" displayName="" format=".*" type="xs:string" />
+            <illuminato_b custom="true" displayName="" format=".*" type="xs:string" />
+
+
+            <cod_mezzo custom="true" displayName="" format=".*" type="xs:string" />
+            <des_mezzo custom="true" displayName="" format=".*" type="xs:string" />
+            <enabled custom="true" displayName="" format=".*" type="xs:string" />
+            <tipo_mezzo custom="true" displayName="" format=".*" type="xs:string" />
+            <linea_mezzo custom="true" displayName="" format=".*" type="xs:string" />
+            <colore_mezzo custom="true" displayName="" format=".*" type="xs:string" />
+            <mezzo_anm_b custom="true" displayName="" format=".*" type="xs:string" />
+            <conducente_mezzo custom="true" displayName="" format=".*" type="xs:string" />
+
+
+            <data_iscrizione_dt custom="true" displayName="" format=".*" type="xs:string" />
+            <giudice_designato custom="true" displayName="" format=".*" type="xs:string" />
+            <num_sentenza custom="true" displayName="" format=".*" type="xs:string" />
+            <esito_sentenza custom="true" displayName="" format=".*" type="xs:string" />
+            <data_sentenza_dt custom="true" displayName="" format=".*" type="xs:string" />
+            <causa_fatturata_b custom="true" displayName="" format=".*" type="xs:string" />
+            <importo_i custom="true" displayName="" format=".*" type="xs:string" />
+
+
+            <ruolo_generale custom="true" displayName="" format=".*" type="xs:string" />
+            <autorita_giudiziaria custom="true" displayName="" format=".*" type="xs:string" />
+            <sezione custom="true" displayName="" format=".*" type="xs:string" />
+            <data_prima_udienza_dt custom="true" displayName="" format=".*" type="xs:string" />
+            <data_notifica_dt custom="true" displayName="" format=".*" type="xs:string" />
+            <protocollo_arrivo custom="true" displayName="" format=".*" type="xs:string" />
+            <legale_interno custom="true" displayName="" format=".*" type="xs:string" />
+            <legale_assicurazione custom="true" displayName="" format=".*" type="xs:string" />
+            <data_affidamento_dt custom="true" displayName="" format=".*" type="xs:string" />
+            <causa_iscritta custom="true" displayName="" format=".*" type="xs:string" />
+            <data_inoltro_assic_dt custom="true" displayName="" format=".*" type="xs:string" />
+            <note custom="true" displayName="" format=".*" type="xs:string" />
+
+            <business_type custom="true" displayName="" format=".*" type="xs:string" />
+
+
+            <cod_luogo custom="true" displayName="" format=".*" type="xs:string" />
+            <des_luogo custom="true" displayName="" format=".*" type="xs:string" />
+            <tipo_luogo custom="true" displayName="" format=".*" type="xs:string" />
+            <cod_linea custom="true" displayName="" format=".*" type="xs:string" />
+            <cod_stazione custom="true" displayName="" format=".*" type="xs:string" />
+
+            <tipo_evento custom="true" format="^(|G|F|S)$" type="xs:string" />
+
+            <summary custom="true" displayName="" format=".*" type="xs:string" />
+
+            <id_pratica custom="true" displayName="" format=".*" type="xs:string" />
+            <causale_movimento custom="true" displayName="" format=".*" type="xs:string" />
+            <data_movimento_dt custom="true" displayName="" format=".*" type="xs:date" />
+            <data_registrazione_dt custom="true" displayName="" format=".*" type="xs:date" />
+            <num_assegno custom="true" displayName="" format=".*" type="xs:string" />
+            <banca custom="true" displayName="" format=".*" type="xs:string" />
+            <importo_movimento_i custom="true" displayName="" format=".*" type="xs:string" />
+            <num_assegno custom="true" displayName="" format=".*" type="xs:string" />
+            <id_soggetto custom="true" displayName="" format=".*" type="xs:string" />
+            <id_fattura custom="true" displayName="" format=".*" type="xs:string" />
+            <data_fattura_dt custom="true" displayName="" format=".*" type="xs:date" />
+
+
+            <compagnia_ass custom="true" displayName="" format=".*" type="xs:string" />
+
+            <parent_fascicolo_id custom="true" displayName="" format=".*" type="xs:string" />
+
+            <rif_assicurazione custom="true" displayName="" format=".*" type="xs:string" />
+
+
+            <conducente_mezzo custom="true" displayName="" format=".*" type="xs:string" />
+            <proprietario_mezzo custom="true" displayName="" format=".*" type="xs:string" />
+            <infortunati_mezzo_ss custom="true" displayName="" format=".*" type="xs:string" />
+
+
+            <nominativo_controparte custom="true" displayName="" format=".*" type="xs:string" />
+            <tipologia_perizia custom="true" displayName="" format=".*" type="xs:string" />
+            <nominativo_perito custom="true" displayName="" format=".*" type="xs:string" />
+            <rif_perito custom="true" displayName="" format=".*" type="xs:string" />
+            <data_perizia_dt custom="true" displayName="" format=".*" type="xs:date" />
+            <importo_cedola_i custom="true" displayName="" format=".*" type="xs:string" />
+            <grado_giudizio custom="true" displayName="" format=".*" type="xs:string" />
+
+            <voce1_veicolo1 type="xs:string" />
+            <voce2_veicolo1 type="xs:string" />
+            <voce3_veicolo1 type="xs:string" />
+            <voce4_veicolo1 type="xs:string" />
+            <voce5_veicolo1 type="xs:string" />
+            <voce6_veicolo1 type="xs:string" />
+            <voce7_veicolo1 type="xs:string" />
+            <voce8_veicolo1 type="xs:string" />
+            <voce9_veicolo1 type="xs:string" />
+            <voce10_veicolo1 type="xs:string" />
+            <voce11_veicolo1 type="xs:string" />
+            <voce12_veicolo1 type="xs:string" />
+            <voce13_veicolo1 type="xs:string" />
+            <voce14_veicolo1 type="xs:string" />
+            <voce15_veicolo1 type="xs:string" />
+            <voce16_veicolo1 type="xs:string" />
+            <voce17_veicolo1 type="xs:string" />
+            <voce1_veicolo2 type="xs:string" />
+            <voce2_veicolo2 type="xs:string" />
+            <voce3_veicolo2 type="xs:string" />
+            <voce4_veicolo2 type="xs:string" />
+            <voce5_veicolo2 type="xs:string" />
+            <voce6_veicolo2 type="xs:string" />
+            <voce7_veicolo2 type="xs:string" />
+            <voce8_veicolo2 type="xs:string" />
+            <voce9_veicolo2 type="xs:string" />
+            <voce10_veicolo2 type="xs:string" />
+            <voce11_veicolo2 type="xs:string" />
+            <voce12_veicolo2 type="xs:string" />
+            <voce13_veicolo2 type="xs:string" />
+            <voce14_veicolo2 type="xs:string" />
+            <voce15_veicolo2 type="xs:string" />
+            <voce16_veicolo2 type="xs:string" />
+            <voce17_veicolo2 type="xs:string" />
+            <voci_veicolo1_tot type="xs:string" />
+            <voci_veicolo2_tot type="xs:string" />
+            <contr_cognome type="xs:string" />
+            <contr_nome type="xs:string" />
+            <contr_cod_fiscale type="xs:string" />
+            <contr_indirizzo type="xs:string" />
+            <contr_cap type="xs:string" />
+            <contr_stato type="xs:string" />
+            <contr_veicolo type="xs:string" />
+            <contr_marca type="xs:string" />
+            <contr_targa type="xs:string" />
+            <contr_stato_immatr type="xs:string" />
+            <comp_denominazione type="xs:string" />
+            <comp_num_polizza type="xs:string" />
+            <comp_num_carta_verde type="xs:string" />
+            <comp_agenzia type="xs:string" />
+            <comp_valido_dal type="xs:string" />
+            <comp_valido_al type="xs:string" />
+            <comp_indirizzo type="xs:string" />
+            <comp_stato type="xs:string" />
+            <comp_copertura_danni_b type="xs:string" />
+            <cond_cognome type="xs:string" />
+            <cond_nome type="xs:string" />
+            <cond_data_nascita type="xs:string" />
+            <cond_cod_fiscale type="xs:string" />
+            <cond_indirizzo type="xs:string" />
+            <cond_stato type="xs:string" />
+            <cond_patente_num type="xs:string" />
+            <cond_patente_cat type="xs:string" />
+            <cond_danni_visibili type="xs:string" />
+
+            <mittente_comunicazione custom="true" type="xs:string" />
+            <destinatari_comunicazione custom="true" type="xs:string" />
+            <destinatari_comunicazione_ss custom="true" multivalue="true" type="xs:string" />
+            <descrizione_comunicazione custom="true" type="xs:string" />
+            <oggetto_comunicazione custom="true" type="xs:string" />
+
+            <new_type_id custom="true" type="xs:string" />
+        </section>
+
+        <section name="baseprofile">
+
+            <guid />
+            <acl_explicit_ss/>
+            <oggetto_protocollazione />
+            <custom_field_ss />
+            <data_pg_emergenza />
+            <num_pg_emergenza />
+            <data_documento />
+            <riservatezza />
+            <doc_version />
+            <des_area />
+            <cod_area />
+            <docnum />
+            <stato_pantarei />
+            <stato_business />
+            <docname />
+            <abstract />
+            <default_extension />
+            <type_id />
+            <cod_ente />
+            <cod_aoo />
+            <classifica />
+            <anno_fascicolo />
+            <progr_fascicolo />
+            <cod_titolario />
+            <num_fascicolo />
+            <anno_pg />
+            <num_pg />
+            <oggetto_pg />
+            <registro_pg />
+            <data_pg />
+            <author_id />
+            <typist_id />
+            <creation_date />
+            <fasc_secondari />
+            <p_annull_pg />
+            <e_annull_pg />
+            <d_registraz />
+            <n_registraz />
+            <a_registraz />
+            <o_registraz />
+            <id_registro />
+            <stato_conserv />
+            <usa_d_co_cer />
+            <t_d_contr_cer />
+            <d_co_cer />
+            <forza_coll />
+            <forza_accettaz />
+            <forza_conserv />
+            <flag_conserv />
+            <t_conserv />
+            <doc_url />
+            <archive_type />
+            <app_versante />
+            <ms_t_registraz />
+            <tipo_componente />
+            <docnum_princ />
+            <registro_pub />
+            <pubblicato />
+            <numero_pub />
+            <anno_pub />
+            <oggetto_pub />
+            <data_inizio_pub />
+            <data_fine_pub />
+            <stato_archivistico />
+            <mittenti />
+            <destinatari />
+            <tipo_protocollazione />
+            <tipo_firma />
+            <firmatario />
+            <docnum_record />
+            <ud_version />
+            <doc_hash />
+            <num_pg_mittente />
+            <data_pg_mittente />
+            <cod_ente_mittente />
+            <cod_aoo_mittente />
+            <classifica_mittente />
+            <fascicolo_mittente />
+            <annullato_pg />
+            <d_annull_pg />
+            <m_annull_pg />
+            <annull_registraz />
+            <d_annull_registraz />
+            <m_annull_registraz />
+            <p_annull_registraz />
+            <versions />
+            <proc_id />
+            <creator />
+            <modifier />
+            <modified />
+            <created />
+            <id_proc />
+            <id_immobile />
+            <visto />
+            <piano_class />
+            <cod_uo />
+            <inherits_acl />
+            <enabled />
+            <senza_file />
+            <public_version />
+            <parent_fascicolo_id />
+
+            <new_type_id />
+        </section>
+        <section name="document_types">
+            <type description="Documento" name="DOCUMENTO" providerTypeId="documento">
+                <ms_mod_tx />
+                <ms_operatore />
+                <ms_tipologia />
+                <p_annull_pg />
+                <e_annull_pg />
+                <senza_file />
+            </type>
+			<type name="FATTURA" />
+            <type name="MAIL" />
+        </section>
+        <section name="anagrafiche_types">
+            <type name="ente">
+                <cod_ente />
+                <des_ente />
+                <enabled />
+                <inherits_acl />
+                <created />
+                <creator />
+                <modifier />
+                <modified />
+            </type>
+            <type name="aoo">
+                <cod_ente />
+                <cod_aoo />
+                <des_aoo />
+                <enabled />
+                <inherits_acl />
+                <created />
+                <creator />
+                <modifier />
+                <modified />
+            </type>
+            <type displayName="Titolario" name="titolario">
+                <guid/>
+                <acl_explicit_ss/>
+                <cod_ente />
+                <cod_aoo />
+                <classifica role="codice" />
+                <cod_titolario />
+                <parent_classifica />
+                <des_titolario role="descrizione" />
+                <enabled />
+                <custom_field_string_2 />
+                <piano_class />
+                <inherits_acl />
+                <created />
+                <creator />
+                <modifier />
+                <modified />
+            </type>
+            <type name="fascicolo">
+                <guid />
+                <acl_explicit_ss/>
+                <cod_ente />
+                <cod_aoo />
+                <classifica />
+                <cod_titolario />
+                <num_fascicolo />
+                <progr_fascicolo />
+                <anno_fascicolo />
+                <parent_progr_fascicolo />
+                <des_fascicolo />
+                <enabled />
+                <data_apertura />
+                <data_chiusura />
+                <cf_persona />
+                <cf_azienda />
+                <id_proc />
+                <id_immobile />
+                <inherits_acl />
+                <created />
+                <creator />
+                <modifier />
+                <modified />
+                <piano_class />
+                <work_item_key />
+                <business_type />
+            </type>
+
+            <type custom="true" displayName="Rubrica" name="rubrica">
+                <cod_ente />
+                <cod_aoo />
+                <cod_rubrica role="codice" />
+                <des_rubrica role="descrizione" />
+                <parent_cod_rubrica role="parent" />
+                <enabled />
+                <inherits_acl />
+                <tipo_rubrica />
+                <indirizzo_pec />
+                <indirizzo_peo />
+                <indirizzo_postale />
+                <telefono />
+                <fax />
+            </type>
+
+        </section>
+        <section name="hitlists">
+            <type description="Hitlist Documenti" name="hitlist">
+                <docnum />
+                <stato_pantarei />
+                <docname />
+                <abstract />
+                <default_extension />
+                <type_id />
+                <cod_ente />
+                <cod_aoo />
+                <tipo_componente />
+                <anno_pg />
+                <num_pg />
+                <registro_pg />
+                <n_registraz />
+                <a_registraz />
+                <id_registro />
+                <stato_archivistico />
+                <archive_type />
+                <doc_url />
+                <proc_id />
+
+
+                <business_type />
+                <data_evento_dt />
+                <data_consegna_rapporto_dt />
+                <matricola_autista />
+                <des_evento />
+                <causa_evento />
+                <conseguenze_evento />
+                <infortunati_ss />
+                <tipo_titolo_viaggio />
+                <num_titolo_viaggio />
+                <scadenza_titolo_viaggio_dt />
+                <testimoni_ss />
+                <tipologia_sinistro />
+                <tipologia_evento />
+                <tipologia_id />
+                <legale_controparte />
+                <mezzo_anm />
+                <treno_i />
+                <luogo_evento />
+                <luogo_evento_t />
+                <danni_mezzo_anm_b />
+                <danni_autista_b />
+                <danni_mezzi_b />
+                <danni_persone_b />
+                <disabili_coinvolti_b />
+                <roadscan />
+                <autorita_ss />
+                <graduati_anm_ss />
+                <danni_conducente />
+                <danni_mezzo_anm />
+                <mezzo_controparte_ss />
+                <conducenti_ss />
+                <proprietari_ss />
+                <danni_ss />
+                <cod_luogo />
+                <numero_corsa />
+                <asciutto_b />
+                <pulito_b />
+                <integro_b />
+                <funzionante_b />
+                <libero_b />
+                <illuminato_b />
+            </type>
+            <type name="hitlist_ente">
+                <cod_ente />
+                <des_ente />
+                <enabled />
+            </type>
+            <type name="hitlist_aoo">
+                <cod_ente />
+                <cod_aoo />
+                <des_aoo />
+                <enabled />
+            </type>
+            <type name="hitlist_titolario">
+                <cod_ente />
+                <cod_aoo />
+                <classifica />
+                <parent_classifica />
+                <des_titolario />
+                <enabled />
+            </type>
+            <type name="hitlist_fascicolo">
+                <cod_ente />
+                <cod_aoo />
+                <classifica />
+                <progr_fascicolo />
+                <anno_fascicolo />
+                <parent_progr_fascicolo />
+                <des_fascicolo />
+                <enabled />
+                <created />
+                <creator />
+                <modifier />
+                <modified />
+                <id_proc />
+
+                <business_type />
+                <data_evento_dt />
+                <data_consegna_rapporto_dt />
+                <matricola_autista />
+                <des_evento />
+                <causa_evento />
+                <conseguenze_evento />
+                <infortunati_ss />
+                <tipo_titolo_viaggio />
+                <num_titolo_viaggio />
+                <scadenza_titolo_viaggio_dt />
+                <testimoni_ss />
+                <tipologia_sinistro />
+                <tipologia_evento />
+                <tipologia_id />
+                <legale_controparte />
+                <mezzo_anm />
+                <treno_i />
+                <luogo_evento />
+                <luogo_evento_t />
+                <danni_mezzo_anm_b />
+                <danni_autista_b />
+                <danni_mezzi_b />
+                <danni_persone_b />
+                <disabili_coinvolti_b />
+                <roadscan />
+                <autorita_ss />
+                <graduati_anm_ss />
+                <danni_conducente />
+                <danni_mezzo_anm />
+                <mezzo_controparte_ss />
+                <conducenti_ss />
+                <proprietari_ss />
+                <danni_ss />
+                <cod_luogo />
+                <numero_corsa />
+                <asciutto_b />
+                <pulito_b />
+                <integro_b />
+                <funzionante_b />
+                <libero_b />
+                <illuminato_b />
+            </type>
+            <type name="hitlist_rubrica">
+                <cod_ente />
+                <cod_aoo />
+                <cod_rubrica />
+                <des_rubrica />
+            </type>
+        </section>
+    </group>
+
+    <!--<group description="form_dinamiche" name="form_dinamiche">
+        <section name="documenti">
+        </section>
+        <section name="anagrafiche">
+        </section>
+    </group>
+
+    <group name="conservazione">
+        <section name="configuration">
+            <tempDir>/tmp/docer</tempDir>
+            <templatesDir>/opt/docer/templates</templatesDir>
+            <usersFile>/opt/docer/users</usersFile>
+            <simulation>true</simulation>
+        </section>
+        <section name="parer">
+            <sacerHost>http://localhost:5000</sacerHost>
+            <sacerVersion>1.3</sacerVersion>
+            <deleteAfterSend>true</deleteAfterSend>
+            <useHttps>true</useHttps>
+        </section>
+        <section name="docer">
+            <provider>it.kdm.docer.providers.solr.Provider</provider>
+            <primarySearchMaxRows>10</primarySearchMaxRows>
+            <diskBufferDirectory>/tmp/docer</diskBufferDirectory>
+            <maxFileLength>3000000</maxFileLength>
+        </section>
+    </group>-->
+    <group name="timbro">
+        <section name="parametritimbro">
+            <format>jpg</format>
+            <dpi>150</dpi>
+            <maxw>200</maxw>
+            <maxh>90</maxh>
+            <pag>1</pag>
+            <x>50</x>
+            <y>50</y>
+        </section>
+        <!--<section default-xslt="segnatura.xsl" name="segnatura">
+            <provider aoo="AOO11" ente="ENTE1-SIFIRM" tipologia="DOCUMENTO">template-aoo11-documento.xsl</provider>
+            <provider aoo="C_I840-01" ente="C_I840" tipologia="DOCUMENTO">template-aoo11-documento.xsl</provider>
+            <provider aoo="AOO11" ente="ENTE1" tipologia="">nometemplate.xsl</provider>
+        </section>-->
+    </group>
+
+    <group name="Fascicolazione">
+        <section name="Providers" default-xsd="fascicolazione-validation.xsd" default-provider="it.kdm.docer.providers.solr.Fascicolazione" >
+        </section>
+    </group>
+
+    <group name="Protocollazione">
+        <section name="Providers" default-xsd="protocollazione-validation.xsd" default-provider="it.kdm.docer.providers.solr.Protocollazione" >
+        </section>
+    </group>
+
+    <group name="Registrazione">
+        <section name="Providers" default-xsd="registrazione-validation.xsd" >
+            <provider default="true" registro="REGISTRO_GIORNALIERO,REGISTRO1">it.kdm.docer.providers.solr.Registrazione</provider>
+        </section>
+    </group>
+
+
+
+</configuration>

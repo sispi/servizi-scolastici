@@ -1,0 +1,45 @@
+server:
+    port: 8088
+
+spring:
+    datasource:
+        url: jdbc:oracle:thin:@localhost:1521/sid
+        username: username
+        password: password
+        driver-class-name: oracle.jdbc.OracleDriver
+    jpa:
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.Oracle12cDialect
+
+env:
+    systemProperties:
+        - name: docer.url
+          value:  http://localhost:8080
+
+mail:
+    protocol: smtp
+    host: smtp.host
+    port: 587
+    username: username
+    password: password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+application:
+    mailTo: email@example.com
+
+sispi:
+  portale:
+    url: https://operatoriscuola.comune.palermo.it/portscu/scuola/api/v1
+    codiciScuola:
+      - 30
+      - 40
+  refezione:
+    url: https://operatoriscuola.comune.palermo.it/portscu/refezione/api/v1
+    username: username
+    password: password

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-Install</actionName>
+            <displayName>Install</displayName>
+            <goals>
+                <goal>install</goal>
+            </goals>
+            <preAction>build-with-dependencies</preAction>
+            <properties>
+                <jpda.listen>maven</jpda.listen>
+            </properties>
+        </action>
+    </actions>

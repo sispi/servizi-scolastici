@@ -1,0 +1,884 @@
+
+/*body*/
+body{
+  background: #CCCCCC;
+  background-repeat: repeat-x;
+  font-family: Verdana, Arial, sans-serif;
+  font-size: normal;
+}
+.center-body{
+  width: 93% !important;
+  width: 93%;
+  margin-left:3% !important;
+  margin-left:3%;
+  background-color: #fff; 
+	margin:0;
+  margin-top: 18px;
+  padding:0;
+  float: left;
+}
+.center-body-again {
+  margin-left:3% !important;
+  margin-left:3%;
+}
+.center-body .top{
+  width: 100%;
+  float: left;
+  text-align: center;
+  padding-bottom:25px;  
+}
+
+.center-body .top .titolo,
+.center-body .top .titolo-idp{
+  width: 40%;
+  float: left;
+  margin-top: 40px; 
+  color: #A9141A;
+  font-weight: bold;
+  font-size: large;
+  font-size: 110%;
+  text-align: center;
+}
+.center-body .top .titolo{
+  clear: right;
+}
+
+.center-body .top .titolo .dominio,
+.center-body .top  .titolo-idp .dominio{
+  color: #000;
+  margin:0;
+  padding:0;
+  padding-top: 15px;
+  float:left;
+  width: 100%;
+}
+.center-body .top .logo-sx{
+  width: 30%;
+  float: left;
+  margin-left: 5px;
+  vertical-align:bottom;
+}
+
+.center-body .top .logo-dx{
+  width: 20%;
+  float:right;
+  margin-top: 20px;
+  vertical-align:bottom;
+}
+/*IDM layout*/
+.all-content{
+  width: 100%;
+  float: left;
+}
+.vertical-menu{
+  width: 25%;
+  float: left;
+  padding: 3px;
+}
+.right-content{
+  width: 72%;
+  float: left;
+  padding:0;
+  margin:0;
+}
+
+.vertical-menu #menu5 {
+	width: 91%;
+	border: none;
+	margin: 3px;
+	float: left;	
+  border-top: 1px dashed #969696;
+  padding-bottom: 15px;
+  padding-left: 1em;
+  background-color:#f7f7f7;
+}
+.vertical-menu #menu5 li{
+  list-style-type: none;
+  margin:0;
+  padding:0;
+  padding-top:3px;
+  padding-bottom:3px;
+  margin-top: 2px;
+	padding-left: 5px;
+	border-top:1px solid #fff;
+  text-indent: -1.4em;
+	}	
+#menu5 li a {
+  padding:10px;
+	text-decoration: underline;
+  font-size: 80%;
+	background-image:url(../../images/list-icon.png);
+	background-position: 5px 50%;
+	background-repeat: no-repeat;	
+	padding-left:25px;
+	}	
+	
+#menu5 li a:link, #menu5 li a:visited {
+	color: #000;
+	text-align: left;
+	}
+	
+#menu5 li a:hover {
+	color: #A9141A;
+	text-align: left;
+	}
+	
+#menu5 li a:active {
+	color: #000;
+	text-align: left;
+	}
+.vertical-menu #menu5 li a:hover{
+	background-image:url(../../images/list-icon2.png);
+	background-position: 5px 50%;
+	background-repeat: no-repeat;	
+	}		
+/*TABS*/
+
+.glossymenu{
+
+	padding: 0;
+	margin: 0;
+	background: url('../images/menug_bg.gif') repeat-x; /*tab background image path*/
+	line-height: 46px;
+	list-style: none;
+	float: left;
+	width: 100%;
+}
+.glossymenu li{
+	float:left;
+	padding: 0;
+	margin: 0;
+	display:block;
+	white-space: nowrap;
+}
+
+.glossymenu li a{
+	float: left;
+	display: block;
+	color:#000;
+	text-decoration: none;
+	font-family: sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	padding:0 0 0 16px; /*Padding to accomodate left tab image. Do not change*/
+	height: 46px;
+	line-height: 46px;
+	text-align: center;
+	cursor: pointer;	
+}
+
+.glossymenu li a b{
+	float: left;
+	display: block;
+	padding: 0 24px 0 8px; /*Padding of menu items*/
+}
+
+.glossymenu li.current a, .glossymenu li a:hover{
+	color: #000;
+	background: url('../images/menug_hover_left.gif') no-repeat; /*left tab image path*/
+	background-position: left;
+}
+
+.glossymenu li.current a b, .glossymenu li a:hover b{
+	color: #000;
+	background: url('../images/menug_hover_right.gif') no-repeat right top; /*right tab image path*/
+}
+
+div#tabs #tab1, #tab2, #tab3{
+    display: block;
+}
+
+/* form.css */
+/* form.css */
+* {
+	margin: 0;
+	padding: 0;
+}
+form {
+	margin: 0;
+	padding: 0;
+  float: left;
+  width: 100%;  
+}
+.tabellare{
+  padding-left: 20px;
+  float: left;
+  width: 100%;
+}
+
+form fieldset {
+	border-style: none;
+	padding-left: 10px;
+	margin: 0 0 0 0;
+}
+form .small-form{
+	padding: 5px;
+	float:left;
+  width:100%;
+}
+.orange-form{
+  background-color: #f9cb89;
+}
+.as-label{
+  font-size: 80%;
+	padding: 3px 5px;
+	margin: 0 0 5px 0;  
+}
+.as-label-img{
+  font-size:80%;
+	padding: 3px 5px;
+	margin: 0 0 5px 0;
+  float: left;
+  width: 90%;
+  text-indent: line;	
+}
+.left-img{
+  float: left;
+  width: 6%;
+  vertical-align: baseline;
+  margin-top:7px; 
+}
+.as-label-bold{
+  font-size: 80%;
+	padding: 3px 5px;
+	margin: 0 0 5px 0; 
+	font-weight: bold;
+	color:#A9141A;
+}
+.as-label-left{
+  font-size: 80%;
+	padding: 3px 5px;
+	margin: 0 0 5px 0;
+	text-align: left;
+}
+form .required,
+.content .required{
+  float:left;
+  width:49%;
+}
+form fieldset legend {
+	font-size: 90%;
+	font-weight: bold;
+	color: #000000;
+	margin: 0 0 0 0;
+	padding: 0;
+}
+form .required,
+.content .required{
+	float: left;
+	width: 49%;
+	display: block;
+	margin: 5px 0 0 0;
+	padding: 1px 3px;
+}
+form .required-100,
+.content .required-100{
+	float: left;
+	width: 100%;
+	display: block;
+	margin: 5px 0 0 0;
+	padding: 1px 3px;
+}
+form .required-100-scroll{
+	float: left;
+	width: 100%;
+	display: block;
+	margin: 5px 0 0 0;
+	padding: 1px 3px;
+	overflow: scroll;
+	height: 150px;
+	font-size: 80%;
+}
+form .required-70{
+	float: left;
+	width: 70%;
+	display: block;
+	margin: 5px 0 0 0;
+	padding: 1px 3px;
+}
+
+form .required-right{
+	width: 90%;
+	margin: 0;
+	padding: 0;
+	float: left;
+}
+form .required-30{
+	float: left;
+	width: 29%;
+	display: block;
+	margin: 0;
+	padding: 0;
+	text-align: right;
+}
+form .required-51{
+	float: left;
+	width: 80%;
+	display: block;
+	margin: 5px 0 0 0;
+	padding: 1px 3px;
+}
+form div fieldset {
+	clear: none;
+	margin: 0 0 0 0;
+	padding: 0 5px 5px 5px;
+}
+
+form div label {
+	display: block;
+	float: left;
+	padding: 3px 5px;
+	margin: 0 0 5px 0;
+	text-align: right;
+}
+label {
+	font-size: 80%;
+}
+
+form .testo{
+  font-size: 90%;
+	padding: 3px 5px;
+	margin: 0 0 5px 0;
+  float: left;
+  width: 100%;  
+}
+form .small-form label{
+  font-size: 80%;
+  width: 60%;
+  float:left;
+  text-align:right;
+}
+.required-right label {
+	width: 90%;
+	float: left;
+	padding-left: 20px;
+}
+label u {
+	font-style: normal;
+	text-decoration: underline;
+}
+input, select, textarea {
+	color: #000;
+	border: 1px solid grey;
+	width: 30%;
+  float:left;
+}
+.required-right input {
+	width: 20%;
+	float: left;
+}
+.short{
+  width: 10em;
+}
+.button{
+	border: 1px solid black;
+	width: 10em;
+	margin-right: 20px;
+	background-color: #F7F7F7;
+}
+
+
+textarea {
+	overflow: auto;
+}
+
+.bottoni{
+	clear: both;
+	float: left;
+	width: 100%;
+	text-align: center;
+}
+.bottoni-center{
+	float: left;
+	width: 100%;
+	padding-left:40%;
+	margin-top:10px;
+	margin-bottom:20px;
+}
+
+.message{
+	float: left;
+	width: 100%;
+	padding:5px;
+	margin-top: 20px;
+}
+h1{
+  padding:0;
+  margin:0;
+	font-weight: normal;
+	font-size: 130%;
+	color: #000;
+	text-align: center;
+	margin-top: 15px;
+	margin-bottom: 10px;
+	float:left;
+	width: 100%;
+}
+h2{
+  padding:0;
+  margin:0;
+	font-weight: normal;
+	font-size: 90%;
+	color: #000;
+	text-align: left;
+	margin-top: 15px;
+	margin-bottom: 10px;
+	float:left;
+	width: 100%;
+}
+h3{
+  padding:0;
+  margin:0;
+	font-weight: normal;
+	color: #A9141A;
+	text-align: left;
+	margin-top: 15px;
+	margin-bottom: 10px;
+	float:left;
+	width: 100%;
+	font-size:80%;
+}
+.right-content h1,
+.right-content h2{
+  padding-left: 15px;
+}
+
+/*rounded corners*/
+.rbroundbox { background: url(../images/nt.gif) repeat; float:left; width:100%;}
+.rbtop div { background: url(../images/tl.gif) no-repeat top left;}
+.rbtop { background: url(../images/tr.gif) no-repeat top right; }
+.rbbot div { background: url(../images/bl.gif) no-repeat bottom left; float:left; }
+.rbbot { background: url(../images/br.gif) no-repeat bottom right; }
+
+/* height and width stuff, width not really nessisary. */
+.rbtop div, .rbtop, .rbbot div, .rbbot {
+width: 100%;
+height: 7px;
+font-size: 1px;
+float:left;
+}
+.rbcontent { margin: 0 0; float:left; width:100%}
+.rbroundbox { width: 100%; float:left; width:100%}
+
+/*orange*/
+.rbroundbox-or { background: url(../images/nt-or.gif) repeat; float:left; width:90%; margin: 2px;padding:0; }
+.rbtop-or div { background: url(../images/tl-or.gif) no-repeat top left;}
+.rbtop-or { background: url(../images/tr-or.gif) no-repeat top right; }
+.rbbot-or div { background: url(../images/bl-or.gif) no-repeat bottom left; float:left; }
+.rbbot-or { background: url(../images/br-or.gif) no-repeat bottom right; }
+
+/* height and width stuff, width not really nessisary. */
+.rbtop-or div, .rbtop-or, .rbbot-or div, .rbbot-or {
+width: 100%;
+height: 7px;
+float:left;
+}
+.rbcontent-or { margin: 0 0; float:left; width:100% ; padding: 0; padding-left: 5px; color:#000;}
+.rbcontent-or p{
+  float: left;
+  width: 100%;
+  font-size: 90%;
+}
+.rbroundbox-or { width: 100%; float:left; width:100%}
+/*fine*/
+.footer .rbcontent, .plus .rbcontent {
+	font-weight: bold;
+}
+.footer .rbcontent a, 
+.footer .rbcontent a:hover, 
+.plus a, 
+.plus a:hover{
+	color: #000;
+}
+.footer p,
+.plus{
+	padding-left: 10px;
+	padding-top: 10px; 
+	text-align: left;
+}
+.footer p a, a:hover, .plus a, .plus a:hover{
+	color: #A9141A;
+}
+.right-content .content{
+  padding:10px;
+  padding-right:15px;
+
+  text-align:justify;
+  float: left;
+  width: 100%;
+}
+.right-content .content .testo-small{
+  font-size: 80%;
+}
+
+.right-content .content a{
+  color: #A9141A;
+  font-weight: bold;
+}
+.right-content .lista-numerata{
+  list-style-type: decimal;
+  list-style-position: outside;
+  float: left;
+  width: 100%;
+}
+
+.right-content .lista-alfa{
+  list-style-type: lower-alpha;
+  list-style-position: outside;
+  float: left;
+  width: 100%;  
+}
+.right-content .lista-numerata li,
+.right-content .lista-alfa li{
+  margin-left: 20px;
+}
+.right-content .lista-home{
+  list-style: none;
+  float: left;
+  width: 100%;
+}
+.right-content .lista-home-ind{
+  list-style: none;
+  float: left;
+  width: 100%;
+  margin-left:15px ;
+  
+}
+.lista-home-ind li{
+  line-height:26px;
+
+}
+.classe-a-small{
+  
+  background-image: url(../images/classea-small.gif);
+  background-repeat: no-repeat;
+  background-position: left;
+  padding-left: 43px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+.classe-b-small{
+  background-image: url(../images/classeb-small.gif);
+  background-repeat: no-repeat;
+  background-position: left;
+  padding-left: 43px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+.classe-c-small{
+  background-image: url(../images/classec-small.gif);
+  background-repeat: no-repeat;
+  background-position: left;
+  padding-left: 43px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+.padded{
+  width: 100%;
+  float: left;
+  padding-left: 30px;
+  padding-bottom:10px;
+}
+.padded .required-70{
+  padding-left: 40px;
+}
+/*displaytag*/
+/* CSS Document */
+table{
+	background: #fff;
+	border-spacing: 0px;
+	border-collapse: collapse;
+	margin-top: 15px;
+	margin-bottom: 15px;
+	padding-left:20px;
+	font-size:80%;
+}
+.as-longer{
+  width: 95%;
+}
+caption{
+	width: 100%;
+	text-align: left;
+	font-weight: bolder;
+	border-top: 4px double #bbb;
+}
+
+thead{
+	background: #FFB05D;
+	color: #000;
+
+}
+thead * th{
+	border-bottom: 1px outset #fff;
+	border-top: 1px outset #fff;
+	padding: 5px;
+	border-left:1px solid #fff;
+	border-right:1px solid #fff;
+}
+tfoot{
+	background: #FFA109;
+}
+
+table * a{
+	color: #000;
+}
+
+tbody * td{
+  padding: 5px;
+	border: 0px none;
+	border-bottom: 1px solid #ddd;
+	padding-left: 3px;
+	text-align: left;
+	vertical-align: top;
+	
+}
+.bold-cell{
+  font-weight: bold;
+}
+tbody td a{
+	background: url(../images/down_arrow.gif) no-repeat;
+	background-position: top left;
+	min-height: 20px;
+	padding-left: 20px;
+	float: left;
+	padding-right: 4px;
+}
+tbody tr th+td a{
+	background-image: none;
+	padding: inherit;
+	float: inherit;
+}
+/* Fake for IE, argh! Maybe IE 7 will resolve this. */
+tbody td a{
+	_background: none;
+	_background-position: inherit;
+	_padding-left: 2px;
+	_float: inherit;
+	_padding-right: inherit;
+}
+tfoot * th{
+	border-bottom: 1px outset;
+	border-top: 1px outset;
+}
+/*bottone download*/
+.clear { /* generic container (i.e. div) for floating buttons */
+    overflow: hidden;
+    width: 100%;
+    
+}
+.clear-white{
+    width: 100%;
+    background-color: #fff;
+    float: left;
+}
+
+a.bottone-rounded{
+    /* Sliding right image */
+    background: transparent url('../images/button_right_05.png') no-repeat scroll top right; 
+    display: block;
+    float: left;
+    height: 35px; /* CHANGE THIS VALUE ACCORDING TO IMAGE HEIGHT */
+    margin-right: 6px;
+    padding-right: 20px; /* CHENGE THIS VALUE ACCORDING TO RIGHT IMAGE WIDTH */
+    /* FONT PROPERTIES */
+    text-decoration: none;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight:bold;
+    margin-left: 40%;
+}
+a.bottone-rounded-inline{
+    /* Sliding right image */
+    background: transparent url('../images/button_right_05.png') no-repeat scroll top right; 
+    display: block;
+    float: left;
+    height: 35px; /* CHANGE THIS VALUE ACCORDING TO IMAGE HEIGHT */
+    margin-right: 6px;
+    padding-right: 20px; /* CHENGE THIS VALUE ACCORDING TO RIGHT IMAGE WIDTH */
+    /* FONT PROPERTIES */
+    text-decoration: none;
+    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight:bold;
+    margin-left: 5%;
+}
+a.bottone-rounded span,
+a.bottone-rounded-inline span {
+    /* Background left image */ 
+    background: transparent url('../images/button_left_05.png') no-repeat; 
+    display: block;
+    line-height: 22px; /* CHANGE THIS VALUE ACCORDING TO BUTTONG HEIGHT */
+    padding: 7px 0 5px 18px;
+    text-decoration:none;
+    color:#000;
+} 
+a.bottone-rounded:hover span,
+a.bottone-rounded-inline:hover span{
+    text-decoration:none;
+    color:#A9141A;
+}
+.action-buttons{
+  background-color: #f9cb89;
+  float:left;
+  width: 98%;
+  padding: 5px;
+  text-align: center;
+  margin-left:5px;
+}
+.tabellare .action-buttons{
+  margin-left:0;
+  width: 97.5%;
+
+}
+.action-buttons .button{
+  margin:5px;
+  width:15em;
+  float: left;
+  margin-left:4%;
+  background-color: #fff;
+  text-decoration:underline ;
+  padding:2px;
+  
+}
+/*MENU amministratori*/
+.menu {
+  margin:10px 0 20px 5px; 
+  font-size: 85%;
+  width:90%;
+  float:left;
+}
+
+.menu ul {
+  padding:0;
+  margin:0;
+  list-style-type:none;
+  width:100%;
+  float:left;
+}
+
+.menu li {
+  background:#fff;
+  background-image: url(../images/bg-menu.png);
+  background-repeat: repeat-x;
+  background-position: 70%;
+  height:2em;
+  width:100%;
+  border:1px solid #fff;
+  border-width:0 1px 1px 1px;
+}
+.menu li.sub {
+  background:#D2D2D2 url(../images/freccia.gif) no-repeat 95% center;
+} 
+
+
+/* style the links */
+.menu a, .menu a:visited {
+  display:block; 
+  text-decoration:none;
+  height:1.9em;
+  line-height:1.9em;
+  width:100%;
+  color:#000;
+  text-indent:5px;
+
+}
+
+* html .menu a, * html .menu a:visited {width:100%; w\idth:100%;}
+* html .menu a:hover {color:#000; background:#FFC486; position:relative;}
+
+.menu li:hover {position:relative;}
+
+.menu a:active, .menu a:focus {color:#000; background:#FFC486;}
+
+.menu li:hover > a {color:#000; background:#FFC486;}
+
+.menu li ul {
+  visibility:hidden;
+  position:absolute;
+  top:-30px;
+  /* set up the overlap (minus the overrun) */
+  left:100px;
+  /* set up the overrun area */
+  padding:30px;
+  /* this is for IE to make it interpret the overrrun padding */
+  background:transparent url(../images/transparent.gif);
+}
+
+/* for browsers that understand this is all you need for the flyouts */
+.menu li:hover > ul,
+.menu ul a:hover ul,
+.menu ul a:hover ul a:hover ul,
+.menu ul a:hover ul a:hover ul a:hover ul,
+.menu ul a:hover ul a:hover ul a:hover ul a:hover ul
+{visibility:visible;}
+
+.menu ul a:hover ul ul,
+.menu ul a:hover ul a:hover ul ul,
+.menu ul a:hover ul a:hover ul a:hover ul ul{
+visibility:hidden;
+}
+.classe-aff{
+  padding:0;
+  margin:0;
+  list-style-type:none;
+  width:100%;
+  float:left;
+  list-style-type: none;
+}
+.classe-aff li{
+  line-height:26px;
+  vertical-align: middle;
+}
+.classe-aff .classe-a{
+  background-image: url(../images/classea.gif);
+  background-repeat: no-repeat;
+  background-position: left;
+  padding-left: 205px;
+}
+.classe-aff .classe-b{
+  background-image: url(../images/classeb.gif);
+  background-repeat: no-repeat;
+  background-position: left;
+  padding-left: 159px;
+}
+.classe-aff .classe-c{
+  background-image: url(../images/classec.gif);
+  background-repeat: no-repeat;
+  background-position: left;
+  padding-left: 115px;
+}
+.lista-semplice{
+  padding:0;
+  margin:0;
+  list-style-type: circle;
+  width:100%;
+  float:left;
+  font-size: 80%;
+}
+.lista-semplice li{
+  padding:3px;
+}
+/*gestione errori*/
+.errors{
+  color: #A9141A;
+  font-size: 80%;
+  float:left;
+  width: 100%;
+  padding-left: 15px;
+}
+.main-error{
+  color: #A9141A;
+  font-size: 95%;
+  font-weight: bold;
+  float:left;
+  width: 100%;
+  padding: 10px;
+}
+.operaz-ok{
+  color: #5D6917;
+  font-size: 95%;
+  font-weight: bold;
+  float:left;
+  width: 100%;
+  padding: 10px;  
+}

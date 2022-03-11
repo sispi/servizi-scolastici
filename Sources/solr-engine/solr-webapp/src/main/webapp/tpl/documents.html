@@ -1,0 +1,481 @@
+<!--<script src="js/lib/jquery-1.7.2.min.js" type="text/javascript"></script>-->
+<script language="Javascript" src="solrClient.js" ></script>
+<!--<script language="Javascript" src="searchComponent.js" ></script>
+<script language="Javascript" src="updateComponent.js" ></script>
+<script language="Javascript" src="authorityComponent.js" ></script>-->
+<script language="Javascript" src="common.js" ></script>
+<script language="Javascript" src="jsoneditor.js" ></script>
+<script language="Javascript" src="select2.min.js"></script>
+
+<link rel="stylesheet" href="css/select2.css">
+
+<!-- Font Awesome icons (Bootstrap, Foundation, and jQueryUI also supported) -->
+<link rel='stylesheet' href='//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.css'>
+
+<textarea class="command" id="create-node" style="display:none" >
+    node ={
+    parent: rndIds("type:folder")[0] , /* v("sid") */
+    name: rndWord() + rndInt(10),
+    type: "folder",
+    acl_explicit: rndAcls()
+    }
+    params = {}
+
+    server.create( node , params );
+
+</textarea>
+
+<textarea class="command" id="sync-node" style="display:none" >
+    node ={
+    id: v("sid") ,
+    state: [ "build" , "clean" ]
+    }
+    params = {}
+
+    server.sync( node , params );
+
+</textarea>
+
+<textarea class="command" id="create-content" style="display:none" >
+    node ={
+    parent: v("sid"),
+    state: [ "profile" , "content" , "xhtml" ] ,
+    type: "documento" ,
+    "[stream.file]" : rndFile()
+    }
+    params = {}
+
+    server.create( node , params );
+
+</textarea>
+
+<textarea class="command" id="update-node" style="display:none" >
+
+    node = {
+    id : v("sid"),
+    acl_explicit : rndAcls()
+    }
+    params = {}
+
+    server.update( node , params );
+
+</textarea>
+
+<textarea class="command" id="update-content" style="display:none" >
+
+    node ={
+    id : v("sid"),
+    state : [ "profile" , "content" , "xhtml" ],
+    "[stream.file]" : rndFile()
+    }
+    params = { "newVersion" : true }
+
+    server.update( node , params );
+
+</textarea>
+
+
+<textarea class="command" id="createbatch" style="display:none" >
+
+    //server.deleteByQuery("*:*", ticket);
+    t0 = Date.now();
+
+    for (var j=0;j &lt; 10;j++)
+    {
+    var docs = rndIds("type:folder",10);
+    var request = new UpdateRequest("/create",ticket);
+
+    for (var i=0;i &lt; 10;i++)
+    {
+    node ={
+    parent: rnd(docs),
+    sid : "idx"+i+"_"+j,
+    name: rndWord()+rndInt(),
+    type: rnd(types),
+    date_dt: rndDate(),
+    val_i : rndInt(10000),
+    category_mv : rndHierarchy(4),
+    acl_explicit: rndAcls()
+    }
+    if (!node.parent) node.type = "node";
+    if (node.type == "document")
+    {
+    var f = rndFile();
+    node[ "[stream.file]" ] = f;
+    node.name += f.split("/").pop();
+    }
+
+    request.add(node);
+    }
+    var response = server.request(request);
+    }
+    i*j + " in " + (Date.now()-t0) + " ms";
+</textarea>
+
+<!--<p>
+<input type="file" name="afile" id="afile" accept="*/*"/>
+<button onclick="u(upload())" >UPLOAD</button>
+<button onclick="u(upload(v('sid')))" >REPLACE VERSION2</button>
+<button onclick="u(index(v('sid')))" >INDEX</button>
+<button onclick="u(create(v('sid')))" >CREATE</button>
+
+</p>-->
+
+<!--<p>
+
+
+
+        <script type="text/javascript">
+
+
+
+        var mydata = [
+               { id: "1", invdate: "2007-10-01", name: "test", note: "note", amount: "200.00", tax: "10.00", total: "210.00" },
+               { id: "2", invdate: "2007-10-02", name: "test2", note: "note2", amount: "300.00", tax: "20.00", total: "320.00" },
+               { id: "3", invdate: "2007-09-01", name: "test3", note: "note3", amount: "400.00", tax: "30.00", total: "430.00" },
+               { id: "4", invdate: "2007-10-04", name: "test", note: "note", amount: "200.00", tax: "10.00", total: "210.00" },
+               { id: "5", invdate: "2007-10-05", name: "test2", note: "note2", amount: "300.00", tax: "20.00", total: "320.00" },
+               { id: "6", invdate: "2007-09-06", name: "test3", note: "note3", amount: "400.00", tax: "30.00", total: "430.00" },
+               { id: "7", invdate: "2007-10-04", name: "test", note: "note", amount: "200.00", tax: "10.00", total: "210.00" },
+               { id: "8", invdate: "2007-10-03", name: "test2", note: "note2", amount: "300.00", tax: "20.00", total: "320.00" },
+               { id: "9", invdate: "2007-09-01", name: "test3", note: "note3", amount: "400.00", tax: "30.00", total: "430.00" }
+        ];
+
+
+        $(document).ready(function () {
+
+
+			$("#jqGrid").jqGrid({
+                datatype: "local",
+				data: mydata,
+                height: 250,
+				width: 780,
+                colModel: [
+                    { label: 'Inv No', name: 'id', width: 75, key:true },
+                    { label: 'Date', name: 'invdate', width: 90 },
+                    { label: 'Client', name: 'name', width: 100 },
+                    { label: 'Amount', name: 'amount', width: 80 },
+                    { label: 'Tax', name: 'tax', width: 80 },
+                    { label: 'Total', name: 'total', width: 80 },
+                    { label: 'Notes', name: 'note', width: 150 }
+                ],
+                viewrecords: true, // show the current page, data rang and total records on the toolbar
+                caption: "Load jqGrid through Javascript Array",
+            });
+        });
+
+    </script>
+
+</p>-->
+
+<style type="text/css">
+
+
+    html, body {
+        height: 100%;
+    }
+
+    .label {
+        font-weight: bold;
+        display:inline-block;
+        vertical-align:top;
+        width:100px }
+
+    .label2 {
+        font-weight: bold;
+        display:inline-block;
+        vertical-align:top;
+    }
+
+    a {
+        color: blue;
+        font-size: 11px;
+    }
+
+    button {
+        font-weight: bold;
+        xwidth:50px;
+        font-size:10px;
+        height:22px }
+
+    .box {
+        width:460px
+    }
+
+    .ellipsis {
+        text-align:left;
+        font-size:9px;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+    }
+
+    .form-control input[type="text"]
+    {
+        width:400px
+    }
+
+    .row thead
+    {
+        display:none
+    }
+
+    .form-control input[disabled]
+    {
+        border:0px;
+        background-color: transparent;
+        text-overflow:ellipsis
+    }
+
+    h3
+    {
+        font-weight: bold
+    }
+
+</style>
+
+<table style="width:100%;height:800px"  >
+
+    <tr>
+        <td style="width:60%;height:100%;vertical-align:top;padding:5px" >
+
+            <a target="_new" href="admin/info/logging?threshold=WARN&set=root:INFO" >WARN</a>
+            <a target="_new" href="admin/info/logging?threshold=DEBUG&set=root:WARN" >DEBUG</a>
+            <a target="_new" href="admin/info/logging?threshold=TRACE&set=root:WARN" >TRACE</a>
+
+            <table style="width:100%;height:100%"  >
+
+                <tr>
+
+                    <td style="width:100%;height:10%;vertical-align:top;" >
+
+                        <fieldset style="padding:10px;height:100%;" >
+
+                            <legend style="padding:5px" >
+                                <b>document</b>
+                            </legend>
+
+                            <!--<span class="label">core:</span>
+                            <select id="location" onchange="felogin()"  name="location" ></select>-->
+                            <!--<button onclick="u(eval( v('cmd')),null,4)" >EVAL</button>-->
+
+
+                            <!--<span class="label">pinned:</span>
+                            <input style="" class="box" disabled id="pin"</input>
+                            <button onclick="u(server.get({ ids: v('pin'), fl: v('fl') }))" ondblclick="u(server.get({ id: v('pin') , fl: '*' }))" >GET</button>
+                            <button onclick="u(server.query({ q: v('pin')+'/*', fl: v('fl') , sort: v('sort') } ) , v('pin')+'/*' )" >./*</button>
+                            <button onclick="s('pin',v('sid'))" >PIN</button>
+                            <button onclick="var c=confirm( 'move \n\'' +v('sid')+'\' to \n\''+ v('pin')+'\'?' ); if (!c) return; u(server.update({ id: v('sid'), parent: v('pin')  }))" >MOVE TO PIN</button>
+                            -->
+
+                            <span class="label">id</span>
+                            <br/>
+                            <input placeholder="id" class="box" style="width:30%" id="sid" name="sid" type="text" value="" />
+
+                            <button onclick="u(server.get({ id: v('sid'), fl: v('fl') }))" ondblclick="u(server.get({ id: v('sid') , fl: '*' }))" >GET</button>
+
+                            <!--<button title="naviga figli" onclick="u(server.query({ q: v('sid')+'/*', fl: v('fl') , sort: v('sort') } ) , v('sid')+'/*' )" >./*</button>
+                            -->
+
+                            <button onclick="u(server.get({ id: v('sid'), qt: '/getacl' }))" >GETACL</button>
+                            <button onclick="window.open(contentUrl(v('sid'),prompt('version?')))" >DOWNLOAD</button>
+
+                            <button onclick="u(server.update({ id:v('sid'), enabled:false}))" >DISABLE</button>
+                            <button onclick="u(server.update({ id:v('sid'), enabled:true}))" >ENABLE</button>
+                            <button onclick="if(!confirm('eliminare ['+v('sid')+'] ?')) return; u(server.delete(v('sid')))" >DELETE</button>
+
+
+                            <!--<button onclick="window.open('/solr/admin/luke?wt=xslt&tr=luke.xsl&id='+v('sid'))" >INSPECT</button>-->
+                            <!--
+                            <button onclick="showContent(v('sid'))" >CONTENT</button>
+                            <button onclick="u(searchC.listVersions(v('sid')))" >VERSIONS</button>
+                            <button onclick="u(updateC.copyVersion(v('sid')))" >CREATEVERSION</button>
+                            <button onclick="showContent(v('sid'),prompt('version?'))" >READVERSION</button>
+                            <button onclick="u(updateC.deleteVersion(v('sid'),prompt('version?')))" >DELETEVERSION</button>-->
+
+
+
+                        </fieldset>
+                    </td>
+
+
+                </tr>
+                <tr>
+                    <td style="height:30%;" >
+                        <fieldset style="padding:10px;height:100%;" >
+                            <legend style="padding:5px" >
+                                <b>query or update</b>
+                            </legend>
+
+                            <span class="label2" style="width:48%" >fl</span>
+                            <span class="label2" style="width:48%" >params</span>
+                            <br/>
+                            <input title="field list" placeholder="fl" class="box" style="width:48%" id="fl" name="fl" type="text" value="id,name,parent,indexed_on,[FULLPATH]" >
+                            <input title="params" placeholder="params" class="box" style="width:48%" id="params" name="params" type="text" value="rows=10" >
+
+                            <br/>
+
+                            <span class="label2">q or PATH</span>
+                            <br/>
+                            <textarea title="q or PATH" placeholder="q or PATH" style="width:100%" rows=1 class="box" id="query" name="query" value="*:*" />
+
+                            <br/>
+
+                            <span class="label2">body</span>
+                            <br/>
+                            <textarea id="cmd" rows=1 style="width:100%" name="json" />
+
+                            <br/>
+
+                            <table style="width:100%">
+                                <tr style="vertical-align:top" >
+
+                                    <td style="width:1%" >
+                                        <span class="label2">sort</span>
+                                        <br/>
+                                        <select style="height:26px" title="sort" id="sort" name="sort" >
+                                            <option value="indexed_on desc" >indexed_on desc</option>
+                                            <option value="name asc" >name asc</option>
+                                            <option value="modified_on desc" >modified_on desc</option>
+                                            <option value="created_on desc" >created_on desc</option>
+                                            <option value="built_on desc" >built_on desc</option>
+                                            <option value="random">random desc</option>
+                                        </select>
+                                    </td>
+                                    <td style="width:1%" >
+                                        <br/>
+                                        <button title="select" onclick="u(server.query( { q: v('query') , fl: v('fl') , sort: v('sort') } , v('params') ) , v('query')  )" >SEARCH</button>
+                                    </td>
+                                    <td style="width:1%" >
+                                        <br/>
+                                        <button title="trashcan" onclick="u(server.query( { q: v('query') , qt: '/trashcan' , fl: v('fl') , sort: v('sort') } , v('params') ) , v('query')  )" >TRASHCAN</button>
+                                    </td>
+                                    <td style="width:1%" >
+                                        <br/>
+                                        <!--    <button title="browse current query" onclick="window.open( getLocation() + '/browse?ticket='+ticket+'&q='+v('query')+'&debugQuery=true')" >BROWSE</button> -->
+                                        <button title="delete by query" onclick="if(!confirm('eliminare ['+v('query')+'] ?')) return ;u(server.deleteByQuery( v('query') ))" >DELETE</button>
+                                    </td>
+
+                                    <td style="padding-left:10px;width:1%" >
+                                        <span class="label2">templates</span>
+                                        <br/>
+                                        <select id="operation" onchange="applyTemplate( v('operation') );  " name="operation" ></select>
+                                    </td>
+
+                                    <td style="width:1%" >
+                                        <br/>
+                                        <button onclick="safeexec();" >POST</button>
+                                    </td>
+                                    <td style="width:1%" >
+                                        <br/>
+                                        <button onclick="u(server.commit())" >COMMIT</button>
+                                    </td>
+                                    <!--<button onclick="u(server.rollback())" >ROLLBACK</button>-->
+                                    <td style="width:1%" >
+                                        <br/>
+                                        <button onclick="u(server.optimize())" >OPTIMIZE</button>
+                                    </td>
+                                    <td style="width:1%" >
+                                        <br/>
+                                        <button style="float:right" onclick="felogin(prompt('user?'))" >LOGIN</button>
+                                    </td>
+                                </tr>
+                            </table>
+
+
+                        </fieldset>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height:60%;width:60%" >
+
+                        <b>
+                            <div><button style="float:right" onclick="createDoc();" >CREATE</button></div>
+                            <div><button style="float:right" onclick="render = !render; u();" >TOGGLE</button></div>
+                            <div style="height:5%" id="breadcrumb" ></div>
+                        </b>
+
+                        <fieldset style="padding:0px;width:100%;height:95%;overflow:scroll;" >
+                            <div id="editor" style="width:100%;height:0px;" ></div>
+		<span id="result" style="width:100%;" >
+		<pre style="width:0px;height:100%" ><div id="raw" style="width:100%;height:100%;" ></div></pre>
+		</span>
+
+
+
+                        </fieldset>
+
+
+                    </td>
+
+                </tr>
+
+            </table>
+        </td>
+
+        <td style="height:100%;vertical-align:top;width:40%;padding:5px" >
+
+
+            <fieldset id="fs" style="padding:0px;height:800px;width:100%;overflow:scroll;" >
+
+		<span id="resultraw" style="width:100%;" >
+		<pre style="width:0px;height:100%;" ><div id="raw2" style="width:100%;height:100%;" ></div></pre>
+		</span>
+
+            </fieldset>
+        </td>
+    </tr>
+</table>
+<button style="position:absolute;top:45px;right:40px;float:right" onclick="clearLog()" >CLEAR</button>
+
+
+
+
+
+
+<script>
+
+var items = $(".command");
+
+$('#operation').append($('<option>', {
+        value: "",
+        text : "" } ) );
+
+for ( var i=0; i<items.length; i++ )
+{
+    $('#operation').append($('<option>', {
+        value: items[i].id,
+        text : items[i].id } ) );
+}
+
+/*LOCATIONS = getLocations();
+
+
+for ( var k in LOCATIONS )
+{
+	var a = {
+	    value: k,
+        text : k + " ("+LOCATIONS[k]+")" };
+
+	if (k.indexOf("replica")==-1)
+		a.selected = true;
+
+    $('#location').append($('<option>', a ) );
+}*/
+
+//$('#location').val(Object.keys(LOCATIONS)[0]);
+
+
+//op( "create-node" );
+
+//server.initSchema();
+
+felogin("admin");
+
+u(server.query( {PATH: "*" , fl: v("fl") } ) , "*" );
+
+</script>
+
+
+<!--<script type="text/ecmascript" src="js/jquery.min.js"></script> -->
+

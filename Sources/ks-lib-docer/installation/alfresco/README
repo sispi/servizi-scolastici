@@ -1,0 +1,39 @@
+Ogni cartella contiene dei file da copiare/sostituire nell'installazione di alfresco.
+La dicitura ${ALF_TOMCAT} si riferisce all'installazione di tomcat che contiene il war di alfresco,
+mentre la dicitura ${ALF_WEBAPP} si riferisce alla folder del war espansa da tomcat, generalmente 
+${ALF_TOMCAT}/webapps/alfresco
+
+Le istruzioni per ciascuna cartella sono elencate di seguito:
+
+Cartella extension:
+- Spostare i file xml in uno dei seguenti path:
+	${ALF_TOMCAT}/shared/classes/alfresco/extension
+	${ALF_WEBAPP}/WEB-INF/classes/alfresco/extension
+
+Cartella getDocumentsWebScripts:
+- Il file getDocumentsWebScript-r(versione).jar va copiato nella cartella: 
+	${ALF_WEBAPP}/WEB-INF/lib
+- Il file getdocuments.post.desc.xml va copiato nella cartella (da creare se non esiste): 
+	${ALF_WEBAPP}/WEB-INF/classes/alfresco/templates/webscripts/it/kdm/search
+
+Cartella runasWebScripts:
+- Il file runasWebScript-r(versione).jar va copiato nella cartella: 
+	${ALF_WEBAPP}/WEB-INF/lib
+- Il file getdocuments.post.desc.xml va copiato nella cartella (da creare se non esiste): 
+	${ALF_WEBAPP}/WEB-INF/classes/alfresco/templates/webscripts/it/kdm/runas
+
+
+Cartella model:
+- Copiare i file nella cartella:
+	${ALF_WEBAPP}/WEB-INF/classes/alfresco/model
+
+Cartella icons:
+- Copiare l'intero contenuto della cartella in
+	${ALF_WEBAPP}/images/icons
+
+Cartella scripts:
+- per aggiornare alla 1.3.6 va lanciato lo script move_folders.js dentro Alfresco 
+
+Avviare alfresco, navigare su "Company Home".  Cliccare su 
+create -> Create Space e inserire "DOCAREA" (senza le ") in Name e Titolo.
+ 

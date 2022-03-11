@@ -1,0 +1,117 @@
+<head>
+    <title>deployment #${deployment.id} - ${deployment.processId}</title>
+</head>
+
+<body>
+
+<script @server-model="deployment" id="deployment" src="/bpm/v1/deployments/{id}?fetch=*" type="application/json" ></script>
+
+<div id="app" class="container-fluid" >
+    <div>
+        <h2 style="margin-right: 10px;"><span style="font-size:20px;color:#000;margin-right:10px;">Details</span>{{deployment.processId}}</h2>
+        <button style="color:#fff!important" class="btn btn-link btn-danger" v-on:click="delete1()">delete</button>
+        <button style="color:#000!important" class="btn btn-link btn-warning" v-on:click="toggleActivate()">activate/deactivate</button>
+        <button style="color:#000!important" class="btn btn-link btn-warning" v-on:click="toggleShare()">share/unshare</button>
+        <button style="color:#fff!important" class="btn btn-link btn-info" v-if="!deployment.configuration" v-on:click="configure()">configure</button>
+        <a v-if="deployment.configuration" :href="'bpm/configurations/details?id='+deployment.configuration.id">configuration</a>
+        <div class="row">
+            <span class="col-2">
+                <input disabled type="checkbox" v-model="deployment.active">
+                <label >active</label>
+            </span>
+            <span class="col-2">
+                <input disabled type="checkbox" v-model="deployment.owned">
+                <label >owned</label>
+            </span>
+            <span class="col-2">
+                <input disabled type="checkbox" v-model="deployment.shared">
+                <label >shared</label>
+            </span>
+            <span class="col-2">
+                <span>{{deployment.deployTs}}</span>
+            </span>
+        </div>
+
+        <br/><h5>assets</h5>
+        <report-table :model="assets" ></report-table>
+    </div>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: function() {
+            var deployment = data("deployment");
+            var list = Object.entries(deployment.assets).map( x => {x[1].file = x[0]; return x[1]} );
+            var assets = reportdata(list);
+            assets.params["column.file.href"] = "/bpm/v1/deployments/"+deployment.id+"/asset-content?name={id}"
+
+            return {
+                deployment: deployment,
+                assets: assets
+            }
+        },
+        methods: {
+            delete1: function() {
+                var self = this;
+                confirm("sei sicuro?", function () {
+                    var payload = {
+                        "activeInstancesPolicy": "abort"
+                    };
+                    BpmClientApi.deployments.delete(self.deployment.id,payload, ()=>{location.href = "/bpm/deployments"});
+                });
+            },
+            toggleActivate: function() {
+                BpmClientApi.deployments.activate(
+                    this.deployment.id,
+                    { "activate": !this.deployment.active },
+                    ()=>{location.refresh()}
+                );
+            },
+            toggleShare: function() {
+                BpmClientApi.deployments.share(
+                    this.deployment.id,
+                    { "share": !this.deployment.shared },
+                    ()=>{location.refresh()}
+                );
+            },
+            configure: function() {
+                var payload = {
+                    "category": "default",
+                    "retentionPolicy": {
+                        "clean": "false",
+                        "days": -1
+                    },
+                    "runnable": true,
+                    "searchable": true
+                }
+                BpmClientApi.deployments.createConfiguration(this.deployment.id, payload, ()=>{location.refresh()});
+            }
+        }
+    });
+
+    function on_prompt(response){
+        var evt = response.title;
+        var payload = JSON.parse(response.value||"null");
+        var done = function (response) {
+            alert(response);
+            location.reload();
+        }
+        signals(evt,payload,done,alert);
+    }
+
+    function values(obj){
+        if (obj.push)
+            return obj;
+        else if (!obj)
+            return [];
+        else
+            return obj.split(",");
+
+    }
+
+
+
+</script>
+</body>
+

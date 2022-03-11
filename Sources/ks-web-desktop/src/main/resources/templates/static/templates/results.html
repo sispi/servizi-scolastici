@@ -1,0 +1,6 @@
+<h2>{{model.title}}</h2>
+<report-buttons style="float:right" :model="model"></report-buttons>
+<results-stats style="float:right;padding-right:5px" :tot-results="model.totResults" :elapsed="model.elapsed" ></results-stats>
+<facets :model="model" page-field="pageNumber"></facets>
+<report-table :model="model" ></report-table>
+<pager style="text-align: center"  :tot-page="model.totPage" :page-number="model.pageNumber" ></pager>

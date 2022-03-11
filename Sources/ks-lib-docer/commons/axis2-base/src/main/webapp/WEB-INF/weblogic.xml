@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ 
+<!-- See documentation at: http://download.oracle.com/docs/cd/E12840_01/wls/docs103/webapp/weblogic_xml.html --> 
+<weblogic-web-app xmlns="http://www.bea.com/ns/weblogic/weblogic-web-app"> 
+ 
+    
+    <!-- Untested, might solve cases where WebLogic uses a class other than the one packaged with Orbeon Forms --> 
+    
+    <container-descriptor>
+        <prefer-web-inf-classes>true</prefer-web-inf-classes>
+    </container-descriptor>
+     
+ 
+</weblogic-web-app>

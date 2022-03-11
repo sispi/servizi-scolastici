@@ -1,0 +1,52 @@
+.btn-light {
+  border-color: #dedede;
+}
+.btn-modal-task{
+  height: 38px !important;
+  padding-left: 0px;
+  padding-right: 0px;
+  min-width: 110px;
+  /*font-size: 14px !important;*/
+}
+.card-title-task {
+  margin-bottom: .50rem;
+}
+.teskDesc-task{
+  font-size: 14px;
+  margin-bottom: 10px;
+  margin-top: -5px;
+  margin-left: 10px;
+}
+.box-info-task{
+  background-color: #f7f7f7;
+  padding: 0px 6px 3px 6px;;
+  border-radius: 5px;
+}
+.space-1h-task{
+  height: 12px;
+}
+.space-2h-task{
+  height: 24px;
+}
+.title-info-task{
+  border-left: 1px solid #999;
+  font-size: 12px;
+  font-weight: bold;
+  height: 35px;
+  padding-left: 5px;
+  padding-right: 5px;
+  display: inline-table;
+  min-width: 120px;
+}
+.desc-title-task{
+  color: #0275d8;
+  font-size: 12px;
+  margin-bottom: 0px;
+}
+.desc-info-task{
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+.btn-150 {
+  min-width: 150px;
+}

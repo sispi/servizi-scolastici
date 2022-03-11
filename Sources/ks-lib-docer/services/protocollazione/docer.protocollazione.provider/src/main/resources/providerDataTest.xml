@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<esito>
+    <codice>0</codice>
+    <descrizione></descrizione>
+    <dati_protocollo>
+        <NUM_PG/>
+        <DATA_PG/>
+        <ANNO_PG/>
+        <OGGETTO_PG/>
+        <REGISTRO_PG/>
+    </dati_protocollo>
+</esito>

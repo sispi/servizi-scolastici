@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this template, choose Tools | Templates
+and open the template in the editor.
+-->
+
+
+<esito>
+    <codice>0 OK</codice>
+    <descrizione></descrizione>
+    <dati_fascicolo>
+<!-- alternativo a classifica per prot. entrata ed è unico nodo , non ammesso per la registrazione-->
+        <FascicoloPrimario>
+                <!-- tutti i campi obbligatori -->
+                <CodiceAmministrazione>PROVBO</CodiceAmministrazione>
+                <CodiceAOO>AOO-BO</CodiceAOO>
+                <Classifica>921</Classifica>
+                <Anno>2005</Anno>
+                <Progressivo>1</Progressivo>
+        </FascicoloPrimario>
+
+        <!-- i fascicoli secondari possono essere da 0 a più , non ammesso per la registrazione -->
+        <FascicoloSecondario>
+                <!-- tutti i campi obbligatori -->
+                <CodiceAmministrazione>PROVBO</CodiceAmministrazione>
+                <CodiceAOO>AOO-BO</CodiceAOO>
+                <Classifica>921</Classifica>
+                <Anno>2005</Anno>
+                <Progressivo>1</Progressivo>
+        </FascicoloSecondario>
+
+        <FascicoloSecondario>
+                <!-- tutti i campi obbligatori -->
+                <CodiceAmministrazione>PROVBO</CodiceAmministrazione>
+                <CodiceAOO>AOO-BO</CodiceAOO>
+                <Classifica>921</Classifica>
+                <Anno>2005</Anno>
+                <Progressivo>1</Progressivo>
+        </FascicoloSecondario>        
+    </dati_fascicolo>
+</esito>

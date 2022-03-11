@@ -1,0 +1,1382 @@
+<model name="docarea:model" xmlns="http://www.alfresco.org/model/dictionary/1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.alfresco.org/model/dictionary/1.0 modelSchema.xsd">
+
+	<description>DOCAREA Content Model</description>
+	<author>KDM</author>
+	<version>1.0</version>
+
+	<imports>
+		<import uri="http://www.alfresco.org/model/dictionary/1.0"
+			prefix="d" />
+		<import uri="http://www.alfresco.org/model/content/1.0" prefix="cm" />
+	</imports>
+
+	<namespaces>
+		<namespace uri="http://www.docarea.it/model/content/1.0"
+			prefix="docarea" />
+	</namespaces>
+
+
+	<constraints>
+
+		<constraint name="docarea:valoriArchiveType" type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value></value>
+					<value>ARCHIVE</value><!-- documento fisico -->
+					<value>URL</value> <!-- puntamento ad una Url esterna -->
+					<value>PAPER</value> <!-- documento scansionato -->
+				</list>
+			</parameter>
+		</constraint>
+
+
+		<constraint name="docarea:valoriUsaDCoCer" type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value></value>
+					<value>SI</value>
+					<value>NO</value>
+				</list>
+			</parameter>
+		</constraint>
+
+		<constraint name="docarea:statiPantarei" type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value>-1</value>
+					<value></value>
+					<value>1</value> <!-- Generico -->
+					<value>2</value> <!-- da Protocollare -->
+					<value>3</value> <!-- da Fascicolare -->
+					<value>4</value> <!-- Protocollato -->
+					<value>5</value> <!-- Fascicolato -->
+					<value>6</value> <!-- Allegato -->
+				</list>
+			</parameter>
+		</constraint>
+
+		<constraint name="docarea:statiArchivistici" type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value></value>
+					<value>-1</value> <!-- Undefined -->
+					<value>0</value> <!-- Generico -->
+					<value>1</value> <!-- Generico Definitivo -->
+					<value>2</value> <!-- Registrato -->
+					<value>3</value> <!-- Protocollato -->
+					<value>4</value> <!-- Classificato -->
+					<value>5</value> <!-- Fascicolato -->
+					<value>6</value> <!-- in Archivio di deposito -->
+				</list>
+			</parameter>
+		</constraint>
+
+		<constraint name="docarea:statiBusiness" type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value></value>
+					<value>0</value> <!-- non definito -->
+					<value>1</value> <!-- daProtocollare -->
+					<value>2</value> <!-- daFascicolare -->
+					<value>3</value> <!-- daRegistrare -->
+					<value>4</value> <!-- daFirmare -->
+				</list>
+			</parameter>
+		</constraint>
+
+		<constraint name="docarea:statiConservazione" type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value></value>
+					<value>0</value><!-- da non conservare -->
+					<value>1</value><!-- da conservare -->
+					<value>2</value><!-- inviato in conservazione -->
+					<value>3</value><!-- conservato -->
+					<value>4</value><!-- in errore -->
+				</list>
+			</parameter>
+		</constraint>
+
+
+		<constraint name="docarea:tipiComponente" type="LIST">
+			<parameter name="allowedValues">
+				<list>
+					<value></value>
+					<value>PRINCIPALE</value>
+					<value>ALLEGATO</value>
+					<value>ANNOTAZIONE</value>
+					<value>ANNESSO</value>
+				</list>
+			</parameter>
+		</constraint>
+
+	</constraints>
+
+
+	<types>
+
+		<type name="docarea:documento">
+			<title>Documento DocER</title>
+			<description></description>
+			<parent>cm:content</parent>
+			<mandatory-aspects>
+				<aspect>docarea:propsBase</aspect>
+				<aspect>docarea:propsEnte</aspect>
+				<aspect>docarea:propsAoo</aspect>
+			</mandatory-aspects>
+		</type>
+
+		<type name="docarea:ente">
+			<title>Ente</title>
+			<parent>cm:folder</parent>
+			<mandatory-aspects>
+				<aspect>docarea:propsEnte</aspect>
+				<aspect>docarea:canBeEnabled</aspect>
+				<aspect>docarea:propsDesEnte</aspect>
+			</mandatory-aspects>
+		</type>
+
+		<type name="docarea:aoo">
+			<title>Aoo</title>
+			<parent>cm:folder</parent>
+			<mandatory-aspects>
+				<aspect>docarea:propsAoo</aspect>
+				<aspect>docarea:propsEnte</aspect>
+				<aspect>docarea:canBeEnabled</aspect>
+				<aspect>docarea:propsDesAoo</aspect>
+			</mandatory-aspects>
+		</type>
+
+		<type name="docarea:titolario">
+			<title>Titolario</title>
+			<parent>cm:folder</parent>
+			<mandatory-aspects>
+				<aspect>docarea:propsTitolario</aspect>
+				<aspect>docarea:propsEnte</aspect>
+				<aspect>docarea:propsAoo</aspect>
+				<aspect>docarea:propsTitolarioPadre</aspect>
+				<aspect>docarea:canBeEnabled</aspect>
+				<aspect>docarea:propsDesTitolario</aspect>
+			</mandatory-aspects>
+		</type>
+
+		<type name="docarea:areatematica">
+			<title>Area tematica</title>
+			<parent>cm:folder</parent>
+			<mandatory-aspects>
+				<aspect>docarea:propsAreaTematica</aspect>
+				<aspect>docarea:propsEnte</aspect>
+				<aspect>docarea:propsAoo</aspect>
+				<aspect>docarea:canBeEnabled</aspect>
+				<aspect>docarea:propsDesArea</aspect>
+			</mandatory-aspects>
+		</type>
+
+		<type name="docarea:fascicoloanno">
+			<title>Anno Fascicolo</title>
+			<parent>cm:folder</parent>
+
+		</type>
+
+		<type name="docarea:fascicolo">
+			<title>Fascicolo</title>
+			<parent>cm:folder</parent>
+			<mandatory-aspects>
+				<aspect>docarea:propsNumeroFascicolo</aspect>
+				<aspect>docarea:propsEnte</aspect>
+				<aspect>docarea:propsAoo</aspect>
+				<aspect>docarea:propsTitolario</aspect>
+				<aspect>docarea:propsAnnoFascicolo</aspect>
+				<aspect>docarea:canBeEnabled</aspect>
+				<aspect>docarea:propsDesFascicolo</aspect>
+				<aspect>docarea:propsNumeroFascicoloPadre</aspect>
+				<aspect>docarea:propsFascicoloEsteso</aspect>
+			</mandatory-aspects>
+		</type>
+
+		<type name="docarea:cliente">
+			<title>Cliente</title>
+			<parent>cm:folder</parent>
+			<mandatory-aspects>
+				<aspect>docarea:propsCliente</aspect>
+				<aspect>docarea:propsEnte</aspect>
+				<aspect>docarea:propsAoo</aspect>
+				<aspect>docarea:canBeEnabled</aspect>
+				<aspect>docarea:propsDesCliente</aspect>
+			</mandatory-aspects>
+		</type>
+
+		<type name="docarea:fornitore">
+			<title>Fornitore</title>
+			<parent>cm:folder</parent>
+			<mandatory-aspects>
+				<aspect>docarea:propsFornitore</aspect>
+				<aspect>docarea:propsEnte</aspect>
+				<aspect>docarea:propsAoo</aspect>
+				<aspect>docarea:canBeEnabled</aspect>
+				<aspect>docarea:propsDesFornitore</aspect>
+			</mandatory-aspects>
+		</type>
+
+	</types>
+
+
+	<aspects>
+
+		<aspect name="docarea:propsEnte">
+			<title>props Ente</title>
+			<properties>
+				<property name="docarea:codEnte">
+					<title>Codice Ente</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+		<aspect name="docarea:propsAoo">
+			<title>props AOO</title>
+			<properties>
+				<property name="docarea:codAoo">
+					<title>Codice AOO</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:propsAreaTematica">
+			<title>props Area Tematica</title>
+			<properties>
+				<property name="docarea:codArea">
+					<title>Codice Area Tematica</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+		<aspect name="docarea:propsTitolario">
+			<title>props Titolario</title>
+			<properties>
+				<property name="docarea:codTitolario">
+					<title>Codice Titolario</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+				<property name="docarea:classifica">
+					<title>Classifica</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+		<aspect name="docarea:propsTitolarioPadre">
+			<title>props Titolario Padre</title>
+			<properties>
+				<property name="docarea:parentClassifica">
+					<title>Classifica Titolario Padre</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+		<aspect name="docarea:propsAnnoFascicolo">
+			<title>props Anno Fascicolo</title>
+			<properties>
+				<property name="docarea:annoFascicolo">
+					<title>Anno Fascicolo</title>
+					<type>d:int</type>
+				</property>
+			</properties>
+		</aspect>
+		<aspect name="docarea:propsNumeroFascicolo">
+			<title>props Numero e Progressivo Fascicolo</title>
+			<properties>
+				<property name="docarea:numFascicolo">
+					<title>Numero Fascicolo</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+				<property name="docarea:progressivoFascicolo">
+					<title>Progressivo Fascicolo</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+
+		<aspect name="docarea:propsNumeroFascicoloPadre">
+			<title>props Fascicolo Padre</title>
+			<properties>
+				<property name="docarea:parentProgressivoFascicolo">
+					<title>Progressivo Fascicolo Padre</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:canBeEnabled">
+			<title>props Enabled</title>
+			<properties>
+				<property name="docarea:enabled">
+					<title>Enabled</title>
+					<type>d:boolean</type>
+					<default>true</default>
+				</property>
+			</properties>
+		</aspect>
+
+
+		<aspect name="docarea:propsCliente">
+			<title>props Cliente</title>
+			<properties>
+				<property name="docarea:codCliente">
+					<title>Codice Cliente</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:propsFornitore">
+			<title>props Fornitore</title>
+			<properties>
+				<property name="docarea:codFornitore">
+					<title>Codice Fornitore</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:propsDesEnte">
+			<title>props DES_ENTE</title>
+			<properties>
+				<property name="docarea:desEnte">
+					<title>Descrizione Ente</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:propsDesAoo">
+			<title>props DES_AOO</title>
+			<properties>
+				<property name="docarea:desAoo">
+					<title>Descrizione Aoo</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:propsDesTitolario">
+			<title>props DES_TITOLARIO</title>
+			<properties>
+				<property name="docarea:desTitolario">
+					<title>Descrizione Titolario</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:propsDesFascicolo">
+			<title>props DES_FASCICOLO</title>
+			<properties>
+				<property name="docarea:desFascicolo">
+					<title>Descrizione Fascicolo</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:propsDesArea">
+			<title>props DES_AREA</title>
+			<properties>
+				<property name="docarea:desArea">
+					<title>Descrizione Area Tematica</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:propsDesCliente">
+			<title>props DES_CLIENTE</title>
+			<properties>
+				<property name="docarea:desCliente">
+					<title>Descrizione Cliente</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:propsDesFornitore">
+			<title>props DES_FORNITORE</title>
+			<properties>
+				<property name="docarea:desFornitore">
+					<title>Descrizione Fornitore</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+
+
+		<aspect name="docarea:propsFascicoliSecondari">
+			<title>props Fascicoli Secondari</title>
+			<properties>
+				<property name="docarea:fascicoliSecondari">
+					<title>Fascicoli Secondari</title>
+					<type>d:text</type>
+					<multiple>true</multiple>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+
+		<aspect name="docarea:propsFascicoloEsteso">
+			<title>props Fascicolo Esteso</title>
+			<properties>
+				<property name="docarea:dataAperturaFascicolo">
+					<title>Data apertura fascicolo</title>
+					<type>d:datetime</type>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<stored>false</stored>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+				<property name="docarea:dataChiusuraFascicolo">
+					<title>Data chiusura fascicolo</title>
+					<type>d:datetime</type>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<stored>false</stored>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+
+		<aspect name="docarea:aspectCFPersona">
+			<title>Aspect CF Persona</title>
+			<properties>
+				<property name="docarea:cfPersona">
+					<title>Codice Fiscale persona assegnataria del Fasciolo</title>
+					<type>d:text</type>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectCFAzienda">
+			<title>Aspect CF Azienda</title>
+			<properties>
+				<property name="docarea:cfAzienda">
+					<title>Codice Fiscale Azienda assegnataria del Fasciolo</title>
+					<type>d:text</type>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectIDProcedimento">
+			<title>Aspect ID Procedimento</title>
+			<properties>
+				<property name="docarea:idProc">
+					<title>ID procedimento del Fasciolo</title>
+					<type>d:text</type>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectIDImmobile">
+			<title>Aspect ID Immobile</title>
+			<properties>
+				<property name="docarea:idImmobile">
+					<title>ID Immobile relativo al Fasciolo</title>
+					<type>d:text</type>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:groupProfileExtension">
+			<title>props estensione profilo Gruppo</title>
+			<properties>
+				<property name="docarea:parentGroupId">
+					<title>parent Group Id</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+				<property name="docarea:nomeGruppo">
+					<title>Group Name</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>true</tokenised>
+					</index>
+				</property>
+				<property name="docarea:gruppoStruttura">
+					<title>Gruppo Struttura</title>
+					<type>d:boolean</type>
+					<default>false</default>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectCustomFieldString">
+			<title>props custom_field_string</title>
+			<properties>
+				<property name="docarea:custom_field_string">
+					<title>custom_field_string</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+			</properties>
+		</aspect>
+		<aspect name="docarea:aspectCustomFieldInt">
+			<title>props custom_field_int</title>
+			<properties>
+				<property name="docarea:custom_field_int">
+					<title>custom_field_string</title>
+					<type>d:int</type>
+				</property>
+			</properties>
+		</aspect>
+		<aspect name="docarea:aspectCustomFieldDatetime">
+			<title>props custom_field_datetime</title>
+			<properties>
+				<property name="docarea:custom_field_datetime">
+					<title>custom_field_datetime</title>
+					<type>d:datetime</type>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<stored>false</stored>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+		<aspect name="docarea:aspectCustomFieldBoolean">
+			<title>props custom_field_boolean</title>
+			<properties>
+				<property name="docarea:custom_field_boolean">
+					<title>custom_field_boolean</title>
+					<type>d:boolean</type>
+				</property>
+			</properties>
+		</aspect>
+		<aspect name="docarea:aspectCustomFieldDecimal">
+			<title>props custom_field_decimal</title>
+			<properties>
+				<property name="docarea:custom_field_decimal">
+					<title>custom_field_decimal</title>
+					<type>d:double</type>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:propsParentFolder">
+			<title>props delle Parent Folder</title>
+			<properties>
+				<property name="docarea:parentFolderId">
+					<title>Parent Folder ID</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:propsFolder">
+			<title>props delle Folder</title>
+			<properties>
+				<property name="docarea:folderId">
+					<title>Folder ID</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+				<property name="docarea:folderName">
+					<title>Folder Name</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+				<property name="docarea:desFolder">
+					<title>Descrizione Folder</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+				<property name="docarea:folderOwner">
+					<title>Owner della Folder</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:propsBase">
+			<title>props di base</title>
+			<properties>
+				<property name="docarea:tipoComponente">
+					<title>Tipo Componente</title>
+					<type>d:text</type>
+					<mandatory enforced="false">false</mandatory>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+					<constraints>
+						<constraint ref="docarea:tipiComponente" />
+					</constraints>
+				</property>
+
+				<property name="docarea:docname">
+					<title>Docname</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+				<property name="docarea:abstract">
+					<title>Abstract</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+				<property name="docarea:typeId">
+					<title>Tipo</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+				<property name="docarea:statoPantarei">
+					<title>Stato Pantarei</title>
+					<type>d:text</type>
+					<default>1</default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+					<constraints>
+						<constraint ref="docarea:statiPantarei" />
+					</constraints>
+				</property>
+				<property name="docarea:statoArchivistico">
+					<title>Stato Archivistico</title>
+					<type>d:text</type>
+					<default>1</default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+					<constraints>
+						<constraint ref="docarea:statiArchivistici" />
+					</constraints>
+				</property>
+
+				<property name="docarea:docnum">
+					<title>Docnumber</title>
+					<type>d:long</type>
+				</property>
+				<property name="docarea:dataCreazione">
+					<title>Data creazione</title>
+					<type>d:datetime</type>
+					<mandatory enforced="true">false</mandatory>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<stored>false</stored>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectStatoBusiness">
+			<title>Aspect Stato Business</title>
+			<properties>
+				<property name="docarea:statoBusiness">
+					<title>Stato Business</title>
+					<type>d:text</type>
+					<default>0</default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+					<constraints>
+						<constraint ref="docarea:statiBusiness" />
+					</constraints>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectSchemaId">
+			<title>Aspect Schema Id</title>
+			<properties>
+				<property name="docarea:schemaId">
+					<title>Profilo di classificazione</title>
+					<type>d:text</type>
+					<default>def_doc_generico</default>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectDocHash">
+			<title>Aspect Doc Hash</title>
+			<properties>
+				<property name="docarea:docHash">
+					<title>Hash del file</title>
+					<type>d:text</type>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectVisto">
+			<title>Aspect Visto</title>
+			<properties>
+				<property name="docarea:visto">
+					<title>Visto del file</title>
+					<type>d:text</type>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<stored>false</stored>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectDocnumPrinc">
+			<title>Aspect Docnum Principale</title>
+			<properties>
+				<property name="docarea:docnumPrinc">
+					<title>Docnumber documento Principale</title>
+					<type>d:long</type>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectDocnumRecord">
+			<title>Aspect Docnum Record</title>
+			<properties>
+				<property name="docarea:docnumRecord">
+					<title>Docnumber documento Record delle versioni avanzate</title>
+					<type>d:long</type>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectDocURL">
+			<title>Aspect Doc URL</title>
+			<properties>
+				<property name="docarea:docURL">
+					<title>Doc URL</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectArchiveType">
+			<title>Aspect Archive Type</title>
+			<properties>
+				<property name="docarea:archiveType">
+					<title>Archive Type</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>both</tokenised>
+					</index>
+					<constraints>
+						<constraint ref="docarea:valoriArchiveType" />
+					</constraints>
+				</property>
+			</properties>
+		</aspect>
+
+
+		<aspect name="docarea:hasRelated">
+			<title>Related</title>
+			<associations>
+				<association name="docarea:related">
+					<title>Documenti correlati</title>
+					<source>
+						<mandatory>false</mandatory>
+						<many>true</many>
+					</source>
+					<target>
+						<class>cm:content</class>
+						<mandatory>false</mandatory>
+						<many>true</many>
+					</target>
+				</association>
+			</associations>
+		</aspect>
+
+		<aspect name="docarea:hasRiferimenti">
+			<title>Riferimenti</title>
+			<properties />
+			<associations>
+				<association name="docarea:riferimento">
+					<title>Riferimento</title>
+					<source>
+						<mandatory>false</mandatory>
+						<many>true</many>
+					</source>
+					<target>
+						<class>cm:content</class>
+						<mandatory>false</mandatory>
+						<many>true</many>
+					</target>
+				</association>
+			</associations>
+		</aspect>
+
+		<aspect name="docarea:hasAdvancedVersion">
+			<title>Versioni Avanzate</title>
+			<properties>
+				<property name="docarea:udVersion">
+					<title>Numero della Versione Avanzata dell'unita' documentaria
+					</title>
+					<type>d:text</type>
+				</property>
+			</properties>
+			<associations>
+				<association name="docarea:advancedVersion">
+					<title>Versione Avanzata</title>
+					<source>
+						<mandatory>false</mandatory>
+						<many>true</many>
+					</source>
+					<target>
+						<class>cm:content</class>
+						<mandatory>false</mandatory>
+						<many>true</many>
+					</target>
+				</association>
+			</associations>
+		</aspect>
+
+
+
+
+		<aspect name="docarea:propsProtocollo">
+			<title>props Protocollo</title>
+			<properties>
+				<property name="docarea:oggettoPg">
+					<title>Oggetto protocollo</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+				<property name="docarea:registroPg">
+					<title>Registro protocollo</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+				<property name="docarea:numPg">
+					<title>Numero protocollo</title>
+					<type>d:int</type>
+				</property>
+				<property name="docarea:annoPg">
+					<title>Anno protocollo</title>
+					<type>d:int</type>
+				</property>
+				<property name="docarea:dataPg">
+					<title>Data Protocollo</title>
+					<type>d:datetime</type>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<stored>false</stored>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+				<property name="docarea:tipoProtocollazione">
+					<title>Tipo Protocollazione</title>
+					<type>d:text</type>
+					<default>ND</default>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectDestinatari">
+			<title>Aspect Destinatari</title>
+			<properties>
+				<property name="docarea:destinatari">
+					<title>Destinatari</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectMittenti">
+			<title>Aspect Mittenti</title>
+			<properties>
+				<property name="docarea:mittenti">
+					<title>Mittenti</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectFirma">
+			<title>Aspect Tipo Firma e Firmatario</title>
+			<properties>
+				<property name="docarea:tipoFirma">
+					<title>Tipo Firma</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+				<property name="docarea:firmatario">
+					<title>Firmatario</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectProtocolloMittente">
+			<title>Aspect Protocollo Mittente</title>
+			<properties>
+				<property name="docarea:numPgMittente">
+					<title>Numero Protocollo Mittente</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+				<property name="docarea:dataPgMittente">
+					<title>Data Protocollo Mittente</title>
+					<type>d:datetime</type>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectAnagraficheMittente">
+			<title>Aspect Anagrafiche Mittente</title>
+			<properties>
+				<property name="docarea:codEnteMittente">
+					<title>Codice Ente Mittente</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+				<property name="docarea:codAooMittente">
+					<title>Codice Aoo Mittente</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+				<property name="docarea:classificaMittente">
+					<title>Classifica Mittente</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+				<property name="docarea:fascicoloMittente">
+					<title>Fascicolo Mittente</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectAnnullamentoProtocollo">
+			<title>aspect Annullamento Protocollo</title>
+			<properties>
+				<property name="docarea:annullatoPg">
+					<title>Protocollo Annullato</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+				<property name="docarea:dAnnullPg">
+					<title>Data Annullamento Protocollo</title>
+					<type>d:datetime</type>
+				</property>
+				<property name="docarea:mAnnullPg">
+					<title>Motivo Annullamento Protocollo</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+				<property name="docarea:pAnnullPg">
+					<title>Provvedimento Annullamento Protocollo</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+			</properties>
+		</aspect>
+
+
+		<aspect name="docarea:aspectRegistrazione">
+			<title>Aspect Metadati di Registrazione</title>
+			<properties>
+				<property name="docarea:dRegistraz">
+					<title>Data Registrazione</title>
+					<type>d:datetime</type>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<stored>false</stored>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+				<property name="docarea:numRegistraz">
+					<title>Numero Registrazione</title>
+					<type>d:int</type>
+				</property>
+				<property name="docarea:annoRegistraz">
+					<title>Anno Registrazione</title>
+					<type>d:int</type>
+				</property>
+				<property name="docarea:oggettoRegistraz">
+					<title>Oggetto Registrazione</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+				<property name="docarea:idRegistro">
+					<title>ID Registro</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectAnnullamentoRegistrazione">
+			<title>Aspect Annullamento Registrazione</title>
+			<properties>
+				<property name="docarea:annullRegistraz">
+					<title>Registrazione Annullata</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+				<property name="docarea:dAnnullRegistraz">
+					<title>Data Annullamento Registrazone</title>
+					<type>d:datetime</type>
+				</property>
+				<property name="docarea:mAnnullRegistraz">
+					<title>Motivo Annullamento Registrazione</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+				<property name="docarea:pAnnullRegistraz">
+					<title>Provvedimento Annullamento Registrazione</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:propsConservazione">
+			<title>props Metadati di Conservazione</title>
+			<properties>
+
+				<property name="docarea:usaDCoCer">
+					<title>Usa Data Controllo Certificato</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+					<constraints>
+						<constraint ref="docarea:valoriUsaDCoCer" />
+					</constraints>
+				</property>
+				<property name="docarea:dCoCer">
+					<title>Data Controllo Certificato</title>
+					<type>d:datetime</type>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<stored>false</stored>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+				<property name="docarea:tipoDataContrCer">
+					<title>Tipo Data Controllo Certificato</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+				<property name="docarea:statoConserv">
+					<title>Stato Conservazione</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+					<constraints>
+						<constraint ref="docarea:statiConservazione" />
+					</constraints>
+				</property>
+				<property name="docarea:forzaConserv">
+					<title>Forza conservazione</title>
+					<type>d:boolean</type>
+					<default>false</default>
+				</property>
+				<property name="docarea:forzaAccettaz">
+					<title>Forza accettazione</title>
+					<type>d:boolean</type>
+					<default>false</default>
+				</property>
+				<property name="docarea:forzaColl">
+					<title>Forza collegamento</title>
+					<type>d:boolean</type>
+					<default>false</default>
+				</property>
+				<property name="docarea:tConserv">
+					<title>Tipo Conservazione</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+				<property name="docarea:flagConserv">
+					<title>Flag conservazione</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+				<property name="docarea:appVersante">
+					<title>Applicazione Versante</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:propsPubblicazione">
+			<title>props Metadati di Pubblicazione</title>
+			<properties>
+				<property name="docarea:registroPub">
+					<title>Registro Pubblicazione</title>
+					<type>d:text</type>
+					<default></default>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+				<property name="docarea:numeroPub">
+					<title>Numero Pubblicazione</title>
+					<type>d:int</type>
+				</property>
+				<property name="docarea:annoPub">
+					<title>Anno Pubblicazione</title>
+					<type>d:int</type>
+				</property>
+
+				<property name="docarea:oggettoPub">
+					<title>Oggetto Pubblicazione</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+				<property name="docarea:dataInizioPub">
+					<title>Data Inizio Pubblicazione</title>
+					<type>d:datetime</type>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<stored>false</stored>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+				<property name="docarea:dataFinePub">
+					<title>Data Fine Pubblicazione</title>
+					<type>d:datetime</type>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<stored>false</stored>
+						<tokenised>both</tokenised>
+					</index>
+				</property>
+				<property name="docarea:pubblicato">
+					<title>Pubblicato</title>
+					<type>d:text</type>
+					<default>false</default>
+				</property>
+
+			</properties>
+		</aspect>
+
+				<aspect name="docarea:aspectAclChanged">
+			<title>aspectAclChanged</title>
+			<properties>
+				<property name="docarea:aclChanged">
+					<title>ACL Changed</title>
+					<type>d:boolean</type>
+					<default>false</default>
+				</property>
+			</properties>
+		</aspect>
+
+		<aspect name="docarea:aspectAclExplicit">
+			<title>aspectAclChanged</title>
+			<properties>
+				<property name="docarea:aclExplicit">
+					<title>ACL Esplicite</title>
+					<type>d:text</type>
+					<default></default>
+				</property>
+			</properties>
+		</aspect>
+		
+		<aspect name="docarea:aspectAcls">
+			<title>props Acls</title>
+			<properties>
+				<property name="docarea:acl">
+					<title>Acl</title>
+					<type>d:text</type>
+					<multiple>true</multiple>
+					<index enabled="true">
+						<atomic>true</atomic>
+						<tokenised>false</tokenised>
+					</index>
+				</property>
+			</properties>
+		</aspect>
+
+
+	</aspects>
+
+</model>

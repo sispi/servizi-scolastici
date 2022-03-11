@@ -1,0 +1,115 @@
+<head>
+    <title>Avvia istanza '${query.processId}'</title>
+</head>
+<body>
+
+<link rel="stylesheet" href="/static/js/components/renderer.css?no-cache"  >
+<script type="text/javascript" src="/static/js/components/renderer.js?no-cache" ></script>
+
+<script @server-model="configuration" id="configuration" type="application/json" src="/bpm/v1/configurations?processId={processId}#data"></script>
+
+<script @server-model="startup" @ignore @body="{'options':{'render':'page','identifier':'start-form','modelOverrides':query }}" id="startup" type="x-template" src="/bpm/v1/configurations/${ (configuration[0].id)!-1}/forms/start/views"></script>
+
+<div id="form-container">
+${startup}
+<!-- -->
+</div>
+
+<script>
+
+    /*var visualizzaMessaggio = alert;
+    var waitingDialog = {
+        show: (msg) => alert(msg)
+    }
+
+    initFiles($("#start-form"));*/
+
+    var el = $("#start-form,#form-container form");
+
+    el.append("<div class='container-fluid'><button :disabled='!status||!status.form$isFormValid' class='btn btn-primary btn-lg submit' style='display: none' role='submit' type='button' @click='submit(model)'>Avvia</button></div>")
+
+    var app = new Vue({
+        el: el[0],
+        mounted: function() {
+
+            if (this.xform){
+                window.ht_savedraft = function() {};
+
+                var self = this;
+
+                $("form").on("submit",function() {
+                    event.preventDefault();
+                    return false;
+                });
+
+                $("#form-container form").on("submit",function() {
+                    event.preventDefault();
+                    self.submit();
+                    return false;
+                });
+            } else {
+                if ($(this.$el).find(".toolbar button").length==0){
+                    $(this.$el).find("button.submit").show();
+                }
+
+                this.form = this.$refs.form;
+                this.model = this.form.model;
+                this.status = this.form.$data;
+            }
+        },
+        data: function() {
+
+            var params = new URLSearchParams(location.search);
+            var query = {};
+
+            for( key of params.keys() ) { // each 'entry' is a [key, value] tupple
+                query[key] = params.get(key);
+            }
+
+            return {
+                xform: $("#form-container form").attr("action")=="complete",
+                input: query,
+                formId: "xxx",
+                form: null,
+                model: null,
+                status: null
+            }
+        },
+        methods: {
+            /*onValidate: function(errors) {
+                this.isValid = errors.length==0;
+            },*/
+
+            /*formevent: function() {
+
+            },*/
+            submit: function(model) {
+
+                function completed(data){
+                    var nextTasks = data.nextTasks;
+                    if (nextTasks[0])
+                        location.href = "/~task?id="+nextTasks[0].id;
+                    else
+                        location.href = "/~instance?id="+data.id;
+                }
+
+                if (this.xform) {
+                    BpmClientApi.instances.startForm('${query.processId}', $("#form-container form").serialize(),
+                        (data)=> { completed(data);  });
+                } else {
+				
+					if (!this.status || !this.status.form$isFormValid){
+						alert("sono presenti errori di validazione");
+						return;
+					}
+
+                    BpmClientApi.instances.start('${query.processId}', model,
+                        (data)=> { completed(data);  });
+                }
+            }
+        }
+    });
+
+</script>
+
+</body>

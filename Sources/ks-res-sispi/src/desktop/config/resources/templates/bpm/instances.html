@@ -1,0 +1,132 @@
+<head>
+    <title>instances</title>
+</head>
+
+<body>
+<script @server id="model-instances" src="/bpm/v1/instances?rootOnly={rootOnly}&searchableOnly={searchableOnly}&activeOnly={activeOnly}&errorOnly={errorOnly}&processId={processId}&fetch=parentInstance,rootInstance&orderBy=lastActivityTs:desc&pageSize=10&pageNumber={pageNumber}" type="application/json" ></script>
+<!-- eventuale fix per username dei cittadini
+<script @server @server-model="instances" src="/bpm/v1/instances?rootOnly={rootOnly}&searchableOnly={searchableOnly}&activeOnly={activeOnly}&errorOnly={errorOnly}&processId={processId}&fetch=parentInstance,rootInstance&orderBy=lastActivityTs:desc&pageSize=10&pageNumber={pageNumber}" type="application/json" ></script>
+<script @server id="model-instances" type="javascript">
+    var $ = Java.type("it.kdm.orchestratore.session.ActorsCache").getInstance();
+    for( x in instances.data ){
+        var user = $.getUser(instances.data[x].creatorUserId);
+        instances.data[x].creatorUserId = user.otherFields().get("PREFERRED_USERNAME") || user.userName;
+    }
+    instances;
+</script>
+-->
+<script @server id="model-configurations" src="/bpm/v1/configurations" type="application/json" ></script>
+
+
+<div id="app" class="" >
+    <h2>{{model.title}}</h2>
+    <div class="row">
+        <div class="col-6">
+            <facets class="col-12" :model="model" page-field="pageNumber"></facets>
+        </div>
+        <div class="col-4">
+            <input style="margin-left: 10px;" type="checkbox" v-model="activeOnly" @change="changeActive($event)"> active
+            <input style="margin-left: 10px;" type="checkbox" v-model="rootOnly" @change="changeRoot($event)"> root
+            <input style="margin-left: 10px;" type="checkbox" v-model="searchableOnly" @change="changeSearchable($event)"> searchable
+            <input style="margin-left: 10px;" type="checkbox" v-model="errorOnly" @change="changeError($event)"> in error
+        </div>
+    </div>
+
+    <!--<report-buttons style="float:right" :model="model"></report-buttons>-->
+    <results-stats style="position:absolute;margin-top:-40px;right:15px" :tot-results="model.totResults" :elapsed="model.elapsed" ></results-stats>
+
+
+    <!--<facets :model="model" page-field="pageNumber"></facets>-->
+    <report-table :model="model" ></report-table>
+    <pager style="text-align: center"  :tot-page="model.totPage" :page-number="model.pageNumber" ></pager>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: function() {
+
+            var rootOnly = ${query.rootOnly!'false'};
+            var searchableOnly = ${query.searchableOnly!'false'};
+            var errorOnly = ${query.errorOnly!'false'};
+
+            var model = bpmdata("model-instances");
+
+            var configurations = bpmdata("model-configurations");
+
+            var processIds = {};
+
+            for (x in configurations.data ){
+
+                var conf = configurations.data[x];
+                if (rootOnly && !conf.runnable)
+                    continue;
+                if (searchableOnly && !conf.searchable)
+                    continue;
+
+                processIds[conf.deployment.processId] = null;
+            }
+
+            //Created, Ready, Reserved, InProgress, Suspended, Completed, Failed, Error, Exited, Obsolete
+
+            model.counts = {
+                processId : processIds
+            }
+
+            model.combos = {processId:false};
+
+            /*var processId = new URLSearchParams(location.search).get("processId");
+
+            if (processId){
+                model.counts.businessState = {
+                    A : null,
+                    B : null,
+                    C : null
+                }
+                model.facets = ["businessState"];
+            }*/
+
+            for (x in model.data){
+                var instance = model.data[x];
+                if (instance.rootInstance)
+                    instance.rootInstanceId = instance.rootInstance.id;
+            }
+
+            model.columns = "id,businessName,processId,rootInstanceId,status,creatorUserId,startTs,lastActivityTs".split(',');
+            model.params["column.businessName.format"] = function(value) {
+                if(value.length>100){
+                    return value.substring(0, 100)+"...";
+                }else{
+                    return value;
+                }
+            };
+            model.params["column.businessName.href"] = "/~instance?id={id}";
+            model.params["column.rootInstanceId.href"] = "/~instance?id={rootInstanceId}";
+
+            return {
+                activeOnly: ${query.activeOnly!'false'},
+                rootOnly: rootOnly,
+                searchableOnly: searchableOnly,
+                errorOnly: errorOnly,
+                model:model
+            }
+        },
+        methods: {
+            changeActive: function($event) {
+                openPage(changeQs("activeOnly",this.activeOnly));
+            },
+            changeRoot: function($event) {
+                openPage(changeQs("rootOnly",this.rootOnly));
+            },
+            changeSearchable: function($event) {
+                openPage(changeQs("searchableOnly",this.searchableOnly));
+            },
+            changeError: function($event) {
+                openPage(changeQs("errorOnly",this.errorOnly));
+            }
+        }
+
+    });
+</script>
+</body>
+

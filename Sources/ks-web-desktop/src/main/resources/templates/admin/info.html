@@ -1,0 +1,203 @@
+<html @help="/~gdoc/document-viewer?id=1f0iBmQFUp4t3tr1PPqsGstJ1PpfopqsrtUT8TBS263s" >
+<title>Info - configurazioni</title>
+
+[#assign watcher = utils.kdmUtils.getBean("desktopResourceWatcher") /]
+
+<style>
+    #rewriter div:nth-child(even) {background-color: lightgray}
+    #zuul div:nth-child(even) {background-color: lightgray}
+    #services div:nth-child(even) {background-color: lightgray}
+    #zuulapps div:nth-child(even) {background-color: lightgray}
+
+    .help {
+        margin: 10px 0px 10px 0px;
+        font-style: italic;
+        font-size: smaller;
+    }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <span class="col-3"><b>build.version</b></span>
+        <span class="col-9">${utils.kdmUtils.getBean('buildProperties').version}</span>
+    </div>
+    <div class="row">
+        <span class="col-3"><b>build.time</b></span>
+        <span class="col-9">${utils.kdmUtils.getBean('buildProperties').time}</span>
+    </div>
+    <div class="help">
+        E' possibile rinfrescare o svuotare la cache con i comandi a destra
+        <br>E' ncessario scuotare o aggiornare manualmente la cache se si effettuano importazioni massive scavalcando le API.
+    </div>
+    <div class="row">
+        <span class="col-3"><b>client cache items</b></span>
+        <span class="col-1">${utils.actorsCache.getCount()}</span>
+        <span style="text-align: right" class="col-8">
+            <a target="_new" href="/caches/clear">clear</a>
+            <a target="_new" href="/caches/refresh">refresh</a>
+
+        </span>
+    </div>
+
+    <div class="help">
+        E' possibile configurare path di ricerca delle risorse impostando le <a href="/admin/resources?/:resources/system.properties">system properties</a> nella forma:
+        <li> resources.my.domain</li>
+        <li> resources.simple</li>
+        <li> resources.my.sub.domain</li>
+
+        <br>Le modifiche sul filesystem delle risorse vengono ricaricate a caldo o con questo <a target="_new" href="/caches/watch">link</a>
+        <br>La risorsa è innanzitutto ricercata nel path associato al dominio più specifico, poi in quelli meno specifici, poi nel resource root e infine nel classpath
+        <br>Le "app" sono quelle configurate nel file <a href="/admin/resources?/:resources/apps.yaml">apps.yaml</a> ed il menu specifico nel file <a href="/admin/resources?/:resources/menus.yaml">menus.yaml</a>
+    </div>
+
+    [#assign roots = utils.resources.getResourceRoots() /]
+
+    <div class="row">
+        <span class="col-3"><b>key</b></span>
+        <span class="col-3"><b>domain</b></span>
+        <span class="col-3"><b>host</b></span>
+        <span class="col-3"><b>path</b></span>
+    </div>
+
+    [#list roots?keys as key ]
+    <div class="row">
+        <span class="col-3">${key}</span>
+        [#assign domain = key?keep_after('.') /]
+        <span class="col-3">${domain}</span>
+        <span class="col-3">${utils.getProperty('host.'+domain,'')}</span>
+        <span class="col-3">${roots[key]}</span>
+
+    </div>
+    [/#list]
+
+    <br/>
+
+    <span><b>host.default:</b>&nbsp;${utils.getProperty('host.default')}</span>
+
+    <br/>
+    <br/>
+    <h5>zuul services</h5>
+    <div class="help">
+        Tramite il proxy zuul è possibile intermediare le chiamate verso qualunque interfaccia http configurando nelle <a href="/admin/resources?/:resources/system.properties">system properties</a> il <b>path</b> e <b>url</b>
+        <br>Opzionalmente è possibile specificare l'api-docs (swagger) ed il relativo url eposto da SpringFox
+        <br>Per tutte le chiamate è passato l'header <b>Authorization</b> per il SSO
+    </div>
+    <div id="zuul">
+    <div class="row">
+        <span class="col-3"><b><u>service</u></b></span>
+        <span class="col-4"><b><u>path</u></b></span>
+        <span class="col-5"><b><u>url</u></b></span>
+    </div>
+    [#list watcher.getPropertyNames("zuul.routes.*.url") as route ]
+
+        [#assign name = (route?split("."))[2] /]
+        [#assign url = utils.getProperty("zuul.routes."+name+".url") /]
+        [#assign path = utils.getProperty("zuul.routes."+name+".path") /]
+        [#assign strip = utils.getProperty("zuul.routes."+name+".stripPrefix")!'true' /]
+        [#assign apidocs = utils.getProperty("zuul.routes."+name+".api-docs")!'' /]
+        [#assign swagger = utils.getProperty("zuul.routes."+name+".swagger-ui")!'' /]
+
+        [#if path=="/**"]
+        [#continue]
+        [/#if]
+
+    <div class="row">
+        <span class="col-3">
+            [#if apidocs?has_content]
+            <a target="_new" href="${path?replace('/**',apidocs)}">${name}</a>
+            [#else]
+            ${name}
+            [/#if]
+
+            [#if swagger?has_content]
+            <a target="_new" href="${path?replace('/**',swagger)}"><i class="fas fa-code"></i></a>
+            [/#if]
+
+        </span>
+        <span class="col-4">${path}</span>
+        <span class="col-5">
+            [#if strip=='true']
+            [#assign toUrl = url]
+            [#else]
+            [#assign toUrl = path?replace('/**',url)]
+            [/#if]
+
+            [#if apidocs?has_content]
+            <a target="_new" href="${toUrl}${apidocs}">${toUrl}</a>
+            [#else]
+            ${toUrl}
+            [/#if]
+
+            [#if (swagger?has_content) ]
+            <a target="_new" href="${toUrl}${swagger}"><i class="fas fa-code"></i></a>
+            [/#if]
+        </span>
+    </div>
+
+    [/#list]
+
+    </div>
+    <br/>
+
+    <h5>zuul web apps</h5>
+    <div class="help">
+        Tramite il proxy zuul è possibile intermediare le chiamate verso qualunque applicazione http configurando in <a href="/admin/resources?/:resources/apps.yaml">apps.yaml</a> il <b>link</b>, il <b>targetUri</b> ed opzionalmente la <b>regex</b> ed il <b>template</b>
+        <br>La regex intercetta le chiamate verso l'applicazione esterna e le redireziona
+        <br>Per tutte le chiamate è passato l'header <b>Authorization</b> per il SSO
+        <br>Per ogni appicazione tramite proxy è possibile specificare un template ftl che verrà eseguito per manipolare il css o altri aspetti specifici.
+    </div>
+    <div id="zuulapps">
+        <div class="row">
+            <span class="col-3"><b><u>appName</u></b></span>
+            <span class="col-4"><b><u>link</u></b></span>
+            <span class="col-3"><b><u>targetUri</u></b></span>
+            <span class="col-2"><b><u>template</u></b></span>
+        </div>
+
+        [#list header.apps as app ]
+        [#if (app.targetUri!'') == '' ]
+        [#continue]
+        [/#if]
+
+        <div class="row">
+        <span class="col-3">
+            <a target="_new" href="${app.link?split(';')[0]}">${app.appName}</a>
+        </span>
+            <span class="col-4"><code>${app.link?split(';')[0]}</code></span>
+            <span class="col-3">
+            ${app.targetUri}
+            </span>
+            <span class="col-2">
+                <a target="_new" href="/:resources/{app.template!'proxy/proxy.ftl'}">${app.template!'proxy/proxy.ftl'}</a>
+            </span>
+        </div>
+
+        [/#list]
+
+    </div>
+
+    <br/>
+    <h5>url rewriter</h5>
+    <div class="help">
+        Nel file <a href="/admin/resources?/:resources/rewrite.properties">rewrite.properties</a> sono configurate le regole per riscrivere le richieste alle pagine e facilitare la scrittura di altre pagine che non devono conoscere l'intero path.
+        <br/>Le regole (la cui sintassi è documentata nel file) possono esprimere <b>redirect</b> gestiti dal browser o <b>forward</b> che verranno gestiti dal server (senza quindi modificare l'url nel browser)
+        <br>Ogni regola è trasformata in una <b>regex</b> che intercetta l'url e una <b>replace</b> per produrre l'url di destinazione
+    </div>
+
+    <div id="rewriter">
+    <div class="row">
+        <span class="col-3"><b><u>rule</u></b></span>
+        <span class="col-4"><b><u>regex</u></b></span>
+        <span class="col-5"><b><u>replace</u></b></span>
+    </div>
+    [#assign rules = utils.kdmUtils.getBean("urlRewriter").rules /]
+    [#assign keys = utils.kdmUtils.getBean("urlRewriter").keys /]
+    [#list rules?keys as rule ]
+    <div class="row">
+        <span class="col-3">${keys[rule?index]}</span>
+        <span class="col-4"><code>${rule?html}</code></span>
+        <span class="col-5">${rules[rule]?html}</span>
+    </div>
+    [/#list]
+    </div>
+</div>
+</html>

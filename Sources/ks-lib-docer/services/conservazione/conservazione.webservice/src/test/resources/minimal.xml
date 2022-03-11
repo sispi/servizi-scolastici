@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<UnitaDocumentaria xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="WSVersamentoRequest.xsd">
+	<Intestazione>
+		<Versatore>
+			<Ambiente>abc</Ambiente>
+			<Ente>abc</Ente>
+			<Struttura>abc</Struttura>
+			<UserID>abc</UserID>
+		</Versatore>
+		<Chiave>
+			<Numero>12</Numero>
+			<Anno>2000</Anno>
+			<TipoRegistro>REGISTRO</TipoRegistro>			
+		</Chiave>
+		<TipologiaUnitaDocumentaria>asd</TipologiaUnitaDocumentaria>
+	</Intestazione>
+	<DocumentoPrincipale>
+		<IDDocumento>123</IDDocumento>
+		<TipoDocumento>FILE</TipoDocumento>
+		<StrutturaOriginale>
+			<TipoStruttura>STRUTTURA</TipoStruttura>
+			<Componenti>
+				<Componente>
+					<ID>123</ID>
+					<OrdinePresentazione>1</OrdinePresentazione>
+					<TipoComponente>FILE</TipoComponente>
+					<TipoSupportoComponente>FILE</TipoSupportoComponente>
+					<UtilizzoDataFirmaPerRifTemp>false</UtilizzoDataFirmaPerRifTemp>
+				</Componente>
+			</Componenti>
+		</StrutturaOriginale>
+	</DocumentoPrincipale>
+</UnitaDocumentaria>

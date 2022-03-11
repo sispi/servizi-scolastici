@@ -1,0 +1,145 @@
+<html>
+    <title>${''}</title>
+    <title href="${$.request.servletPath+'?'+$.request.queryString}">${list.title}</title>
+<body @menu="none" >
+
+<script id="list" type="application/json" @server-model="list" src="/wiki/folder-content?id={id}"></script>
+
+<style>
+
+    #docs-editor{
+        background-color: transparent !important;
+    }
+    #docs-editor-container{
+        background-color: transparent !important;
+    }
+    .kix-zoomdocumentplugin-outer{
+        top:0px !important;
+        left:0px !important;
+    }
+
+    .folderview li a, .folderview li::marker {
+        color: white;
+    }
+
+    .folderview li a.selected {
+        font-weight: bold;
+        text-decoration: underline;
+    }
+
+    /*.subheader {
+        display: none;
+        --subheader-height: 0px;
+    }*/
+
+    .wiki-index {
+        background: var(--header-bg-color);
+        border-radius: 5px;
+        margin-top:5px;
+        margin-bottom:5px;
+    }
+
+    .wiki-index * {
+        position: relative;
+        color:white;
+    }
+
+    .wiki-index *:hover {
+        color:white;
+    }
+
+</style>
+
+<div id="folderview" class="folderview"  >
+
+    <span class="row col-12 p-0 m-0" >
+        <span class="col-2 wiki-index p-1" style="min-height: 80vh" >
+            <!--<h5><a href="${$.request.servletPath+'?'+$.request.queryString}">${list.title}</a></h5>-->
+            <tree-list ref="tree" :value="id" :url="url" @click="open" :process-results="processResults" :list="children.list" ></tree-list>
+        </span>
+        <span id="viewer" class="col-10 p-1" >
+        </span>
+    </span>
+</div>
+
+
+<script>
+
+    /* chiamata da folder viewer */
+    function showcontent(id,name,type,shortcut){
+        folderview.showcontent(id,name,type,shortcut);
+
+    }
+    var folderview = new Vue({
+        el: "#folderview",
+        data: {
+            children: data("#list"),
+            url: "/wiki/folder-content?id=...",
+            id: null
+        },
+        mounted: function(){
+            var type,id,name,shortcut;
+            var qs = new URLSearchParams(location.search);
+            shortcut = qs.get("shortcut") ? true : false;
+
+            if (qs.get("folder")){
+                type = "folder";
+                id = qs.get("folder");
+                name = qs.get("title") || '';
+            } else if (qs.get("file")){
+                type = "file";
+                id = qs.get("file");
+                name = qs.get("title") || '';
+            } else if (qs.get("document")){
+                type = "document";
+                id = qs.get("document");
+                name = qs.get("title") || '';
+            } else {
+                type = "folder";
+                id = this.children.id;
+                name = qs.get("title") || '';
+            }
+
+            this.showcontent(id,name,type,shortcut);
+        },
+        methods: {
+            open: function(evt) {
+                this.showcontent(evt.item.id,evt.item.name,evt.item.type,evt.item.shortcut);
+            },
+            showcontent: function (id,name,type,shortcut){
+
+                var extra = "";
+                if (shortcut){
+                    extra = "&shortcut=true";
+                    /*axios.head("https://drive.google.com/file/d/"+id)
+                        .then(response => console.info("response:", response))
+                        .catch(error => console.info("error:", error));*/
+                }
+
+                var url;
+
+                if (type == "folder")
+                    url = "/~gdoc/folder-viewer?id="+id;
+                else
+                    url = "/~gdoc/gdoc-viewer?type="+type+"&id="+id+"&title="+encodeURIComponent(name)+extra;
+
+                var qs = new URLSearchParams(location.search);
+                var id0 = qs.get("id");
+
+                openUrl(url,"@viewer");
+
+                var url0 = location.pathname+"?id="+id0+"&"+type+"="+id+"&title="+encodeURIComponent(name)+extra;
+                window.history.pushState({path:url0},'',url0);
+
+                this.id = id;
+
+            },
+            processResults: function(data) {
+                return data.list;
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

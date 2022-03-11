@@ -1,0 +1,37 @@
+<modal :show="show" @close="close">
+    <div slot="header" class="col-md-12">
+        <div class="modalTitle col-sm-12">{{messages["viewProfile.verificaFirma"] || "Verifica Firma"}}</div>
+    </div>
+    <div slot="body">
+        <div class="form-group">    
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="labelNew">{{messages["viewProfile.dataVerifica"] || "Data verifica"}}</span>
+                    <input type="date" class="form-control" v-model="moment(dataVerifica).format('YYYY-MM-DD')" v-on:input="dataVerifica = moment($event.target.value).toISOString();"/>
+                </div>
+            </div>
+        </div>
+        <template v-if="(documento.TIPO_COMPONENTE=='PRINCIPALE')&&(allegati.length>1)"><!-- se principale e ci sono allegati abilito check per verifica intera UD-->
+        <div class="form-group">    
+            <div class="row">
+                <div class="col-md-12">
+                    <span style="font-size: 14px;padding-left: 30px;">
+                        <input style="margin-top: 5px;" type="checkbox" class="form-check-input" id="checkUd" v-model="checkUd">
+                        <label style="font-weight: normal;" class="form-check-label" for="checkUd">{{messages["viewProfile.checkUD"] || "Verifica intera Unità documentaria"}}</label>
+                    </span>
+                </div>
+            </div>
+        </div>
+        </template>
+        <div class="col-md-12 footer-modal">
+            <div class="col-md-3 float-left">
+                <button type="submit" class="btn btn-default btn-block modal-btn-annulla" @click="$emit('close')">{{messages["viewProfile.chiudi"] || "Chiudi"}}</button>
+            </div>
+            <div class="col-md-3 float-right">
+                <button type="submit" class="btn btn-primary btn-block modal-btn-conferma" @click="confermaVerificaFirma()">{{messages["viewProfile.conferma"] || "Conferma"}}</button>
+            </div>
+        </div>
+
+    </div>
+    
+</modal>

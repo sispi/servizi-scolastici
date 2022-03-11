@@ -1,0 +1,176 @@
+:root {
+	--fa-caret-down: "\f0d7";
+	--fa-caret-up: "\f0d8";
+	--fa-caret-right: "\f0da";
+	--fa-caret-left: "\f0d9";
+	--fa-folder: "\f07b";
+	--fa-home: "\f015";
+	--fa-tag: "\f02b";
+	--fa-file-alt: "\f15c";
+	--fa-book: "\f02d";
+	--fa-file: "\f15b";
+}
+
+textarea {
+	width:100%
+}
+
+body{
+	/*font-family: 'Roboto', sans-serif;*/
+	/*padding: 10px;*/
+}
+
+.svg-inline--fa {
+    margin-right: 5px !important;
+}
+
+/*paginazione*/
+.pager .btn-link{
+	background-color: #ffffff;
+    border: 1px solid #dfdfdf;
+    margin: 1px;
+    margin-top: 20px;
+}
+.pager .btn-link:visited{
+	background-color: #ffffff;
+    border: 1px solid #dfdfdf;
+    color: #fff;
+}
+.pager .btn-link:hover, .btn-link:active{
+	background-color: #dfdfdf;
+    border: 1px solid #dfdfdf;
+    text-decoration: none;
+}
+
+.pager a.btn.disabled, fieldset:disabled a.btn {
+	background-color: #0275d8;
+    border: 1px solid #0068c1;
+    color: #fff!important;
+}
+
+
+
+.je-object__container {
+	width: 100%;
+}
+
+.je-object__container label {
+	font-weight: bold;
+	margin-bottom: 0px;
+}
+
+.je-object__container .card-body {
+	padding-bottom: 0px;
+	margin-bottom: 0px !important;
+}
+
+div[data-schemapath="root"]>label{
+	display: none;
+}
+
+.je-object__container input:disabled, .je-object__container select:disabled {
+	background-color: unset !important;
+	border: none;
+	margin: 0px;
+	padding: 0px;
+	height: unset;
+	font-style: italic;
+}
+
+tr.rowfield td {
+	background-color: #efeee7 !important;
+	padding-top:0px;
+	padding-bottom:0px;
+	font-style: italic;
+}
+
+tr.rowfield td .rowfield-label {
+	min-width: 60px;
+	display: inline-block;
+	font-weight: bold;
+	vertical-align: top;
+}
+
+tr.rowfield .rowfield-content {
+	white-space: pre;
+	display: inline-block;
+}
+
+input[type=checkbox].form-control {
+	width: auto;
+	height: auto;
+}
+
+.custom-file-upload {
+	border: 1px solid #ccc;
+	display: inline-block;
+	padding: 6px 12px;
+	cursor: pointer;
+}
+
+.modal-xl {
+	max-width: 2000px !important;
+	margin-left: 20px;
+}
+
+.backdrop {
+	display: none; /* Hidden by default */
+	position: fixed; /* Stay in place */
+	z-index: 2000000; /* Sit on top */
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	overflow: auto; /* Enable scroll if needed */
+	background-color: rgb(0,0,0); /* Fallback color */
+	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+
+
+
+
+
+/* file upload */
+.file-wrapper {
+  text-align: center;
+  /*width: 350px;*/
+  height: 4em;
+  vertical-align: middle;
+  /*display: table-cell;*/
+  position: relative;
+  overflow: hidden;
+  border: 1px dotted #b5b5b5;
+  border-radius: 8px;
+  font-size: 14px;
+  padding-top: 16px;
+  margin-right: 9px;
+}
+
+.file-wrapper input {
+    position: absolute;
+    top: 0;
+    right: 0; /* not left, because only the right part of the input seems to be clickable in some browser I can't remember */
+    cursor: pointer;
+    opacity: 0.0;
+    filter: alpha(opacity=0); 
+    font-size: 300px; /* wtf, but apparently the most reliable way to make a large part of the input clickable in most browsers */
+    height: 200px;
+}
+.file-wrapper:hover{
+	background-color: #e5e5e5;
+}
+.listaUpload{
+	font-size: 14px;
+	margin-top: 10px;
+	margin-bottom: -10px;
+}
+.radioUpload{
+	padding: 0px 6px 0px 6px;
+    margin-bottom: 10px;
+}
+
+.disableUploadOptions {
+  display: none;
+}
+/* fine file upload */

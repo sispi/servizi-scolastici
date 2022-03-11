@@ -1,0 +1,97 @@
+<div id="upload" style="width: 50%;padding-left:50px" >
+
+    <p> Multiple
+        <file flatten="false" id="file0" in-bg-color="lightgray" icon="fas fa-upload" v-model="files" placeholder="pippo" multiple="true">
+            <template style="text-align: center" v-slot:header>
+                <i class="fas fa-upload"></i>&nbsp;Clicca qui o trascina per aggiungere un file
+            </template>
+            <template slot-scope="{ file, remove, index }">
+                <a :href="file.url">{{ file.name }} {{bytesToSize(file.size) ? '('+bytesToSize(file.size)+')' : ''}}</a>
+                <button @click="remove(file)" class="p-0 pb-1 btn btn-link" data-toggle="tooltip" data-placement="top" title="Elimina"><i class="fas fa-times text-danger"></i></button>
+
+                <span v-if="index==0" class="form-check form-check-inline radioUpload" >
+                    <input class="form-check-input" type="radio" value="aggiungi" v-model="file.option" >
+                    <label class="form-check-label mx-2">Aggiungi</label>
+                    <input class="form-check-input" type="radio" value="sostituisci" v-model="file.option" >
+                    <label class="form-check-label mx-2">Sostituisci</label>
+                    <input class="form-check-input" type="radio" value="allega" v-model="file.option" >
+                    <label class="form-check-label mx-2">Allega</label>
+                </span>
+                <span v-else class="form-check form-check-inline radioUpload" >
+                    <input class="form-check-input" type="radio" value="allega" v-model="file.option" >
+                    <label class="mx-2 form-check-label">Allega</label>
+                </span>
+            </template>
+            <template v-slot:footer>
+                <button @click="caricaFile(files)" class="mt-2 btn btn-primary">Conferma</button>
+            </template>
+        </file>
+
+        {{JSON.stringify(files,null,4)}}
+
+    </p>
+    <p>Single
+        <file v-model="file">
+            <template slot-scope="{ file, remove, index }">
+                <a :href="file.url">{{ file.name }}</a>
+                <button @click="remove" class="p-0 pb-1 btn btn-link" data-toggle="tooltip" data-placement="top" title="Elimina"><i class="fas fa-times red"></i></button>
+                <input type="checkbox" v-model="file.checked" />
+            </template>
+        </file>
+
+        {{JSON.stringify(file,null,4)}}
+    </p>
+    <p>Single with array
+        <file v-model="files2" >
+            <template v-slot:footer>
+                {{JSON.stringify(files2,null,4)}}
+            </template>
+        </file>
+    </p>
+
+</div>
+
+<script>
+
+    function xxx(){
+
+    }
+
+    var upload = new Vue({
+        el: "#upload",
+        watch: {
+            files: function(newVal, oldVal) {
+                console.log(this.files);
+            },
+            file: function(newVal, oldVal) {
+                console.log(this.file);
+            },
+            files2: function(newVal, oldVal) {
+                console.log(this.files2);
+            }
+        },
+        data: {
+            file: null,
+            files2:[],
+            files:[
+                {
+                    'url' : '/docer/v1/files/upload$aoo_test,admin@d5fc63a9-42dd-4c1a-b8c3-af1d366aa73d$screen_documento_analisi (1).zip',
+                    'name' : 'screen_documento_analisi (1).zip'
+                }
+            ]
+        },
+        methods: {
+            caricaFile : function(e) {
+                console.log(e);
+            },
+            bytesToSize: function (bytes) {
+                return bytesToSize(bytes);
+            }
+        }
+    });
+
+
+
+</script>
+
+

@@ -1,0 +1,108 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>it.kdm.docer</groupId>
+        <artifactId>docer.services</artifactId>
+        <version>Docer-2.4.6.1</version>
+    </parent>
+    <artifactId>docer.services.agid</artifactId>
+    <packaging>war</packaging>
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.axis2</groupId>
+            <artifactId>axis2-integration</artifactId>
+            <version>${axis2.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>docer.commons.axis2-base</artifactId>
+            <version>${parent.version}</version>
+            <type>war</type>
+            <scope>runtime</scope>
+        </dependency>
+
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>docer.services.wsdocer.sdk</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>docer.commons.wsclients</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>18.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.10</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+
+    </dependencies>
+    <build>
+        <finalName>WSAGID</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <overlays>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>docer.commons.axis2-base</artifactId>
+                        </overlay>
+                    </overlays>
+
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+    <repositories>
+        <repository>
+            <id>NexusCloud</id>
+            <url>https://nexusk.filippetti.it/repository/maven-releases/</url>
+        </repository>
+        <repository>
+            <id>NexusCloud162</id>
+            <url>https://nexusk.filippetti.it/repository/KDM162/</url>
+        </repository>
+        <repository>
+            <id>NexusCloud168</id>
+            <url>https://nexusk.filippetti.it/repository/KDM168/</url>
+        </repository>
+    </repositories>
+    <properties>
+        <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
+    </properties>
+
+</project>

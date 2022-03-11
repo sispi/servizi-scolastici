@@ -1,0 +1,57 @@
+	.invalid-selected-auto {
+		color:red !important;
+	}
+
+	.p-pointer {
+		cursor:pointer;
+	}
+	.p-default {
+		cursor:default;
+	}
+
+	ul.token-input-list-facebook {
+		width: 50%;
+		float:left;
+		border: 1px solid #ccc;
+		border-radius: 3px;
+		-webkit-border-radius: 3px;
+		-moz-border-radius: 3px;
+		-o-border-radius: 3px;
+		box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+		-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);;
+		-moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);;
+		-o-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);;
+	}
+
+	.panel-body {
+		padding: 0px;
+	}
+	.panel-default {
+		border-color: transparent;
+	}
+
+	.field-error {
+		color: red !important;
+	}
+
+	.field-ok {
+		color: blue !important;
+	}
+
+	.valid-selected-auto {
+		text-decoration: underline;
+	}
+
+	.modal-large {
+		width: 60%; /* respsonsive width */
+	}
+
+	.angucomplete-description {
+		font-size: 12px;
+		font-style: italic;
+		color: gray;
+	}
+
+	.angucomplete-title {
+		font-size: 12px;
+	}

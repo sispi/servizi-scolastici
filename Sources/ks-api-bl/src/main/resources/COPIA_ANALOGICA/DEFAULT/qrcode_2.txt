@@ -1,0 +1,1 @@
+${keysuiteQr.REGISTRO_GIORNALIERO.url}/rest/getFile?docNum=${usrid}&password=${psw}&origin=qrcode

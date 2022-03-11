@@ -1,0 +1,21 @@
+<configuration>
+    <group name="Configurazione">
+        <section name="Base">
+            <xformsServiceURL>http://localhost:8080/xforms/XForms</xformsServiceURL>
+        </section>
+        <variables>
+            <fascicoli_secondari_mapping format="classifica/anno_fascicolo/progr_fascicolo" anno_fascicolo_position="2"
+                                         classifica_position="1" progr_fascicolo_position="3"
+                                         regexp="^([^/]+)/([12][0-9][0-9][0-9])/(.+)$"/>
+        </variables>
+        <section name="Providers" default-xsd="input-validation.xsd">
+            <provider ente="ENTEPROVA" aoo="AOOPROVA" fascicolazioneInterna="true">
+                it.kdm.docer.fascicolazione.Provider
+            </provider>
+            <provider ente="ENTEPROVA" aoo="AOOPROVA" fascicolazioneInterna="true" auth-mode="sso"
+                      default-user="admin" default-pass="admin">
+                it.kdm.docer.fascicolazione.SsoTestProvider
+            </provider>
+        </section>
+    </group>
+</configuration>

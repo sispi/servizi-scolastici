@@ -1,0 +1,187 @@
+<head>
+    <title>dettaglio node #${query.instance} - ${(query.node)!''}</title>
+    <title href="/~instance?id=${query.instance}" >dettaglio istanza #${query.instance} - ${(query.instance)!''}</title>
+</head>
+
+<body>
+
+<script @server-model="node" id="model-node" src="/bpm/v1/instances/${query.instance}/nodes/${query.node}?fetch=*" type="application/json" ></script>
+
+<script @server-model="subprocess" @ignore-notfound="true" id="model-subprocess" src="/bpm/v1/instances/${node.subprocessInstanceId!0}?fetch=input,output" type="application/json" ></script>
+
+<script @server-model="commands" id="model-commands" src="/bpm/v1/instances/${query.instance}/nodes/${query.node}/commands?fetch=*" type="application/json" ></script>
+
+
+
+<div id="app" class="container-fluid" >
+
+    <div>
+        <div class="row col-12">
+            <button :disabled="node.authorizations.indexOf('Retry')==-1" class="btn btn-sm btn-info" v-on:click="retry()">Retry</button>
+            &nbsp;
+            <button :disabled="node.authorizations.indexOf('Complete')==-1" class="btn btn-sm btn-info" v-on:click="complete()">Complete</button>
+            &nbsp;
+            <button :disabled="node.authorizations.indexOf('Abort')==-1" class="btn btn-sm btn-danger" v-on:click="abort()">Abort</button>
+
+        </div>
+
+
+        [#if subprocess??]
+        <h5>CallActivity <a href="/~instance?id=${subprocess.id}">#${subprocess.id}</a></h5>
+        [#else]
+        <h5>Node</h5>
+        [/#if]
+
+        <div class="row">
+            <div class="col-2">
+                <b>id</b>
+                <div>{{node.id}}</div>
+            </div>
+            <div class="col-2">
+                <b>nodeId</b>
+                <div>{{node.nodeId}}</div>
+            </div>
+            <div class="col-2">
+                <b>nodeName</b>
+                <div>{{node.nodeName}}</div>
+            </div>
+            <div class="col-2">
+                <b>nodeType</b>
+                <div>{{node.nodeType}}</div>
+            </div>
+            <div class="col-2">
+                <b>enterTs</b>
+                <div>{{moment(node.enterTs).format(dateTimeFormat)}}</div>
+            </div>
+            <div class="col-2">
+                <b>exitTs</b>
+                <div>{{moment(node.exitTs).format(dateTimeFormat)}}</div>
+            </div>
+        </div>
+
+        <div v-if="selected!=null">
+            <br/><h5>Commands</h5>
+            <report-table :selected="selected.idx" :model="commands" ></report-table>
+            <br/>
+            <h5>Last command # {{selected.idx}}</h5>
+            <div class="row">
+                <div class="col-2">
+                    <b>idx</b>
+                    <div>{{selected.idx}}</div>
+                </div>
+                <div class="col-2">
+                    <b>name</b>
+                    <div>{{selected.name}}</div>
+                </div>
+                <div class="col-2">
+                    <b>executionTs</b>
+                    <div>{{moment(selected.executionTs).format(dateTimeFormat)}}</div>
+                </div>
+            </div>
+            <br/>
+
+            <h5>Context</h5>
+            <div class="row col-12" >
+                <textarea rows="10" data-lang="json" readonly="true" class="ace-editor" style="font-size: smaller" class="col-12 bg-light">{{selected.context}}</textarea>
+            </div>
+
+            <br/>
+            <h5>Errors</h5>
+            <div v-for="(error,idx) in selected.errors" class="row">
+                <div class="col-12 btn btn-link" style="text-align: left" onclick="$(this).next().toggle()" >{{error.timestamp}} - {{error.message}}</div>
+                <div class="col-12" style="display: none">
+                    <code><{{error.stacktrace}}</code>
+                </div>
+            </div>
+        </div>
+
+
+        <br/>
+        <h5>Input</h5>
+        <div class="row col-12" style="" >
+            <editor v-if="node.authorizations.indexOf('Complete')>=0" theme="dracula" id="editor_input" style="min-height: 200px" data-lang="json" :content="node.input" v-on:change-content="(value)=>node.input=(value)" style="font-size: smaller" ></editor>
+            <textarea v-else   rows="10" id="editor_input" data-lang="json" readonly="true" class="ace-editor" style="font-size: smaller" class="col-12 bg-light">{{JSON.stringify(node.input,null,4)}}</textarea>
+        </div>
+
+        <template v-if="node.exitTs!=null">
+            <br/>
+            <h5>Output</h5>
+            <div class="row col-12" style="" >
+                <textarea rows="10" id="editor_results" data-lang="json" readonly="true" class="ace-editor" style="font-size: smaller" class="col-12 bg-light">{{JSON.stringify(node.output,null,4)}}</textarea>
+            </div>
+        </template>
+
+
+
+
+        </template>
+
+    </div>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: function() {
+
+            var node = data("model-node");
+            var subprocess = data("model-subprocess");
+
+            if (subprocess && subprocess.id){
+                node.input = subprocess.input;
+                node.output = subprocess.output;
+            }
+
+            node.instanceId = ${query.instance};
+            var commands = bpmdata("model-commands");
+            for( x in commands.data){
+                commands.data[x].idx = x;
+            }
+
+
+            commands.columns = "idx,name,status,executionTs,executions,retries,message".split(",");
+            //commands.params["column.name.href"] = "/~task?id={id}";
+            commands.params["column.name.href"] = "javascript:app.select({:idx})";
+
+            var selected = commands.data.length>0 ? commands.data[commands.data.length-1] : null;
+
+            var errors = null;
+
+            if (selected){
+                errors = bpmdata(selected.errors);
+            }
+
+            return {
+                selected: selected,
+                errors: errors,
+                node: node,
+                subprocess: subprocess,
+                commands: commands
+            }
+        },
+        methods: {
+
+            "log" : console.log,
+
+            "select" : function(idx) {
+                this.selected = this.commands.data[idx];
+            },
+            "abort": function() {
+
+            },
+            "retry": function() {
+                var payload = {
+                    input : this.node.input
+                };
+                BpmClientApi.instances.retryNode(this.node.instanceId,this.node.id, payload,()=>{location.reload()} );
+            },
+            "complete": function() {
+
+            }
+
+        }
+    });
+
+</script>
+</body>
+

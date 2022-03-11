@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <b>KeySuite - Avviso di errore</b>
+        <br/>
+        <br/>        
+        Si è verificato un errore imprevisto durante l'esecuzione del comando <code>${commandName}</code>.
+        <br/>
+        Il messaggio di errore è:
+        <br/>
+        <br/>
+        <code>${message}</code>
+        <br/>
+        <br/>
+        In allegato lo stacktrace per i dettagli.
+        <ul>
+            <li><b>Organization</b>: ${organization}</li>
+            <li><b>Process ID</b>: ${processId}</li>
+            <li><b>Instance ID</b>: <a href="${backofficeBaseUrl}/bpm/instances/details?id=${instanceId}">${instanceId}</a></li>
+            <li><b>Instance Node ID</b>: <a href="${backofficeBaseUrl}/bpm/instances/node?instance=${instanceId}&node=${instanceNodeId}">${instanceNodeId}</a></li>
+        </ul>
+    </body>
+</html>

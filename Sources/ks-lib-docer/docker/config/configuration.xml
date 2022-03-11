@@ -1,0 +1,722 @@
+<configuration xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:kforms="http://kforms.tempuri.org" xmlns:xbl="http://www.w3.org/ns/xbl" xmlns:version="java:org.orbeon.oxf.common.Version" xmlns:sxc="http://sxc.tempuri.org" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:fr="http://orbeon.org/oxf/xml/form-runner" xmlns:fn="http://www.w3.org/2005/02/xpath-functions" xmlns:xxforms="http://orbeon.org/oxf/xml/xforms" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><group name="business_logic_variables">
+    <section name="props">  
+      <migration_mode value="false" />
+      <fascicoli_secondari_mapping anno_fascicolo_position="$2" classifica_position="$1" progr_fascicolo_position="$3" regexp="^([^/]+)/([12][0-9][0-9][0-9])/(.+)$" />
+      <admins_groups>ALFRESCO_ADMINISTRATORS,SYS_ADMINS</admins_groups>
+<type_id_modificabile>true</type_id_modificabile>
+    </section>
+  </group><group description="abc" name="impianto" readonly="true">
+    <section name="fields">
+      <des_area displayName="Descrizione" type="xs:string" />
+      <cod_area displayName="Codice" type="xs:string" />
+      <enabled displayName="Abilitato" type="xs:boolean" />
+      <des_ente type="xs:string" />
+      <des_aoo type="xs:string" />
+      <des_titolario displayName="Descrizione" type="xs:string" />
+      <des_fascicolo type="xs:string" />
+      <docnum type="xs:string" />
+      <stato_pantarei format="^[1-6]$" type="xs:string" />
+      <docname type="xs:string" />
+      <abstract type="xs:string" />
+      <default_extension position="1" type="xs:string" />
+      <type_id type="xs:string" />
+      <cod_ente format=".+" type="xs:string" />
+      <cod_aoo format=".+" type="xs:string" />
+      <classifica displayName="Codice" format=".*" type="xs:string" />
+      <anno_fascicolo format="^$|^0$|^(19[0-9][0-9])$|^(20[0-9][0-9])$" type="xs:int" />
+      <progr_fascicolo format=".*" type="xs:string" />
+      <anno_pg format="^$^0$|^(19[0-9][0-9])$|^(20[0-9][0-9])$" type="xs:int" />
+      <num_pg format=".*" type="xs:int" />
+      <oggetto_pg format=".*" type="xs:string" />
+      <registro_pg format=".*" type="xs:string" />
+      <data_pg format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+      <author_id format=".+" type="xs:string" />
+      <typist_id format=".+" type="xs:string" />
+      <creation_date format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+      <fasc_secondari format="^$|^([^/]+)/([12][0-9][0-9][0-9])/(.+)$" type="xs:string" />
+      <d_registraz format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+      <n_registraz format=".*" type="xs:int" />
+      <a_registraz format="^0$|^(19[0-9][0-9])$|^(20[0-9][0-9])$" type="xs:int" />
+      <o_registraz format=".*" type="xs:string" />
+      <id_registro format=".+" type="xs:string" />
+      <stato_conserv format="^(|0|1|2|3|4|5|6)$" type="xs:string" />
+      <usa_d_co_cer format=".*" type="xs:string" />
+      <t_d_contr_cer format=".*" type="xs:string" />
+      <d_co_cer format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+      <forza_coll format=".+" type="xs:string" />
+      <forza_accettaz format=".*" type="xs:string" />
+      <forza_conserv format=".*" type="xs:string" />
+      <flag_conserv format=".*" type="xs:string" />
+      <t_conserv format=".*" type="xs:string" />
+      <doc_url format=".*" type="xs:string" />
+      <archive_type format=".*" type="xs:string" />
+      <cod_titolario format=".*" type="xs:string" />
+      <num_fascicolo format=".*" type="xs:string" />
+      <app_versante format=".*" type="xs:string" />
+      <ms_t_registraz format=".*" type="xs:string" />
+      <visto displayName="Visto" multivalue="false" position="" type="xs:string" />
+      <tipo_componente format="^(|PRINCIPALE|ANNESSO|ANNOTAZIONE|ALLEGATO)$" type="xs:string" />
+      <docnum_princ type="xs:int" />
+      <parent_classifica format=".*" type="xs:string" />
+      <parent_progr_fascicolo format=".*" type="xs:string" />
+      <numero_pub type="xs:string" />
+      <registro_pub type="xs:string" />
+      <pubblicato type="xs:string" />
+      <anno_pub format="^0$|^(19[0-9][0-9])$|^(20[0-9][0-9])$" type="xs:int" />
+      <oggetto_pub type="xs:string" />
+      <data_inizio_pub type="xs:dateTime" />
+      <data_fine_pub type="xs:dateTime" />
+      <stato_archivistico format="^(|0|1|2|3|4|5|6)$" type="xs:string" />
+      <stato_business format="^(|0|1|2|3|4|5)$" type="xs:string" />
+      <mittenti type="xs:string" />
+      <destinatari type="xs:string" />
+      <tipo_protocollazione format="^(|E|I|U|ND)$" type="xs:string" />
+      <tipo_firma format="^(|FD|FE|F|NF)$" type="xs:string" />
+      <firmatario type="xs:string" />
+      <custom_field_string custom="true" displayName="Custom Tipo String" format=".*" type="xs:string" />
+      <custom_field_int custom="true" displayName="Custom Tipo Int" format=".*" type="xs:int" />
+      <custom_field_datetime custom="true" displayName="Custom Tipo Datetime" format=".*" type="xs:date" />
+      <custom_field_boolean custom="true" displayName="Custom Tipo Boolean" format=".*" type="xs:boolean" />
+      <custom_field_decimal custom="true" displayName="Custom Tipo Decimal" format=".*" type="xs:decimal" />
+      <docnum_record type="xs:string" />
+      <ud_version type="xs:string" />
+      <doc_hash type="xs:string" />
+      <data_apertura type="xs:dateTime" />
+      <data_chiusura type="xs:dateTime" />
+      <cf_persona type="xs:string" />
+      <cf_azienda type="xs:string" />
+      <id_proc type="xs:string" />
+      <id_immobile type="xs:string" />
+      <inserimento_scrivania custom="true" displayName="Inserimento Scrivania" format=".*" multivalue="false" position="0" type="xs:string" />
+      <data_esecutivita custom="true" displayName="Data Esecutivita'" format="yyyy-MM-dd'T'HH:mm:ss" multivalue="false" position="" type="xs:date" />
+      <unita_proponente custom="true" displayName="Unita' Proponente" format=".*" multivalue="false" position="" type="xs:string" />
+      <settore custom="true" displayName="Settore" format="^Chiave (?:1|2)$" multivalue="false" position="" type="xs:string" />
+      <id_cliente custom="true" displayName="Id Cliente" format=".*" multivalue="false" position="" type="xs:string" />
+      <protoc_movimento custom="true" displayName="Movimento" format=".*" listItem="true" multivalue="false" position="" type="xs:string" />
+      <protoc_estremi_documento_esterno custom="true" displayName="Estremi documento esterno" format=".*" multivalue="false" position="" type="xs:string" />
+      <protoc_annullato custom="true" displayName="Annullato" format="^(|SI|NO)$" multivalue="false" position="" type="xs:string" />
+      <firmatario_atto custom="true" displayName="Firmatario Atto" format=".*" multivalue="false" position="" type="xs:string" />
+      <num_pg_mittente displayName="Numero Protocollo Mittente" multivalue="false" position="" type="xs:string" />
+      <data_pg_mittente displayName="Data Protocollo Mittente" multivalue="false" position="" type="xs:string" />
+      <cod_ente_mittente displayName="Codice Ente Mittente" multivalue="false" position="" type="xs:string" />
+      <cod_aoo_mittente displayName="Codice Aoo Mittente" multivalue="false" position="" type="xs:string" />
+      <classifica_mittente displayName="Classifica Mittente" multivalue="false" position="" type="xs:string" />
+      <fascicolo_mittente displayName="Fascicolo Mittente" multivalue="false" position="" type="xs:string" />
+      <annullato_pg displayName="Validita'" multivalue="false" position="" type="xs:string" />
+      <d_annull_pg displayName="Data Annullamento Protocollo" multivalue="false" position="" type="xs:string" />
+      <m_annull_pg displayName="Motivo Annullamento Protocollo" multivalue="false" position="" type="xs:string" />
+      <annull_registraz displayName="Registrazione Annullata" multivalue="false" position="" type="xs:string" />
+      <d_annull_registraz displayName="Data Annullamento Registrazione" multivalue="false" position="" type="xs:string" />
+      <m_annull_registraz displayName="Motivo Annullamento Registrazione" multivalue="false" position="" type="xs:string" />
+      <ms_mod_tx custom="true" displayName="Modalita' di trasmissione" format=".*" multivalue="false" position="" type="xs:string" />
+      <ms_operatore custom="true" displayName="Operatore di protocollo" format=".*" multivalue="false" position="" type="xs:string" />
+      <ms_tipologia custom="true" displayName="Documento tipo" format=".*" multivalue="false" position="" type="xs:string" />
+      <p_annull_pg custom="true" displayName="Provvedimento di annullamento" format=".*" multivalue="false" position="" type="xs:string" />
+      <e_annull_pg custom="true" displayName="Esecutore annullamento" format=".*" listItem="true" multivalue="false" position="" type="xs:string" />
+      <versions custom="true" displayName="Versions" format=".*" multivalue="false" position="" type="xs:string" />
+      <custom_field_string_2 custom="true" displayName="Custom Tipo String 2" format=".*" type="xs:string" />
+      <custom_field_string_3 custom="true" displayName="Custom Tipo String 3" format=".*" type="xs:string" />
+      <custom_field_string_4 custom="true" displayName="Custom Tipo String 4" format=".*" type="xs:string" />
+      <custom_field_string_5 custom="true" displayName="Custom Tipo String 5" format=".*" type="xs:string" />
+      <proc_id format=".*" type="xs:string" />
+      <modifier displayName="Modifier" format=".*" type="xs:string" />
+      <modified displayName="Modified" format="yyyy-MM-dd'T'HH:mm:ss" type="xs:dateTime" />
+      <created displayName="Modifier" format=".*" type="xs:string" />
+      <creator displayName="Creator" format=".*" type="xs:string" />
+    </section>
+    <section name="baseprofile">
+      <docnum />
+      <stato_pantarei />
+      <stato_business />
+      <docname />
+      <abstract />
+      <default_extension />
+      <type_id />
+      <cod_ente />
+      <cod_aoo />
+      <classifica />
+      <anno_fascicolo />
+      <progr_fascicolo />
+      <cod_titolario />
+      <num_fascicolo />
+      <anno_pg />
+      <num_pg />
+      <oggetto_pg />
+      <registro_pg />
+      <data_pg />
+      <author_id />
+      <typist_id />
+      <creation_date />
+      <fasc_secondari />
+      <d_registraz />
+      <n_registraz />
+      <a_registraz />
+      <o_registraz />
+      <id_registro />
+      <stato_conserv />
+      <usa_d_co_cer />
+      <t_d_contr_cer />
+      <d_co_cer />
+      <forza_coll />
+      <forza_accettaz />
+      <forza_conserv />
+      <flag_conserv />
+      <t_conserv />
+      <doc_url />
+      <archive_type />
+      <app_versante />
+      <ms_t_registraz />
+      <tipo_componente />
+      <docnum_princ />
+      <registro_pub />
+      <pubblicato />
+      <numero_pub />
+      <anno_pub />
+      <oggetto_pub />
+      <data_inizio_pub />
+      <data_fine_pub />
+      <stato_archivistico />
+      <mittenti />
+      <destinatari />
+      <tipo_protocollazione />
+      <tipo_firma />
+      <firmatario />
+      <visto />
+      <docnum_record />
+      <ud_version />
+      <doc_hash />
+      <num_pg_mittente />
+      <data_pg_mittente />
+      <cod_ente_mittente />
+      <cod_aoo_mittente />
+      <classifica_mittente />
+      <fascicolo_mittente />
+      <annullato_pg />
+      <d_annull_pg />
+      <m_annull_pg />
+      <annull_registraz />
+      <d_annull_registraz />
+      <m_annull_registraz />
+      <versions />
+      <proc_id />
+      <creator />
+      <modifier />
+      <modified />
+      <created />
+      <id_proc />
+      <id_immobile />
+    </section>
+    <section name="document_types">
+      <type description="Documento" name="DOCUMENTO" providerTypeId="documento">
+        <ms_mod_tx />
+        <ms_operatore />
+        <ms_tipologia />
+        <p_annull_pg />
+        <e_annull_pg />
+      </type>
+      <type description="Determina dirigenziale" name="DETERMINA DIRIGENZIALE" providerTypeId="documento">
+        <data_esecutivita />
+        <unita_proponente />
+        <settore />
+        <id_cliente />
+        <firmatario_atto />
+      </type>
+      <type description="Provvedimento del Presidente del Consiglio" name="PROVVEDIMENTO DEL PRESIDENTE DEL CONSIGLIO" providerTypeId="documento">
+        <data_esecutivita />
+        <unita_proponente />
+        <settore />
+        <id_cliente />
+        <firmatario_atto />
+      </type>
+      <type description="Provvedimento del Presidente della Provincia" name="PROVVEDIMENTO DEL PRESIDENTE DELLA PROVINCIA" providerTypeId="documento">
+        <data_esecutivita />
+        <unita_proponente />
+        <settore />
+        <id_cliente />
+        <firmatario_atto />
+      </type>
+      <type description="Generico" name="GENERICO" providerTypeId="documento">
+        <data_esecutivita />
+        <unita_proponente />
+        <settore />
+        <id_cliente />
+        <firmatario_atto />
+      </type>
+      <type description="Visto Dirigente Provv Pres" name="VISTO DIRIGENTE PROVV PRES" providerTypeId="documento">
+        <data_esecutivita />
+        <unita_proponente />
+        <settore />
+        <id_cliente />
+        <firmatario_atto />
+      </type>
+      <type description="Vidima Funzionario" name="VIDIMA FUNZIONARIO" providerTypeId="documento">
+        <data_esecutivita />
+        <unita_proponente />
+        <settore />
+        <id_cliente />
+        <firmatario_atto />
+      </type>
+      <type description="Vidima Segretario" name="VIDIMA SEGRETARIO" providerTypeId="documento">
+        <data_esecutivita />
+        <unita_proponente />
+        <settore />
+        <id_cliente />
+        <firmatario_atto />
+      </type>
+      <type description="Visto Dirigente" name="VISTO DIRIGENTE" providerTypeId="documento">
+        <data_esecutivita />
+        <unita_proponente />
+        <settore />
+        <id_cliente />
+        <firmatario_atto />
+      </type>
+      <type description="Relazione di Pubblicazione" name="RELAZIONE DI PUBBLICAZIONE" providerTypeId="documento">
+        <data_esecutivita />
+        <unita_proponente />
+        <settore />
+        <id_cliente />
+        <firmatario_atto />
+      </type>
+      <type description="Visto Contabile" name="VISTO CONTABILE" providerTypeId="documento">
+        <data_esecutivita />
+        <unita_proponente />
+        <settore />
+        <id_cliente />
+        <firmatario_atto />
+      </type>
+      <type description="Documento Protocollato" name="DOCUMENTO PROTOCOLLATO" providerTypeId="documento">
+        <protoc_movimento />
+        <protoc_estremi_documento_esterno />
+        <protoc_annullato />
+      </type>
+    </section>
+    <section name="anagrafiche_types">
+      <type name="ente">
+        <cod_ente />
+        <des_ente />
+        <enabled />
+      </type>
+      <type name="aoo">
+        <cod_ente />
+        <cod_aoo />
+        <des_aoo />
+        <enabled />
+      </type>
+      <type displayName="Titolario" name="titolario">
+        <cod_ente />
+        <cod_aoo />
+        <classifica role="codice" />
+        <cod_titolario />
+        <parent_classifica />
+        <des_titolario role="descrizione" />
+        <enabled />
+        <settore />
+        <custom_field_string_2 />
+      </type>
+      <type name="fascicolo">
+        <cod_ente />
+        <cod_aoo />
+        <classifica />
+        <cod_titolario />
+        <num_fascicolo />
+        <progr_fascicolo />
+        <anno_fascicolo />
+        <parent_progr_fascicolo />
+        <des_fascicolo />
+        <enabled />
+        <data_apertura />
+        <data_chiusura />
+        <cf_persona />
+        <cf_azienda />
+        <id_proc />
+     
+        <created />
+        <creator />
+        <modifier />
+        <modified />
+        
+      </type>
+      <type custom="true" displayName="Area Tematica" name="area_tematica">
+        <cod_ente />
+        <cod_aoo />
+        <cod_area role="codice" />
+        <des_area role="descrizione" />
+        <enabled />
+        <settore />
+      </type>
+      <type custom="true" displayName="Cliente" name="cliente">
+        <cod_ente />
+        <cod_aoo />
+        <cod_cliente role="codice" />
+        <des_cliente role="descrizione" />
+      </type>
+      <type custom="true" displayName="Fornitori" name="fornitore">
+        <cod_ente />
+        <cod_aoo />
+        <cod_fornitore role="codice" />
+        <des_fornitore role="descrizione" />
+      </type>
+    </section>
+    <section name="hitlists">
+      <type description="Hitlist Documenti" name="hitlist">
+        <docnum />
+        <stato_pantarei />
+        <docname />
+        <abstract />
+        <default_extension />
+        <type_id />
+        <cod_ente />
+        <cod_aoo />
+        <tipo_componente />
+        <anno_pg />
+        <num_pg />
+        <registro_pg />
+        <n_registraz />
+        <a_registraz />
+        <id_registro />
+        <stato_archivistico />
+        <archive_type />
+        <doc_url />
+        <proc_id />
+      </type>
+      <type name="hitlist_ente">
+        <cod_ente />
+        <des_ente />
+        <enabled />
+      </type>
+      <type name="hitlist_aoo">
+        <cod_ente />
+        <cod_aoo />
+        <des_aoo />
+        <enabled />
+      </type>
+      <type name="hitlist_titolario">
+        <cod_ente />
+        <cod_aoo />
+        <classifica />
+        <parent_classifica />
+        <des_titolario />
+        <enabled />
+      </type>
+      <type name="hitlist_fascicolo">
+        <cod_ente />
+        <cod_aoo />
+        <classifica />
+        <progr_fascicolo />
+        <anno_fascicolo />
+        <parent_progr_fascicolo />
+        <des_fascicolo />
+        <enabled />
+        <created />
+        <creator />
+        <modifier />
+        <modified />
+        <id_proc />
+      </type>
+      <type name="hitlist_area_tematica">
+        <cod_ente />
+        <cod_aoo />
+        <cod_area />
+        <des_area />
+      </type>
+      <type name="hitlist_cliente">
+        <cod_ente />
+        <cod_aoo />
+        <cod_cliente />
+        <des_cliente />
+      </type>
+      <type name="hitlist_fornitore">
+        <cod_ente />
+        <cod_aoo />
+        <cod_fornitore />
+        <des_fornitore />
+      </type>
+    </section>
+  </group><group description="abc" name="form_dinamiche">
+    <section name="documenti">
+      <ente id="ENTEPROVA">
+        <aoo id="AOOPROVA">
+          <documento description="TEST_MARCO1" name="TEST_MARCO1" providerTypeId="documento" type="TEST_MARCO1" viewBaseFieldProfile="true" />
+          <documento description="TEST_MARCO2" name="TEST_MARCO2" providerTypeId="documento" type="TEST_MARCO2" viewBaseFieldProfile="true" />
+          <documento description="ASILO NIDO" name="ASILO NIDO" providerTypeId="documento" type="ASILO NIDO" viewBaseFieldProfile="true">
+            <custom_field_string custom="true" displayName="Mesi bambino" format=".*" formato="" formatoCombo="1=1;2=2;3=3;4=4;5=5;6=6" group="" listItem="true" position="1" type="xs:string" viewProfile="true" viewSearch="true" />
+            <custom_field_string_2 custom="true" displayName="Attributo custom" format=".*" formato="" formatoCombo="" group="" listItem="false" position="2" type="xs:string" viewProfile="true" viewSearch="false" />
+            <custom_field_string_3 custom="true" displayName="Custom Tipo String 3" format=".*" formato="" formatoCombo="" group="" listItem="false" position="3" type="xs:string" viewProfile="true" viewSearch="true" />
+          </documento>
+          <documento description="GENERICO" name="GENERICO" providerTypeId="" type="GENERICO" viewBaseFieldProfile="true">
+            <p_annull_pg custom="true" displayName="Provvedimento di annullamento" format=".*" formato="" formatoCombo="" group="" listItem="false" multivalue="false" position="" type="xs:string" viewProfile="true" viewSearch="false" />
+          </documento>
+          
+        <documento description="NOME NUOVO TIPO DOCUMENTO" name="NOME NUOVO TIPO DOCUMENTO" providerTypeId="documento" type="NOME NUOVO TIPO DOCUMENTO" viewBaseFieldProfile="false"><settore custom="true" displayName="Settore" format=".*" formato="" formatoCombo="Nome1=Val1;Nome2=Val2" group="" listItem="true" multivalue="false" position="" type="xs:string" viewProfile="true" viewSearch="true" /><cod_area displayName="Codice" formato="" formatoCombo="" group="" listItem="false" position="" type="xs:string" viewProfile="true" viewSearch="false" /></documento><documento description="" name="" providerTypeId="" type="DOCUMENTO" viewBaseFieldProfile="true"><num_pg_mittente displayName="Numero Protocollo Mittente" formato="" formatoCombo="" group="" listItem="false" multivalue="false" position="" type="xs:string" viewProfile="true" viewSearch="false" /><versions custom="true" displayName="Versions" format=".*" formato="" formatoCombo="" group="" listItem="false" multivalue="false" position="" type="xs:string" viewProfile="false" viewSearch="true" /><visto displayName="Visto" formato="" formatoCombo="" group="" listItem="false" multivalue="false" position="" type="xs:string" viewProfile="true" viewSearch="false" /></documento><documento description="TYOE_ID_TEST" name="TYOE_ID_TEST" providerTypeId="documento" type="TYOE_ID_TEST" viewBaseFieldProfile="false"><des_area displayName="Descrizione" formato="" formatoCombo="" group="" listItem="false" position="" type="xs:string" viewProfile="true" viewSearch="true" /><classifica displayName="Codice" format=".*" formato="" formatoCombo="" group="" listItem="false" position="" type="xs:string" viewProfile="true" viewSearch="true" /></documento>
+ 
+
+<documento description="DOCUMENTO PROTOCOLLATO" name="DOCUMENTO PROTOCOLLATO" providerTypeId="" type="DOCUMENTI_PROTOCOLLATI" viewBaseFieldProfile="true"><ms_mod_tx custom="true" displayName="Modalita' di trasmissione" format=".*" formato="" formatoCombo="" group="" listItem="false" multivalue="false" position="" type="xs:string" viewProfile="true" viewSearch="true" /><des_titolario displayName="Descrizione" formato="" formatoCombo="" group="" listItem="false" position="" type="xs:string" viewProfile="true" viewSearch="true" /><ms_operatore custom="true" displayName="Operatore di protocollo" format=".*" formato="" formatoCombo="" group="" listItem="false" multivalue="false" position="" type="xs:string" viewProfile="true" viewSearch="true" /></documento></aoo>
+      </ente>
+    </section>
+    <section name="anagrafiche">
+      <ente />
+      <ente id="ENTEPROVA">
+        <titolario>
+          
+        <aoo id="AOOPROVA"><custom_field_string_2 custom="true" displayName="Custom Tipo String 2" format=".*" formatoCombo="" group="Metadati di Test" listItem="false" position="0" type="xs:string" viewProfile="true" viewSearch="true" /></aoo></titolario>
+        <aoo />
+        <area_tematica>
+          
+        <aoo id="AOOPROVA"><settore custom="true" displayName="Settore" format="^(?:Valore1)|(?:Valore2)$" formatoCombo="Chiave1=Valore1;Chiave2=Valore2" group="Test Gruppo" listItem="true" multivalue="false" position="0" type="xs:string" viewProfile="true" viewSearch="true" /></aoo></area_tematica>
+        <fascicolo>
+          
+        <aoo id="AOOPROVA"><settore custom="true" displayName="Settore" format="^(?:Valore1)|(?:Valore2)$" formatoCombo="Chiave1=Valore1;Chiave2=Valore2" group="Test 1" listItem="true" multivalue="false" position="2" type="xs:string" viewProfile="true" viewSearch="true" /><custom_field_string_2 custom="true" displayName="Custom Tipo String 2" format=".*" formatoCombo="" group="Test 2" listItem="false" position="1" type="xs:string" viewProfile="true" viewSearch="true" /></aoo></fascicolo>
+      </ente>
+    </section>
+  </group><group name="conservazione">
+    <section name="configuration">
+      <tempDir>/tmp/docer</tempDir>
+      <templatesDir>/opt/docer/templates</templatesDir>
+      <usersFile>/opt/docer/users</usersFile>
+      <simulation>true</simulation>
+    </section>
+    <section name="parer">
+      <sacerHost>http://localhost:5000</sacerHost>
+      <sacerVersion>1.3</sacerVersion>
+      <deleteAfterSend>false</deleteAfterSend>
+      <useHttps>true</useHttps>
+    </section>
+    <section name="docer">
+      <provider>it.kdm.docer.providers.solr4.Provider</provider>
+      <primarySearchMaxRows>10</primarySearchMaxRows>
+      <diskBufferDirectory>/tmp/docer</diskBufferDirectory>
+      <maxFileLength>3000000</maxFileLength>
+    </section>
+  </group><group name="timbro">
+    <section name="parametritimbro">
+      <format>jpg</format>
+      <dpi>150</dpi>
+      <maxw>200</maxw>
+      <maxh>90</maxh>
+      <pag>1</pag>
+      <x>50</x>
+      <y>50</y>
+    </section>
+    <section default-xslt="segnatura.xsl" name="segnatura">
+      <provider aoo="AOO11" ente="ENTE1-SIFIRM" tipologia="DOCUMENTO">template-aoo11-documento.xsl</provider>
+      <provider aoo="C_I840-01" ente="C_I840" tipologia="DOCUMENTO">template-aoo11-documento.xsl</provider>
+      <provider aoo="AOO11" ente="ENTE1" tipologia="">nometemplate.xsl</provider>
+    </section>
+  </group><group active="true" name="audit" namespaceURI="http://webservices.docer.kdm.it" prefix="ns">
+    
+<section active="true" name="addRiferimentiDocuments">
+      <param name="docnumber" xpath="//ns:docId" />
+    </section>
+    <section active="true" name="removeRiferimentiDocuments">
+      <param name="docnumber" xpath="//ns:docId" />
+    </section>
+    <section active="true" name="addNewVersion">
+      <param name="docnumber" xpath="//ns:docId" />
+    </section>
+    <section active="true" name="replaceLastVersion">
+      <param name="docnumber" xpath="//ns:docId" />
+    </section>
+    <section active="true" name="setACLDocument">
+      <param name="docnumber" xpath="//ns:docId" />
+    </section>
+    <section active="true" name="updateProfileDocument">
+      <param name="soap" xpath="//ns:updateProfileDocument" />
+    </section>
+    <section active="true" name="protocollaDocumento">
+      <param name="docnumber" xpath="//ns:docId" />
+    </section>
+    <section active="true" name="registraDocumento">
+      <param name="docnumber" xpath="//ns:docId" />
+    </section>
+    <section active="true" name="fascicolaDocumento">
+      <param name="docnumber" xpath="//ns:docId" />
+    </section>
+    <section active="true" name="classificaDocumento">
+      <param name="docnumber" xpath="//ns:docId" />
+    </section>
+    <section active="true" name="pubblicaDocumento">
+      <param name="docnumber" xpath="//ns:docId" />
+    </section>
+    <section active="true" name="archiviaDocumento">
+      <param name="docnumber" xpath="//ns:docId" />
+    </section>    
+    <section active="false" name="downloadDocument">
+      <param name="docnumber" xpath="//ns:docId" />
+    </section>
+    <section active="false" name="downloadVersion">
+      <param name="docnumber" xpath="//ns:docId" />
+    </section>
+    <section active="true" name="deleteDocument">
+      <param name="docnumber" xpath="//ns:docId" />
+    </section>
+    <section active="true" name="lockDocument">
+      <param name="docnumber" xpath="//ns:docId" />
+    </section>   
+    <section active="true" name="unlockDocument">
+      <param name="docnumber" xpath="//ns:docId" />
+    </section>    
+    <section active="true" name="addNewAdvancedVersion">
+      <param name="lastVersion" xpath="//ns:docIdLastVersion" />
+      <param name="newVersion" xpath="//ns:docIdNewVersion" />
+    </section>
+    <section active="true" name="addRelated">
+      <param name="docnumber" xpath="//ns:docId" />
+    </section>
+    <section active="true" name="removeRelated">
+      <param name="docnumber" xpath="//ns:docId" />
+    </section>
+    <section active="false" name="searchDocuments">
+      <param name="docnumber" xpath="//ns:docId" />
+      <param name="parametri" xpath="//ns:searchCriteria" />
+    </section>
+    <section active="true" name="login">
+      <param name="userId" xpath="//ns:userId" />
+    </section>
+    <section active="true" name="loginSSO">
+      <param name="userId" xpath="//ns:userId" />
+    </section>    
+    <section active="true" name="logout">
+      <param name="userId" xpath="//ns:userId" />
+    </section>     
+    
+    <section active="false" name="createEnte">
+      <param name="parametri" xpath="//ns:enteInfo" />
+    </section> 
+    <section active="false" name="updateEnte">
+      <param name="codiceEnte" xpath="//ns:codiceEnte" />
+    </section>     
+    <section active="false" name="createAOO">
+      <param name="parametri" xpath="//ns:aooInfo" />
+    </section>    
+    <section active="false" name="updateAOO">
+      <param name="parametri" xpath="//ns:aooId" />
+    </section>        
+    <section active="flse" name="createTitolario">
+      <param name="parametri" xpath="//ns:titolarioInfo" />
+    </section>
+    <section active="false" name="updateTitolario">
+      <param name="parametri" xpath="//ns:titolarioId" />
+    </section>
+    
+    <section active="false" name="setACLTitolario">
+      <param name="parametri" xpath="//ns:titolarioId" />
+      <param name="acl" xpath="//ns:acls" />
+    </section>
+    <section active="false" name="createFascicolo">
+      <param name="parametri" xpath="//ns:fascicoloInfo" />
+    </section>
+    <section active="false" name="updateFascicolo">
+      <param name="parametri" xpath="//ns:fascicoloId" />
+    </section>
+    <section active="false" name="setACLFascicolo">
+      <param name="parametri" xpath="//ns:fascicoloId" />
+      <param name="acl" xpath="//ns:acls" />
+    </section>
+    <section active="false" name="createAnagraficaCustom">
+      <param name="parametri" xpath="//ns:customInfo" />
+    </section>    
+    <section active="false" name="updateAnagraficaCustom">
+      <param name="parametri" xpath="//ns:customId" />
+    </section>     
+    <section active="false" name="createFolder">
+      <param name="parametri" xpath="//ns:folderInfo" />
+    </section>    
+    <section active="false" name="updateFolder">
+      <param name="fodlerId" xpath="//ns:folderId" />
+    </section>      
+    <section active="false" name="deleteFolder">
+      <param name="fodlerId" xpath="//ns:folderId" />
+    </section>  
+    <section active="false" name="setACLFolder">
+      <param name="fodlerId" xpath="//ns:folderId" />
+      <param name="acl" xpath="//ns:acls" />
+    </section>       
+
+    <section active="false" name="createGroup">
+      <param name="parametri" xpath="//ns:groupInfo" />
+    </section>
+    <section active="false" name="updateGroup">
+      <param name="groupId" xpath="//ns:groupId" />
+    </section>
+    <section active="true" name="updateGroupsOfUser">
+      <param name="user" xpath="//ns:userId" />
+      <param name="groupsToAdd" xpath="//ns:groupsToAdd" />
+      <param name="groupsToRemove" xpath="//ns:groupsToRemove" />
+    </section>
+    <section active="false" name="createUser">
+      <param name="parametri" xpath="//ns:userInfo" />
+    </section>
+    <section active="false" name="updateUser">
+      <param name="userId" xpath="//ns:userId" />
+    </section>
+    <section active="false" name="setUsersOfGroup">
+      <param name="groupId" xpath="//ns:groupId" />
+    </section>        
+    <section active="false" name="updateUsersOfGroup">
+      <param name="groupId" xpath="//ns:groupId" />
+      <param name="usersToAdd" xpath="//ns:usersToAdd" />
+      <param name="usersToRemove" xpath="//ns:usersToRemove" />
+    </section>
+    <section active="false" name="setGroupsOfUser">
+      <param name="userId" xpath="//ns:userId" />
+    </section>
+    <section active="false" name="updateGroupsOfUser">
+      <param name="userId" xpath="//ns:userId" />
+      <param name="groupsToAdd" xpath="//ns:groupsToAdd" />
+      <param name="groupsToRemove" xpath="//ns:groupsToRemove" />
+    </section>
+    <section active="true" name="changeACLDocumento">
+      <param name="docnumber" xpath="//ns:docnum" />
+      <param name="aclToAdd" xpath="//ns:aclToAdd" />
+      <param name="aclToRemove" xpath="//ns:aclToRemove" />
+    </section>
+    <section active="false" name="changeACLTitolario">
+      <param name="parametri" xpath="//ns:titolarioId" />
+      <param name="aclToAdd" xpath="//ns:aclToAdd" />
+      <param name="aclToRemove" xpath="//ns:aclToRemove" />
+    </section>    
+    <section active="false" name="changeACLFascicolo">
+      <param name="parametri" xpath="//ns:fascicoloId" />
+      <param name="aclToAdd" xpath="//ns:aclToAdd" />
+      <param name="aclToRemove" xpath="//ns:aclToRemove" />
+    </section>    
+    <section active="true" name="protocollaById">
+      <param name="documentoId" xpath="//ns:documentoId" />
+    </section>    
+    <section active="true" name="fascicolaById">
+      <param name="documentoId" xpath="//ns:documentoId" />
+    </section>    
+    <section active="true" name="creaFascicolo">
+      <param name="parametri" xpath="//ns:metadati" />
+    </section>    
+    <section active="true" name="updateFascicolo">
+      <param name="parametri" xpath="//ns:fascicoloid" />
+    </section>    
+    <section active="true" name="updateACLFascicolo">
+      <param name="parametri" xpath="//ns:fascicoloid" />
+    </section>    
+    <section active="false" name="changeFascicoliById">
+      <param name="docNum" xpath="//ns:docNum" />
+      <param name="fascicoliToRemove" xpath="//ns:fascicoliToRemove" />
+      <param name="fascicoliToAdd" xpath="//ns:fascicoliToAdd" />
+    </section>  
+    <section active="true" name="registraById">
+      <param name="documentoId" xpath="//ns:documentoId" />
+    </section>    
+    <section active="false" name="getTimbro">
+     
+    </section>    
+    <section active="false" name="applicaTimbro">
+     
+    </section>      
+    <section active="false" name="verificaDocumento">     
+    	
+    </section>    
+    <section active="false" name="verificaDocumentoDocer">     
+    	
+    </section>   
+    <section active="true" name="invioPEC">     
+    	<param name="documentoId" xpath="//ns:documentoId" />
+    </section>   
+
+  </group></configuration>

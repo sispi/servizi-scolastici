@@ -1,0 +1,55 @@
+<html>
+<title>Guida alla configurazione</title>
+</html>
+<body data-spy="scroll" data-target="#toc" >
+
+<h3>Guida alla configurazione</h3>
+
+<nav id="toc" data-toggle="toc"></nav>
+
+<h4>Risorse</h4>
+
+<p>
+    E' possibile configurare path di ricerca delle risorse impostando le <a href="admin/resources?/:resources/system.properties">system properties</a> nella forma:
+    <li> resources.&lt;AOO&gt;.&lt;appName&gt;</li>
+    <li> resources.&lt;ENTE&gt;.&lt;appName&gt;</li>
+    <li> resources.&lt;appName&gt;</li>
+    <li> resources.&lt;AOO&gt;</li>
+    <li> resources.&lt;ENTE&gt;</li>
+    <br>Le modifiche sul filesystem delle risorse vengono ricaricate a caldo
+    <br>La risorsa è innanzitutto ricercata nei path configurati (nell'ordine dell'elenco), poi nel root e infine nel classpath
+    <br>Le "app" sono quelle configurate nel file <a href="admin/resources?/:resources/apps.yaml">apps.yaml</a> ed il menu specifico nel file <a href="admin/resources?/:resources/menus.yaml">menu.yaml</a>
+</p>
+
+<h4>Swagger services</h4>
+<p>
+    Tutte le definizioni swagger nella cartella <a href="admin/resources?/:resources/swagger">/resources/swagger</a> sono invocabili direttamente tramite l'url <b>/swagger/...</b> utilizzando il nome del file come path
+</p>
+
+<h4>Zuul services</h4>
+<p>
+    Tramite il proxy zuul è possibile intermediare le chiamate verso qualunque interfaccia http configurando nelle <a href="admin/resources?/:resources/system.properties">system properties</a> il <b>path</b> e <b>url</b>
+    <br>Opzionalmente è possibile specificare l'api-docs (swagger) ed il relativo url eposto da SpringFox
+    <br>Per tutte le chiamate è passato l'header <b>Authorization</b> per il SSO
+</p>
+
+<h4>Zuul web apps</h4>
+<p>
+    Tramite il proxy zuul è possibile intermediare le chiamate verso qualunque applicazione http configurando in <a href="admin/resources?/:resources/apps.yaml">apps.yaml</a> il <b>link</b>, il <b>targetUri</b> ed opzionalmente la <b>regex</b> ed il <b>template</b>
+    <br>La regex intercetta le chiamate verso l'applicazione esterna e le redireziona
+    <br>Per tutte le chiamate è passato l'header <b>Authorization</b> per il SSO
+    <br>Per ogni appicazione tramite proxy è possibile specificare un template ftl che verrà eseguito per manipolare il css o altri aspetti specifici.
+</p>
+
+<h4>Url rewriter</h4>
+<p>
+    Nel file <a href="admin/resources?/:resources/rewrite.properties">rewrite.properties</a> sono configurate le regole per riscrivere le richieste alle pagine e facilitare la scrittura di altre pagine che non devono conoscere l'intero path.
+    <br/>Le regole (la cui sintassi è documentata nel file) possono esprimere <b>redirect</b> gestiti dal browser o <b>forward</b> che verranno gestiti dal server (senza quindi modificare l'url nel browser)
+    <br>Ogni regola è trasformata in una <b>regex</b> che intercetta l'url e una <b>replace</b> per produrre l'url di destinazione
+</p>
+
+
+</body>
+
+
+

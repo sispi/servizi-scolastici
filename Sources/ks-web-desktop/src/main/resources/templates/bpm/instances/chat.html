@@ -1,0 +1,109 @@
+<head>
+</head>
+
+<body>
+    <title>chat '${chat.id}'</title>
+
+    <script @server-model="chat" id="model-chat" src="/bpm/v1/instances/{id}/chat?fetch=*" type="application/json" ></script>
+
+    <script @server-model="messages" id="model-messages" src="/bpm/v1/instances/{id}/chat/messages?fetch=*" type="application/json" ></script>
+
+    <div id="app-chat" class="container-fluid" >
+        <div>
+            <div class="row col-12">
+                <button class="btn btn-sm btn-info" v-on:click="publish()">publish</button>
+
+                <div class="col-4">
+                    <button v-if="!chat.read" class="btn btn-sm btn-warning" v-on:click="markChatAsRead()">markChatAsRead</button>
+
+                    <span v-if="chat.read">
+                    <input   type="checkbox" v-model="chat.read" disabled > read
+                    </span>
+                </div>
+
+            </div>
+            <br/>
+
+            <div class="row">
+
+
+                <div class="col-4">
+                    <b>last read</b>
+                    <span>{{moment(chat.lastReadTs).format(dateTimeFormat)}}</span>
+                </div>
+
+                <div class="col-4">
+                    <b>last send</b>
+                    <span>{{moment(chat.lastSendTs).format(dateTimeFormat)}}</span>
+                </div>
+
+            </div>
+
+            <br/>
+
+            <report-table :model="messages" ></report-table>
+            <br/>
+            <h5><a data-toggle="collapse" href="#members">Members (${chat.members?size})</a></h5>
+            <report-table id="members" class="collapse" :model="members" ></report-table>
+        </div>
+    </div>
+
+    <script>
+
+        var app = new Vue({
+            el: "#app-chat",
+            data: function () {
+
+                var self = this;
+
+                var chat = data("model-chat");
+                var messages = reportdata("model-messages","instance:senderInstanceName,user:senderDisplayName,sent:sendTs,delete,text");
+
+                //messages.columns = "istanza:senderInstanceName,senderUserId,senderDisplayName,sendTs,readTs,delete".split(',');
+
+                messages.params["column.delete.href"] = function(value,ctx,rowidx) {
+                    self.deleteMessage(ctx.id);
+                };
+
+                messages.params["column.text.span"] = 100;
+
+                messages.params["column.delete.format"] = function(value) {
+                    return "<i class='fas fa-trash-alt'></i>";
+                };
+
+                var members = reportdata(chat.members);
+
+                return {
+                    instance: ${query.id},
+                    chat: chat,
+                    messages: messages,
+                    members: members
+                }
+            },
+            methods: {
+                deleteMessage: function(messageId) {
+                    var self = this;
+                    confirm("sei sicuro?", function() {
+                        BpmClientApi.instances.deleteChatMessage(self.instance,messageId,()=>{location.refresh()});
+                    });
+                },
+                markChatAsRead: function(messageId) {
+                    var self = this;
+                    confirm("sei sicuro?", function() {
+                        BpmClientApi.instances.markChatAsRead(self.instance, () => {location.refresh()});
+                    });
+                },
+                publish: function() {
+                    var self = this;
+                    prompt("text", function(value){
+                        BpmClientApi.instances.publishChatMessage(self.instance,{text:value.value},()=>{location.refresh()});
+                    })
+
+                }
+            }
+        });
+
+    </script>
+
+</body>
+

@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>KDM - getDocuments</shortname>
+  <description>Esegue ricerche impersonificate</description>
+  <url>/kdm/search</url>
+  <authentication>user</authentication>
+  <transaction>none</transaction>
+</webscript>

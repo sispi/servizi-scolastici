@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" @view="portal/master-portale">
+    <head @ignore>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Richiesta Assistenza</title>
+
+        <script src="../../assets/js/vue.js"></script>
+        <script src="../../assets/js/axios.min.js"></script>
+        <script src="../../../vendor/jquery-3.5.1.min.js"></script>
+        <script src="../../../vendor/jquery-migrate-3.3.0.min.js"></script>
+        <script>
+            axios.interceptors.request.use(function (config) {
+                config.headers.KS_AUTH_GROUP = "admin|ANM|ANM_AOO|SYS_ADMINS|admins";
+                return config;
+            });
+        </script>
+        <!-- nuovi import -->
+        <!-- Google Font Roboto-->
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+        <!-- Popper js -->
+        <script src="../../../vendor/popper-1.14.7.min.js"></script>
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="../../assets/css/bootstrap-italia.min.css" />
+        <!-- Bootstrap js -->
+        <script src="../../assets/js/bootstrap-italia.min.js"></script>
+        <!-- icone -->
+        <link rel="stylesheet" href="../../../vendor/fontawesome/all.min.css" />
+        <!-- scrollto -->
+        <script src="../../../vendor/vue-scrollto.js"></script>
+        <!-- vuetable -->
+        <script src="https://unpkg.com/vuetable-2@1.6.0"></script>
+        <!-- fine nuovi import-->
+        <style>
+            body {
+                font-family: "Roboto", sans-serif;
+                padding: 10px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="app">
+            <App></App>
+        </div>
+
+        <!-- Assistance request .js -->
+        <script src="/static/portal/js/features/assistance.js?no-cache"></script>
+    </body>
+</html>

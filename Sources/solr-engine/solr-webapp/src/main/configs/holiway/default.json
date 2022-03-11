@@ -1,0 +1,205 @@
+{
+
+    "repository" : "filesystem" , /* default provider per il salvataggio dei files */
+    "userroles" : "authorization" , /* default provider per richiedere i roles di un utente */
+    "login" : "authentication" , /* default provider per autenticazione */
+
+    "maxqueuesize" : 20 , /* massimo numero di elementi allineati nel corso di un update */
+
+
+    /* i provider possono essere definiti specificando il parametro "class" oppure "alias" di un altro provider */
+    /* oltre il "name" , "alias" e "class" ogni altro attributo è gestito dalla classe implementante */
+
+    "providers" : [
+
+        {
+            "name" : "import",
+            "alias" : "filesystem"
+        } ,
+
+        {
+            "name" : "repo1",
+            "alias" : "filesystem"
+        } ,
+
+        {
+            "name" : "filesystem" ,
+            "class" : "kdm.FileSystemProvider",
+            "store" : "../store"
+        } ,
+
+        {
+            "name" : "authentication" ,
+            "class" : "kdm.NetworkAuthenticationProvider",
+            "secret" : null
+            /* "hostfilter" : [ "localhost", "10.0.8.14", "192.168.0.1-192.168.0.255" ] */
+        } ,
+
+        {
+            "name" : "authorization" ,
+            "class" : "kdm.SolrAuthorizationProvider"
+        }
+    ],
+
+    "types" : [
+        {
+            /* il type "null" rappresenta il root e non esiste esplicitamente ma qui serve per specificare i children */
+
+            /* come conseguenza della virtualità del root, solo utenti con diritti globali (come admin) possono creare elementi sotto il root */
+
+            /* i children di un tipo specificano i diritti nesessari (sul padre) per creare un child di uno specifico tipo */
+            /* è rispettata la ereditarietà sui figli ma si può esplicitare per negarla */
+
+            "name" : null,
+            "children" : {
+                "group" : -1,
+                "folder" : -1,
+                "custom" : -1
+            },
+            defaultNode : "folder"
+        },
+        {
+            /* il type "abstract" è base implicita di ogni type */
+
+            "name" : "abstract" ,
+
+            "routes" : [ "/^(?:(.*)!|([^!]+)@).*$/$1$2!" ],
+
+            /* retrieve : 1 */
+            /* readContent : 2 */
+            /* retrieveACL : 4 */
+            /* readVersion : 8 */
+            /* listVersions : 16 */
+
+            /* -------------------------> read mask = 31 */
+
+            /* createChildren : 32 */
+            /* update : 64 */
+            /* lock : 128 */
+            /* writeContent : 256 */
+            /* createVersion : 512 */
+            /* rename : 1024 */
+            /* move : 2048 */
+            /* unlock : 4096 */
+
+            /* -------------------------> edit+createChildren mask = 8191 */
+
+            /* delete : 8192 */
+            /* updateACL : 16384 */
+
+            /* -------------------------> owner mask = 32767 */
+
+            /* sync : 32768 */
+
+            /* -------------------------> admin mask  = -1 oppure 49151 */
+
+
+
+
+            /* profili di sicurezza , possono essere specificati anche a livelli di type */
+            "profiles" : {
+
+                /* created by è il profilo convenzionale che viene assegnato al creatore di un elemento. */
+                /* Esso può o meno coincidere con un profilo esistente e */
+                /* se non specificato il creator non ha diritti impliciti */
+
+                "created_by" : 32767,
+
+                /* docer */
+                "readOnly" : 31,
+                "normalAccess" : 8191,
+                "fullAccess" : 32767,
+                "viewProfile" : 1
+            },
+
+            /* vengono applicati all'inizio del create e dell'update' */
+            /* i templates vengono applicati in ordine solo se applicabili ed è possibile specificare in coda una regex e una stringa di sostituzione, nonchè un default */
+
+            "on_create": {
+                "name" : "{%sid}",
+                "id" : ["{sequence}@{%type}"],
+                "sid" : [ "{id/.+[\\.!]([^!@]+).*/$1%}" , "{id/([^\\.!@]+)[!@]+[^!@]+/$1%}" ]
+            } ,
+
+            "validation" : {
+                /* "field" : "[ range in solr syntax ]" */
+                /* "field" : "/regex validation/" */
+                /* "field" : "{0,1}" */
+                /* "field::id" : "... la validazione avviene sul campo citato ..." */
+
+
+                "acl_explicit/[^:]+:(.*)/$1" : "/fullAccess|readOnly|normalAccess|viewProfile/"
+
+            },
+
+            /* specifica se il type ha uno stream */
+            "stream" : false ,
+
+            /* type di default se viene creato un figlio con stream */
+            "defaultStream" : "documento",
+
+            /* type di default se viene creato un figlio senza stream */
+            "defaultNode" : "folder"
+        },
+        {
+            "name" : "folder",
+            "children" : {
+                "folder" : 32,
+                "documento" : 32
+            }
+        },
+        {
+            "name" : "documento",
+            "stream" : true
+        },
+        {
+            "name" : "user",
+
+            "on_create": {
+                "id" : [ "{!name}@user" ] ,
+                "full_name" : "{name%}",
+                "groups" : [ "everyone@group" ],
+                "acl_explicit" : [ "everyone@group:readOnly" ],
+                "parent" : [ "everyone@group" ]
+            },
+
+            "aliases": {
+                "display_name" : "{name%} ({full_name})"
+            }
+        },
+        {
+            "name" : "group",
+            "defaultNode" : "group",
+            "children" : {
+                "group" : 32,
+                "user" : 32
+            },
+
+            "on_create": {
+                "id" : [ "{!name}@group" ] ,
+                "full_name" : "{name%}" ,
+                "acl_explicit" : [ "everyone@group:readOnly" ]
+            },
+
+            "aliases" : {
+                "display_name" : "{name%} ({full_name})"
+            }
+        },
+        {
+            "name" : "custom",
+            "defaultNode" : "{type}",
+
+            "children" : {
+                "custom" : 32,
+                "folder" : 32,
+                "documento" : 32
+            }
+        },
+        {
+            "name" : "*",
+
+            /* type di default, in questo caso eredita sempre da custom */
+            "inherits" : "custom"
+        }
+    ]
+}

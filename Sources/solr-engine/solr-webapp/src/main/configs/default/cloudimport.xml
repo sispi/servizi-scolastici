@@ -1,0 +1,543 @@
+<dataConfig>
+
+    <!--
+	
+	il CSV deve iniziare con la riga di header.
+	I nomi delle colonne sono la parte di header fino al primo carattere non alfanumerico o spazio
+	
+	I campi impostano i metadati omonimi su solr con le seguenti eccezioni:
+	
+	- Il campo DISABLED è impostato sul campo ENABLED (booleano) invertendo il valore
+	- i campi groups e roles possono essere GROUPS o ROLES e viene aggiunto eventuale type mancante @group
+	- il campo ACL viene trasferito come acl_explicit e viene aggiunto eventuale type mancante @group
+	Il diritto può essere espresso come 0, READ, readoOnly , 1, EDIT, normalAccess, 2, FULL , fullAccess
+	
+	Per retrocompatibilità i campi booleani GRUPPO_STRUTTURA, ENABLED e DISABLED possono assumere i valori positivi T, TRUE, S e SI 
+	
+	Il type viene dedotto se assente tra i parametir o trale colonne :
+	1) dalla presentza della coppia di colonne COD_<type> e DES_<type>, incluso TITOLARIO che diventa minuscolo 
+	2) per il type user per la presenza di USER_ID e FULL_NAME
+	3) per il type group per la presenza di GROUP_ID e GROUP_NAME
+	
+	Il datasource cloud può essere configurato a partire da qualunque url che produca un csv
+	Per un google sheet è possibile usare lurl <url pubblico al documento>/export?format=csv&gid=<gid> 
+	Il gid se assente punta il primo foglio
+
+    Parametri:
+
+    ticket=...			ticket di amministratore OBBLIGATORIO
+    ente=...			codice ente se non specificato deve essere presente nel csv come COD_ENTE o ente
+    aoo=...				codice aoo se non specificato deve essere presente nel csv come COD_AOO o aoo
+	type=...			se non specificato può essere nel CSV come type o TYPE altrimenti viene dedotto se possibile dalle colonne
+	SEP=...				separatore per i multivalue (default è ,)
+    GROUP_ROLES=....  	ruoli associati ai gruppi struttura, ad es. FASC,PROT,RESP fa creare tre sotto-gruppi
+    domain=...        	dominio mail (es. anm.it) causa la generazione automatica dei campi USER_MAIL e GROUP_MAIL
+    password=...		eventuale password per gli utenti (altrimenti viene impostata in automatico MD5)
+    secret=...			eventuale secret per gli utenti (altrimenti viene impostata in automatico con SECRET)
+
+    es:
+    ente=ANM&aoo=ANM_AOO&ticket=admin&password=napoli.081&domain=anm.it&GROUP_ROLES=RESP,FASC,PROT
+
+    -->
+
+    <propertyWriter dateFormat="yyyy-MM-dd'T'HH:mm:ss'Z'" type0="SimplePropertiesWriter" type="ZKPropertiesWriter" directory="data" filename="protocollo.properties" />
+
+    <dataSource name="csv" encoding="UTF-8" connectionTimeout="5000" readTimeout="10000" type="FileDataSource" basePath="/opt/protocollo/" />
+	
+	<dataSource name="cloud" encoding="UTF-8" connectionTimeout="5000" readTimeout="10000" type="URLDataSource" baseUrl="https://docs.google.com/spreadsheets/d/1hvrqZf-kagGmKclC4NGT7r5dGsaTOwg1nhdnFu6lIVs" />
+
+    <script><![CDATA[
+
+				var logger = org.slf4j.LoggerFactory.getLogger(org.apache.solr.handler.dataimport.DataImportHandler);
+
+				var headers = null;
+				var type_guess = null;
+				
+				var domain = null ;
+				var SECRET = null;
+				var password = null;
+				var ente = null;
+				var aoo = null;
+				var domain = null;
+				var GROUP_ROLES = null; 
+				var debug = null;
+				
+				function bool(val){
+					return (val==true || val=="true" || val=="S" || val=="SI" || val=="T" || val=="TRUE" );
+				}
+				
+				
+				
+				function parseline(str,reviver){
+
+					reviver = reviver || function(c, v) { return v; };
+					var chars = str.split(''), c = 0, cc = chars.length, start, end, row = [];
+
+							while (c < cc) {
+
+								start = end = c;
+								if ('"' === chars[c]){
+									start = end = ++c;
+									while (c < cc) {
+										if ('"' === chars[c]) {
+											if ('"' !== chars[c+1]) { break; }
+											else { chars[++c] = ''; } // unescape ""
+										}
+										end = ++c;
+									}
+									if ('"' === chars[c]) { ++c; }
+									while (c < cc && ',' !== chars[c]) { ++c; }
+								} else {
+									while (c < cc && ',' !== chars[c]) { end = ++c;  }
+								}
+								row.push(reviver(row.length, chars.slice(start, end).join('')));
+								if (',' === chars[c]) { ++c; }
+							}
+
+					return row;
+				}
+
+				function parserow(row,context){
+
+					var type = context.resolve("dataimporter.request.type") || type_guess ;
+
+                    if (headers==null)
+                    {
+						
+						ente = context.resolve("dataimporter.request.ente") ;
+						aoo = context.resolve("dataimporter.request.aoo") ;
+						SEP = context.resolve("dataimporter.request.SEP") || "," ;
+						domain = context.resolve("dataimporter.request.domain") ;
+						SECRET = context.resolve("dataimporter.request.secret") || "SECRET";
+						password = context.resolve("dataimporter.request.password");
+						domain = context.resolve("dataimporter.request.domain") ;
+						GROUP_ROLES = context.resolve("dataimporter.request.GROUP_ROLES") ;
+						debug = context.resolve("dataimporter.request.debug") == "true";
+						
+						headers = row["rawLine"].replace(/^[^\w]*|[^\w]*$/g,'').split(/[^\w]*,[^\w]*/)
+						//headers = row["rawLine"].split(",");
+                        
+
+						if (!type){
+							var guessed = null;
+							for( i=0; i<headers.length; i++){
+
+								var header = headers[i];
+								if (header.indexOf("COD_")==0)
+									guessed = header.substring(4);
+									
+								if (header=="GROUP_ID")
+									guessed = "group";
+									
+								if (header=="USER_ID")
+									guessed = "user";
+							}
+							if (guessed){
+								for( i=0; i<headers.length; i++){
+									var header = headers[i];
+									if (header == "DES_"+guessed || guessed=="group" && header == "GROUP_NAME" || guessed=="user" && header == "FULL_NAME" ){
+										
+										type_guess = guessed;
+										
+										if (guessed=="TITOLARIO")
+											type_guess = "titolario";
+										
+									}
+								}
+							}
+						}
+						
+						logger.warn("inizia import con ente:{},aoo:{},type_guess:{}\nGROUP_ROLES:{}\nheaders:{}",ente,aoo,type_guess,GROUP_ROLES,headers.join("|"));
+
+                        return null;
+                    }
+					
+					var vals = parseline(row["rawLine"]);
+
+					var newrow = {};
+
+					if (headers==null){
+						logger.error("headers not found!!!!");
+						return null;
+					}
+
+					for( i=0; i<headers.length; i++ ){
+
+						var key = headers[i].trim();
+
+						var value = (""+vals[i]).trim();
+						
+						if (value=="" || value==null)
+							value = "__NULL__";
+							
+						var values = new java.util.HashSet();
+						
+						if (value.indexOf(SEP)>=0 ){
+							
+							value = value.split(SEP);
+							for( j=0; j<value.length; j++){
+							
+								var v = value[j].trim();
+								
+								if (key=="ACL"){
+								
+									var rights = v.split(":")[1] || "readOnly";
+									
+									if (rights=="READ" || rights=="0")
+										rights = "readOnly";
+									else if (rights=="EDIT" || rights=="1")
+										rights = "normalAccess";
+									else if (rights=="FULL" || rights=="2" )
+										rights = "fullAccess";
+									
+									var actor = v.split(":")[0];
+									if (actor.indexOf("@")==-1)
+										actor += "@group";
+									v = actor + rights;															
+								}							
+								
+								values.add(v);
+							}
+								
+							value = values;
+						
+						} else {
+							values.add(value);
+						}
+						
+						if (key=="ACL" || key=="acl"){
+							key = "acl_explicit";
+						}
+							
+						if (key=="DISABLED" || key=="disabled"){
+							key = "ENABLED";
+							value = !bool(value);
+						}
+						
+						
+						newrow[key] = value;
+					}
+
+					
+					if (!newrow["COD_ENTE"]){
+						newrow["COD_ENTE"] = newrow["ente"] || ente;
+					}
+
+					if (!newrow["COD_AOO"]){
+						newrow["COD_AOO"] = newrow["aoo"] || aoo ;
+					}
+
+					if (!newrow["type"]){
+						newrow["type"] = newrow["TYPE"] || type;
+					}
+
+					newrow["location"] = "DOCAREA";
+					
+					if (!newrow["COD_ENTE"] || !newrow["COD_AOO"]){
+						logger.error("ente o aoo non specificati in import");
+						return null;
+					}
+
+					return newrow;
+
+				}
+
+				function getRoles(al_groups)
+				{
+				    var q = "+id:("+ java.lang.String.join(" ",al_groups)+")";
+					q+= " +roles:*";
+
+				    var params = new org.apache.solr.client.solrj.SolrQuery();
+				    params["set(java.lang.String,java.lang.String[])"]( "ticket" , "admin" );
+				    params.setQuery(q);
+                    params.addField( "id" );
+                    params.addField( "roles" );
+                    params.setRows( 100 );
+
+                    var rolesDoc = Packages.it.kdm.solr.client.CoreClient.getInstance().query( params ).getResults();
+
+                    for ( var i=0; i<rolesDoc.size(); i++  )
+                    {
+                        var role = rolesDoc.get(i);
+
+                        var profileRoles = role.getFieldValues( "roles" ).toArray();
+
+                        for ( var j=0; j<profileRoles.length; j++  )
+                            al_groups.add( profileRoles[j].toString()+"@group" );
+                    }
+
+                    return al_groups;
+                }
+
+				function group(row,context)
+                {
+					if (row["rawLine"])
+						row = parserow(row,context);
+					
+					if (row==null)
+						return null;
+					
+					row["type"] = "group";
+					
+					if (!row["GROUP_MAIL"] && domain){
+						row["GROUP_MAIL"] = row["GROUP_ID"] + "@" + domain ;
+					}
+					
+                    var GRUPPO_STRUTTURA = bool(row["GRUPPO_STRUTTURA"]);
+					row["GRUPPO_STRUTTURA"] = GRUPPO_STRUTTURA;
+					
+					if (!GRUPPO_STRUTTURA || !GROUP_ROLES)
+						return row;
+						
+					var roles = GROUP_ROLES.split(",");
+					var list = new java.util.ArrayList();
+					
+					list.add(row);
+					
+					for ( var i=0; i<roles.length; i++){
+						var role = roles[i];
+						var matches = role.match("(?:([^\\(]+[^\\s]+)?\\s*\\()?([^\\)]+)\\)?");
+						
+						var PARENT_GROUP_ID = row["GROUP_ID"];
+						var GROUP_ID = PARENT_GROUP_ID + "_" + matches[2];
+						var GROUP_NAME = (matches[1] || matches[2]) + "(" + PARENT_GROUP_ID + ")";
+							
+						var row_role = {};
+
+						row_role["GROUP_ID"] = GROUP_ID ;
+						row_role["GROUP_NAME"] = GROUP_NAME 
+						row_role["GRUPPO_STRUTTURA"] = false ;
+						row_role["PARENT_GROUP_ID"] = PARENT_GROUP_ID;
+						row_role["acl_explicit"] = row["acl_explicit"] ;
+						row_role["ENABLED"] = row["ENABLED"] ;
+						row_role["COD_ENTE"] = row["COD_ENTE"] ;
+						row_role["COD_AOO"] = row["COD_AOO"];
+						row_role["type"] = row["type"];		
+						row_role["location"] = row["location"];		
+						
+						if (domain)
+							row_role["GROUP_MAIL"] = GROUP_ID + "@" + domain ;
+						
+						list.add(row_role);
+					}
+                    
+                    return list;
+                }
+
+				function user(row,context)
+                {
+					if (row["rawLine"])
+						row = parserow(row,context);
+					
+					if (row==null)
+						return null;
+					
+					row["type"] = "user";
+					
+					if (!row["USER_MAIL"] && domain){
+						row["USER_MAIL"] = row["USER_ID"] + "@" + domain ;
+					}	
+
+					if (!password)
+						password = org.apache.commons.codec.digest.DigestUtils.md5Hex( row["USER_ID"] + SECRET ) ;
+
+					row["USER_PASSWORD"] = password;
+					
+					var groups = row["groups"] || row["GROUPS"] || new java.util.HashSet();
+					
+					if (!groups.size){
+						var x = new java.util.HashSet();
+						if (groups!="" && groups!="__NULL__")
+							x.add(groups);
+						groups = x;
+					}
+
+					groups.add(ente+"@group");
+					groups.add(aoo+"@group");
+					groups.add("everyone@group");
+					
+					groups = new java.util.ArrayList(groups);
+
+					for ( var i=0; i<groups.size(); i++ ){
+						
+						var group = groups.get(i);
+						if (group.indexOf("@group")==-1){
+							group += "@group";
+							groups.set(i,group);
+						}	
+					}
+					
+					row["GROUPS"] = null;
+					
+					if (groups.size()==0)
+						groups = "__NULL__";
+					
+					row["groups"] = groups;
+					
+					var roles = row["roles"] || row["ROLES"];
+					
+					if (roles == null)
+						return row;
+					
+					if (!roles.size){
+						var x = new java.util.HashSet();
+						if (roles!="" && roles!="__NULL__")
+							x.add(roles);
+						roles = x;
+					}
+
+					roles = new java.util.ArrayList(roles);
+
+					for ( var i=0; i<roles.size(); i++ ){
+						
+						var role = roles.get(i);
+						if (role.indexOf("@group")==-1){
+							role += "@group";
+							roles.set(i,role);
+						}	
+					}
+					row["ROLES"] = null;
+					
+					if (roles.size()==0)
+						roles = "__NULL__";
+					
+					row["roles"] = roles;
+
+                    return row;
+                }
+				
+		function rowstring(obj){
+			var drow = "";
+			var list
+			if (!obj.size){
+				list = new java.util.ArrayList();
+				list.add(obj);
+			} else {
+				list = obj;
+			}
+			
+			for ( var i=0; i<list.size(); i++){
+				var row = list.get(i);
+				var keys = Object.keys(row);
+				for( var k in keys ){
+					drow += (keys[k]+"="+row[keys[k]] + "; ");
+				}
+				drow += "\n";
+			}
+			
+			
+			return drow;
+		}
+
+		function anagrafica(row,context){
+		
+			var oldrow = row;
+			
+			row = parserow(row,context);
+			
+			if (row==null){
+				if (debug){
+					logger.warn("skipped:{}",oldrow["rawLine"]);
+				}
+				return null;
+			}
+				
+			
+			var t = row.type;
+			var func = eval(t);
+			var parsed = rowstring(row);
+			
+			try{
+				if (func){
+				
+					row = func(row,context);
+					
+					if (debug)
+						logger.warn("rawLine:{}\nparsed:{}\nafter:{}",oldrow["rawLine"],parsed,rowstring(row));
+				
+				} else if (debug){
+					
+					logger.warn("rawLine:{}\nparsed:{}",oldrow["rawLine"],parsed);	
+					
+				}
+			} catch(e) {
+				logger.error("rawLine:{}\nparsed:{}\nerror:{}",oldrow["rawLine"],parsed,e);
+				throw e;
+			}
+
+			return row;
+		}
+
+
+
+        ]]></script>
+
+    <document>
+        <entity name="titolario"
+                processor="LineEntityProcessor"
+                url="titolario4.csv"
+                dataSource="csv"
+                transformer="script:titolario"
+
+
+        >
+        </entity>
+
+        <entity name="gruppi"
+                processor="LineEntityProcessor"
+                url="gruppi4.csv"
+                dataSource="csv"
+                transformer="script:group"
+
+
+        >
+        </entity>
+
+        <entity name="utenti"
+                processor="LineEntityProcessor"
+                url="utenti4.csv"
+                dataSource="csv"
+                transformer="script:user"
+
+
+        >
+        </entity>
+
+		<entity name="anagrafica"
+                processor="LineEntityProcessor"
+                url="anagrafica.csv"
+                dataSource="csv"
+                transformer="script:anagrafica"
+
+        >
+        </entity>
+		
+		<entity name="cloud_group"
+                processor="LineEntityProcessor"
+                url="/export?format=csv&amp;gid=0"
+                dataSource="cloud"
+                transformer="script:anagrafica"
+		>
+        </entity>
+		
+		<entity name="cloud_user"
+                processor="LineEntityProcessor"
+                url="/export?format=csv&amp;gid=1070822295"
+                dataSource="cloud"
+                transformer="script:anagrafica"
+		>
+        </entity>
+		
+		<entity name="cloud_anagrafica"
+                processor="LineEntityProcessor"
+                url="/export?format=csv&amp;gid=705192761"
+                dataSource="cloud"
+                transformer="script:anagrafica"
+		>
+        </entity>
+		
+
+    </document>
+
+</dataConfig>
+

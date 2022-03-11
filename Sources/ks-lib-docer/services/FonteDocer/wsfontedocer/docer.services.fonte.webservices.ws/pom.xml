@@ -1,0 +1,67 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>it.kdm.docer</groupId>
+		<artifactId>docer.services.fonte.webservices</artifactId>
+		<version>2.0.0</version>
+	</parent>
+
+	<artifactId>docer.services.fonte.webservices.ws</artifactId>
+	<packaging>war</packaging>
+
+	<url>http://maven.apache.org</url>
+	<dependencies>
+        <dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>docer.services.wsdocer.sdk</artifactId>
+			<version>${project.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>${project.parent.artifactId}.BusinessLogic</artifactId>
+			<version>${project.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>docer.services.wsdocer.provider.alfresco40dce</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>it.kdm.docer</groupId>
+			<artifactId>docer.commons.services</artifactId>
+			<version>${parent.version}</version>
+		</dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>docer.commons.axis2-base</artifactId>
+            <version>${parent.version}</version>
+            <type>war</type>
+            <scope>runtime</scope>
+        </dependency>
+	</dependencies>
+	<build>
+		<finalName>WSFonteDocer</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+                <configuration>
+                    <overlays>
+                        <overlay>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>docer.commons.axis2-base</artifactId>
+                        </overlay>
+                    </overlays>
+                    
+                </configuration>
+            </plugin>
+        </plugins>
+	</build>
+    <properties>
+        <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
+    </properties>
+</project>

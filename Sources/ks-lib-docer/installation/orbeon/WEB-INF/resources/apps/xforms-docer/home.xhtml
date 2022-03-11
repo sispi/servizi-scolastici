@@ -1,0 +1,21 @@
+<xhtml:html xmlns:xforms="http://www.w3.org/2002/xforms"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:xhtml="http://www.w3.org/1999/xhtml"
+           xmlns:ev="http://www.w3.org/2001/xml-events"> 
+    <xhtml:head> 
+        <xhtml:title>Attendere...</xhtml:title> 
+        <xforms:model id="model" > 
+
+			<xforms:action ev:event="xforms-ready" >
+				<xforms:dispatch name="xforms-redirect" targetid="model" delay="1" >
+				</xforms:dispatch>
+			</xforms:action>
+			
+			
+            <xforms:load ev:event="xforms-redirect" ev:observer="model"  resource="XForms?action=search" show="replace">
+            </xforms:load>
+         </xforms:model>
+ 	 </xhtml:head> 
+	<xhtml:body> 
+	</xhtml:body> 
+</xhtml:html>

@@ -1,0 +1,122 @@
+<saml2:Assertion xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xs="http://www.w3.org/2001/XMLSchema" ID="s2c69606ac168ab0cbfd8320de7f8231a721ce56" IssueInstant="2015-01-13T10:18:08.660Z" Version="2.0">
+  <saml2:Issuer>https://federatest.lepida.it/gw/metadata</saml2:Issuer>
+  <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+    <ds:SignedInfo>
+      <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+      <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+      <ds:Reference URI="#s2c69606ac168ab0cbfd8320de7f8231a721ce56">
+        <ds:Transforms>
+          <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+          <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
+            <ec:InclusiveNamespaces xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#" PrefixList="xs"/>
+          </ds:Transform>
+        </ds:Transforms>
+        <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+        <ds:DigestValue>gW9wx61J967NyooFxJeAkZP2eDQ=</ds:DigestValue>
+      </ds:Reference>
+    </ds:SignedInfo>
+    <ds:SignatureValue>FIoR8k4vZXrfkqZ+jgcAZdD0Ql4ADKB+bfN56cIVYdgUC/1W35t2NPFJoQQcixtgBFB55W4m2FTY8qVMiajrhBNQAL9BRyKA/FKrh1gkQ/bV3lNmZZanNFUg8+Yt3YWa0oHG83i8AdCl4k21dZ5S4cn30mCLBtF/smGFL8O1JXQikklf5mQLck2AInP7puVErl6ySH8CENzMcQ3ebpGfN1rFEoFqBmiBvwZgiI+iNJFFCBxRySuKBNigDk6asijZTiDIViF2Es0RIIbmEWxHWxis/O+jujW2iNtvfSuoiqLgYw6YxnwaiGhNsrJV90rj8NP5KtnPm7fU0I0MUyqKxg==</ds:SignatureValue>
+    <ds:KeyInfo>
+      <ds:X509Data>
+        <ds:X509Certificate>MIIDJDCCAgygAwIBAgIVAIq/MUgxPKO0cuX/GtD7YUvk87GtMA0GCSqGSIb3DQEBBQUAMBkxFzAVBgNVBAMTDmlkcC5tYWNoaW5lLml0MB4XDTA5MDMyNTEwNTM1OFoXDTI5MDMyNTA5NTM1OFowGTEXMBUGA1UEAxMOaWRwLm1hY2hpbmUuaXQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQClXV18x0/yhZ+D3pHlmhrK4paA+xdJKAT7U7R9DeaTQygwtCjKmCrJbzdohckLz5pax7eaGeA53pPCY+JdiU0Uq4ES8nG2DCZgCtl4QGLUcTuUtJdPq+DbYD1cWBwEeeffsiClVyuhgLRPO1OQLl/TJp4slfoYTi0aONgQp03uG+ixL48myL7GrINHYXtDUDqo2BimyU0yrOe6ZmvxJchZ8nBuWKy0J8wsO/Mnasbvo79/c8gcn0HTst0QDlHXQlzwZ4Suq2os9qKjXAYOzA1VqmTyzJIge/ynHiJ0Fkw0HNxBaVFTJRNL8RvwJsMuBT7YZKRoNK7gjT5/6bGagYM/AgMBAAGjYzBhMEAGA1UdEQQ5MDeCDmlkcC5tYWNoaW5lLml0hiVodHRwczovL2lkcC5tYWNoaW5lLml0L2lkcC9zaGliYm9sZXRoMB0GA1UdDgQWBBSBOsPZiWZRXFqNINIguHfv7jnidDANBgkqhkiG9w0BAQUFAAOCAQEAeVLN9jczRINuPUvpXbgibL2c99dUReMcl47nSVtYeYEBkPPZrSz0h3AyVZyar2Vo+/fC3fRNmaOJvfiVSm+bo1069iROI1+dGGq2gAwWuQI1q0F7PNPX4zooY+LbZI0oUhuoyH81xed0WtMlpJ1aRSBMpR6oV3rguAkH6pdr725yv6m5WxKcOM/LzdD5Xt9fQRL7ino4HfiPPJNDG3UOKhoAWkVn/Y/CuMLcBPWh/3LxIv4A1bQbnkpdty+Qtwfp4QUKkisv7gufQP91aLqUvvRE6Uz8r51VH13e4mEJjJGxLKXWzlP50gp7b27AXCTKSS6fW6iBpfA14PGcWvDiPQ==</ds:X509Certificate>
+      </ds:X509Data>
+    </ds:KeyInfo>
+  </ds:Signature>
+  <saml2:Subject>
+    <saml2:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified" NameQualifier="https://federatest.lepida.it/gw">GGLSMN78B27H501I</saml2:NameID>
+    <saml2:SubjectConfirmation Method="urn:oasis:names:tc:SAML:2.0:cm:bearer">
+      <saml2:SubjectConfirmationData InResponseTo="s2624a74e422b1620285a3995581abec529b376f" NotOnOrAfter="2015-01-13T10:23:08.660Z" Recipient="http://intranet.kdm.it:9097/docer/AssertionConsumerService"/>
+    </saml2:SubjectConfirmation>
+  </saml2:Subject>
+  <saml2:Conditions NotBefore="2015-01-13T10:16:08.660Z" NotOnOrAfter="2015-01-13T10:23:08.660Z">
+    <saml2:AudienceRestriction>
+      <saml2:Audience>http://localhost:8080/webappname/metadata</saml2:Audience>
+    </saml2:AudienceRestriction>
+  </saml2:Conditions>
+  <saml2:Advice>
+    <saml2:Assertion xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" ID="s2142502c2513b66ff06337647620d28f43ab27e" IssueInstant="2015-01-13T10:18:08.792Z" Version="2.0">
+      <saml2:Issuer>https://federatest.lepida.it/gw/metadata</saml2:Issuer>
+      <saml2:Subject>
+        <saml2:NameID Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified" NameQualifier="https://federatest.lepida.it/gw">GGLSMN78B27H501I</saml2:NameID>
+      </saml2:Subject>
+      <saml2:AttributeStatement>
+        <saml2:Attribute Name="authenticationAssertion">
+          <saml2:AttributeValue xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c2FtbDI6QXNzZXJ0aW9uIHhtbG5zOnNhbWwyPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YXNzZXJ0aW9uIiBJRD0iXzcyODc3ZmFjYzk2ZWNhNjlmZDVhYjVhNmQ0NDJmZWJlIiBJc3N1ZUluc3RhbnQ9IjIwMTUtMDEtMTNUMDk6NDU6NTYuMTA2WiIgVmVyc2lvbj0iMi4wIiB4bWxuczp4cz0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEiPjxzYW1sMjpJc3N1ZXIgRm9ybWF0PSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6bmFtZWlkLWZvcm1hdDplbnRpdHkiPmh0dHBzOi8vZmVkZXJhdGVzdC5sZXBpZGEuaXQvaWRwL3Byb2ZpbGUvTWV0YWRhdGEvbWlvLml0LzE8L3NhbWwyOklzc3Vlcj48ZHM6U2lnbmF0dXJlIHhtbG5zOmRzPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjIj48ZHM6U2lnbmVkSW5mbz48ZHM6Q2Fub25pY2FsaXphdGlvbk1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMTAveG1sLWV4Yy1jMTRuIyIvPjxkczpTaWduYXR1cmVNZXRob2QgQWxnb3JpdGhtPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwLzA5L3htbGRzaWcjcnNhLXNoYTEiLz48ZHM6UmVmZXJlbmNlIFVSST0iI183Mjg3N2ZhY2M5NmVjYTY5ZmQ1YWI1YTZkNDQyZmViZSI+PGRzOlRyYW5zZm9ybXM+PGRzOlRyYW5zZm9ybSBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyNlbnZlbG9wZWQtc2lnbmF0dXJlIi8+PGRzOlRyYW5zZm9ybSBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMTAveG1sLWV4Yy1jMTRuIyI+PGVjOkluY2x1c2l2ZU5hbWVzcGFjZXMgeG1sbnM6ZWM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvMTAveG1sLWV4Yy1jMTRuIyIgUHJlZml4TGlzdD0ieHMiLz48L2RzOlRyYW5zZm9ybT48L2RzOlRyYW5zZm9ybXM+PGRzOkRpZ2VzdE1ldGhvZCBBbGdvcml0aG09Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvMDkveG1sZHNpZyNzaGExIi8+PGRzOkRpZ2VzdFZhbHVlPnVudzZNWGFVWFNCbGEycWU2RUdhKzlVTnd2QT08L2RzOkRpZ2VzdFZhbHVlPjwvZHM6UmVmZXJlbmNlPjwvZHM6U2lnbmVkSW5mbz48ZHM6U2lnbmF0dXJlVmFsdWU+Q0ZVTnNpek5VdzRVZFlHQU5lM0Fkb0JXUm1vR2drYWxMbjZDVC9yZlNxSVk0cVNibHB5QUlCV2hYTHRseDM5VE9xR1ZwcHdObUhINTEzWVl1MkJ6ZkRRL3dqbytMWlhwWHlaVy9ON3A0Z2VqN1B5NnFQV2x4SGdZTW9reU9lNDBrY25qYWRuMFBJd0hCZ3RqQU1kZ0xLTFZtZ3duSkE0V3ZzVnFyalVITjBHRmxqQm4vY3lyaFpqUTZZVmtjd0hLUlN0Q1ZkTEMrRGkxR2pGanNqUWlyNHlBVlpWTC9UaTNmUnV1dVV6bWpEa21KYUdGeEthc2ZSdkZWRGIvdUtmeWFpMXFLZFdKZHludFZaWnd0dVlaZ0REamxEU09nQVFuOTE2MzJuUVFGZGdXSGd2Rlp2YTJNYXN0TkFKbGpRYUJMRjY5QS82MFQwM3N0ZUhIUE9NZmdRPT08L2RzOlNpZ25hdHVyZVZhbHVlPjxkczpLZXlJbmZvPjxkczpYNTA5RGF0YT48ZHM6WDUwOUNlcnRpZmljYXRlPk1JSURKRENDQWd5Z0F3SUJBZ0lWQUlxL01VZ3hQS08wY3VYL0d0RDdZVXZrODdHdE1BMEdDU3FHU0liM0RRRUJCUVVBTUJreEZ6QVYKQmdOVkJBTVREbWxrY0M1dFlXTm9hVzVsTG1sME1CNFhEVEE1TURNeU5URXdOVE0xT0ZvWERUSTVNRE15TlRBNU5UTTFPRm93R1RFWApNQlVHQTFVRUF4TU9hV1J3TG0xaFkyaHBibVV1YVhRd2dnRWlNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0SUJEd0F3Z2dFS0FvSUJBUUNsClhWMTh4MC95aForRDNwSGxtaHJLNHBhQSt4ZEpLQVQ3VTdSOURlYVRReWd3dENqS21DckpiemRvaGNrTHo1cGF4N2VhR2VBNTNwUEMKWStKZGlVMFVxNEVTOG5HMkRDWmdDdGw0UUdMVWNUdVV0SmRQcStEYllEMWNXQndFZWVmZnNpQ2xWeXVoZ0xSUE8xT1FMbC9USnA0cwpsZm9ZVGkwYU9OZ1FwMDN1RytpeEw0OG15TDdHcklOSFlYdERVRHFvMkJpbXlVMHlyT2U2Wm12eEpjaFo4bkJ1V0t5MEo4d3NPL01uCmFzYnZvNzkvYzhnY24wSFRzdDBRRGxIWFFsendaNFN1cTJvczlxS2pYQVlPekExVnFtVHl6SklnZS95bkhpSjBGa3cwSE54QmFWRlQKSlJOTDhSdndKc011QlQ3WVpLUm9OSzdnalQ1LzZiR2FnWU0vQWdNQkFBR2pZekJoTUVBR0ExVWRFUVE1TURlQ0RtbGtjQzV0WVdObwphVzVsTG1sMGhpVm9kSFJ3Y3pvdkwybGtjQzV0WVdOb2FXNWxMbWwwTDJsa2NDOXphR2xpWW05c1pYUm9NQjBHQTFVZERnUVdCQlNCCk9zUFppV1pSWEZxTklOSWd1SGZ2N2puaWREQU5CZ2txaGtpRzl3MEJBUVVGQUFPQ0FRRUFlVkxOOWpjelJJTnVQVXZwWGJnaWJMMmMKOTlkVVJlTWNsNDduU1Z0WWVZRUJrUFBaclN6MGgzQXlWWnlhcjJWbysvZkMzZlJObWFPSnZmaVZTbStibzEwNjlpUk9JMStkR0dxMgpnQXdXdVFJMXEwRjdQTlBYNHpvb1krTGJaSTBvVWh1b3lIODF4ZWQwV3RNbHBKMWFSU0JNcFI2b1Yzcmd1QWtINnBkcjcyNXl2Nm01Cld4S2NPTS9MemRENVh0OWZRUkw3aW5vNEhmaVBQSk5ERzNVT0tob0FXa1ZuL1kvQ3VNTGNCUFdoLzNMeEl2NEExYlFibmtwZHR5K1EKdHdmcDRRVUtraXN2N2d1ZlFQOTFhTHFVdnZSRTZVejhyNTFWSDEzZTRtRUpqSkd4TEtYV3psUDUwZ3A3YjI3QVhDVEtTUzZmVzZpQgpwZkExNFBHY1d2RGlQUT09PC9kczpYNTA5Q2VydGlmaWNhdGU+PC9kczpYNTA5RGF0YT48L2RzOktleUluZm8+PC9kczpTaWduYXR1cmU+PHNhbWwyOlN1YmplY3Q+PHNhbWwyOk5hbWVJRCBGb3JtYXQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpuYW1laWQtZm9ybWF0OnRyYW5zaWVudCIgTmFtZVF1YWxpZmllcj0iaHR0cHM6Ly9mZWRlcmF0ZXN0LmxlcGlkYS5pdC9pZHAvcHJvZmlsZS9NZXRhZGF0YSI+Xzc3OTYyODhjMTQ0ZjI4MTMzMGJhNTczMjJiZmIzMzdlPC9zYW1sMjpOYW1lSUQ+PHNhbWwyOlN1YmplY3RDb25maXJtYXRpb24gTWV0aG9kPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6Y206YmVhcmVyIj48c2FtbDI6U3ViamVjdENvbmZpcm1hdGlvbkRhdGEgQWRkcmVzcz0iOTUuMjI0LjEwNS4xOTIiIEluUmVzcG9uc2VUbz0iczI2YjBhMTZkNDk1OTY4YWIyODExNDE1YTY1YTE0MmE5MzMxMzlkYSIgTm90T25PckFmdGVyPSIyMDE1LTAxLTEzVDA5OjUwOjU2LjEwNloiIFJlY2lwaWVudD0iaHR0cHM6Ly9mZWRlcmF0ZXN0LmxlcGlkYS5pdC9ndy9Bc3NlcnRpb25Db25zdW1lclByb3h5L1NBTUwyIi8+PC9zYW1sMjpTdWJqZWN0Q29uZmlybWF0aW9uPjwvc2FtbDI6U3ViamVjdD48c2FtbDI6Q29uZGl0aW9ucyBOb3RCZWZvcmU9IjIwMTUtMDEtMTNUMDk6NDM6NTYuMTA2WiIgTm90T25PckFmdGVyPSIyMDE1LTAxLTEzVDA5OjUwOjU2LjEwNloiPjxzYW1sMjpBdWRpZW5jZVJlc3RyaWN0aW9uPjxzYW1sMjpBdWRpZW5jZT5odHRwczovL2ZlZGVyYXRlc3QubGVwaWRhLml0L2d3L21ldGFkYXRhPC9zYW1sMjpBdWRpZW5jZT48L3NhbWwyOkF1ZGllbmNlUmVzdHJpY3Rpb24+PC9zYW1sMjpDb25kaXRpb25zPjxzYW1sMjpBdXRoblN0YXRlbWVudCBBdXRobkluc3RhbnQ9IjIwMTUtMDEtMTNUMDk6NDU6NTUuNTc3WiIgU2Vzc2lvbkluZGV4PSJjNmI0Y2VmZmIzNDk4YTM2YjM0MjIwNzBiODk1NWZlOTFlZDA2YjQ1N2JmYzcwOWMxMTkxYmEyODI2NWY1MjA0Ij48c2FtbDI6U3ViamVjdExvY2FsaXR5IEFkZHJlc3M9Ijk1LjIyNC4xMDUuMTkyIi8+PHNhbWwyOkF1dGhuQ29udGV4dD48c2FtbDI6QXV0aG5Db250ZXh0Q2xhc3NSZWY+dXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmFjOmNsYXNzZXM6UGFzc3dvcmRQcm90ZWN0ZWRUcmFuc3BvcnQ8L3NhbWwyOkF1dGhuQ29udGV4dENsYXNzUmVmPjwvc2FtbDI6QXV0aG5Db250ZXh0Pjwvc2FtbDI6QXV0aG5TdGF0ZW1lbnQ+PHNhbWwyOkF0dHJpYnV0ZVN0YXRlbWVudD48c2FtbDI6QXR0cmlidXRlIEZyaWVuZGx5TmFtZT0iRG9taW5pbyBVdGVudGUgRmVkZXJhIiBOYW1lPSJmZWRlcmFVc2VyRG9tYWluIiBOYW1lRm9ybWF0PSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YXR0cm5hbWUtZm9ybWF0OnVyaSI+PHNhbWwyOkF0dHJpYnV0ZVZhbHVlIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhzaTp0eXBlPSJ4czpzdHJpbmciPm1pby5pdDwvc2FtbDI6QXR0cmlidXRlVmFsdWU+PC9zYW1sMjpBdHRyaWJ1dGU+PHNhbWwyOkF0dHJpYnV0ZSBGcmllbmRseU5hbWU9IklkZW50aWZpY2F0aXZvIHV0ZW50ZSIgTmFtZT0idXNlcmlkIiBOYW1lRm9ybWF0PSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YXR0cm5hbWUtZm9ybWF0OnVyaSI+PHNhbWwyOkF0dHJpYnV0ZVZhbHVlIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhzaTp0eXBlPSJ4czpzdHJpbmciPkdHTFNNTjc4QjI3SDUwMUlAbWlvLml0PC9zYW1sMjpBdHRyaWJ1dGVWYWx1ZT48L3NhbWwyOkF0dHJpYnV0ZT48c2FtbDI6QXR0cmlidXRlIEZyaWVuZGx5TmFtZT0iU3RhdG8gZGkgbmFzY2l0YSIgTmFtZT0ic3RhdG9OYXNjaXRhIiBOYW1lRm9ybWF0PSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YXR0cm5hbWUtZm9ybWF0OnVyaSI+PHNhbWwyOkF0dHJpYnV0ZVZhbHVlIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhzaTp0eXBlPSJ4czpzdHJpbmciPklUQUxJQTwvc2FtbDI6QXR0cmlidXRlVmFsdWU+PC9zYW1sMjpBdHRyaWJ1dGU+PHNhbWwyOkF0dHJpYnV0ZSBGcmllbmRseU5hbWU9IkNvZ25vbWUiIE5hbWU9Imxhc3RuYW1lIiBOYW1lRm9ybWF0PSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YXR0cm5hbWUtZm9ybWF0OnVyaSI+PHNhbWwyOkF0dHJpYnV0ZVZhbHVlIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhzaTp0eXBlPSJ4czpzdHJpbmciPmdpZ2xpPC9zYW1sMjpBdHRyaWJ1dGVWYWx1ZT48L3NhbWwyOkF0dHJpYnV0ZT48c2FtbDI6QXR0cmlidXRlIEZyaWVuZGx5TmFtZT0iU2Vzc28iIE5hbWU9InNlc3NvIiBOYW1lRm9ybWF0PSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YXR0cm5hbWUtZm9ybWF0OnVyaSI+PHNhbWwyOkF0dHJpYnV0ZVZhbHVlIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhzaTp0eXBlPSJ4czpzdHJpbmciPk08L3NhbWwyOkF0dHJpYnV0ZVZhbHVlPjwvc2FtbDI6QXR0cmlidXRlPjxzYW1sMjpBdHRyaWJ1dGUgRnJpZW5kbHlOYW1lPSJEYXRhIGRpIG5hc2NpdGEiIE5hbWU9ImRhdGFOYXNjaXRhIiBOYW1lRm9ybWF0PSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YXR0cm5hbWUtZm9ybWF0OnVyaSI+PHNhbWwyOkF0dHJpYnV0ZVZhbHVlIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhzaTp0eXBlPSJ4czpzdHJpbmciPjI3LzAyLzE5Nzg8L3NhbWwyOkF0dHJpYnV0ZVZhbHVlPjwvc2FtbDI6QXR0cmlidXRlPjxzYW1sMjpBdHRyaWJ1dGUgRnJpZW5kbHlOYW1lPSJDZWxsdWxhcmUiIE5hbWU9ImNlbGx1bGFyZSIgTmFtZUZvcm1hdD0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmF0dHJuYW1lLWZvcm1hdDp1cmkiPjxzYW1sMjpBdHRyaWJ1dGVWYWx1ZSB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiB4c2k6dHlwZT0ieHM6c3RyaW5nIj4zMjA3NDExNjM5PC9zYW1sMjpBdHRyaWJ1dGVWYWx1ZT48L3NhbWwyOkF0dHJpYnV0ZT48c2FtbDI6QXR0cmlidXRlIEZyaWVuZGx5TmFtZT0iUXVhbGlmaWVkVXNlckFsaWFzIiBOYW1lPSJxdWFsaWZpZWRVc2VyQWxpYXMiIE5hbWVGb3JtYXQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphdHRybmFtZS1mb3JtYXQ6dXJpIj48c2FtbDI6QXR0cmlidXRlVmFsdWUgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnR5cGU9InhzOnN0cmluZyI+c2ltb25lQG1pby5pdDwvc2FtbDI6QXR0cmlidXRlVmFsdWU+PC9zYW1sMjpBdHRyaWJ1dGU+PHNhbWwyOkF0dHJpYnV0ZSBGcmllbmRseU5hbWU9IkNvZGljZSBGaXNjYWxlIiBOYW1lPSJDb2RpY2VGaXNjYWxlIiBOYW1lRm9ybWF0PSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YXR0cm5hbWUtZm9ybWF0OnVyaSI+PHNhbWwyOkF0dHJpYnV0ZVZhbHVlIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhzaTp0eXBlPSJ4czpzdHJpbmciPkdHTFNNTjc4QjI3SDUwMUk8L3NhbWwyOkF0dHJpYnV0ZVZhbHVlPjwvc2FtbDI6QXR0cmlidXRlPjxzYW1sMjpBdHRyaWJ1dGUgRnJpZW5kbHlOYW1lPSJDb211bmUgZGkgbmFzY2l0YSIgTmFtZT0ibHVvZ29OYXNjaXRhIiBOYW1lRm9ybWF0PSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YXR0cm5hbWUtZm9ybWF0OnVyaSI+PHNhbWwyOkF0dHJpYnV0ZVZhbHVlIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhzaTp0eXBlPSJ4czpzdHJpbmciPlJPTUE8L3NhbWwyOkF0dHJpYnV0ZVZhbHVlPjwvc2FtbDI6QXR0cmlidXRlPjxzYW1sMjpBdHRyaWJ1dGUgRnJpZW5kbHlOYW1lPSJVc2VyQWxpYXMiIE5hbWU9InVzZXJBbGlhcyIgTmFtZUZvcm1hdD0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmF0dHJuYW1lLWZvcm1hdDp1cmkiPjxzYW1sMjpBdHRyaWJ1dGVWYWx1ZSB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiB4c2k6dHlwZT0ieHM6c3RyaW5nIj5zaW1vbmU8L3NhbWwyOkF0dHJpYnV0ZVZhbHVlPjwvc2FtbDI6QXR0cmlidXRlPjxzYW1sMjpBdHRyaWJ1dGUgRnJpZW5kbHlOYW1lPSJQcm92aW5jaWEgZGkgbmFzY2l0YSIgTmFtZT0icHJvdmluY2lhTmFzY2l0YSIgTmFtZUZvcm1hdD0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmF0dHJuYW1lLWZvcm1hdDp1cmkiPjxzYW1sMjpBdHRyaWJ1dGVWYWx1ZSB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiB4c2k6dHlwZT0ieHM6c3RyaW5nIj5STTwvc2FtbDI6QXR0cmlidXRlVmFsdWU+PC9zYW1sMjpBdHRyaWJ1dGU+PHNhbWwyOkF0dHJpYnV0ZSBGcmllbmRseU5hbWU9IkRvbWljaWxpbyBlbGV0dHJvbmljbyIgTmFtZT0iZW1haWxBZGRyZXNzIiBOYW1lRm9ybWF0PSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YXR0cm5hbWUtZm9ybWF0OnVyaSI+PHNhbWwyOkF0dHJpYnV0ZVZhbHVlIHhtbG5zOnhzaT0iaHR0cDovL3d3dy53My5vcmcvMjAwMS9YTUxTY2hlbWEtaW5zdGFuY2UiIHhzaTp0eXBlPSJ4czpzdHJpbmciPnNpbW9uZS5naWdsaUBrZG0uaXQ8L3NhbWwyOkF0dHJpYnV0ZVZhbHVlPjwvc2FtbDI6QXR0cmlidXRlPjxzYW1sMjpBdHRyaWJ1dGUgRnJpZW5kbHlOYW1lPSJOb21lIiBOYW1lPSJmaXJzdG5hbWUiIE5hbWVGb3JtYXQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphdHRybmFtZS1mb3JtYXQ6dXJpIj48c2FtbDI6QXR0cmlidXRlVmFsdWUgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnR5cGU9InhzOnN0cmluZyI+c2ltb25lPC9zYW1sMjpBdHRyaWJ1dGVWYWx1ZT48L3NhbWwyOkF0dHJpYnV0ZT48c2FtbDI6QXR0cmlidXRlIEZyaWVuZGx5TmFtZT0iVXNlciBpZGVudGl0eSB0cnVzdCBsZXZlbCIgTmFtZT0idHJ1c3RMZXZlbCIgTmFtZUZvcm1hdD0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmF0dHJuYW1lLWZvcm1hdDp1cmkiPjxzYW1sMjpBdHRyaWJ1dGVWYWx1ZSB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiB4c2k6dHlwZT0ieHM6c3RyaW5nIj5CYXNzbzwvc2FtbDI6QXR0cmlidXRlVmFsdWU+PC9zYW1sMjpBdHRyaWJ1dGU+PHNhbWwyOkF0dHJpYnV0ZSBGcmllbmRseU5hbWU9IkNvZ25vbWUiIE5hbWU9ImNvZ25vbWUiIE5hbWVGb3JtYXQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphdHRybmFtZS1mb3JtYXQ6dXJpIj48c2FtbDI6QXR0cmlidXRlVmFsdWUgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnR5cGU9InhzOnN0cmluZyI+Z2lnbGk8L3NhbWwyOkF0dHJpYnV0ZVZhbHVlPjwvc2FtbDI6QXR0cmlidXRlPjxzYW1sMjpBdHRyaWJ1dGUgRnJpZW5kbHlOYW1lPSJJbmRpcml6em8gZS1tYWlsIiBOYW1lPSJlbWFpbEFkZHJlc3NQZXJzb25hbGUiIE5hbWVGb3JtYXQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphdHRybmFtZS1mb3JtYXQ6dXJpIj48c2FtbDI6QXR0cmlidXRlVmFsdWUgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnR5cGU9InhzOnN0cmluZyI+c2ltb25lLmdpZ2xpQGtkbS5pdDwvc2FtbDI6QXR0cmlidXRlVmFsdWU+PC9zYW1sMjpBdHRyaWJ1dGU+PHNhbWwyOkF0dHJpYnV0ZSBGcmllbmRseU5hbWU9Ik5vbWUiIE5hbWU9Im5vbWUiIE5hbWVGb3JtYXQ9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDphdHRybmFtZS1mb3JtYXQ6dXJpIj48c2FtbDI6QXR0cmlidXRlVmFsdWUgeG1sbnM6eHNpPSJodHRwOi8vd3d3LnczLm9yZy8yMDAxL1hNTFNjaGVtYS1pbnN0YW5jZSIgeHNpOnR5cGU9InhzOnN0cmluZyI+c2ltb25lPC9zYW1sMjpBdHRyaWJ1dGVWYWx1ZT48L3NhbWwyOkF0dHJpYnV0ZT48c2FtbDI6QXR0cmlidXRlIEZyaWVuZGx5TmFtZT0iUGFzc3dvcmQgcG9saWN5IiBOYW1lPSJwb2xpY3lMZXZlbCIgTmFtZUZvcm1hdD0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmF0dHJuYW1lLWZvcm1hdDp1cmkiPjxzYW1sMjpBdHRyaWJ1dGVWYWx1ZSB4bWxuczp4c2k9Imh0dHA6Ly93d3cudzMub3JnLzIwMDEvWE1MU2NoZW1hLWluc3RhbmNlIiB4c2k6dHlwZT0ieHM6c3RyaW5nIj5CYXNzbzwvc2FtbDI6QXR0cmlidXRlVmFsdWU+PC9zYW1sMjpBdHRyaWJ1dGU+PC9zYW1sMjpBdHRyaWJ1dGVTdGF0ZW1lbnQ+PC9zYW1sMjpBc3NlcnRpb24+</saml2:AttributeValue>
+        </saml2:Attribute>
+      </saml2:AttributeStatement>
+    </saml2:Assertion>
+  </saml2:Advice>
+  <saml2:AuthnStatement AuthnInstant="2015-01-13T10:18:08.660Z">
+    <saml2:AuthnContext>
+      <saml2:AuthnContextClassRef>urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</saml2:AuthnContextClassRef>
+      <saml2:AuthenticatingAuthority>https://federatest.lepida.it/idp/profile/Metadata/mio.it/1</saml2:AuthenticatingAuthority>
+    </saml2:AuthnContext>
+  </saml2:AuthnStatement>
+  <saml2:AttributeStatement>
+    <saml2:Attribute Name="authenticationMethod">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">password</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="Dominio Utente Federa" Name="federaUserDomain">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">mio.it</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="Provincia di nascita" Name="provinciaNascita">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">RM</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="Identificativo utente" Name="userid">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">GGLSMN78B27H501I@mio.it</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="Stato di nascita" Name="statoNascita">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">ITALIA</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="Cognome" Name="lastname">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">gigli</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="Domicilio elettronico" Name="emailAddress">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">simone.gigli@kdm.it</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="User identity trust level" Name="trustLevel">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">Basso</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="Nome" Name="firstname">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">simone</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="UserAlias" Name="userAlias">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">simone</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="Cognome" Name="cognome">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">gigli</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="Sesso" Name="sesso">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">M</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="Indirizzo e-mail" Name="emailAddressPersonale">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">simone.gigli@kdm.it</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="Cellulare" Name="cellulare">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">3207411639</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="Data di nascita" Name="dataNascita">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">27/02/1978</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="QualifiedUserAlias" Name="qualifiedUserAlias">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">simone@mio.it</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="Nome" Name="nome">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">simone</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="Password policy" Name="policyLevel">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">Basso</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="Codice Fiscale" Name="CodiceFiscale">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">GGLSMN78B27H501I</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute FriendlyName="Comune di nascita" Name="luogoNascita">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">ROMA</saml2:AttributeValue>
+    </saml2:Attribute>
+    <saml2:Attribute Name="authenticatingAuthority">
+      <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">prova 2 sedi</saml2:AttributeValue>
+    </saml2:Attribute>
+  </saml2:AttributeStatement>
+</saml2:Assertion>
+
+

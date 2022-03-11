@@ -1,0 +1,72 @@
+<script>
+
+</script>
+
+<div style="min-height: 300px">
+
+    <div class="p-2">
+        <textarea rows="1" class="plain" ><textarea lang="json" rows="3" theme="dawn" class="w-50 ace-editor">
+            {
+                "aaa" : 1
+            }
+        </textarea></textarea>
+        <textarea lang="json" rows="3" theme="dawn" class="w-50 ace-editor">
+            {
+                "aaa" : 1
+            }
+        </textarea>
+    </div>
+
+    <div class="p-2">
+        <textarea rows="2" class="plain" >
+<select class="select2 w-50" multiple="multiple" data-process-results="$.map(data.data, (item) => { item.text = item.name; return item; })" data-process-url="'/docer/v1/solr/select?fq=type:user&q=text:'+params.term+'*'">
+        </select>        </textarea>
+
+        <select class="select2 w-50" multiple="multiple" data-process-results="$.map(data.data, (item) => { item.text = item.name; return item; })" data-process-url="'/docer/v1/solr/select?fq=type:user&q=text:'+params.term+'*'">
+        </select>
+    </div>
+
+    <div class="p-2">
+        <textarea rows="5" class="plain" >
+<select class="select2 w-75" multiple="multiple" >
+    <option value="1">Uno</option>
+    <option value="2">Due</option>
+    <option value="3">tre</option>
+</select>
+        </textarea>
+
+        <select class="select2 w-50" multiple="multiple" >
+            <option value="1">Uno</option>
+            <option value="2">Due</option>
+            <option value="3">tre</option>
+        </select>
+    </div>
+
+    <form id="form0" class="p-2">
+        <textarea rows="1" class="plain" >
+<input id="file0" name="file" class="w-50 file2" type="file" multiple />
+        </textarea>
+
+        <input id="file0" name="file" style="background-color: #0accc6" class="w-50 file2" type="file" multiple />
+    </form>
+
+    <hr/>
+
+    <div class="p-2">
+
+        <input multiple type='text' placeholder="users" class='auto-completion w-50' data-source='users' />
+        <input multiple type='text' placeholder="groups" class='auto-completion w-50' data-source='groups' />
+        <input multiple type='text' placeholder="gruppistruttura" class='auto-completion w-50' data-source='gruppistruttura' />
+        <input multiple type='text' placeholder="gruppifunzionali" class='auto-completion w-50' data-source='gruppifunzionali' />
+        <input multiple type='text' placeholder="usergroups" class='auto-completion w-50' data-source='usergroups' />
+        <input multiple type='text' placeholder="usersroles" class='auto-completion w-50' data-source='usersroles' />
+        <input multiple type='text' placeholder="membershipGroups" class='auto-completion w-50' data-source='membershipGroups' />
+        <input multiple type='text' placeholder="tipologie" class='auto-completion w-50' data-source='tipologie' />
+
+    </div>
+
+    <div class="p-2">
+        <div class="w-50" data-maxoccurs='1' data-prefix='fascicoloOut' data-label='Aggiungi fascicolo' search-object></div>
+    </div>
+
+</div>

@@ -1,0 +1,670 @@
+<head>
+    <title>preview ${query.block???string(query.block!'','')}${query.context???string('('+(query.context!'')+')','')}</title>
+    <title href="/~instance?id=${(instance.id)!''}">dettaglio istanza #${(instance.id)!0} - ${(instance.businessName)!''}</title>
+
+    <link rel="stylesheet" href="/static/css/preview/jsPlumbDemo.css">
+    <link rel="stylesheet" href="/static/css/preview/ui.theme.css">
+    <link rel="stylesheet" href="/static/css/preview/designer.css">
+
+</head>
+
+<body>
+
+<script src="/static/vendor/panzoom.js?no-cache" ></script>
+
+<script @server-model="instance" id="model-instance" src="/bpm/v1/instances/{id}?fetch=configuration(deployment),rootInstance,parentInstance,nodes(context,event)" type="application/json" ></script>
+<script @server-model="corr" @ignore-notfound="true" id="model-corr" src="/bpm/v1/instances/{corr:0}?fetch=configuration(deployment),rootInstance,parentInstance,nodes(context,event)" type="application/json" >
+    null
+</script>
+
+<script @server-model="preview" type="x-template" src="/bpm/v1/deployments/${instance.configuration.deployment.id}/asset-content?name=preview/main${query.block???string('_'+query.block!'','')}.html"></script>
+
+<style>
+
+    [class^="icon-"],
+    [class*=" icon-"] {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        *margin-right: .3em;
+        line-height: 14px;
+        vertical-align: text-top;
+        background-image: url("/static/images/glyphicons-halflings.png");
+        background-position: 14px 14px;
+        background-repeat: no-repeat;
+        margin-top: 1px;
+    }
+
+    .icon-white {
+        background-image: url("/static/images/glyphicons-halflings-white.png");
+    }
+
+    .icon-user {
+        background-position: -168px 0;
+    }
+
+    html, #pcontainer {
+        overflow: hidden;
+    }
+
+    .laneBody {
+        position: absolute;
+    }
+
+    [type='lane'] {
+        border-top: 1px dashed grey;
+    }
+
+    .laneBody * {
+        padding:0px;
+        margin:0px;
+        padding-left:5px;
+    }
+
+</style>
+
+<div>
+    [#if (query.context??) ]
+    <span><a class="btn btn-small" href="/~preview?id=${query.id}">Up to main</a></span>
+    [/#if]
+    [#if (!instance.root) ]
+    <span><a class="btn btn-small" href="/~preview?id=${instance.rootInstance.id}">Back to root</a></span>
+    [/#if]
+    <span>
+        &nbsp;
+        <input id="zoomSlider" type="range" min="50" max="100" value="75" >
+        &nbsp;
+        <a class="btn btn-small" onclick="pz.smoothZoom(0,0,initialZoom/pz.getTransform().scale)" >Fit</a>
+    </span>
+</div>
+
+<div id="pcontainer" class="">
+<div id="preview" style="cursor:move;height: 10000px">
+    ${preview}
+</div>
+</div>
+
+<script>
+
+    var maxLeft = $("#preview .ui-draggable").get().reduce(function (result, item) {
+        return Math.max(result, $(item).position().left);
+    }, 0);
+
+    var minLeft = $("#preview .ui-draggable").get().reduce(function (result, item) {
+        return Math.min(result, $(item).position().left);
+    }, 0);
+
+    var maxTop = $("#preview .ui-draggable").get().reduce(function (result, item) {
+        return Math.max(result, $(item).position().top);
+    }, 0);
+
+    var minTop = $("#preview .ui-draggable").get().reduce(function (result, item) {
+        return Math.min(result, $(item).position().top);
+    }, 0);
+
+    var docWidth = $(document).width();
+
+    var prjWidth = maxLeft-minLeft + 200;
+    var prjHeight = maxTop-minTop + 100;
+
+    //var prjBox = $("#prjBox");
+
+    var initialZoom = (docWidth / prjWidth)*1;
+
+    initialZoom = Math.max(0.5, initialZoom);
+    initialZoom = Math.min(1, initialZoom);
+
+    var initialX = minLeft;
+    var initialY = minTop ;
+
+    if (isNaN(initialZoom))
+        initialZoom = 0.6;
+
+    console.log(initialZoom);
+
+    $("#zoomSlider").val(initialZoom*100);
+    $("#zoomSlider").attr("title",(Math.ceil(initialZoom*100))+"%");
+
+    $("#zoomSlider").on("change", function() {
+        var x = pz.getTransform().x;
+        var y = pz.getTransform().y;
+        var scale0 = pz.getTransform().scale;
+        var scale = Number(this.value)/100/scale0;
+        window.zooming = true;
+        pz.smoothZoom(x,y,scale);
+        $(this).attr("title",this.value+"%");
+    })
+
+    console.log(initialZoom);
+
+    var element = document.querySelector('#preview')
+
+    var pz = panzoom(element, {
+
+        zoomDoubleClickSpeed: 1,
+        //zoomSpeed: 0.065,
+        //pinchSpeed: 2,
+        //transformOrigin: {x: 0.5, y: 0.5},
+        smoothScroll: false,
+
+        minZoom: 0.5,
+        maxZoom: 1,
+
+        initialX: initialX,
+        initialY: initialY,
+        initialZoom: initialZoom,
+
+        bounds: true,
+        boundsPadding: 0.00,
+
+        onDoubleClick: function (e) { return false },
+        //beforeWheel: function(e) { return true } ,
+        //beforeMouseDown: function(e) {},
+        //filterKey: function(e, dx, dy, dz) { return false },
+        //onTouch: function(e) { return false },
+
+    });
+
+    var TOP = -80;
+    var LEFT = 0;
+
+    var chkPan = function() {
+        if (pz.getTransform().x>LEFT || pz.getTransform().y>TOP){
+            pz.smoothMoveTo(Math.min(LEFT,pz.getTransform().x),Math.min(TOP,pz.getTransform().y));
+        }
+    }
+
+    pz.moveTo(LEFT,TOP);
+
+    pz.on('panend', function(e) {
+        $(".laneBody").css("left",Math.max(0,-pz.getTransform().x)+"px");
+        chkPan();
+    });
+    pz.on('zoomend', function(e) {
+        window.zooming = false;
+        chkPan();
+    });
+
+    pz.on('zoom', function(e) {
+        if (!window.zooming){
+            var val = Math.ceil(pz.getTransform().scale*100);
+            $("#zoomSlider").attr("title",val+"%");
+            $("#zoomSlider").val(val);
+        }
+    });
+
+    /*pz.on('panstart', function(e) {});
+    pz.on('pan', function(e) {});
+    pz.on('panend', function(e) {});
+    pz.on('zoom', function(e) {});
+    pz.on('zoomend', function(e) {});
+    pz.on('transform', function(e) {});*/
+
+
+    $("#preview a").attr("href","javascript:");
+
+    var findLane = function(b) {
+        var l = null;
+        //var b = $("#"+block.id);
+        if (b.hasClass("base-shape"))
+            b = b.parent();
+        $("[type='lane']").each( function() {
+
+            if (
+                ($(this).position().top < b.position().top) &&
+                ($(this).position().top + $(this).height()) > b.position().top ) {
+                l = $(this).attr("id");
+            }
+
+        });
+
+        return l;
+    }
+
+    var getRemote = function(block) {
+        var sf = $("i.sequenceFlow[data-source='"+block.id+"'],i.sequenceFlow[data-target='"+block.id+"']");
+        if (sf.length>0){
+            var source = $(sf[0]).data("source");
+            var target = $(sf[0]).data("target");
+            var remote = source==block.id ? target : source;
+            var rel = $("#"+remote+" .base-shape");
+            return rel;
+        } else {
+            return null;
+        }
+    }
+
+    var instance = data("model-instance");
+    var corr = data("model-corr");
+
+    var blocks = {};
+    var contextes = {};
+    var params = new URLSearchParams(location.search);
+
+    var context = params.get("context");
+    //var pblock = params.get("block");
+
+    var nodes = instance.nodes;
+
+    var participants = instance.participants || [];
+    var lanes = {};
+
+    $("[type='lane']").each(function() {
+        var id = $(this).attr("id");
+        //var start = $(this).hasClass("start-lane");
+        //var startMsg = $(this).hasClass("start-lane-message");
+        var external = $(this).hasClass("lane-external");
+
+        /*if (lanes[id] == null){
+            lanes[id] = (external? "external" : "internal");
+        }*/
+
+        lanes[id] = {
+            type : (external? "external" : "internal"),
+            participants : []
+        }
+    })
+
+    //var mainLane = findLane($("#"+instance.nodes[0].nodeId));
+
+    //lanes[mainLane] = "internal";
+
+    if (corr){
+        //nodes = nodes.concat(corr.nodes);
+
+        var other = findLane($("#"+corr.nodes[0].nodeId))
+
+        var participant = {
+            type: "internal",
+            lane: other,
+            correlationKey: corr.id,
+            conversationKeys: ["pippo"],
+            instance : corr
+        }
+
+        participants.push(participant)
+        //participants.push(participant)
+    }
+
+    for ( p in participants){
+        var participant = participants[p];
+        var lane = lanes[participant.lane];
+        if (lane)
+            lane.participants.push(participant);
+    }
+
+    for ( l in lanes){
+        var lane = lanes[l];
+        var laneEl = $("#" + participant.lane);
+
+        var participants = lane.participants;
+
+        if (participants.length>0){
+
+            var text;
+            if (participants.length == 1 && participants[0].correlationKey){
+                text = "business key:"+ participants[0].correlationKey;
+            } else {
+                text = "participants:"+ participants.length;
+            }
+            var html = "<small style='display: inline-block;padding-right:2px'>"+text+"</small>";
+
+            laneEl.addClass("lane-remote");
+            laneEl.find(".lane-desc").append(html);
+        }
+
+        for( p in participants ){
+            var participant = participants[p];
+
+            if (participant.instance){
+                nodes = nodes.concat(participant.instance.nodes);
+            }
+        }
+    }
+
+    //console.log(nodes);
+
+    for ( var x in nodes ){
+
+        var node = nodes[x];
+        var nodeId = node.nodeId; //blockId
+
+        if (context && node.context.instanceId != context)
+            continue;
+
+        //if (node.nodeType == "ForEachNode")
+        //    continue;
+
+        if (nodeId.indexOf("_")>0){
+            contextes[nodeId.split("_")[0]] = contextes[nodeId.split("_")[0]] || {};
+            contextes[nodeId.split("_")[0]][node.context.instanceId]=true;
+        }
+
+        /*if (nodeId.indexOf(":")>0){
+            nodeId = nodeId.split(":")[0];
+        }*/
+
+        var el = $("#"+nodeId);
+
+        if (el.length>0){
+            el.attr("title",nodeId);
+
+            var block = blocks[nodeId];
+
+            if (block==null){
+                block = {
+                    id: node.nodeId,
+                    name: node.nodeName,
+                    type: node.nodeType,
+                    nodes: []
+                };
+
+                blocks[nodeId] = block;
+                //blocks[nodeId].instances = [];
+            }
+
+            block.nodes.push(node);
+
+            //blocks[nodeId] = blocks[nodeId] || node;
+            //blocks[nodeId].instances = blocks[nodeId].instances || [];
+            //blocks[nodeId].nodes = blocks[nodeId].nodes || {};
+
+            //var enterTs = node.enterTs;
+            //var exitTs = node.exitTs;
+            //var subprocessInstanceId = node.subprocessInstanceId;
+            /*var x;
+
+            if (node.nodeType=="CompositeContextNode"){
+                x = contextes[nodeId] || node.context.instanceId;
+                blocks[nodeId].instances.push(x);
+            } else if ( node.nodeType=="SubProcessNode") {
+                x = node.subprocessInstanceId || node.context.instanceId;
+                blocks[nodeId].instances.push(x);
+            } else {
+                x = node.id;
+                blocks[nodeId].instances.push(x);
+            }
+            blocks[nodeId].nodes[x] = {
+                enterTs : node.enterTs,
+                exitTs : node.exitTs,
+                context : x
+            };
+
+            blocks[nodeId].context = node.context.id;*/
+
+            if (node.exitTs)
+                block.exited = true;
+            else
+                block.entered = true;
+
+            //delete node.subprocessInstanceId;
+            //delete node.enterTs;
+            //delete node.exitTs;
+        }
+    }
+
+    for ( id in blocks  ){
+
+        var el = $("#"+id+" .base-shape");
+        var block = blocks[id];
+        block.contextes = Object.keys(contextes[id]||{});
+
+        el.data("node-id",id);
+
+        var color,rel;
+        if (block.entered && block.exited){
+            color = "#FFFF00";
+            el.css("background","repeating-linear-gradient(-30deg, lightgreen,lightgreen 15px ,red 0px, red 30px )");
+        } else if (block.entered){
+            color = "red";
+            el.css("background-color",color);
+
+        } else { //exited
+            color = "lightgreen";
+            el.css("background-color",color);
+        }
+
+        if (color){
+            var rel = getRemote(block);
+
+            if (rel) {
+                rel.css("background-color", color);
+                rel.css("box-shadow", "0px 0px 3px 3px " + color);
+            }
+        }
+
+        //var ext = el.data("external");
+
+        //if (!ext)
+        el.css("box-shadow","0px 0px 3px 3px "+color);
+
+        /*el.on("dblclick", function(e){
+            var id = $(this).data("node-id");
+            openNestedFlow(id,true,e);
+            //openNestedFlow($(this).data("node-id"));
+        } );*/
+
+        el.on("click", function(e){
+            var id = $(this).data("node-id");
+            openNestedFlow(id,false,e);
+            //openNestedFlow($(this).data("node-id"));
+        } );
+
+
+
+    }
+
+    //console.log(blocks);
+
+    /*var participant = data('model-corr');
+
+    var participants = [];
+
+    if (participant){
+        participants.push(participant);
+    }*/
+
+    $("#preview .base-shape").on("dblclick", function() {
+        console.log(this);
+    });
+
+    /*function rectangleSelect(selector, x1, y1, x2, y2) {
+        var elements = [];
+        jQuery(selector).each(function() {
+            var $this = jQuery(this);
+            var offset = $this.offset();
+            var x = offset.left;
+            var y = offset.top;
+            var w = $this.width();
+            var h = $this.height();
+
+            if (x >= x1
+                && y >= y1
+                && x + w <= x2
+                && y + h <= y2) {
+                // this element fits inside the selection rectangle
+                elements.push($this.get(0));
+            }
+        });
+        return elements;
+    }
+
+    $(".lane-remote").each( function() {
+        var l = $(this);
+        var x1 = l.position().left;
+        var x2 = x1 + l.width();
+        var y1 = l.position().top;
+        var y2 = y1 + l.height();
+
+        var els = rectangleSelect("*", x1,y1, x2,y2 );
+
+        for ( x in els )
+            $(els[x]).addClass("remote");
+    })*/
+
+    function openNestedFlow(nodeId,dbl,e) {
+
+        var instanceId = instance.id;
+
+        var block = blocks[nodeId];
+        console.log(block);
+
+        var label;
+
+        if (block.type=="SubProcessNode"){
+            label = "instance";
+        } else if (block.type=="ForEachNode" || block.type=="CompositeContextNode") {
+            label = "context";
+        } else {
+            label = "node";
+        }
+
+        var html = `
+        <span>`+nodeId+`</span>&nbsp;<span>`+block.type+`</span>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>`+label+`</td><td>enter</td><td>exit</td>
+                </tr>
+            </thead>
+            <tbody>`;
+
+        var arr = [];
+
+        if (block.type=="ForEachNode" || block.type=="CompositeContextNode"){
+            for (x in block.contextes) {
+                var context = block.contextes[x];
+                arr.push({
+                    context : context,
+                    href : '/~preview?id='+instanceId+'&block='+block.id+'&context='+context,
+                    enterTs : block.nodes[0].enterTs || '',
+                    exitTs : block.nodes[0].exitTs || ''
+                })
+            }
+        } else if (block.type=="SubProcessNode"){
+            for (x in block.nodes) {
+                var node = block.nodes[x];
+                arr.push({
+                    context : node.subprocessInstanceId,
+                    href : '/~preview?id=' + node.subprocessInstanceId,
+                    enterTs : node.enterTs,
+                    exitTs : node.exitTs
+                })
+            }
+        } else {
+            for (x in block.nodes) {
+                var node = block.nodes[x];
+                arr.push({
+                    context : node.id,
+                    href : '/~node?instance='+instanceId+'&node='+node.id,
+                    enterTs : node.enterTs,
+                    exitTs : node.exitTs
+                })
+            }
+        }
+
+        if (arr.length==1 && dbl){
+            location.href  = arr[0].href;
+            return;
+        }
+
+        for (x in arr) {
+            var item = arr[x];
+
+            var enterTs = '';
+            var exitTs = '';
+            if (item.enterTs)
+                enterTs = moment(item.enterTs).format(dateTimeFormat);
+            if (item.exitTs)
+                exitTs = moment(item.exitTs).format(dateTimeFormat);
+
+            html += `<tr>
+                        <td><a href='`+item.href+`' >`+item.context+`</a></td><td>`+enterTs+`</td><td>`+exitTs+`</td>
+                    </tr>`;
+        }
+
+        html += `
+            </tbody>
+        </table>`;
+
+        var el = $(html);
+
+        var modal = showModal(el);
+        modal.find(".modal-footer").hide();
+        modal.find(".modal-header").hide();
+    }
+
+    function showLaneProps(laneId) {
+        var dbl = (event.type == "dblclick");
+
+        var lane = lanes[laneId];
+        var participants = lane.participants;
+
+        if (!participants || participants.length==0)
+            return;
+
+        var label,hdr;
+
+        if (lane.type=="internal"){
+            label = "instance";
+            hdr = "ck";
+        } else {
+            label = "system";
+            hdr = "";
+        }
+
+        var html = `
+        <span><b>lane:</b>`+laneId+`</span>&nbsp;<span><i>(`+lane.type+`</i>)</span>
+        <table class="table table-striped" style="white-space: nowrap">
+            <thead style="font-weight: bold;">
+                <tr>
+                    <td style="width:50%">`+label+`</td><td>`+hdr+`</td><td>start</td><td>last activity</td>
+                </tr>
+            </thead>
+            <tbody>`;
+
+        for (x in participants) {
+            var participant = participants[x];
+
+            var href = null;
+            var desc = participant.correlationKey || participant.ck;
+            var ck = "";
+            var startTs = "";
+            var lastActivityTs = "";
+
+            if (participant.instance){
+                href =  '/~preview?id='+participant.instance.id+"&corr="+instance.id;
+                startTs =  moment(participant.instance.startTs).format(dateTimeFormat);
+                lastActivityTs = moment(participant.instance.lastActivityTs).format(dateTimeFormat);
+                ck = participant.instance.businessKey || participant.instance.id;
+                desc = participant.instance.businessName || participant.instance.name;
+            } else if (participant.href) {
+                href = participant.href.replace("{ck}",ck);
+            }
+
+            if (participants.length==1 && dbl && href){
+                location.href = href;
+                return;
+            }
+
+            html += `<tr>
+                        <td><a href='`+(href||'#')+`' >`+desc+`</a></td><td>`+ck+`</td><td>`+startTs+`</td><td>`+lastActivityTs+`</td>
+                    </tr>`;
+        }
+
+        html += `
+            </tbody>
+        </table>`;
+
+        var el = $(html);
+
+        var modal = showModal(el,'@modal-lg');
+        modal.find(".modal-footer").hide();
+        modal.find(".modal-header").hide();
+    }
+
+</script>
+
+
+</body>
+

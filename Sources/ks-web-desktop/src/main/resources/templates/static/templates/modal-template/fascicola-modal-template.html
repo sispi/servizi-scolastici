@@ -1,0 +1,44 @@
+<modal :show="show" @close="close">
+    <div slot="header" class="col-md-12">
+        <div class="modalTitle col-sm-12">{{messages["viewProfile.fascicolaDocumento"] || "Fascicola Documento"}}</div>
+    </div>
+    <div slot="body">
+        
+        <div style="margin-left: 0px;" class="row">
+            <div style="height: 35px;" class="col-md-9 alert alert-warning" role="alert">
+                <template v-if="documento.CLASSIFICA">
+                    <p style="margin-top: -7px; text-align: center;">{{messages["viewProfile.classificaDocumento"] || "Classifica del documento"}}: <b>{{documento.CLASSIFICA}}</b> </p>
+                </template>
+                <template v-else>
+                    <p style="margin-top: -7px; text-align: center;">{{messages["viewProfile.docNonClassificato"] || "Il documento non risulta classificato"}} </p>
+                </template>
+            </div>
+            <div class="col-md-3">
+                <button @click="openNewFascicolo()" type="submit" class="btn btn-info btn-block" >{{messages["viewProfile.creaFascicolo"] || "Crea fascicolo"}}</button>
+            </div>
+        </div>
+        <hr>
+        <div class="input-group mb-3 col-md-12 autoList" v-for="(fasc, index) in $fascicoliDocumento">
+            <label style="display:none; font-size: 11px;" class="labelNew f-primario">{{messages["viewProfile.fascicoloPrimario"] || "Fascicolo Primario"}}</label>
+            <div class="col-md-11">
+                <select2 :id="'test_'+index" :value="$fascicoliDocumento[index]" v-on:changed="$fascicoliDocumento[index]=$event.value" class="form-control listaFascicoli" url="/docer/v1/solr/select?database=false&sort=classifica_sort asc&fq=type:fascicolo&wt=json&fl=sid,text:name&q=name:%24%7Bterm%7D OR CLASSIFICA:%24%7Bterm%7D OR FASCICOLO_ID:*/%24%7Bterm%7D&term=..." multiple="true" maximum-selection-length="1"></select2>
+            </div>
+            <button @click="deleteFasc(index)" class="btn btn-danger col-md-1 deleteListFascicolo"><i style="color: #fff;" class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="col-md-12">
+            <button id="btn-addFasc" @click="addFasc" class="btn btn-primary btn-100 col-md-2 float-left">{{messages["viewProfile.aggiungi"] || "Aggiungi"}}</button>
+        </div>
+        <br><br>
+        <div class="space-1h"></div>
+        <div style="display: none;" id="errMsg-fascicola" class="alert alert-danger div-alert-warning"></div>
+        <div class="col-md-12 footer-modal">
+            <div class="col-md-3 float-left">
+                <button type="submit" class="btn btn-default btn-block modal-btn-annulla" @click="$emit('close')">{{messages["viewProfile.chiudi"] || "Chiudi"}}</button>
+            </div>
+            <div class="col-md-3 float-right">
+                <button type="submit" class="btn btn-primary btn-block modal-btn-conferma" @click="confermaFascicolaDocumento()">{{messages["viewProfile.conferma"] || "Conferma"}}</button>
+            </div>
+        </div>
+    </div> 
+</modal>

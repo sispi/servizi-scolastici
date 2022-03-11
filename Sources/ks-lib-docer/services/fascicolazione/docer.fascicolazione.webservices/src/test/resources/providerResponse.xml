@@ -1,0 +1,13 @@
+<esito>
+	<codice>0</codice>
+	<descrizione></descrizione>
+	<esito_fascicolo>
+		<COD_ENTE />
+		<COD_AOO />
+		<CLASSIFICA />
+		<ANNO_FASCICOLO />
+		<PROGR_FASCICOLO />
+		<DES_FASCICOLO />
+        <PARENT_PROGR_FASCICOLO/>
+	</esito_fascicolo>
+</esito>

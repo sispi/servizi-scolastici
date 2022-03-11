@@ -1,0 +1,266 @@
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  
+  -->
+
+<dataConfig>
+
+	<dataSource name="alfresco" type="JdbcDataSource" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://${dataimporter.request.server}/alfresco" user="root" password="root"/>
+
+    <dataSource name="init" type="URLDataSource" baseUrl="http://localhost:${jetty.port}/solr/${solr.core.collection}/admin/file?contentType=text/xml;charset=utf-8&amp;file=" />
+
+    <propertyWriter dateFormat="yyyy-MM-dd'T'HH:mm:ss'Z'" type0="SimplePropertiesWriter" type="ZKPropertiesWriter" directory="data" filename="alfrescoimport.properties" />
+ 
+  <script><![CDATA[
+
+				
+				function prop2(row)
+                {
+					var name = row.remove("local_name");
+					
+                	var value = row.remove("value") ;
+					
+					row.remove("node_id") ;
+					
+					row.put(name,value);
+					
+					return row;
+				}
+
+            
+        ]]></script>
+
+  <document>
+
+        <entity name="init" processor="XPathEntityProcessor" url="initData.xml" useSolrAddSchema="true" />
+
+		<entity name="item" rows="500" pk="id" query="
+		
+			select 0 id , 'DOCAREA' uuid, 'location' local_name , 0 inherits ,0 inherits_from , null creator , null modifier , null created, null modified
+
+			union
+
+			select 0 id , 'everyone' uuid, 'group' local_name , 0 inherits ,0 inherits_from , null, null, null, null
+
+			union
+
+			select 0 id , 'sys_admins' uuid, 'group' local_name , 0 inherits ,0 inherits_from , null, null, null, null
+
+			union
+			
+			select node.id id, node.uuid uuid, qt.local_name , 0, 0, audit_creator, audit_modifier, audit_created, audit_modified
+			from alf_node node 
+				join alf_qname qt on qt.id = type_qname_id
+				join alf_namespace ns on ns.id = qt.ns_id and qt.local_name = 'person' 
+				join alf_access_control_list acl on acl.id = node.acl_id
+
+			where node.node_deleted = 0
+
+			union
+
+			select node.id id, node.uuid uuid, qt.local_name , acl.inherits, acl.inherits_from , audit_creator, audit_modifier, audit_created, audit_modified
+			from alf_node node
+				join alf_qname qt on qt.id = type_qname_id
+				join alf_namespace ns on ns.id = qt.ns_id and qt.local_name = 'authorityContainer'
+				join alf_store store on store.id = node.store_id and store.protocol = 'workspace' and store.identifier = 'SpacesStore'
+				join alf_access_control_list acl on acl.id = node.acl_id
+
+			where node.node_deleted = 0
+			
+			union
+		
+			select node.id id, node.uuid uuid, qt.local_name , acl.inherits, acl.inherits_from , audit_creator, audit_modifier, audit_created, audit_modified
+			from alf_node node 
+				join alf_qname qt on qt.id = type_qname_id
+				join alf_namespace ns on ns.id = qt.ns_id and ( ns.uri = 'http://www.docarea.it/model/content/1.0' or qt.local_name = 'folder' )
+				join alf_store store on store.id = node.store_id and store.protocol = 'workspace' and store.identifier = 'SpacesStore'
+				join alf_access_control_list acl on acl.id = node.acl_id
+
+			where node.node_deleted = 0 and audit_modified &gt; '${dataimporter.request.from}0'
+
+			order by id asc
+
+			" transformer="LogTransformer" logTemplate="The row is DOCER" logLevel="info" > 
+			
+			<entity name="item_content" transformer="script:prop2" query="
+			
+			select distinct curl.id node_id, '__versions__' local_name, curl.content_url value , null __content_size__ , propv2.string_value __vers_ref__ , node.uuid __cont_ref__
+				from alf_node node 
+				join alf_qname qt on qt.id = type_qname_id
+				join alf_namespace ns on ns.id = qt.ns_id and qt.local_name = 'documento'
+				join alf_store store on store.id = node.store_id and store.protocol = 'workspace' and store.identifier = 'version2Store'
+				join alf_node_properties propv on propv.node_id = node.id 
+				join alf_qname qtv on qtv.id = propv.qname_id and qtv.local_name = 'frozenNodeDbId'
+				join alf_node_properties propv2 on propv2.node_id = node.id 
+				join alf_qname qtv2 on qtv2.id = propv2.qname_id and qtv2.local_name = 'versionLabel' and propv2.string_value is not null
+				join alf_node_properties propc on propc.node_id = node.id 
+				join alf_qname qtc on qtc.id = propc.qname_id and qtc.local_name = 'content'
+				join alf_content_data cdata on propc.long_value = cdata.id
+				join alf_content_url curl on curl.id = cdata.content_url_id
+							
+				where node.node_deleted = 0 and propv.long_value = ${item.id} 
+				
+			union
+				
+			select curl.id node_id, '__content__' local_name, curl.content_url value , curl.content_size __content_size__, null,null
+				from alf_node_properties props
+				join alf_qname qn on qn.id = props.qname_id and qn.local_name = 'content'
+				join alf_content_data cdata on props.long_value = cdata.id
+				join alf_content_url curl on curl.id = cdata.content_url_id
+
+				where props.node_id = ${item.id} 
+						
+			order by node_id asc 
+
+			" />
+            
+			<entity name="item_riferimenti" query="
+			
+				select ass.target_node_id riferimenti
+				from alf_node_assoc ass 
+				join alf_qname qn on qn.id = ass.type_qname_id and qn.local_name = 'riferimento'
+				
+				where ass.source_node_id = ${item.id} 
+
+			" />
+			
+			<entity name="item_members" query="
+			
+				select 	CAST( substring( props.string_value , 7 ) AS CHAR)  groups
+				from alf_child_assoc ass 
+				join alf_qname qn on qn.id = ass.type_qname_id and qn.local_name = 'member'
+				
+				join alf_node_properties props on ass.parent_node_id = props.node_id 
+				join alf_qname qn2 on qn2.id = props.qname_id and qn2.local_name = 'authorityName'
+				
+				where ass.child_node_id = ${item.id} 
+
+			" />
+			
+			<entity name="item_acls" query="
+			
+				select concat( auth.authority, ':', perm.name )  __acl_explicit__
+
+				from alf_node node , alf_access_control_list acl ,
+					 alf_acl_member acm ,
+					 alf_access_control_entry ace , 
+					 alf_permission perm ,
+					 alf_authority auth 
+
+				where node.id = ${item.id} 
+				and node.node_deleted = 0
+				and node.acl_id = acl.id 
+				and  acm.acl_id = acl.id
+				and acm.ace_id = ace.id
+				and perm.id = ace.permission_id
+				and auth.id = ace.authority_id
+			  
+			" />
+
+			<entity name="item_props" transformer="script:prop2" processor2="CachedSqlEntityProcessor"  where="node_id=item.id"  query="
+
+           	select node_id, local_name,string_value value
+
+			from alf_node_properties prop join alf_qname q on q.id = prop.qname_id and (prop.persisted_type_n = 0 or prop.persisted_type_n > 5)
+
+			where node_id = ${item.id}
+
+			union
+
+			select node_id, local_name,IF( boolean_value=1, 'true' , 'false' )
+
+			from alf_node_properties prop join alf_qname q on q.id = prop.qname_id and prop.persisted_type_n = 1
+
+			where node_id = ${item.id}
+
+			union 
+
+			select node_id, local_name,CAST( long_value + float_value + double_value AS CHAR )
+
+			from alf_node_properties prop join alf_qname q on q.id = prop.qname_id and prop.persisted_type_n in (2,3,4,5)
+
+			where node_id = ${item.id}
+			
+			union
+			
+			select node.id node_id, 'aooente' , concat( props3.string_value , '!', props2.string_value ) value
+			from alf_node node 
+				join alf_node_properties props on props.node_id = node.id and node.id = ${item.id} 
+				join alf_qname qn2 on qn2.id = props.qname_id and qn2.local_name = 'parentGroupId'
+				join alf_node_properties props2 on props2.string_value = props.string_value
+				join alf_qname qn3 on qn3.id = props2.qname_id and qn3.local_name = 'codAoo'
+				
+				join alf_node node2 on node2.id = props2.node_id 
+
+				join alf_node_properties props3 on props3.node_id = node2.id
+				join alf_qname qn5 on qn5.id = props3.qname_id and qn5.local_name = 'codEnte'
+
+				join alf_qname qn4 on qn4.id = node2.type_qname_id and qn4.local_name = 'aoo'
+				
+
+			where node.node_deleted = 0
+
+			union
+
+			select node.id , 'aooente' , props2.string_value || '!'
+			from alf_node node
+				join alf_node_properties props on props.node_id = node.id and node.id = 1766
+				join alf_qname qn2 on qn2.id = props.qname_id and qn2.local_name = 'parentGroupId'
+				join alf_node_properties props2 on props2.string_value = props.string_value
+				join alf_qname qn3 on qn3.id = props2.qname_id and qn3.local_name = 'codEnte'
+
+				join alf_node node2 on node2.id = props2.node_id
+
+				join alf_qname qn4 on qn4.id = node2.type_qname_id and qn4.local_name = 'ente'
+
+			where node.node_deleted = 0
+
+           ">
+                
+            </entity>
+			
+        </entity>
+		
+		<entity name="related" rows="500" pk="sid" query=" 
+		
+				select  min(ass.id) id, min(ass.id) __sid__, qn.local_name local_name, ass.source_node_id __princ__ , min(ass.target_node_id) __min__, CAST( GROUP_CONCAT( ass.target_node_id ORDER BY ass.target_node_id asc SEPARATOR ','  ) AS CHAR) __related__
+				from alf_node_assoc ass 
+				join alf_qname qn on qn.id = ass.type_qname_id and qn.local_name in ('advancedVersion', 'related')
+				
+				group by ass.source_node_id 
+				having ass.source_node_id &lt; __min__
+		
+		" >
+		
+			<entity name="related_props" transformer="script:prop2" query="
+
+				select node_id, local_name,string_value value
+
+				from alf_node_properties prop join alf_qname q on q.id = prop.qname_id and q.local_name in ( 'codEnte', 'codAoo' ) 
+
+				where node_id = ${related.__princ__}
+
+			   ">
+					
+				</entity>
+				
+			</entity>
+  	
+  </document>
+  
+
+  
+</dataConfig>

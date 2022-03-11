@@ -1,0 +1,21 @@
+<service name="WSTimbroDigitale">
+	<Description>
+		Servizio per il Timbro Digitale
+	</Description>
+	<messageReceivers>
+		<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-only"
+			class="org.apache.axis2.rpc.receivers.RPCInOnlyMessageReceiver" />
+		<messageReceiver mep="http://www.w3.org/2004/08/wsdl/in-out"
+			class="org.apache.axis2.rpc.receivers.RPCMessageReceiver" />
+	</messageReceivers>
+
+	<parameter name="ServiceClass" locked="false">
+		it.kdm.docer.timbrodigitale.ws.WSTimbroDigitale
+	</parameter>
+	<parameter name="ServiceObjectSupplier">
+		org.apache.axis2.extensions.spring.receivers.SpringServletContextObjectSupplier
+    </parameter>
+    <parameter name="SpringBeanName">
+        WSTimbroDigitale
+    </parameter>
+</service>

@@ -1,0 +1,508 @@
+<audit>
+    <group name="AuthenticationService">
+        <section name="login" level="info">
+            <param name="username" xname="username" xpath="//username/text()" />
+            <param name="codAoo" xname="codiceEnte" xpath="//codiceEnte/text()" />
+            <param name="application" xname="application" xpath="//application/text()" />
+            <param level="debug" />
+            <result level="debug" xpath="." />
+        </section>
+
+    </group>
+
+    <group name="DocerServices">
+
+        <section name="protocollaById" level="info">
+            <param name="documentoId" xpath="//prot:documentoId/text()" />
+            <param name="datiProtocollo" xpath="//prot:datiProtocollo" />
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+
+        <section name="addRiferimentiDocuments" level="info" >
+            <param name="docnumber" xpath="//ns:docId/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="removeRiferimentiDocuments" level="info" >
+            <param name="docnumber" xpath="//ns:docId/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="addNewVersion" level="info" >
+            <param name="docnumber" xpath="//ns:docId/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="replaceLastVersion" level="info" >
+            <param name="docnumber" xpath="//ns:docId/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="createDocument" level="info" >
+            <param name="documento.tipologia" xname="metadata.TYPE_ID" xpath="(//web:metadata[node()[text()='TYPE_ID']]/*)[last()]/text()" />
+            <param name="documento.name" xname="metadata.DOCNAME" xpath="(//web:metadata[node()[text()='DOCNAME']]/*)[last()]/text()" />
+            <param name="documento" xname="metadata" level="debug" xpath="//web:metadata/*" />
+            <param level="trace" xpath="." />
+            <result name="docnum" level="info" xpath="//ns:return/text()" />
+            <result name="tipologia" xname="null" level="info" />
+        </section>
+        <section name="updateProfileDocument" level="info" >
+            <param level="info" xpath="//web:metadata/node()/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="setACLDocument" level="info" >
+            <param name="docnumber" xpath="//ns:docId/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="protocollaDocumento" >
+            <param name="docnumber" xpath="//ns:docId/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="registraDocumento">
+            <param name="docnumber" xpath="//ns:docId/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="fascicolaDocumento">
+            <param name="docnumber" xpath="//ns:docId/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="classificaDocumento" level="info" >
+            <param name="docnumber" xpath="//ns:docId/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="pubblicaDocumento" level="info" >
+            <param name="docnumber" xpath="//ns:docId/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="archiviaDocumento" level="info" >
+            <param name="docnumber" xpath="//ns:docId/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="downloadDocument">
+            <param name="docnumber" xpath="//ns:docId/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="downloadVersion">
+            <param name="docnumber" xpath="//ns:docId/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="deleteDocument" level="info" >
+            <param name="docnumber" xpath="//ns:docId/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="lockDocument" level="info" >
+            <param name="docnumber" xpath="//ns:docId/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="unlockDocument" level="info" >
+            <param name="docnumber" xpath="//ns:docId/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="addNewAdvancedVersion" level="info" >
+            <param name="lastVersion" xpath="//ns:docId/text()LastVersion" />
+            <param name="newVersion" xpath="//ns:docId/text()NewVersion" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="addRelated" level="info" >
+            <param name="docnumber" xpath="//ns:docId/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="removeRelated" level="info" >
+            <param name="docnumber" xpath="//ns:docId/text()" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="searchDocuments">
+            <param name="docnumber" xpath="//ns:docId/text()" />
+            <param name="parametri" xpath="//ns:searchCriteria" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="login">
+            <param name="userId" xpath="//ns:userId" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="loginSSO">
+            <param name="userId" xpath="//ns:userId" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="logout">
+            <param name="userId" xpath="//ns:userId" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+
+        <section name="createEnte">
+            <param name="parametri" xpath="//ns:enteInfo" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="updateEnte">
+            <param name="codiceEnte" xpath="//ns:codiceEnte" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="createAOO">
+            <param name="parametri" xpath="//ns:aooInfo" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="updateAOO">
+            <param name="parametri" xpath="//ns:aooId" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="createTitolario" level="info" >
+            <param name="parametri" xpath="//ns:titolarioInfo" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="updateTitolario" level="info" >
+            <param name="parametri" xpath="//ns:titolarioId" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+
+        <section name="setACLTitolario" level="info" >
+            <param name="parametri" xpath="//ns:titolarioId" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+            <param name="acl" xpath="//ns:acls" />
+        </section>
+        <section name="createFascicolo" level="info"  >
+            <param name="parametri" xpath="//ns:fascicoloInfo" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="updateFascicolo" level="info" >
+            <param name="parametri" xpath="//ns:fascicoloId" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="setACLFascicolo" level="info" >
+            <param name="parametri" xpath="//ns:fascicoloId" />
+            <param name="acl" xpath="//ns:acls" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="createAnagraficaCustom" level="info" >
+            <param name="parametri" xpath="//ns:customInfo" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="updateAnagraficaCustom" level="info" >
+            <param name="parametri" xpath="//ns:customId" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="createFolder" level="info" >
+            <param name="parametri" xpath="//ns:folderInfo" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="updateFolder" level="info" >
+            <param name="fodlerId" xpath="//ns:folderId" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="deleteFolder" level="info" >
+            <param name="fodlerId" xpath="//ns:folderId" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="setACLFolder" level="info" >
+            <param name="fodlerId" xpath="//ns:folderId" />
+            <param name="acl" xpath="//ns:acls" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+
+        <section name="createGroup">
+            <param name="parametri" xpath="//ns:groupInfo" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="updateGroup">
+            <param name="groupId" xpath="//ns:groupId" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="updateGroupsOfUser">
+            <param name="user" xpath="//ns:userId" />
+            <param name="groupsToAdd" xpath="//ns:groupsToAdd" />
+            <param name="groupsToRemove" xpath="//ns:groupsToRemove" />
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="createUser">
+            <param name="parametri" xpath="//ns:userInfo" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="updateUser">
+            <param name="userId" xpath="//ns:userId" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="setUsersOfGroup">
+            <param name="groupId" xpath="//ns:groupId" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="updateUsersOfGroup">
+            <param name="groupId" xpath="//ns:groupId" />
+            <param name="usersToAdd" xpath="//ns:usersToAdd" />
+            <param name="usersToRemove" xpath="//ns:usersToRemove" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="setGroupsOfUser">
+            <param name="userId" xpath="//ns:userId" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="updateGroupsOfUser">
+            <param name="userId" xpath="//ns:userId" />
+            <param name="groupsToAdd" xpath="//ns:groupsToAdd" />
+            <param name="groupsToRemove" xpath="//ns:groupsToRemove" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="changeACLDocumento" level="info" >
+            <param name="docnumber" xpath="//ns:docnum" />
+            <param name="aclToAdd" xpath="//ns:aclToAdd" />
+            <param name="aclToRemove" xpath="//ns:aclToRemove" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="changeACLTitolario" level="info" >
+            <param name="parametri" xpath="//ns:titolarioId" />
+            <param name="aclToAdd" xpath="//ns:aclToAdd" />
+            <param name="aclToRemove" xpath="//ns:aclToRemove" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="changeACLFascicolo" level="info" >
+            <param name="parametri" xpath="//ns:fascicoloId" />
+            <param name="aclToAdd" xpath="//ns:aclToAdd" />
+            <param name="aclToRemove" xpath="//ns:aclToRemove" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="protocollaById">
+            <param name="documentoId" xpath="//ns:documentoId" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="fascicolaById">
+            <param name="documentoId" xpath="//ns:documentoId" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="creaFascicolo">
+            <param name="parametri" xpath="//ns:metadati" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="updateFascicolo">
+            <param name="parametri" xpath="//ns:fascicoloid" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="updateACLFascicolo">
+            <param name="parametri" xpath="//ns:fascicoloid" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="changeFascicoliById" level="info" >
+            <param name="docNum" xpath="//ns:docNum" />
+            <param name="fascicoliToRemove" xpath="//ns:fascicoliToRemove" />
+            <param name="fascicoliToAdd" xpath="//ns:fascicoliToAdd" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="registraById">
+            <param name="documentoId" xpath="//ns:documentoId" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+        <section name="getTimbro">
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+
+        </section>
+        <section name="applicaTimbro">
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+
+        </section>
+        <section name="verificaDocumento">
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+
+        </section>
+        <section name="verificaDocumentoDocer">
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+
+        </section>
+        <section name="invioPEC" level="info" >
+            <param name="documentoId" xpath="//ns:documentoId" />
+
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+
+    </group>
+
+    <group name="WSFascicolazione">
+        <section name="fascicolaById" level="info">
+            <param name="documentId" xpath="//documentId/text()" />
+            <param name="datiFascicolo" level="debug" xpath="//datiFascicolo/text()" />
+            <param level="trace" xpath="." />
+            <result level="trace" xpath="." />
+        </section>
+        <section name="changeFascicoliById" level="info">
+            <param name="docNum" xpath="//docNum/text()" />
+            <param name="fascicoliToRemove" level="debug" xpath="//fascicoliToRemove//text()" />
+            <param name="fascicoliToAdd" level="debug" xpath="//fascicoliToRemove//text()" />
+            <param level="trace" xpath="." />
+            <result level="trace" xpath="." />
+        </section>
+        <section name="updateACLFascicolo" level="info">
+            <param name="fascicoloid" xpath="//fascicoloid" />
+            <param name="acl" level="debug" xpath="//acl" />
+            <param level="trace" xpath="." />
+            <result level="trace" xpath="." />
+        </section>
+        <section name="updateFascicolo" level="info">
+            <param name="fascicoloid" xpath="//fascicoloid" />
+            <param name="metadati" level="debug" xpath="//metadati" />
+            <param level="trace" xpath="." />
+            <result level="trace" xpath="." />
+        </section>
+        <section name="creaFascicolo" level="info">
+            <param name="metadati" level="info" xpath="//fas:metadati" />
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+            <result level="trace" xpath="." />
+        </section>
+        <section name="forzaNuovoFascicolo" level="info">
+            <param name="metadati" level="info" xpath="//fas:metadati" />
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+            <result level="trace" xpath="." />
+        </section>
+        <section name="changeACLFascicolo" level="info">
+            <param name="fascicoloid" xpath="//fascicoloid" />
+            <param name="aclToAdd" level="debug" xpath="//aclToAdd//text()" />
+            <param name="aclToRemove" level="debug" xpath="//aclToRemove//text()" />
+            <param level="trace" xpath="." />
+            <result level="trace" xpath="." />
+        </section>
+    </group>
+
+    <group name="WSProtocollazione">
+        <section name="protocollaById" level="info">
+            <param name="documentoId" xpath="//prot:documentoId/text()" />
+            <param name="datiProtocollo" xpath="//prot:datiProtocollo" />
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return/text()" />
+        </section>
+    </group>
+
+    <group name="WRegistrazione">
+        <section name="registraById" level="info">
+            <param name="documentoId" xpath="//reg:documentoId" />
+            <param name="registroId" xpath="//reg:registroId" />
+            <param name="datiRegistrazione" level="trace" xpath="//reg:datiRegistrazione" />
+            <param level="trace" xpath="." />
+            <result level="debug" xpath="//ns:return" />
+        </section>
+        <section name="getRegistri" level="info">
+            <param name="cod_ente" xpath="//cod_ente/text()" />
+            <param name="cod_aoo" xpath="//cod_aoo/text()" />
+            <result level="debug" xpath="//ns:return/node()[position()=1]/text()" />
+        </section>
+    </group>
+</audit>

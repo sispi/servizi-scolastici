@@ -1,0 +1,10 @@
+#main .breadcrumb {
+    display: none !important;
+}
+#side-bar-bg{
+    display: none !important;
+}
+#body{
+    margin-left: 0px!important;
+    margin-top: 200px;
+}

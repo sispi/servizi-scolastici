@@ -1,0 +1,2490 @@
+/*
+KDM - Stile custom per doc/ER 
+*/ 
+
+/*
+XFORMS.CSS
+*/ 
+
+.xforms-initially-hidden {
+	display: none;
+}
+
+.xforms-trigger-appearance-xxforms-minimal, .xforms-submit-appearance-xxforms-minimal,
+    .xforms-trigger-appearance-xxforms-minimal button, .xforms-submit-appearance-xxforms-minimal button {
+	cursor: pointer;
+}
+
+.xforms-output {
+word-wrap: break-word;
+word-break: break-word;
+}
+
+/*
+ORBEON.CSS
+*/ 
+
+html {
+	padding-top: 0 !important;
+	margin-top: 0;
+	background: #000 url(docER-images/bg.jpg) top repeat-x;
+}
+body, input, select, button, table {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Lucida, Helvetica, Arial, sans-serif !important;
+	font-size: 90%;
+}
+#allcontent {
+	font-size: 100% !important;
+}
+
+
+/*#main*/ body {
+	border-left: #000 1px solid;
+	border-right: #000 1px solid;
+	margin: 0 1% !important;
+	padding: 0 3px !important;
+	background: #fff;
+}
+
+a:hover, input.xforms-type-date {
+	cursor:pointer;}
+
+#main {
+	padding-bottom: 3em;
+	border-bottom: 4px solid #E2E2E2 !important;
+	min-width: 100px !important;
+}
+
+#banner {
+	background: transparent url(docER-images/header.gif) repeat-x !important;
+	height: 115px !important;
+	color: #fff;
+	padding: 0 3em;
+}
+#banner a img {
+	margin-top: 10px;
+	text-decoration: none !important;
+	border: none !important;
+ 	/*filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(...)*/;
+}
+
+#cner-link {
+	float:right;
+	width: 155px;
+	}
+	
+/*#cner-link a{
+	display:block;
+	width: 152px;
+	height: 60px;
+	}
+*/
+.tabs {
+	background: url(docER-images/tabs_bg.gif) repeat-x;
+	overflow: hidden;
+	height: 24px;
+	text-transform: none;
+	font-weight: normal;
+	color:#fff;
+	border-bottom: 4px solid #E2E2E2 !important;
+	margin-bottom: 2em;
+	text-align: right;
+	padding-right: 3em;
+}
+.tabs a, #banner a {
+	color:#fff;
+	font-weight: bold;
+}
+.tabs form {
+	margin-top: -2px
+}
+.tab-selected, .tab-selected-left {
+	background-color: transparent !important;
+}
+.tab, .tab-selected {
+	border-right: 1px solid white;
+	border-left: 1px solid white;
+}
+/*td#leftcontent, td#maincontent {padding-top:2em !important}
+*//*
+	menu sinistra
+	*/ 
+.skip-nav {
+	position:absolute;
+	left:-10000px;
+	top:auto;
+	width:1px;
+	height:1px;
+	overflow:hidden;	
+	}
+	
+	#leftcontent * /*IE fix*/ {
+	margin: 0;
+	padding: 0;
+}
+#leftcontent /*td colonna sinistra*/ {
+	border: none !important;
+	padding: 0.7em 1.5em 1em !important;
+	background: #fff !important;
+	overflow: hidden;
+	width: 220px;
+}
+#login-page #leftcontent /*td colonna sinistra*/ {
+	display:none;
+}
+#leftcontent h1 /*titolo menu*/ {
+	display: none;
+}
+.tree-sections ul li, li.tree-section {
+}
+.tree-sections /*ul contenente tutti i menu*/ {
+	line-height: 1.5em !important;
+	width: 210px !important;
+	margin-left: 5px
+}
+.tree-section:first-child {
+	display:none;
+}
+.tree-section  /*li titolo dei submenu*/ {
+	font-size: 1em;
+	font-weight: normal;
+	color: #000 !important;
+	display:block !important; /*IE fix*/
+	line-height: 20px !important;
+	background: url(docER-images/menuhead.jpg) no-repeat center top;
+	padding: 5px 10px !important;
+	text-align: center;
+	margin-top: 5px;
+}
+
+ul.tree-items {
+	display:block;
+	padding: 1em 10px !important;
+	text-transform: none !important; /*IE fix*/
+	margin-bottom: 22px !important;
+	font-size: 90%;
+	background: url(docER-images/ie6-ie7-menubkg.jpg) no-repeat center top
+}
+/*.tree-sections:last-child {
+	margin-bottom: 0 !important;
+}*/
+li.tree-items, li.tree-items-selected /*voce non selezionata submenu (contiene link)*/ {
+	display: block;
+	padding: 0.3em 1em !important;
+	border-bottom: 1px dashed #CCC;
+	overflow: hidden;
+}
+li.tree-items a {
+	color: #333 !important;
+}
+
+li.tree-items a, li.tree-items-selected /*li.tree-items = voce non selezionata submenu (contiene link)*/ {
+	display: block;
+	text-decoration: none !important;
+}
+li.tree-items:hover /*voce non selezionata submenu (contiene link)*/ {
+	background: url(docER-images/menu_bkg_li_hov.png) transparent repeat-x center !important;
+}
+li.tree-items-selected /*voce selezionata submenu (no link)*/ {
+	color: #333 !important;
+	font-weight:bold;
+	background: url(docER-images/sprite.png) repeat-x 0 -1300px !important;
+}
+li.tree-items span.fixed-width   {
+	color:#666;
+	font-style:italic;
+}
+
+li.tree-items span.fixed-width  a {
+	color: #333 !important;
+	font-style:normal !important;
+}
+
+/* PULSANTI INTERNI AL MENU */
+
+.menubutton {
+	display: inline-block !important;
+	padding: 2px !important;
+	border: 1px solid #CCCCCC;
+    margin-right: 4px !important;
+    padding: 2px 7px !important;
+    line-height: 1;
+    border-radius: 2px;	
+	background: #F3F3F3;
+}
+
+/*.menubutton:first-child {
+    border-radius: 3px 0 0 3px;	
+}
+
+.menubutton + .menubutton:last-child {
+    border-radius: 0 3px 3px 0;	
+}
+
+ .menubutton:last-child {
+    border-radius: 0 3px 3px 0;	
+	border-left:none;
+}
+ */
+
+.menubutton:hover, .menubutton:focus {
+	background: #fff;
+	cursor:pointer;
+}
+
+.tree-items .fixed-width {min-width:6.2em}
+
+
+/* 
+footer
+*/
+
+.ops-version {
+	overflow: hidden;
+	text-align: right;
+	color: #fff;
+	background: url(docER-images/footer_grad.jpg) repeat-x center;
+	padding: 0.5em 1em;
+	margin-top: 0;
+	height: 52px;
+}
+
+#piter-logo {
+	display:block; 
+	float: right;
+	width: 160px;
+	height: 50px;
+	padding-top:3px;
+	/* background: url(docER-images/logo_piter.gif) no-repeat */}
+
+#ermes-link {
+	display: block;
+	float:left;
+	width: 195px;
+	height: 30px;
+	margin-top: 15px;
+}
+
+#ermes-link a {
+	text-decoration: none !important;
+	border: none !important;
+}
+
+* a img {border:none}
+
+
+/*
+	contenuto principale
+	*/ 
+	
+#doc, #doc2, #doc3, #doc4, .yui-t1, .yui-t2, .yui-t3, .yui-t4, .yui-t5, .yui-t6, .yui-t7 {
+	margin: auto;
+	min-width: 750px;
+	text-align: left;
+	width: auto !important;
+}
+#maincontent /*td contenuto centrale*/ {
+	border: none !important;
+	line-height:1.5em !important;
+}
+.maincontent /*div contenuto centrale*/ {
+	border: none !important;
+	padding: 0 !important;
+}
+.maintable1 /*tabella contenente h1 e benvenuto*/ {
+	width: 100%
+}
+.maincontent h1 /*titolo contenuto selezionato*/ {
+	width: auto !important;
+	border: none !important;
+/*	color:#49754A !important;
+*/	color:#000 !important;
+	background-color: transparent !important;
+	font-size: 140%;
+	font-weight: bold;
+	margin-bottom: 40px !important;
+	padding-left: 0 !important;
+	padding-top: 0 !important;
+	display: inline-block;
+}
+#login-page .maintitle /*titolo contenuto selezionato solo per la pagina di login */ {
+	width: 25em !important;
+	margin: 0 auto !important;
+}
+
+img.xforms-help-image {
+	margin-left: 0;
+	padding-bottom: 6px
+}
+
+.benvenuto { /*necessario per IE*/
+	display:block;
+	vertical-align:middle
+}
+a.logout {
+	display:inline-block;
+	margin: 5px !important;
+	padding: 1px 7px 1px 5px!important;
+	background: url(docER-images/sprite.png) repeat-x 0 0 !important;
+	border: 1px solid #d3d3d3 !important;
+}
+a:hover.logout {
+	background: url(docER-images/sprite.png) repeat-x 0 -1300px !important;
+	text-decoration: none !important;
+}
+#mainbody /*div del corpo del testo*/ {
+	border: none !important;
+	background: none !important;
+	overflow: hidden !important;
+	margin-top: 0 !important;
+	padding-top: 0em !important;
+	padding-left: 1.8em;
+}
+
+#login-page #mainbody /*div del corpo del testo*/ {
+	padding-right: 1.8em;
+}
+
+.floatright {float:right}
+.floatleft {float:left}
+.alignright {text-align:right}
+.nowrap {white-space:nowrap}
+.clearfix{clear:both;overflow: hidden;}
+hr.clearfix{clear:both;border:0 #fff; color:#fff;}
+hr.clearfix0{clear:both;border:0 #fff; color:#fff;margin:0;padding:0}
+/*
+DATATABLE_002.CSS
+*/
+
+.yui-skin-sam .yui-dt th {
+	background:#D8D8DA url(docER-images/sprite.png) repeat-x 0 0;
+}
+.yui-skin-sam th.yui-dt-asc, .yui-skin-sam th.yui-dt-desc {
+	background:url(docER-images/sprite.png) repeat-x 0 -100px;
+}
+.yui-dt-editor .yui-dt-button button {
+	background:url(docER-images/sprite.png) repeat-x 0 0;
+}
+.yui-dt-editor .yui-dt-button button.yui-dt-default {
+	background:url(docER-images/sprite.png) repeat-x 0 -1400px;
+}
+.yui-dt-editor .yui-dt-button button:hover {
+	background:url(docER-images/sprite.png) repeat-x 0 -1300px;
+}
+.yui-dt-editor .yui-dt-button button:active {
+	background:url(docER-images/sprite.png) repeat-x 0 -1700px;
+}
+.yui-skin-sam tr.yui-dt-odd {
+	background-color:#EFEFEF;
+}
+.yui-skin-sam tr.yui-dt-even td.yui-dt-asc, .yui-skin-sam tr.yui-dt-even td.yui-dt-desc {
+	background-color:#EFEFEF;
+}
+.yui-skin-sam .yui-dt-list tr.yui-dt-even td.yui-dt-asc, .yui-skin-sam .yui-dt-list tr.yui-dt-even td.yui-dt-desc {
+	background-color:#EFEFEF;
+}
+.yui-skin-sam .yui-dt-list tr.yui-dt-odd td.yui-dt-asc, .yui-skin-sam .yui-dt-list tr.yui-dt-odd td.yui-dt-desc {
+	background-color:#EFEFEF;
+}
+.yui-skin-sam tr.yui-dt-selected td, .yui-skin-sam tr.yui-dt-selected td.yui-dt-asc, .yui-skin-sam tr.yui-dt-selected td.yui-dt-desc {
+	background:#bfdaff url(docER-images/sprite.png) repeat-x left -1300px;
+	color:#000;
+}
+/*
+TABVIEW.CSS
+*/
+
+* .yui-nav {
+	font-size: 90%;
+}
+.yui-skin-sam .yui-navset .yui-nav, .yui-skin-sam .yui-navset .yui-navset-top .yui-nav {
+	border:none
+}
+/*sfondo contenitore tabella*/
+.yui-skin-sam .yui-navset .yui-nav a:hover, .yui-skin-sam .yui-navset .yui-nav a:focus {
+	background:#F0F0EF;
+	outline:0;
+}
+.yui-skin-sam .yui-navset .yui-nav .selected, .yui-skin-sam .yui-navset .yui-navset-top .yui-nav .selected {
+	margin: 0 0 -1px 5px;
+}
+.yui-skin-sam .yui-navset .yui-nav li, .yui-skin-sam .yui-navset .yui-navset-top .yui-nav li {
+	margin: 0 0.16em 0 0;
+	padding: 1px 0 0 10px;
+}
+.yui-skin-sam .yui-navset .yui-nav a, .yui-skin-sam .yui-navset .yui-navset-top .yui-nav a {
+	background:#fff;
+	border:solid #540000;
+	border-width:0 1px !important;
+	color:#000;
+	position:relative;
+	text-decoration:none;
+}
+.yui-content {
+	padding-top: 2em !important;
+	overflow: hidden !important;
+	padding-bottom: 3em !important;
+	background: #fff url(docER-images/yui_content_top_bg.jpg) repeat-x !important;
+}
+.yui-skin-sam .yui-navset .yui-nav .selected a, .yui-skin-sam .yui-navset .yui-nav .selected a:focus, .yui-skin-sam .yui-navset .yui-nav .selected a:hover {
+	background:#F0F0EF;
+	color:#000;
+}
+.yui-skin-sam .yui-navset .yui-nav a em, .yui-skin-sam .yui-navset .yui-navset-top .yui-nav a em {
+	display:inline-block;
+} /*IE fix*/
+.yui-skin-sam .yui-navset .yui-nav .selected a em, .yui-skin-sam .yui-navset .yui-nav .selected a, .yui-skin-sam .yui-navset .yui-nav .selected a em {
+	border-color: #540000
+}
+.yui-skin-sam .yui-navset .yui-nav a em, .yui-skin-sam .yui-navset .yui-navset-top .yui-nav a em {
+	border-color: #540000;
+	border-style: solid;
+	border-width: 1px 0 0;
+}
+.yui-skin-sam .yui-navset .yui-content, .yui-skin-sam .yui-navset .yui-navset-top .yui-content {
+	border: 1px solid #540000;
+}
+/*
+BUTTON.CSS
+*/	
+	.yui-skin-sam .yui-button {
+	border-width:1px 0;
+	border-style:solid;
+	border-color:#808080;
+	background:url(docER-images/sprite.png) repeat-x 0 0;
+	margin:auto .25em;
+}
+.yui-skin-sam .yui-split-button button, .yui-skin-sam .yui-menu-button button {
+	padding-right:20px;
+	background-position:right center;
+	background-repeat:no-repeat;
+}
+.yui-skin-sam .yui-button-focus {
+	border-color:#7D98B8;
+	background-position:0 -1300px;
+}
+.yui-skin-sam .yui-button-hover .yui-push-button-hover {
+	border-color:#7D98B8;
+	background-position:0 -1300px;
+}
+.yui-skin-sam .yui-button-active {
+	border-color:#7D98B8;
+	background-position:0 -1700px;
+}
+.yui-skin-sam .yui-split-button-activeoption {
+	border-color:#808080;
+	background-position:0 0;
+}
+.yui-skin-sam .yui-radio-button-checked, .yui-skin-sam .yui-checkbox-button-checked {
+	border-color:#304369;
+	background-position:0 -1400px;
+}
+.yui-skin-sam .yui-button-disabled {
+	border-color:#ccc;
+	background-position:0 -1500px;
+}
+/*
+ACCORDION.CSS
+*/
+
+.fr-accordion-lnf dt.a-m-t {
+	background: transparent url(docER-images/sprite.png) repeat-x scroll 0 -1500px;
+}
+.fr-accordion-lnf dt.a-m-t-hover {
+	background-position: 0 -1300px;
+}
+dd.a-m-d-expand {
+	background-color: #FFF;
+}
+/*
+?
+*/
+
+.xforms-textarea, .xforms-textarea textarea {
+	background-color: #FFF;
+	color: #666;
+}
+/*
+DATATABLE.CSS (indicato da Firebug)
+*/
+
+.yui-skin-sam tr.yui-dt-odd td.yui-dt-asc, .yui-skin-sam tr.yui-dt-odd td.yui-dt-desc {
+	background-color:#DFE0EC;
+}
+
+/*
+CONTAINER.CSS (indicato da Firebug)
+*/
+
+.yui-skin-sam .yui-tt .bd {
+	position:relative;
+	top:0;
+	left:0;
+	z-index:1;
+	color:#000;
+	padding:2px 5px;
+	border:1px solid #900;
+	border-radius: 2px;
+	background-color:#EFEFEF;
+	font-size: 85%;
+}
+.yui-skin-sam .yui-tt.show-scrollbars .bd {
+	overflow:auto;
+}
+.yui-skin-sam .yui-tt-shadow {
+	top:2px;
+	right:-2px;
+	left:-1px;
+	bottom:-2px;
+	background-color:#666;
+	border-radius: 2px;
+}
+
+
+
+/*profilo pratica*/
+
+	.xbl-component {
+	margin-top:1em !important;
+}
+.xbl-component td {
+	vertical-align: top !important;
+}
+.fieldset-intestatario, .fieldset-note {
+	background-color: #fff;
+	height: 100% !important;
+	padding-top: 20px;
+}
+.fieldset-note {
+	margin-top: 2em !important;
+}
+.fieldset-note textarea {
+	margin-top: 10px !important;
+}
+.fieldset-intestatario table, .fieldset-note table {
+	height: 1% !important;
+}
+.fieldset-intestatario table td, .fieldset-note table td {
+	padding: 5px !important;
+	height: 1% !important;
+}
+fieldset {
+	margin: 10px !important;
+	padding: 10px !important;
+}
+fieldset table {
+	margin-top: 10px !important;
+}
+fieldset td {
+	padding: 5px !important;
+}
+fieldset legend {
+	color: #000 !important;
+	padding-left: 0 !important;
+	font-weight: bold !important;/*		padding-bottom: 20px !important;
+*/
+}
+.other-label {
+	margin-top: 8px;
+}
+/*	
+PULSANTI
+*/
+
+button {
+background: #eaeaea;
+border: 1px solid #ccc;
+margin-bottom: 2em;
+width: auto;
+border-radius:3px;
+-webkit-border-radius:3px;
+-moz-border-radius:3px;
+-o-border-radius:3px;
+}
+
+
+#d1e1199_group button{width: 150px}
+
+button div {height: 5px}
+
+button:hover {
+border-color: #999;
+cursor:pointer;
+}
+
+button.xforms-readonly:hover {
+border-color: #ccc;
+cursor:default;
+}
+
+#button_back  a {
+margin-left: 10px;
+padding: 1px 5px;
+font-size:90%;
+background: #eaeaea;
+border: 2px solid #ccc;
+margin-bottom: 2em;
+width: auto;
+}
+
+.inner_button button
+{
+	text-align: left;
+	padding: 3px 5px 3px 24px !important;
+	min-width: 90px;
+}
+
+.sub-toolbar .inner_button button {
+    background-position: 4px 2px !important;
+    padding: 1px 2px 1px 24px !important;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.button_delete .inner_button button{
+	width:130px !important;
+}
+
+
+
+#button_download .inner_button button, .version .inner_button button {
+	background: #EAEAEA url(docER-images/icone/download.gif) no-repeat 5px 4px;
+}
+#button_download_nofile .inner_button button, .version .inner_button button {
+	background: #EAEAEA url(docER-images/icone/download.gif) no-repeat 5px 4px;
+}
+#button_open_url .inner_button button, .version .inner_button button {
+	background: #EAEAEA url(docER-images/icone/open_url.png) no-repeat 5px 4px;
+}
+
+#button_modifica .inner_button button,
+.button_modifica .inner_button button {
+	background: #EAEAEA url(docER-images/icone/modifica.gif) no-repeat 5px 4px
+}
+#button_salva .inner_button button, 
+.button_salva .inner_button button, 
+#button_saveacl .inner_button button, 
+.button_save .inner_button button,
+#button_salva_folder .inner_button button{
+	background: #EAEAEA url(docER-images/icone/salva.gif) no-repeat 5px 4px
+}
+
+
+
+
+#button_annulla .inner_button button {
+	background: #EAEAEA url(docER-images/icone/annulla.gif) no-repeat 5px 4px
+}
+.button_print .inner_button button {
+	background: #EAEAEA url(docER-images/icone/stampa.gif) no-repeat 5px 4px
+}
+#button_getversions  .inner_button button {
+	background: #EAEAEA url(docER-images/icone/versions.png) no-repeat 5px 4px
+}
+#button_getversionsud  .inner_button button {
+	background: #EAEAEA url(docER-images/icone/versionsud.png) no-repeat 5px 4px
+}
+#button_cronologia  .inner_button button {
+	background: #EAEAEA url(docER-images/icone/icon_clock.gif) no-repeat 5px 4px
+}
+#button_getrelated  .inner_button button {
+	background: #EAEAEA url(docER-images/icone/icon_extension.gif) no-repeat 5px 4px
+}
+
+#button_getriferimenti .inner_button button {
+	background: #EAEAEA url(docER-images/icone/direction.png) no-repeat 5px 4px;
+	width: 105px;
+}
+
+
+#button_getacl .inner_button button {
+	background: #EAEAEA url(docER-images/icone/icon_group.gif) no-repeat 5px 4px
+}
+#button_delete  .inner_button button,
+.button_delete  .inner_button button {
+	background: #EAEAEA url(docER-images/icone/elimina.gif) no-repeat 5px 4px
+}
+#button_lock .inner_button button {
+	background: #EAEAEA url(docER-images/icone/lock.gif) no-repeat 5px 4px
+}
+#button_unlock  .inner_button button {
+	background: #EAEAEA url(docER-images/icone/unlock.gif) no-repeat 5px 4px
+}
+#button_addversion  .inner_button button,
+#button_addadUnitaDocumentaria .inner_button button,
+.button_addversion  .inner_button button {
+	background: #EAEAEA url(docER-images/icone/add-vers.gif) no-repeat 5px 4px
+}
+
+#button_addadvancedversion  .inner_button button{
+	background: #EAEAEA url(docER-images/icone/document.gif) no-repeat 5px 4px
+}
+
+#button_addriferimento  .inner_button button{
+	background: #EAEAEA url(docER-images/icone/directionadd.png) no-repeat 5px 4px
+}
+
+#button_replaceversion .inner_button button {
+	background: #EAEAEA url(docER-images/icone/subst-vers.gif) no-repeat 5px 4px
+}
+#button_addrelated .inner_button button,
+.button_addrelated .inner_button button {
+	background: #EAEAEA url(docER-images/icone/page_extension.gif) no-repeat 5px 4px
+}
+.button_search .inner_button button {
+	background: #EAEAEA url(docER-images/icone/search_icon.gif) no-repeat 5px 4px;
+}
+
+.button_naviga_fascicolo .inner_button button {
+	background: #EAEAEA url(docER-images/icone/fascicolo.gif) no-repeat 5px 4px;
+}
+
+
+.upload-control button {
+	background: #EAEAEA url(docER-images/icone/upload.gif) no-repeat 5px 4px;
+	margin-left: 5px;
+	margin-top: -1px
+}
+
+
+#button_protocolla .inner_button button {
+	background: #EAEAEA url(docER-images/icone/protocolla.png) no-repeat 5px 4px
+}
+#button_registra .inner_button button {
+	background: #EAEAEA url(docER-images/icone/registra.png) no-repeat 5px 4px
+}
+#button_verifica .inner_button button {
+	background: #EAEAEA url(docER-images/icone/verifica.png) no-repeat 5px 4px
+}
+
+#button_timbra .inner_button button {
+	background: #EAEAEA url(docER-images/icone/timbra.png) no-repeat 5px 4px
+}
+#button_dl_timbro .inner_button button {
+	background: #EAEAEA url(docER-images/icone/dl-timbro.png) no-repeat 5px 4px
+}
+#button_fascicola .inner_button button {
+	background: #EAEAEA url(docER-images/icone/fascicola.png) no-repeat 5px 4px
+}
+#button_cartelle .inner_button button {
+	background: #EAEAEA url(docER-images/icone/folder2.gif) no-repeat 5px 4px
+}
+#button_classifica .inner_button button {
+	background: #EAEAEA url(docER-images/icone/classifica.png) no-repeat 5px 4px
+}
+#button_destinatari.inner_button button {
+	background: #EAEAEA url(docER-images/icone/icon_group.gif) no-repeat 5px 4px
+}
+#button_mittenti.inner_button button {
+	background: #EAEAEA url(docER-images/icone/icon_group.gif) no-repeat 5px 4px
+}
+#button_firmatario .inner_button button {
+	background: #EAEAEA url(docER-images/icone/icon_group.gif) no-repeat 5px 4px
+}
+#dialog_button_protocolla_conferma .inner_button button,
+#dialog_button_registra_conferma .inner_button button{
+	background: #EAEAEA url(docER-images/icone/tick.png) no-repeat 5px 4px
+}
+
+#button_visti .inner_button button {
+	background: #EAEAEA url(docER-images/icone/icon_group.gif) no-repeat 5px 4px
+}
+#button_visto .inner_button button { /* indica il visto non attivato */
+	background: #EAEAEA url(docER-images/icone/visto-no.png) no-repeat 5px 4px
+}
+
+#button_rifiuta .inner_button button { /* indica il visto e rifiuto */
+	background: #EAEAEA url(docER-images/icone/rifiuto.png) no-repeat 5px 4px
+}
+
+#button_new .inner_button button {
+	background: #EAEAEA url(docER-images/icone/add-vers.gif) no-repeat 5px 4px;
+}
+
+#button_selall .inner_button button {
+	background: #EAEAEA url(docER-images/icone/select-all.gif) no-repeat 5px 4px;
+}
+#button_clean .inner_button button,
+#button_clean2 .inner_button button {
+	background: #EAEAEA url(docER-images/icone/action_refresh.gif) no-repeat 5px 4px;
+}
+
+#button_modvisti .inner_button button {
+	background: #EAEAEA url(docER-images/icone/icon_group.gif) no-repeat 5px 4px
+}	
+.button_export .inner_button button {
+	background: #EAEAEA url(docER-images/icone/export-report.png) no-repeat 5px 4px
+}	
+.button_savepdf .inner_button button {
+	background: #EAEAEA url(docER-images/icone/export-pdf.png) no-repeat 5px 4px
+}	
+/* ################ pulsanti navigazione cartelle  */
+
+.button_add_folder {
+	background: #EAEAEA url(docER-images/icone/folder-plus.png) no-repeat 3px 2px;
+    padding: 1px 3px 2px 20px;
+}
+.button_add_group {
+	background: #EAEAEA url(docER-images/icone/icon_group_add.gif) no-repeat 3px 2px;
+    padding: 1px 3px 2px 20px;
+}
+.button_add_document {
+	background: #EAEAEA url(docER-images/icone/blue-document-arrow.png) no-repeat 3px 2px;
+    padding: 1px 3px 2px 20px;
+}
+.button_fascicoli_chiusi_off{
+	background: #EAEAEA url(docER-images/icone/elimina-bn.gif) no-repeat 3px 2px;
+    padding: 1px 3px 2px 20px;
+}
+
+.button_fascicoli_chiusi_on {
+	background: #EAEAEA url(docER-images/icone/chiudi_pratica.gif) no-repeat 3px 2px;
+    padding: 1px 3px 2px 20px;
+}
+
+/* ################ pulsanti disabilitati  */
+
+			#button_download .inner_button button.xforms-readonly, .version .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/download-bn.gif) no-repeat 5px 4px;
+			}
+
+			#button_modifica .inner_button button.xforms-readonly,
+			.button_modifica .inner_button button.xforms-readonly 			{
+				background: #EAEAEA url(docER-images/icone/modifica-bn.gif) no-repeat 5px 4px
+			}
+			#button_salva .inner_button button.xforms-readonly,
+			.button_salva .inner_button button.xforms-readonly, 
+			#button_saveacl .inner_button button.xforms-readonly, 
+			.button_save .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/salva-bn.gif) no-repeat 5px 4px
+			}
+			#button_annulla .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/annulla-bn.gif) no-repeat 5px 4px
+			}
+			#button_getversions  .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/icon_clock-bn.gif) no-repeat 5px 4px
+			}
+			#button_getrelated  .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/icon_extension-bn.gif) no-repeat 5px 4px
+			}
+			#button_getacl .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/icon_group-bn.gif) no-repeat 5px 4px
+			}
+			#button_delete  .inner_button button.xforms-readonly,
+			.button_delete  .inner_button button.xforms-readonly{
+				background: #EAEAEA url(docER-images/icone/elimina-bn.gif) no-repeat 5px 4px
+			}
+			#button_lock .inner_button button.xforms-readonly{
+				background: #EAEAEA url(docER-images/icone/lock-bn.gif) no-repeat 5px 4px
+			}
+			#button_unlock  .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/unlock-bn.gif) no-repeat 5px 4px
+			}
+			#button_addversion  .inner_button button.xforms-readonly,
+			.button_addversion  .inner_button button.xforms-readonly 			{
+				background: #EAEAEA url(docER-images/icone/add-vers-bn.gif) no-repeat 5px 4px
+			}
+			#button_replaceversion .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/subst-vers-bn.gif) no-repeat 5px 4px
+			}
+			#button_addrelated .inner_button button.xforms-readonly ,
+			.button_addrelated .inner_button button.xforms-readonly{
+				background: #EAEAEA url(docER-images/icone/page_extension-bn.gif) no-repeat 5px 4px
+			}
+			.button_search .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/search_icon-bn.gif) no-repeat 5px 4px;
+			}
+			.upload-control button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/upload-bn.gif) no-repeat 5px 4px;
+				margin-left: 5px;
+				margin-top: -1px
+			}
+
+			#button_new .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/add-vers-bn.gif) no-repeat 5px 4px;
+			}
+			#button_clean .inner_button button.xforms-readonly,
+			#button_clean2 .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/action_refresh-bn.gif) no-repeat 5px 4px;
+			}
+			#button_selall .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/select-all-bn.gif) no-repeat 5px 4px;
+			}
+			
+			#button_protocolla .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/protocolla-bn.png) no-repeat 5px 4px
+			}
+			#button_registra .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/registra-bn.png) no-repeat 5px 4px
+			}
+			#button_verifica .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/verifica-bn.png) no-repeat 5px 4px
+			}
+
+			#button_timbra .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/timbra-bn.png) no-repeat 5px 4px
+			}
+			#button_dl_timbro .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/dl-timbro-bn.png) no-repeat 5px 4px
+			}
+			#button_fascicola .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/fascicola-bn.png) no-repeat 5px 4px
+			}
+			#button_cartelle .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/folder2-bn.gif) no-repeat 5px 4px
+			}
+			#button_classifica .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/classifica-bn.png) no-repeat 5px 4px
+			}
+			#button_visto .inner_button button.xforms-readonly { 
+				background: #EAEAEA url(docER-images/icone/visto-bn.png) no-repeat 5px 4px
+			}
+			#button_rifiuta .inner_button button.xforms-readonly { 
+				background: #EAEAEA url(docER-images/icone/rifiuto-bn.png) no-repeat 5px 4px
+			}
+			
+			#button_modvisti .inner_button button.xforms-readonly {
+				background: #EAEAEA url(docER-images/icone/icon_group-bn.gif) no-repeat 5px 4px
+			}			
+
+
+
+/* ################ fine pulsanti disabilitati  */
+
+#button_back  a {
+	display:inline-block;
+	margin: 10px 0 !important;
+	background: #EAEAEA url(docER-images/icone/arrow_left.gif) no-repeat 5px 4px;
+	color:#000 !important;
+	width:auto !important
+}
+
+#button_back .inner_button button {background: #EAEAEA url(docER-images/icone/arrow_left.gif) no-repeat 5px 4px;}
+
+.lastversion button, .version button {margin-bottom: 0 !important}
+
+.backtosearch .inner_button button {
+	background: #EAEAEA url(docER-images/icone/arrow_left.gif) no-repeat 5px 4px;}
+
+button.xforms-disabled-subsequent {display:none !important} 
+
+/*bottoni Lunghi*/ 
+#button_addrelated .inner_button button, 
+#button_addversion .inner_button button, 
+#button_replaceversion .inner_button button, 
+.backtosearch .inner_button button, 
+#button_new .inner_button button, 
+#button_back .inner_button button, 
+.long-button .inner_button button,
+#button_selall .inner_button button
+{width:auto !important}
+
+
+.button_profilo button, .button_mostra_profilo button {
+	background: #EAEAEA url(docER-images/icone/profilo.gif) no-repeat 5px 4px
+}
+.button_protocolla button {
+	background: url(docER-images/icone/protocolla.png) no-repeat 3px 2px
+}
+
+.button_invia_nuova button { /*invia nuova comunicazione*/
+	background: url(docER-images/icone/invia_nuova.gif) no-repeat 3px 3px
+}
+.button_invia_comunicazione button {
+	background: url(docER-images/icone/invia.gif) no-repeat 3px 3px
+}
+.button_file button {
+	background: url(docER-images/icone/file.gif) no-repeat 3px 3px
+}
+.button_allega button {
+	background: url(docER-images/icone/allega.gif) no-repeat 3px 3px
+}
+.button_rispondi_comunicazione button {
+	background: url(docER-images/icone/rispondi.gif) no-repeat 3px 3px
+}
+
+/* LOGIN FORM  */
+
+.login-form td {
+	display: block;		/* per spostare le label sui campi */
+}
+
+
+.login-form .fe-label{
+	display:block;
+	font-weight: bold;
+	padding-top:6px;
+}
+
+.login-form input, .login-form select {
+    display: block;
+    font-size: 110%;
+    width: 100%;
+}
+	
+.login-form button {
+	font-size: 120%;
+	font-weight:bold;
+	padding-left:20px;
+	background: #fff url(docER-images/icone/login.gif) no-repeat 3px 3px;
+	border-width: 1px;
+	margin-top: 10px;
+	margin-bottom: 0;}
+
+/*lista utenti-gruppi (gestione diritti) */
+
+.acl-item {
+	width:80%;
+	padding: 5px 5px 0;
+	margin: 10px 0;
+	background: #f5f5f5;
+}
+.acl-item span{
+	display:inline-block;}
+.acl-item .kforms-form-field {
+	width: auto;}
+.acl-item .kforms-label {
+	width: 15em;
+	overflow:hidden;
+	padding-top: 4px;
+	margin-right: 5px;}
+.acl-item .kforms-value {
+	width: 6em;
+	background:none;
+	text-align:right}
+.acl-item  .remove_acl {
+	display:inline-block;
+	font-size: 90%}
+.add-acl-panel label a{
+	float:none;
+	display: inline-block;
+	padding:8px 0 5px;
+	line-height: 1.5em}
+	
+/*tree view*/
+.actor-table, .folders-table {padding:0 !important; width:80%}
+.treeview-row {display:block !important;
+clear:both}
+td.tree { border: 1px solid #ccc; background: #F8F8F8; padding: 10px; width:auto; min-width:280px; white-space:nowrap;}
+td.selection { border: 1px solid #ccc; padding: 10px; width: 80%}
+.tv_plus a { background: transparent url(docER-images/icone/plus.gif) no-repeat 0px 4px; padding-left: 8px; display:inline-block;  }
+.tv_minus a { background: transparent url(docER-images/icone/minus.gif) no-repeat 0px 4px; padding-left: 8px; display:inline-block;  }
+/*.tv_folder span { background: transparent url(docER-images/icone/folder2.gif) no-repeat 2px 0px; padding-left: 16px; }*/
+.tv_folder span.ftype- { background: transparent url(docER-images/icone/folder2.gif) no-repeat 2px 0px; padding-left: 16px; }
+.groups-table .tv_folder span.ftype- { background: transparent url(docER-images/icone/icon_group.gif) no-repeat 2px 0px; padding-left: 16px; }
+.tv_folder span.ftype-R { background: transparent url(docER-images/icone/docer-icon.gif) no-repeat 2px 0px; padding-left: 16px; }
+.tv_folder span.ftype-E { background: transparent url(docER-images/icone/building.gif) no-repeat 2px 0px; padding-left: 16px; }
+.tv_folder span.ftype-A { background: transparent url(docER-images/icone/document-node.gif) no-repeat 2px 0px; padding-left: 16px; }
+.tv_folder span.ftype-T { background: transparent url(docER-images/icone/tags.gif) no-repeat 2px 0px; padding-left: 16px; }
+.tv_folder span.ftype-F { background: transparent url(docER-images/icone/fascicolo.gif) no-repeat 2px 0px; padding-left: 16px; }
+.tv_folder span.ftype-G { background: transparent url(docER-images/icone/icon_group.gif) no-repeat 2px 0px; padding-left: 16px; }
+.tv_folder span.ftype-Reg { background: transparent url(docER-images/icone/registra.png) no-repeat 2px 0px; padding-left: 16px; }
+.tv_folder span.ftype-false { background: transparent url(docER-images/icone/icon_group.gif) no-repeat 2px 0px; padding-left: 16px; }
+span.ftype-true { background: transparent url(docER-images/icone/gruppo-struttura.gif) no-repeat 2px 0px; padding-left: 16px; }
+
+/* NAVIGAZIONE GRUPPI E UTENTI */
+.search-groups, .search-groups .kforms-form-field , .search-groups .kforms-form-field .kforms-value {
+	width: 200px !important;
+	min-width: 200px !important;
+}
+.search-groups .kforms-form-field input {
+	width: 185px !important;
+}
+.search-groups-btn button {
+	margin: 1px 1px 2em 1px;
+    padding: 1px 3px 1px 20px;
+	background: #EAEAEA url(docER-images/icone/search-gruppi.gif) no-repeat 2px 3px ;
+}
+
+/* NAVIGAZIONE CARTELLE PERSONALI E CONDIVISE */
+
+.tv_folder span.ftype-W { background: transparent url(docER-images/icone/folders-stack-AOO.png) no-repeat 2px 0px; padding-left: 16px; } /*folder delle aoo*/
+.tv_folder span.ftype-S { background: transparent url(docER-images/icone/folder-share.png) no-repeat 2px 0px; padding-left: 16px; } /* shares - cartelle condivise*/
+.tv_folder span.ftype-L { background: transparent url(docER-images/icone/personal-folder.png) no-repeat 2px 0px; padding-left: 16px; } /* cartelle personali*/
+
+.ftype-W .riferimento {display:none}
+.ftype-controls {
+	width:98% !important;
+}
+.ftype-controls .row-label {
+	font-weight:bold
+}
+
+.ftype-top-controls {
+	float:right;
+	clear:right;
+	margin-bottom: 10px;
+}
+
+.ftype-right-controls {
+	margin-right: 15%;
+}
+
+.ftype-sub-controls {
+	border-top:1px dashed #ccc;
+	display:block;
+	margin-top:10px;
+	padding-top: 10px;
+	clear:both;
+}
+
+/* SPOSTATO DOPO RIGA 1395 *********
+ a.ftype-T, a.ftype-F {text-decoration:underline !important} */
+a.ftype-R, a.ftype-E, a.ftype-A {cursor:default; color:#333;} 
+
+.actor-table .xforms-repeat-selected-item-1, .tree .xforms-repeat-selected-item-1 {background-color:transparent !important}
+td.tree .xforms-repeat-selected-item-1 .tv_title{ background-color: #fff;font-weight: bold;}
+td.selection .xforms-repeat-selected-item-1 a{ font-weight:normal}
+.node-empty {background: transparent url(docER-images/icone/folder-empty.gif) no-repeat 0px 5px; padding-left:3px}
+.tv_tabbing {display: inline-block;width: 1.2em;}
+.tv_title {padding:0 2px}
+.actor-table .kforms-form-field, .folders-table .kforms-form-field { width:auto; white-space:nowrap}
+.actor-table .kforms-value, .folders-table .kforms-value {background:none}
+.fascicoli-table .xforms-repeat-selected-item-1, .sezioneprofilo .xforms-repeat-selected-item-1, .anagrafiche-custom.xforms-repeat-selected-item-1 {
+    background-color: transparent !important;
+}
+.fascicoli-table th, .fascicoli-secondari {
+    color: #999;
+}
+
+.groups-list, .users-list {display:block; margin-bottom:10px;}
+.user-row {margin: 3px 0; display:block}
+.icon_user {background: transparent url(docER-images/icone/icon_user.gif) no-repeat center center; display: inline-block; padding-left: 20px;}
+.persona-fisica {background: transparent url(docER-images/icone/persona-fisica.png) no-repeat center center; display: inline-block; padding-left: 20px;}
+.persona-giuridica {background: transparent url(docER-images/icone/briefcase.png) no-repeat center center; display: inline-block; padding-left: 20px;}
+.icon_aoo {background: transparent url(docER-images/icone/building-medium.png) no-repeat center center; display: inline-block; padding-left: 20px;}
+.icon_group {background: transparent url(docER-images/icone/icon_group.gif) no-repeat center center; display: inline-block; padding-left: 20px;}
+.icon_checked{background: transparent url(docER-images/icone/visto-si.png) no-repeat center center; display: inline-block; padding-left: 20px;}
+.icon_rifiuto{background: transparent url(docER-images/icone/rifiuto.png) no-repeat center center; display: inline-block; padding-left: 20px;}
+.icon_unchecked{background: transparent url(docER-images/icone/non-visto.png) no-repeat center center; display: inline-block; padding-left: 20px;}
+.row-aggiungi, .row-aggiugi {padding-right: 5px;}
+.actor-table .xforms-repeat-template, .folders-table .xforms-repeat-template { display: none !important}
+
+.folders-table .res-info {
+	line-height:1.3em
+}
+
+.folders-table  .xforms-repeat-selected-item-1 .res-title a {
+	font-weight:bold !important;
+}
+
+/* per troncare titoli lunghi nella treeview
+*/
+.treeview-row span.tv_tabs,
+.treeview-row span.tv_tabbing,
+.treeview-row span.treeview-element,
+.treeview-row span.tv_plus,
+.treeview-row span.tv_minus,
+.treeview-row span.tv_folder,
+.treeview-row span.node-icon {
+display: inline-block;
+vertical-align: top;
+overflow:visible !important;
+white-space:normal !important;
+top: 0 !important;}
+
+span.tv_title a {
+display:inline-block;
+vertical-align: top;
+/**/ max-width:14em; 
+overflow:hidden; 
+white-space:nowrap; 
+text-overflow:ellipsis; 
+}
+
+
+
+/* span.tv_title a:hover, span.tv_title a:focus
+{
+overflow:visible !important;
+white-space:normal !important;
+} */
+
+
+/* per troncare titoli lunghi nella treeview
+	FINE*/
+
+/*LISTA DEGLI ALLEGATI*/
+.xforms-upload-filename {
+	display: inline-block !important;
+/*	width: 250px !important;
+*/	overflow:hidden !important;
+	white-space:nowrap !important;
+    font-weight: bold;
+}
+.xforms-upload-size {
+	display: inline-block !important;
+	width: 50px !important;
+	text-align: right !important;
+	white-space:nowrap !important;
+	vertical-align: top !important;
+}
+.xforms-upload-remove {
+    display: inline-block !important;
+    font-weight: bold;
+    padding-left: 10px !important;
+    text-align: right !important;
+    vertical-align: top !important;}
+
+.remove .inner_button a {
+	display:inline-block;
+	padding: 2px 3px 2px 20px;
+	background: transparent url(docER-images/icone/elimina.gif) no-repeat center left;
+	font-weight:normal !important;
+}
+
+.aggiungi .inner_button a {
+	display:inline-block;
+	padding: 2px 3px 2px 20px;
+	background: transparent url(docER-images/icone/aggiungi.gif) no-repeat center left;
+	font-weight:normal !important;
+}
+.remove .inner_button a:hover {
+}
+/*LISTA versioni*/
+
+.lastversion {font-weight:bold; margin-top: 20px;}
+
+.version  { background-color: #fff !important}
+
+.lastversion, .version {
+	padding:10px; 
+	margin:0.5em 0;
+	background:url(docER-images/ie6-ie7-menubkg.jpg) repeat-x scroll center center transparent}
+
+.xforms-upload-info {
+	padding:10px 10px 5px ; 
+	margin:1em 0;
+	border: 1px solid #C33;
+	width: 100%}
+
+.kforms-forms-field .xforms-upload-info {
+	padding: 0; 
+	border: none;
+}
+
+/*HOME AMMINISTRAZIONE DEL SISTEMA*/
+table.amministrazione {
+	width: 95%
+}
+.amministrazione td {
+	border: 1px solid #CCC;
+}
+.amministrazione td a img {
+	border: none;
+	margin-bottom:2px
+}
+.amministrazione td p {
+	background: none;
+	padding: 5px;
+	margin:0;
+	color: #333;
+}
+td.pulsante {
+	background: url(docER-images/amm_bkg.jpg) bottom center no-repeat;
+	width: 236px;
+	text-align: center;
+}
+
+
+.sxc-form-label {
+	color: #666;
+	font-size: 90%;
+	font-weight: normal !important;}
+	
+.sxc-form-label a{
+	text-decoration: none;
+	color: #990000;
+}
+	
+.sxc-form-field input, textarea {
+    width: 80%;
+}
+
+
+
+* a {
+	color:#921115}
+
+
+/*   toolbar pulsanti    */
+.kforms-toolbar {
+	padding: 0 2em 0 0}
+
+.kforms-toolbar button, #button1 {
+	text-transform:capitalize}
+
+.sub-toolbar {
+	padding:0 5px;
+	background: url("docER-images/ie6-ie7-menubkg.jpg") repeat-x scroll center center transparent;
+	border: 1px dashed #DDDDDD;
+	overflow:hidden;
+	display:block;
+}
+
+@media (min-width:1030px) {
+	.kforms-toolbar .sub-toolbar {width:93%}
+}
+
+
+
+/*   FORMS    */
+
+div.upload-control {margin: 10px 0 20px; height: 3em;}
+div.upload-control a.xforms-control {
+margin-left: 10px;
+padding: 1px 5px;
+font-size:90%;
+background: #eaeaea;
+border: 2px solid #ccc;
+margin-bottom: 2em;
+width: auto;
+}
+
+div.upload-control a.xforms-control:hover, #button_back  a:hover {
+border-color: #999;
+text-decoration: none;
+}
+
+.kforms-form-field, .kforms-forms-field {
+	margin-bottom: 5px;
+	width: 100%;
+	display: block;
+	overflow: hidden;
+	/*border: 1px solid #EAEAEA*/}
+
+.kforms-label, .upload-label {
+	display: inline-block;
+    float: left;
+	width: 14em;
+	color: #333;
+	height: auto !important}
+.kforms-value, .xforms-upload {
+	display: inline-block;
+	width: 65%;
+	min-width:18em;
+	min-height:19px;
+	background: url(docER-images/ie6-ie7-menubkg.jpg) repeat-x center;
+	padding: 1px 7px;}
+
+
+.kforms-value div{
+	margin: 0 0 3px 0}
+	
+	
+/*  lookup */
+
+
+.kforms-lookup-panel {
+	border:1px solid #CCC;
+	background: #ececec;
+	display:block;
+	padding: 10px 10px 30px 10px;
+	overflow: hidden;
+	margin-bottom: 1em;
+	height: auto !important;
+	width: 93%;
+	vertical-align: top !important;
+}
+
+.kforms-lookup-panel .kforms-value {
+	width: auto;
+	background: none;
+	}
+
+.kforms-label a, .kforms-select {
+ 	float:right;
+	padding-right:3px;
+}
+.kforms-label a, .kforms-value a{
+	font-size: 90%
+}	
+
+.kforms-lookup-panel select, .kforms-lookup-panel input{
+    display: block;
+	height:1.7em;
+	position: relative;
+	margin-top:5px;
+    width: auto !important;}
+
+.kforms-lookup-panel .kforms-add{
+/* 	display: table-cell;
+ */	display: inline;
+	vertical-align:top;
+	float:none !important;
+}
+.kforms-lookup-panel .kforms-value-label {
+/* 	display: table-cell;
+ */	display: inline;	
+	vertical-align: top;
+}
+
+.kforms-add, .kforms-delete {
+	display: inline-block;
+	padding: 0 10px 0 0;
+	text-align: center;
+}
+
+.kforms-lookup-panel button.filtra{
+	margin: 5px 0;
+	width: auto !important;
+	white-space:nowrap !important;
+	padding-left: 24px;
+	background:url(docER-images/icone/filter.gif) no-repeat scroll 5px 1px transparent;
+}
+.kforms-lookup-panel  .hidden-label {
+	position:absolute;
+	left:-10000px;}
+
+
+.kforms-lookup-panel  .xforms-repeat-delimiter {
+	display:block !important}
+
+
+.kforms-lookup-panel .kforms-label {
+	float:left;
+	width: 30%;
+	margin-bottom:20px;
+}
+.kforms-lookup-panel .kforms-value {
+	width: auto;
+	}
+
+.kforms-lookup-panel .to-noresults {
+display:inline;
+}
+
+.kforms-add {}
+.kforms-select {}
+.kforms-delete {}
+
+.kforms-form-field input, .kforms-form-field textarea {display: inline-block; width: 95%}
+
+
+/*interfaccia ricerca*/
+.maxrows .kforms-label{
+	font-weight:bold;
+	color: #000 !important;
+	margin-right: 3%;
+}
+.maxrows .kforms-value{
+}
+
+
+
+span.sezionericerca {
+	display: block;}
+span.sezionericerca .kforms-label, span.sezioneprofilo .kforms-label, span.dettaglio .kforms-label {
+
+    padding-left: 3%;
+    width: 16em !important;}
+.label_sezione {
+    display: block;
+    font-weight: bold;
+    padding-bottom: 10px;
+    padding-top: 1em;}
+
+/*risultati ricerca*/
+
+.res-exceed { font-weight:bold }
+span.pager { display:block; margin-top: 2em; border-top:1px solid #ccc; padding-top: 5px}
+span.pager span.xforms-control { font-weight:bold }
+span.pager a.xforms-control { font-weight: normal }
+span.pager .xforms-repeat-selected-item-1 { background-color: #fff !important}
+
+.res-nr {
+	padding-bottom: 2em;}
+.res-nr span{
+	font-weight:bold}
+
+.row1{
+    background-color: #EfEfEf;}
+
+.xforms-repeat-selected-item-1 {
+    background-color: #EfEfEf !important;
+}
+.folders-table .xforms-repeat-selected-item-1 {
+    background-color: transparent !important;
+}
+.xforms-repeat-selected-item-2 {
+    background-color: transparent !important;
+}
+.row0{
+    background-color: #fff !important;
+	border: 1px solid #efefef}
+
+/* .getrelated-list div.res-item:nth-child(even) {background: #efefef !important}
+ */
+.res-item {
+	padding: 7px;
+	margin: 5px 0;
+}
+.res-title {
+	font-weight: bold;}
+
+.stato-arch-icon {float:left;padding:2px 8px 0 0}
+
+.res-title a.viewprofile {
+	padding: 0 10px 0 20px;
+	background: transparent url(docER-images/icone/profilo.gif) no-repeat center left;}
+
+.res-abstract {
+	padding-top: 7px;
+	padding-bottom: 7px}
+	
+.res-info {
+	padding-top: 5px; 
+	display:block}
+.res-info span, .res-info .xforms-group {
+	display: inline-block !important;}
+.res-info .kforms-form-field {
+	display: inline-block !important;
+	width: auto !important;
+	padding:0;
+	margin-bottom: 0;
+	font-size: 90%}
+.res-info .kforms-form-field .kforms-label {
+	display: inline !important;
+	white-space: nowrap !important;
+	padding-right: 4px;
+	background: none;
+	text-transform: capitalize;
+	width: auto !important;
+	}
+.res-info .kforms-form-field .kforms-value {
+	display:inline !important;
+	white-space: nowrap !important;
+	background: none;
+	border-right: 1px solid #ccc;
+	padding: 0 4px 0 2px;
+	font-weight:bold;
+	color:#333}
+	
+.res-info .res-inner  {
+	border-right: 1px solid #ccc;
+	padding-right: 3px
+}
+.res-info .res-inner .kforms-form-field .kforms-value {
+	border-right: none;
+	padding-right: 1px;
+}
+
+div.msgerr {
+display:block;
+padding-bottom: 1em
+}
+
+.msgerr span, .msgerr .xforms-group{
+white-space: normal !important;
+display: inline !important;
+}
+
+
+/*Gestione Anagrafiche*/
+.xforms-selected input, .xforms-deselected input {
+    margin-left: 0;
+    text-align: left;
+    width: auto;}
+
+.res-details {
+	padding-top: 5px;}
+.res-details .kforms-label{
+	width: 80px;}
+.res-details  .kforms-form-field{
+	line-height: 1em;
+	font-size: 90%}
+.res-details .kforms-value {
+	background:none}
+
+/* DIALOG */
+div.yui-dialog {
+/*	position:absolute;
+	top: 40%
+*/}
+
+div.mask {
+background: url(docER-images/blank.gif) !important;
+/*position: absolute;
+top:0;
+bottom: 0;
+*/}
+
+.shadow {
+	}
+.xforms-error-panel {
+/*	width: 100% !important;
+*/	}
+.kforms-dialog .shadow {
+	/*position:absolute;
+	top: 40%
+	top: 220px !important;*/
+}
+
+
+
+/* ICONE FILE*/
+
+.res-title a.viewprofile {
+	padding: 0 10px 0 20px;
+	word-wrap: break-word; /* Firefox & IE */
+	word-break: break-all; /* Chrome */
+	overflow-wrap: break-word;
+	/* display:inline-block; */
+	background: transparent url(docER-images/fileicons/file.png) no-repeat center left;}
+
+.res-title a.download_icon , /*per orbeon ver.2015*/ span.download_icon a{	
+padding:3px 6px;
+background: transparent url(docER-images/icone/download.gif) no-repeat center center;}
+
+.res-title a.remove_icon {	
+padding:3px 6px;
+background: transparent url(docER-images/icone/blue-document-minus.png) no-repeat center center;
+text-decoration:none !important;
+}
+
+.res-title a.icon_pdf {	background: transparent url(docER-images/fileicons/pdf.png) no-repeat center left;}
+.res-title a.icon_aiff {	background: transparent url(docER-images/fileicons/aiff.png) no-repeat center left;}
+.res-title a.icon_asc {	background: transparent url(docER-images/fileicons/asc.png) no-repeat center left;}
+.res-title a.icon_bin {	background: transparent url(docER-images/fileicons/bin.png) no-repeat center left;}
+.res-title a.icon_bz2 {	background: transparent url(docER-images/fileicons/bz2.png) no-repeat center left;}
+.res-title a.icon_cfc {	background: transparent url(docER-images/fileicons/cfc.png) no-repeat center left;}
+.res-title a.icon_cfm {	background: transparent url(docER-images/fileicons/cfm.png) no-repeat center left;}
+.res-title a.icon_chm {	background: transparent url(docER-images/fileicons/chm.png) no-repeat center left;}
+.res-title a.icon_class {	background: transparent url(docER-images/fileicons/class.png) no-repeat center left;}
+.res-title a.icon_conf {	background: transparent url(docER-images/fileicons/conf.png) no-repeat center left;}
+.res-title a.icon_cpp {	background: transparent url(docER-images/fileicons/cpp.png) no-repeat center left;}
+.res-title a.icon_cs {	background: transparent url(docER-images/fileicons/cs.png)  no-repeat center left;}
+.res-title a.icon_css {	background: transparent url(docER-images/fileicons/css.png) no-repeat center left;}
+.res-title a.icon_csv {	background: transparent url(docER-images/fileicons/csv.png) no-repeat center left;}
+.res-title a.icon_deb {	background: transparent url(docER-images/fileicons/deb.png) no-repeat center left;}
+.res-title a.icon_divx {	background: transparent url(docER-images/fileicons/divx.png) no-repeat center left;}
+.res-title a.icon_dot {	background: transparent url(docER-images/fileicons/dot.png) no-repeat center left;}
+.res-title a.icon_eml {	background: transparent url(docER-images/fileicons/eml.png) no-repeat center left;}
+.res-title a.icon_enc {	background: transparent url(docER-images/fileicons/enc.png) no-repeat center left;}
+.res-title a.icon_gif {	background: transparent url(docER-images/fileicons/gif.png) no-repeat center left;}
+.res-title a.icon_gz {	background: transparent url(docER-images/fileicons/gz.png) no-repeat center left;}
+.res-title a.icon_hlp {	background: transparent url(docER-images/fileicons/hlp.png) no-repeat center left;}
+.res-title a.icon_htm {	background: transparent url(docER-images/fileicons/htm.png) no-repeat center left;}
+.res-title a.icon_html {	background: transparent url(docER-images/fileicons/html.png) no-repeat center left;}
+.res-title a.icon_iso {	background: transparent url(docER-images/fileicons/iso.png) no-repeat center left;}
+.res-title a.icon_jar {	background: transparent url(docER-images/fileicons/jar.png) no-repeat center left;}
+.res-title a.icon_java {	background: transparent url(docER-images/fileicons/java.png) no-repeat center left;}
+.res-title a.icon_jpeg {	background: transparent url(docER-images/fileicons/jpeg.png) no-repeat center left;}
+.res-title a.icon_jpg {	background: transparent url(docER-images/fileicons/jpg.png) no-repeat center left;}
+.res-title a.icon_js {	background: transparent url(docER-images/fileicons/js.png) no-repeat center left;}
+.res-title a.icon_lua {	background: transparent url(docER-images/fileicons/lua.png) no-repeat center left;}
+.res-title a.icon_mm {	background: transparent url(docER-images/fileicons/mm.png) no-repeat center left;}
+.res-title a.icon_mov {	background: transparent url(docER-images/fileicons/mov.png) no-repeat center left;}
+.res-title a.icon_mp3 {	background: transparent url(docER-images/fileicons/mp3.png) no-repeat center left;}
+.res-title a.icon_mpg {	background: transparent url(docER-images/fileicons/mpg.png) no-repeat center left;}
+
+.res-title a.icon_ogg {	background: transparent url(docER-images/fileicons/ogg.png) no-repeat center left;}
+
+.res-title a.icon_pdf {	background: transparent url(docER-images/fileicons/pdf.png) no-repeat center left;}
+.res-title a.icon_pgp {	background: transparent url(docER-images/fileicons/pgp.png) no-repeat center left;}
+.res-title a.icon_php {	background: transparent url(docER-images/fileicons/php.png) no-repeat center left;}
+.res-title a.icon_pl {	background: transparent url(docER-images/fileicons/pl.png) no-repeat center left;}
+.res-title a.icon_png {	background: transparent url(docER-images/fileicons/png.png) no-repeat center left;}
+
+.res-title a.icon_ps {	background: transparent url(docER-images/fileicons/ps.png) no-repeat center left;}
+.res-title a.icon_py {	background: transparent url(docER-images/fileicons/py.png) no-repeat center left;}
+.res-title a.icon_ram {	background: transparent url(docER-images/fileicons/ram.png) no-repeat center left;}
+.res-title a.icon_rar {	background: transparent url(docER-images/fileicons/rar.png) no-repeat center left;}
+.res-title a.icon_rb {	background: transparent url(docER-images/fileicons/rb.png) no-repeat center left;}
+.res-title a.icon_rm {	background: transparent url(docER-images/fileicons/rm.png) no-repeat center left;}
+.res-title a.icon_rpm {	background: transparent url(docER-images/fileicons/rpm.png) no-repeat center left;}
+.res-title a.icon_rtf {	background: transparent url(docER-images/fileicons/rtf.png) no-repeat center left;}
+.res-title a.icon_sig {	background: transparent url(docER-images/fileicons/sig.png) no-repeat center left;}
+.res-title a.icon_sql {	background: transparent url(docER-images/fileicons/sql.png) no-repeat center left;}
+.res-title a.icon_swf {	background: transparent url(docER-images/fileicons/swf.png) no-repeat center left;}
+
+
+.res-title a.icon_sxc {	background: transparent url(docER-images/fileicons/sxc.png) no-repeat center left;}
+.res-title a.icon_sxd {	background: transparent url(docER-images/fileicons/sxd.png) no-repeat center left;}
+.res-title a.icon_sxi {	background: transparent url(docER-images/fileicons/sxi.png) no-repeat center left;}
+.res-title a.icon_sxw {	background: transparent url(docER-images/fileicons/sxw.png) no-repeat center left;}
+.res-title a.icon_tar {	background: transparent url(docER-images/fileicons/tar.png) no-repeat center left;}
+.res-title a.icon_tex {	background: transparent url(docER-images/fileicons/tex.png) no-repeat center left;}
+.res-title a.icon_txt {	background: transparent url(docER-images/fileicons/txt.png) no-repeat center left;}
+.res-title a.icon_vcf {	background: transparent url(docER-images/fileicons/vcf.png) no-repeat center left;}
+.res-title a.icon_vsd {	background: transparent url(docER-images/fileicons/vsd.png) no-repeat center left;}
+.res-title a.icon_wav {	background: transparent url(docER-images/fileicons/wav.png) no-repeat center left;}
+.res-title a.icon_wma {	background: transparent url(docER-images/fileicons/wma.png) no-repeat center left;}
+.res-title a.icon_wmv {	background: transparent url(docER-images/fileicons/wmv.png) no-repeat center left;}
+.res-title a.icon_xml {	background: transparent url(docER-images/fileicons/xml.png) no-repeat center left;}
+.res-title a.icon_xpi {	background: transparent url(docER-images/fileicons/xpi.png) no-repeat center left;}
+.res-title a.icon_xvid {	background: transparent url(docER-images/fileicons/xvid.png) no-repeat center left;}
+.res-title a.icon_zip {	background: transparent url(docER-images/fileicons/zip.png) no-repeat center left;}
+
+.res-title a.icon_p7m {	background: transparent url(docER-images/fileicons/p7m.png) no-repeat center left;}
+.res-title a.icon_p7x, 
+.res-title a.icon_m7m {	background: transparent url(docER-images/fileicons/p7x.png) no-repeat center left;}
+
+/*MS office*/
+.res-title a.icon_doc {	background: transparent url(docER-images/fileicons/doc.png) no-repeat center left;}
+.res-title a.icon_docx {	background: transparent url(docER-images/fileicons/doc.png) no-repeat center left;}
+.res-title a.icon_docm {	background: transparent url(docER-images/fileicons/doc.png) no-repeat center left;}
+.res-title a.icon_dotx {	background: transparent url(docER-images/fileicons/doc.png) no-repeat center left;}
+.res-title a.icon_dotm {	background: transparent url(docER-images/fileicons/doc.png) no-repeat center left;}
+
+.res-title a.icon_xls {	background: transparent url(docER-images/fileicons/xls.png) no-repeat center left;}
+.res-title a.icon_xlsx {	background: transparent url(docER-images/fileicons/xls.png) no-repeat center left;}
+.res-title a.icon_xlsm {	background: transparent url(docER-images/fileicons/xls.png) no-repeat center left;}
+.res-title a.icon_xltx {	background: transparent url(docER-images/fileicons/xls.png) no-repeat center left;}
+.res-title a.icon_xltm {	background: transparent url(docER-images/fileicons/xls.png) no-repeat center left;}
+.res-title a.icon_xlsb {	background: transparent url(docER-images/fileicons/xls.png) no-repeat center left;}
+.res-title a.icon_xlam {	background: transparent url(docER-images/fileicons/xls.png) no-repeat center left;}
+.res-title a.icon_xll {	background: transparent url(docER-images/fileicons/xls.png) no-repeat center left;}
+
+.res-title a.icon_ppt {	background: transparent url(docER-images/fileicons/ppt.png) no-repeat center left;}
+.res-title a.icon_pptx {	background: transparent url(docER-images/fileicons/ppt.png) no-repeat center left;}
+.res-title a.icon_pptm {	background: transparent url(docER-images/fileicons/ppt.png) no-repeat center left;}
+.res-title a.icon_potx {	background: transparent url(docER-images/fileicons/ppt.png) no-repeat center left;}
+.res-title a.icon_potm {	background: transparent url(docER-images/fileicons/ppt.png) no-repeat center left;}
+.res-title a.icon_ppam {	background: transparent url(docER-images/fileicons/ppt.png) no-repeat center left;}
+.res-title a.icon_ppsx {	background: transparent url(docER-images/fileicons/ppt.png) no-repeat center left;}
+.res-title a.icon_ppsm {	background: transparent url(docER-images/fileicons/ppt.png) no-repeat center left;}
+
+
+/*Open office*/
+.res-title a.icon_odc {	background: transparent url(docER-images/fileicons/odc.png) no-repeat center left;}
+.res-title a.icon_odf {	background: transparent url(docER-images/fileicons/odf.png) no-repeat center left;}
+.res-title a.icon_odg {	background: transparent url(docER-images/fileicons/odg.png) no-repeat center left;}
+.res-title a.icon_odi {	background: transparent url(docER-images/fileicons/odi.png) no-repeat center left;}
+.res-title a.icon_odp {	background: transparent url(docER-images/fileicons/odp.png) no-repeat center left;}
+.res-title a.icon_ods {	background: transparent url(docER-images/fileicons/ods.png) no-repeat center left;}
+.res-title a.icon_odt {	background: transparent url(docER-images/fileicons/odt.png) no-repeat center left;}
+
+
+
+
+/*   CSS PER LA STAMPA   */
+
+@media print {
+	
+html {
+	background: none;
+}
+
+body {
+	border-left: #fff 1px solid;
+	border-right: #fff 1px solid;
+	margin: 2em !important;
+	padding: 1em !important;
+	background: #fff;
+}
+
+#banner {
+	background: url(docER-images/print-logo.jpg) top left no-repeat !important;
+	height: 115px !important;
+	color: #000;
+	border-bottom: 2px solid #C00;
+}
+
+#banner a img {
+	display:none;
+}
+
+.ops-version {
+	overflow: hidden;
+	text-align: right;
+	color: #fff;
+	background: none;
+	padding: 0.5em 1em;
+	margin-top: 0;
+}
+
+#piter-logo {
+	display:none}
+
+#ermes-link {
+	display:none}
+
+#leftcontent {
+	width: 2em;}
+	
+.tree-sections {
+	display:none}
+
+button {
+	display: none}
+
+}
+
+
+/* DIALOG VARI */
+
+.message_save {
+	display:block; margin-bottom: 1em}
+.xforms-error-panel {
+	width:auto !important}
+div.shadow {
+	width:auto !important;
+/* 	left:15% !important;
+	right:15% !important */}
+div.xforms-help-panel {
+	width:auto !important;}
+.underlay { 
+	background: transparent url(docER-images/blank.gif) !important}
+.yui-skin-sam .yui-panel { 
+	margin:auto}
+
+.mask { 
+	z-index: 200; 
+	display: block; 
+	height: 100%; 
+	width: 100%; 
+	bottom: 0px;
+	left: 0px;
+	position: fixed;
+	right: 0px;
+	top: 0px;  } 
+.shadow { 
+	z-index: 203; 
+	visibility: visible }
+.yui-overlay {  
+	visibility: inherit; 
+	min-width: 30em;  }
+/* Questa regola serve per sovrascrivere la precedente. E' necessaria per mantenere la scritta "Loading..." nascosta */
+.xforms-loading-loading { 
+	visibility: hidden; 
+	width: auto;
+	position:fixed;}
+.help-dialog .yui-overlay { 
+	visibility: inherit; 
+	width: auto;  }
+.yui-panel-container  .yui-panel{
+/*    position: absolute; 
+ 	position:fixed;
+	margin:0;
+ */	
+}
+.yui-panel-container  .yui-panel .button-group{
+/* margin-top: 20px;
+ */}
+ 
+.dialog-confirm .yui-dialog {	/* sistema posizione dialog di conferma salvataggio nel viewprofile */
+	width: 400px;
+	position:fixed;
+	top:40%;
+	left:50%;
+	margin-left:-200px;
+} 
+
+.help-dialog div.shadow {
+	left:20% !important;
+	right:10% !important}
+
+
+/* FINE DIALOG */
+ 
+ 
+.help-control a {	
+padding:4px 8px;
+background: transparent url(docER-images/icone/icon_info.gif) no-repeat center center;}
+
+
+.inline  { display:inline }
+.inline div { display:inline }
+
+
+/* CORREZIONI ACCESSIBILITA' 14 NOVEMBRE 2011 */
+
+/* link testuali sottolineati in maincontent */
+.userinfo a, .maincontent a { text-decoration:underline}
+.maincontent .number-pager a {padding-right:5px;}
+/* esclusioni */
+a.download_icon, /*per orbeon ver.2015*/ span.download_icon a, .button-help a, #button_back .inner_button a, td.tree a {text-decoration:none !important}
+td.tree a.ftype-T, td.tree a.ftype-F {
+	text-decoration:underline !important;
+	/*overflow: visible;  DA RIPRISTINARE PER 1.4 annulla ellipsis finale per titolari e fascicoli, che vengono accorciati dallo script */
+}
+
+span.xforms-disabled input , a.xforms-disabled, .xforms-disabled *  {
+    visibility: hidden !important; /* Hide disabled form controls, so they can't get the focus (otherwise tabbing will go through the disabled controls) */
+}
+
+fieldset {
+margin:0 !important;
+padding:0 !important;
+border: 0 !important;
+}
+
+fieldset.login-form {
+	border: 1px solid #CACACA !important;
+	width: 25em !important;
+	padding: 3px 20px 20px !important;
+	margin: 0 auto !important;
+	}
+	
+.login-form legend{
+	font-weight:normal !important;
+	padding: 0 10px;
+}
+
+span.sezionericerca select {
+white-space:pre !important;
+width: 96%
+}
+
+span.sezionericerca .kforms-lookup-panel .kforms-label {
+	width: auto !important;
+}
+
+.narrow .kforms-value {
+width: 100%;
+margin-bottom: 0.5em;
+padding-left: 3%;
+}
+.narrow .kforms-value  select{
+text-transform:lowercase
+}
+
+.narrow .acl-item .kforms-value {
+	width: 6em;
+	background:none;
+	text-align:left}
+
+.acl-scroll {
+max-height: 500px;
+overflow-y:scroll;
+}
+
+/* slide per visualizzare xml jobs */
+
+div.panel, p.flip, div.panel2, p.flip2
+{
+width:10em;
+margin:5px 0;
+padding:0 5px;
+background:#f8f8f8;
+border:solid 1px #c3c3c3;
+cursor:pointer;
+}
+
+p.flip , p.flip2{
+}
+
+div.panel, div.panel2
+{
+display:none;
+background:#f8f8f8;
+padding:20px 5px;
+width:auto !important;
+}
+
+div.panel .xforms-label, div.panel2 .xforms-label  {
+display:block;
+margin-top:1em;
+}
+
+/* SERVIZIO DI CONSERVAZIONE */
+
+/* (stili dei pulsanti sono nel gruppo pulsanti - da riga 485 circa) */
+
+/*id su body*/
+#invio-conservazione {}
+
+#invio-conservazione .xforms-upload-info {
+/* display:block;  <-- non usare o il campo e' sempre visibile */
+padding: 2px;
+margin: 1em 0;
+border: 1px solid #C33;
+width: 85%;
+}
+
+#invio-conservazione  .kforms-form-field {
+clear:both;
+margin-bottom: 10px;
+}
+
+#invio-conservazione  fieldset .kforms-form-field  .kforms-label{
+padding-left:2%;
+}
+
+#invio-conservazione  .doc-principale {
+margin:20px 0;
+padding:0.5em;
+border:1px dashed #bbbbbb;
+background: #F8F8F8;
+}
+
+.doc-principale .label_sezione {
+padding-bottom:4px;
+}
+
+#invio-conservazione  .doc-principale .kforms-value {
+}
+
+.doc-principale .label_sezione {
+padding-bottom:4px;
+}
+
+.doc-principale .label_sezione .xforms-output {
+font-weight:normal;
+}
+
+.doc-principale .controlli-doc-princ {
+padding-left:20%;
+padding-bottom: 10px
+}
+
+.doc-principale .button_addversion {
+margin-top: 20px
+}
+.doc-principale .separator {
+width:100%;
+heigth:10px;
+clear:both;
+}
+
+.list-AAA  { 
+padding-bottom:1em;
+}
+.list-AAA .list-AAA-item { /* a capo elementi liste allegati - annessi - annotazioni*/
+display: block;
+float:none;
+clear:both;
+}
+
+a.edit_component_icon {	
+padding: 3px 6px;
+background: transparent url(docER-images/icone/modifica.gif) no-repeat center center;
+}
+
+/* NAVIGAZIONE treeview*/
+
+#navigation-treeview .actor-table, #navigation-treeview  .folders-table {
+padding: 0 !important;
+width: 95%;
+}
+
+#navigation-treeview .tree {
+font-size: 115%;
+}
+
+/* LISTJOBS */
+
+.jobs-table {
+    width:95%
+}
+
+.jobs-table th {
+    border: 1px dashed #EFEFEF;
+    padding: 3px;
+    text-align: center;}
+
+.jobs-table td {
+    padding:3px;
+    text-align:center;
+    background: #f8f8f8;
+    border: 1px dashed #EFEFEF;
+}
+
+/* CONFIG EDIT */
+
+div.confeditor div.yui-module 
+{
+	width: 900px;
+	height: 600px;
+	
+}
+
+div.confeditor div.shadow 
+{
+	position:absolute;
+	top:20px;	
+}
+
+.confeditor textarea
+{
+	height: 500px;
+}
+
+.editurl input 
+{
+	width: 500px;
+	
+}
+
+.large-width
+{
+	width: 500px;
+	display:inline-block;
+}
+
+.small-width
+{
+	width: 120px;
+	display:inline-block;
+}
+
+.x-small-width
+{
+	width: 70px;
+	display:inline-block;
+}
+
+.medium-width
+{
+	width: 200px;
+	display:inline-block;
+}
+
+
+
+.minus-medium-width
+{
+	/*max-width: 120px;
+	display:inline-block;*/
+	font-size: 90%;
+}
+
+
+.center
+{
+	text-align: center;
+}
+
+
+.fixed-width2 {
+    /*display: -moz-inline-box;*/
+    display: inline-block;
+    /*width: expression('13em');*/ /* Min-width for IE6 */
+    min-width: 13em;
+}
+
+/* Pagina di amministrazione forms */
+.amministrazione-table-row {
+    width: 88%;
+    overflow: hidden;
+    background: none !important;
+}
+
+.amministrazione-table-header {
+    font-weight: bold;
+    text-align: center;
+}
+
+.amministrazione-table-cell {
+    float: left;
+    width: 30%;
+    padding: 3px;
+    text-align: center;
+    background: #f8f8f8;
+    border: 1px dashed #EFEFEF;
+    margin: 1px;
+}
+
+.amministrazione-table-header .amministrazione-table-cell {
+    background: none;
+}
+
+.button_salva_add_field .inner_button button {
+    background: #EAEAEA url(docER-images/icone/salva.gif) no-repeat 5px 4px;
+	text-align: left;
+	padding: 3px 5px 3px 24px !important;
+	width: 140px;
+}
+
+
+#divTable {
+	display: table;
+}
+
+.divRow  {
+	display: table-row;
+}
+
+.divCell{
+	display: table-cell;
+	padding-right: 4px;
+	padding-left: 4px;
+	border-right: 1px solid #CCCCCC;
+}
+
+
+.divSezione{
+	display:none;
+}
+
+.openNode{
+	background: url(docER-images/icone/plus-white.png) no-repeat 2px 2px !important;
+	width:16px;
+	height:16px;
+}
+
+.closeNode{
+	background:  url(docER-images/icone/minus-white.png) no-repeat 2px 2px !important;
+	width:16px;
+	height:16px;
+}
+
+/* Pagina dei jobs */
+
+.div-table {
+    width: auto;
+	display:table;
+	margin: 16px;
+}
+
+.div-table-row {
+    display: table-row;
+    background: none !important;
+    margin-right: 10px;
+}
+
+.div-table-header {
+    font-weight: bold;
+    text-align: center;
+}
+
+.div-table-cell {
+    display: table-cell;
+    padding: 5px;
+	padding-left: 8px;
+	padding-right: 8px;
+    text-align: center;
+    background: #f8f8f8;
+    border: 1px dashed #E3E3E3;
+    margin: 1px;
+	/*width: 112px;*/
+}
+
+.div-table-header .div-table-cell {
+    background: #fff;
+}
+
+
+
+
+/* viewprofile - principale */
+.flusso-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+.flusso-list li:hover{
+    background-color: #E7E7E7 !important
+}
+
+/* viewprofile - gestione mittenti, destinatari, firmatari, visti */
+
+.adduo-list-item {
+	width:90%;
+	overflow:hidden;
+}
+
+.adduo-list-item .kforms-label {
+	display:inline;
+	width:auto
+}
+
+.adduo-list-item .kforms-value {
+	text-align:left;
+	min-width:12em;
+}
+
+.adduo-list-item .acl-profile .kforms-value {
+	min-width:6.5em;
+}
+
+.adduo-item-group {
+	width:auto !important;
+	float:left;
+}
+
+/* viewprofile - verifica */
+
+.table-verifica {
+	font-size:90%;
+}
+
+/* Labels per screenreaders */
+.screenreader-label {
+    position: absolute; 
+    top:0; 
+    left:-9999px;
+	color: #aaa;
+}
+/*dialog di selezione dei destinatari e mittenti*/ 
+#dialog-aoomitt .yui-dialog, #dialog-msg-mit-amministrazione .yui-dialog, #dialog-msg-mit-personagiuridica .yui-dialog, #dialog-msg-mit-persona .yui-dialog, #dialog-msg-dest-amministrazione .yui-dialog, #dialog-msg-dest-personagiuridica .yui-dialog, #dialog-msg-dest-persona .yui-dialog,  #dialog-aoodest .yui-dialog, #dialog-uodest , #dialog-uomitt , #dialog-uofirm, #dialog-assmitt, #dialog-assdest, #dialog-personmitt, #dialog-persondest, #dialog-shared-folder  { 
+	position:fixed;
+	display:block;
+	top:50px;
+	left:50%;
+	width:600px !important;
+	margin-left:-300px}
+	
+#dialog-uodest, #dialog-uomitt  {
+	width:800px;
+	margin-left:-400px
+	}
+.h-dialog{width:800px}
+.v-dialog{width:600px}
+
+.results-aoo  {
+	font-weight:normal;
+	max-height:350px; 
+	overflow-y:scroll;
+	overflow-x:hidden;
+	display:block;
+	}
+.results-aoo .res-title {overflow: hidden;}
+.results-aoo .res-title button{
+    margin-bottom: 10px;
+    min-width: 30px;
+    padding: 1px 3px !important;
+}
+
+
+/* .results-aoo .acl-scroll {
+    overflow: hidden;
+	max-height:1000px;
+} */
+
+
+.checkbox-tip{
+width: 20px;
+display: inline-block;
+vertical-align: top;
+}
+
+.kforms-form-field .checkbox-tip  *{background:none}
+
+/* Unit� Documentaria*/
+.currentDocument{
+    background-color: #EFEFEF !important;
+    border: 1px solid #921115;
+    margin-bottom: 2em;
+    padding: 10px;}
+
+
+.sorting-menu {
+	color: #666;
+	padding: 4px 20px;
+	margin-bottom: 2em;
+	overflow:hidden;
+}
+
+.sorting-menu a.sortSelected, span.sortSelected, .sorting-menu a.xforms-trigger-readonly,
+/*per ver.2014 di docer: */ .creating-menu a.typeSelected , .creating-component a.typeSelected , 
+/*per ver.2015 di docer*/ .creating-menu span.typeSelected a, .creating-component span.typeSelected a{
+    /* background-color: #FFFF99 !important; */
+    color: black;
+    cursor: default;
+    font-weight: bold;
+    text-decoration: none !important;
+}
+.annullato {
+color: #cc0000;
+}
+
+div.trigger-mask * button {
+background: none;
+border: none;
+color: rgb(146, 17, 21);
+text-decoration: underline;
+line-height: 1.5em;
+font-size: 100%
+}
+
+.creating-component {
+	max-width:90%;
+	padding: 10px 20px 0 20px;
+}
+
+.icon_URL a , .icon_ARCHIVE a, .icon_PAPER a {
+	padding: 0 10px 0 20px;
+	display:inline-block;
+	font-weight:normal !important;
+}
+.icon_URL a  {
+	background: transparent url(docER-images/icone/open_url.png) no-repeat center left !important;
+}
+.icon_ARCHIVE a  , .icon_PAPER a  {
+	background: transparent url(docER-images/icone/profilo.gif) no-repeat center left;
+}
+
+.icon_WARNING {
+	background: transparent url(docER-images/icone/warning.gif) no-repeat center right !important;
+	padding-left: 20px;
+	margin-right: 4px;
+	margin-left: 40px;
+}
+
+#help {
+	margin-left: 5px;
+}
+#button_add_docType button{
+	display:block;
+	margin:25px 0 0 460px;
+}
+#add-docType-dialog span[id$='desc'] label{
+	margin:0px 0px 0px 17px;
+}
+#add-docType-dialog span[id$='desc'] input{
+	margin:0 0 20px;
+}
+#add-docType-dialog #tipoComponente{
+	background:rgba(0, 0, 0, 0) url("docER-images/ie6-ie7-menubkg.jpg") repeat-x scroll center center;
+}
+#add-docType-dialog input[id^='tipoComponente']{
+	margin:-2px 2px 0px 10px;
+}
+
+#fascicoli-field button{
+    margin: 0px 0px 0px 50px;
+}
+
+#textAreaLog textarea{
+	height: 1000px;
+	width: 100%;
+	font-size: 12px;
+}
+#textAreaLog .kforms-value{
+        width:90%;
+        background:rgba(0, 0, 0, 0) url("docER-images/ie6-ie7-menubkg.jpg") repeat-x scroll 0 0;
+        height: 1000px;
+        overflow-x: scroll;
+    white-space: pre;
+}
+#righeLog .kforms-value .xforms-upload{
+        width:20%;
+}
+#righeLog input{
+	width:63px;
+}
+
+#mittenti-field-dialog .xforms-output, #mittenti-field-dialog_reg .xforms-output{
+	float: left;
+	display: inline;
+}
+
+#destinatari-field-dialog .xforms-output, #destinatari-field-dialog_reg .xforms-output{
+	float: left;
+	display: inline;
+}
+.actor-table .sezioneprofilo  label{
+	font-weight: bold;
+}
+#mittenti-field .floatright a{
+	float:right;
+}
+
+.nominwidth {
+    min-width: 10px !important;
+    width: auto !important;
+}
+
+
+.res-title fieldset {
+	display: inline-flex;
+}
+
+.span2 {
+    width: 90px  !important;
+    display: table-cell !important;
+}
+.fascicoli-secondari-table{
+margin-top: 0px !important;
+}

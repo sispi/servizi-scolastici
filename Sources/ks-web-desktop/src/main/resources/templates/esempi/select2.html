@@ -1,0 +1,60 @@
+<script id="app-template" type="text/x-template">
+    <div>
+        <br/>
+
+        <select2 id="select0"
+                 v-model="val0"
+                 minimum-input-length="1"
+                 tags="true"
+
+        >
+            <option value="1">UNO</option>
+            <option value="2">DUE</option>
+        </select2>
+
+        val0:{{val0}}
+
+        <br/>
+
+        <select2 id="select1" v-model="val" minimum-input-length="0" tags="true" multiple="true">
+            <option value="1">UNO</option>
+            <option value="2">DUE</option>
+        </select2>
+
+        <select2 id="select2" v-model="val" minimum-input-length="0" tags="true" multiple="true">
+            <option value="1">UNO</option>
+            <option value="2">DUE</option>
+        </select2>
+
+        <select2 id="select3"
+                 v-model="val"
+                 missing-url="/docer/v1/solr/select?database=false&fq=type:(user group)&wt=json&fl=sid,text:name&q=sid:(...)"
+                 url="/docer/v1/solr/select?database=false&fq=type:(user group)&wt=json&fl=sid,text:name&q=name:..." minimum-input-length="0" tags="true" multiple="true"
+
+        >
+            <option value="1">UNO</option>
+            <option value="2">DUE</option>
+        </select2>
+        val:{{val}}
+    </div>
+</script>
+
+<div id="app" >
+
+</div>
+
+<script>
+
+    var app = new Vue({
+        el: "#app",
+        data: {
+            val0: null,
+            val:["1"]
+        },
+        template: "#app-template",
+        replace: false
+    });
+
+
+
+</script>

@@ -1,0 +1,39 @@
+<!--
+
+GET/POST ?[identifier=]&[form=]&[render=template|page|application]
+
+-->
+<body @content-type="text/x-template" />
+
+<script @server-model="formdesc" @ignore-notfound type="application/json" src="/static/json/{{form}}.json" />
+
+<script @server-model="body" >
+
+    var identifier = request.getParameter("identifier");
+    var form = request.getParameter("form");
+    var render = request.getParameter("render") || "template";
+    var description;
+    var model = null;
+
+    if (!form){
+        description = requestBody;
+        model = null;
+    } else {
+        description = formdesc;
+        if (request.method == 'POST')
+            model = requestBody;
+    }
+
+    var template = $.ftl('bpm/renderer.ftl', { "description": description });
+
+    var args = { "identifier": identifier , "model" : model, "render" : render  };
+
+    var xtemplate = $.ftl( template, args );
+
+    xtemplate;
+
+</script>
+
+
+
+

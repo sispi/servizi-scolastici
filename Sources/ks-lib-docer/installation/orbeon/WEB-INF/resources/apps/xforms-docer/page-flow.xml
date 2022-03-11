@@ -1,0 +1,45 @@
+<!--
+    Copyright (C) 2006 Orbeon, Inc.
+  
+    This program is free software; you can redistribute it and/or modify it under the terms of the
+    GNU Lesser General Public License as published by the Free Software Foundation; either version
+    2.1 of the License, or (at your option) any later version.
+  
+    This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+    without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU Lesser General Public License for more details.
+  
+    The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+-->
+<config xmlns="http://www.orbeon.com/oxf/controller" xmlns:oxf="http://www.orbeon.com/oxf/processors" >
+
+	<files path-info="/xforms-docer/xsltforms/.+" matcher="oxf:perl5-matcher" mime-type="application/xml"/>
+    <files path-info="/xforms-docer/files/.+\.docx" matcher="oxf:perl5-matcher" mime-type="application/ms-word"/>
+    <!-- files deve stare sotto resources -->
+
+    <page path-info="/xforms-docer/" view="home.xhtml" />
+    <page path-info="/xforms-docer/proxy" view="proxy.xpl"/>
+    <page path-info="/xforms-docer/login" view="login.xhtml"/>
+    <page path-info="/xforms-docer/loginact"  view="login.xhtml"/>
+    <page path-info="/xforms-docer/redirect"  view="redirect.xhtml"/>
+    <page path-info="/xforms-docer/upload"  view="upload.xhtml"/>
+    <page path-info="/xforms-docer/viewtest" model="getProfileDocumentResponse.xml"  view="viewtest.xhtml"/>
+   
+    <page path-info="/xforms-docer/view"  view="viewprofile.xhtml"/>
+    <page path-info="/xforms-docer/create"   view="create.xhtml"/>
+    <page path-info="/xforms-docer/test"  view="getProfileDocumentResponse.xml"/>
+    <page path-info="/xforms-docer/create-act"  view="getProfileDocumentResponse.xml"/>
+    <page path-info="/xforms-docer/edit-act"  view="getProfileDocumentResponse.xml"/>
+    <page path-info="/xforms-docer/lookup-ente"  view="enti.xml"/>
+    <page path-info="/xforms-docer/lookup-aoo"  view="aoo.xml"/>
+    <page path-info="/xforms-docer/lookup-tit"  view="titolari.xml"/>
+    <page path-info="/xforms-docer/error"  view="error.xhtml"/>
+	<page path-info="/xforms-docer/search-job"  view="searchjob.xhtml"/>
+	<page matcher="oxf:perl5-matcher" path-info="/?[\w\-]*/XForms" view="docer-caller.xpl"/>
+	<page matcher="oxf:perl5-matcher" path-info="/?[\w\-]*/" view="home.xhtml"/>
+	
+   
+
+    <epilogue url="/config/epilogue.xpl"/>
+
+</config>

@@ -1,0 +1,341 @@
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  
+  -->
+
+<dataConfig>
+<!--
+	<dataSource name="alfresco" type="JdbcDataSource" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://${dataimporter.request.server}/alfresco" user="root" password="root"/>
+-->
+
+
+<dataSource name="jdbc" driver="oracle.jdbc.driver.OracleDriver" url="jdbc:oracle:thin:@//oracle1-vip.intranet.it:1521/DOCUMENT.PR" user="TERREVERDIANE-ALFRESCO" password="ia325e45"/>
+
+
+  <propertyWriter dateFormat="yyyy-MM-dd'T'HH:mm:ss'Z'" type0="SimplePropertiesWriter" type="ZKPropertiesWriter" directory="data" filename="alfrescoimport.properties" />
+ 
+  <script><![CDATA[
+
+var logger = org.slf4j.LoggerFactory.getLogger(org.apache.solr.handler.dataimport.DataImportHandler);
+				
+				function prop2(row)
+                {
+					row.remove("node_id") ;
+
+					var name = row.remove("local_name");
+
+					var value;
+
+					if (row.containsKey("VALUE"))
+					{				
+						value = row.remove("VALUE") ;
+						row.put(name,value);
+					}
+					else if (row.containsKey("value"))
+					{
+						value = row.remove("value") ;
+						row.put(name,value);
+					}			
+					
+					return row;
+				}
+
+				var stamp = null;
+
+				function related(row)
+				{
+				    if (stamp==null)
+				        stamp = new Date().getTime();
+
+				    row.put("imp_stamp","_"+stamp);
+
+				    return row;
+				}
+
+            
+        ]]></script>
+
+  <document>
+  
+		
+
+		<entity name="organization" transformer="LogTransformer" logTemplate="organization:${organization}" logLevel="debug" rows="500" pk="id" query="
+		
+			select 0 &quot;id&quot; , 'DOCAREA' &quot;uuid&quot;, 'location' &quot;local_name&quot; , 0 &quot;inherits&quot; ,0 &quot;inherits_from&quot; , null &quot;creator&quot; , null &quot;modifier&quot; , null &quot;created&quot;, null &quot;modified&quot; from DUAL
+			
+			union
+			
+			select 0  , 'everyone' , 'group'  , 0 inherits ,0  , null, null, null, null from DUAL
+			
+			union
+			
+			select 0  , 'sys_admins' , 'group'  , 0 inherits ,0  , null, null, null, null from DUAL
+			
+			union
+			
+			select node.id , node.uuid , qt.local_name , 0, 0, audit_creator, audit_modifier, audit_created, audit_modified
+			from alf_node node 
+				join alf_qname qt on qt.id = type_qname_id
+				join alf_namespace ns on ns.id = qt.ns_id and qt.local_name = 'person' 
+				join alf_access_control_list acl on acl.id = node.acl_id
+
+			where node.node_deleted = 0
+			
+			union
+		
+			select node.id , node.uuid , qt.local_name , acl.inherits, acl.inherits_from , audit_creator, audit_modifier, audit_created, audit_modified
+			from alf_node node 
+				join alf_qname qt on qt.id = type_qname_id
+				join alf_namespace ns on ns.id = qt.ns_id and qt.local_name  = 'authorityContainer'
+				join alf_store store on store.id = node.store_id and store.protocol = 'workspace' and store.identifier = 'SpacesStore'
+				join alf_access_control_list acl on acl.id = node.acl_id
+
+			where node.node_deleted = 0
+
+			order by 1 asc
+
+			"  > 
+			
+			<entity name="item_members" logTemplate="item_members:${organization}" logLevel="debug" transformer="LogTransformer" query="
+			
+				select 	CAST( substr( props.string_value , 7 ) AS varchar2(1024))  &quot;groups&quot;
+				from alf_child_assoc ass 
+				join alf_qname qn on qn.id = ass.type_qname_id and qn.local_name = 'member'
+				
+				join alf_node_properties props on ass.parent_node_id = props.node_id 
+				join alf_qname qn2 on qn2.id = props.qname_id and qn2.local_name = 'authorityName'
+				
+				where ass.child_node_id = ${organization.id} 
+
+			" />
+			
+			<entity name="item_props" logTemplate="item_props:${organization}" logLevel="debug" transformer="script:prop2,LogTransformer" processor2="CachedSqlEntityProcessor"  where="node_id=organization.id"  query="
+
+           select node_id &quot;node_id&quot;, local_name &quot;local_name&quot; , string_value &quot;value&quot;
+
+			from alf_node_properties prop join alf_qname q on q.id = prop.qname_id and (prop.persisted_type_n = 0 or prop.persisted_type_n &gt; 5 )
+
+			where node_id = ${organization.id}
+
+			union 
+
+			select node_id, local_name, CASE WHEN  boolean_value=1 THEN  'true'  ELSE  'false' END
+
+			from alf_node_properties prop join alf_qname q on q.id = prop.qname_id and prop.persisted_type_n = 1
+
+			where node_id = ${organization.id}
+
+			union 
+
+			select node_id, local_name,CAST( long_value + float_value + double_value AS varchar2(1024) )
+
+			from alf_node_properties prop join alf_qname q on q.id = prop.qname_id and prop.persisted_type_n in (2,3,4,5)
+
+			where node_id = ${organization.id}
+			
+			union
+			
+			select props.node_id , 'aooente' , props3.string_value || '!' || props2.string_value 
+
+			from alf_node_properties props  
+				
+				join alf_node_properties props2 on '${organization.local_name}' = 'authorityContainer' and props2.qname_id = 274 and props2.string_value = props.string_value
+				
+				join alf_node node2 on node2.id = props2.node_id and node2.type_qname_id = 272
+
+				join alf_node_properties props3 on props3.qname_id = 268 and props3.node_id = node2.id	
+
+				where props.node_id = ${organization.id} and props.qname_id = 263
+
+			union
+
+			select props.node_id , 'aooente' , props2.string_value || '!' 
+
+			from alf_node_properties props  
+				
+				join alf_node_properties props2 on '${organization.local_name}' = 'authorityContainer' and props2.qname_id = 268 and props2.string_value = props.string_value
+				
+				join alf_node node2 on node2.id = props2.node_id and node2.type_qname_id = 265
+
+				where props.node_id = ${organization.id} and props.qname_id = 263
+			
+			/* sostituita per problemi performance su ORACLE !!!!! FUNZIONA SOLO SUL DB SPECIFICO
+			select node.id , 'aooente' , props3.string_value || '!' || props2.string_value 
+			from alf_node node 
+				join alf_node_properties props on props.node_id = node.id and node.id = ${organization.id} 
+				join alf_qname qn2 on qn2.id = props.qname_id and qn2.local_name = 'parentGroupId'
+				join alf_node_properties props2 on props2.string_value = props.string_value
+				join alf_qname qn3 on qn3.id = props2.qname_id and qn3.local_name = 'codAoo'
+				
+				join alf_node node2 on node2.id = props2.node_id 
+
+				join alf_node_properties props3 on props3.node_id = node2.id
+				join alf_qname qn5 on qn5.id = props3.qname_id and qn5.local_name = 'codEnte'
+
+				join alf_qname qn4 on qn4.id = node2.type_qname_id and qn4.local_name = 'aoo'
+
+			where node.node_deleted = 0 */
+
+           ">
+                
+            </entity>
+			
+        </entity>
+		
+		<entity name="item" transformer="LogTransformer" logTemplate="item:${item}" logLevel="debug" rows="500" pk="id" query="
+		
+			select node.id &quot;id&quot; , node.uuid &quot;uuid&quot; , qt.local_name &quot;local_name&quot; , acl.inherits &quot;inherits&quot;, acl.inherits_from &quot;inherits_from&quot; , 
+				audit_creator &quot;creator&quot; , audit_modifier &quot;modifier&quot; , audit_created &quot;created&quot; , audit_modified &quot;modified&quot;
+				
+			from alf_node node 
+				join alf_qname qt on qt.id = type_qname_id
+				join alf_namespace ns on ns.id = qt.ns_id and ( ns.uri = 'http://www.docarea.it/model/content/1.0' or qt.local_name = 'folder' )
+				join alf_store store on store.id = node.store_id and store.protocol = 'workspace' and store.identifier = 'SpacesStore'
+				join alf_access_control_list acl on acl.id = node.acl_id
+
+			where node.node_deleted = 0 and audit_modified &gt; '${dataimporter.request.from}0'
+
+			order by audit_modified asc
+
+			"  > 
+			
+			<entity name="item_content" transformer="script:prop2,LogTransformer" logTemplate="item_content:${item_content}" logLevel="debug" query="
+			
+			select distinct curl.id &quot;node_id&quot;, '__versions__' &quot;local_name&quot;, curl.content_url &quot;value&quot; , null &quot;__content_size__&quot; , propv2.string_value &quot;__vers_ref__&quot; , node.uuid &quot;__cont_ref__&quot;
+				from alf_node node 
+				/*join alf_qname qt on qt.id = type_qname_id
+				join alf_namespace ns on ns.id = qt.ns_id and qt.local_name = 'documento'*/
+				join alf_store store on '${item.local_name}' = 'documento' and store.id = node.store_id and store.protocol = 'workspace' and store.identifier = 'version2Store'
+				join alf_node_properties propv on propv.node_id = node.id 
+				join alf_qname qtv on qtv.id = propv.qname_id and qtv.local_name = 'frozenNodeDbId'
+				join alf_node_properties propv2 on propv2.node_id = node.id 
+				join alf_qname qtv2 on qtv2.id = propv2.qname_id and qtv2.local_name = 'versionLabel' and propv2.string_value is not null
+				join alf_node_properties propc on propc.node_id = node.id 
+				join alf_qname qtc on qtc.id = propc.qname_id and qtc.local_name = 'content'
+				join alf_content_data cdata on propc.long_value = cdata.id
+				join alf_content_url curl on curl.id = cdata.content_url_id
+							
+				where node.node_deleted = 0 and propv.long_value = ${item.id} 
+				
+			union
+				
+			select curl.id , '__content__' , curl.content_url , curl.content_size , null,null
+				from alf_node_properties props
+				join alf_qname qn on '${item.local_name}' = 'documento' and qn.id = props.qname_id and qn.local_name = 'content'
+				join alf_content_data cdata on props.long_value = cdata.id
+				join alf_content_url curl on curl.id = cdata.content_url_id
+
+				where props.node_id = ${item.id} 
+						
+			order by 1 asc 
+
+			" />
+            
+			<entity name="item_riferimenti" logTemplate="item_riferimenti:${item_riferimenti}" logLevel="debug" transformer="LogTransformer" query="
+			
+				select ass.target_node_id &quot;riferimenti&quot;
+				from alf_node_assoc ass 
+				join alf_qname qn on '${item.local_name}' = 'documento' and qn.id = ass.type_qname_id and qn.local_name = 'riferimento'
+				
+				where ass.source_node_id = ${item.id} 
+
+			" />
+			
+			<entity name="item_acls" logTemplate="item_acls:${item_acls}" logLevel="debug" transformer="LogTransformer" query="
+			
+				select auth.authority || ':' || perm.name  &quot;__acl_explicit__&quot;
+
+				from alf_node node , alf_access_control_list acl ,
+					 alf_acl_member acm ,
+					 alf_access_control_entry ace , 
+					 alf_permission perm ,
+					 alf_authority auth 
+
+				where node.id = ${item.id} 
+				and node.node_deleted = 0
+				and node.acl_id = acl.id 
+				and  acm.acl_id = acl.id
+				and acm.ace_id = ace.id
+				and perm.id = ace.permission_id
+				and auth.id = ace.authority_id
+			  
+			" />
+
+			<entity name="item_props" logTemplate="item_props:${item_props}" logLevel="debug" transformer="script:prop2,LogTransformer" processor2="CachedSqlEntityProcessor"  where="node_id=item.id"  query="
+
+           select node_id &quot;node_id&quot;, local_name &quot;local_name&quot; , string_value &quot;value&quot;
+
+			from alf_node_properties prop join alf_qname q on q.id = prop.qname_id and (prop.persisted_type_n = 0 or prop.persisted_type_n &gt; 5 )
+
+			where node_id = ${item.id}
+
+			union 
+
+			select node_id, local_name, CASE WHEN  boolean_value=1 THEN  'true'  ELSE  'false' END
+
+			from alf_node_properties prop join alf_qname q on q.id = prop.qname_id and prop.persisted_type_n = 1
+
+			where node_id = ${item.id}
+
+			union 
+
+			select node_id, local_name,CAST( long_value + float_value + double_value AS varchar2(1024) )
+
+			from alf_node_properties prop join alf_qname q on q.id = prop.qname_id and prop.persisted_type_n in (2,3,4,5)
+
+			where node_id = ${item.id}
+			
+			
+
+           ">
+                
+            </entity>
+			
+        </entity>
+		
+		<entity name="related" logTemplate="related:${related}" logLevel="debug" transformer="script:related,LogTransformer" rows="500" pk="sid" query="
+		
+				select  min(ass.id) &quot;id&quot;, min(ass.id) &quot;__sid__&quot;, min(qn.local_name) &quot;local_name&quot;, ass.source_node_id &quot;__princ__&quot; , min(ass.target_node_id) &quot;__min__&quot;,
+				
+				get_related(ass.source_node_id) &quot;__related__&quot;
+				
+				from alf_node_assoc ass 
+				join alf_qname qn on qn.id = ass.type_qname_id and qn.local_name in ('advancedVersion', 'related')
+				
+				group by ass.source_node_id 
+				having ass.source_node_id &lt; min(ass.target_node_id)
+		
+		" >
+		
+			<entity name="related_props" logTemplate="related_props:${related_props}" logLevel="debug" transformer="script:prop2,LogTransformer" query="
+
+				select node_id &quot;node_id&quot;, local_name &quot;local_name&quot;,string_value value
+
+				from alf_node_properties prop join alf_qname q on q.id = prop.qname_id and q.local_name in ( 'codEnte', 'codAoo' ) 
+
+				where node_id = ${related.__princ__}
+
+			   ">
+					
+				</entity>
+				
+			</entity>
+  	
+  </document>
+  
+
+  
+</dataConfig>

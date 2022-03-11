@@ -1,0 +1,121 @@
+<body class="body" >
+
+<link rel="stylesheet" href="/static/css/treeview.css">
+
+<p>
+    <br>Il controllo treeview genera una semplice alberatura di tipo ul/li
+    <br>Il 'list-item' contiene un anchor cliccabile che alza l'evento 'click'
+    <br>Il v-model (proprietà 'value') contiene il list-item selezionato
+    <br>La proprietà opzionale 'list' contiene la lista dei nodi che per default è un semplice 'root' singolo
+    <br>La proprietà 'url' può essere una stringa o una funzione
+    <br>La stringa è utilizata per generare l'url per la chiamata ajax per reperire i nodi figlio
+    <br>La funzione (a cui viene passato il list-item aperto) può generare l'url stesso oppure restituire i figli
+    <br>Il modello dei dati è :
+    <code><pre>
+        {
+            "id" : "...",       /* identificativo del nodo */
+            "text" : "...."     /* label del nodo */
+            "list" : [....]     /* lista dei figli nello stesso formato */
+        }
+    </pre></code>
+</p>
+
+<div id="treeview" class="treeview" style="max-width: 200px">
+    <tree-list
+            @click="clicked($event)"
+            :url="getUrl"
+            v-model="selected" >
+    </tree-list>
+    <button v-if="leaf" style="position: absolute;margin-top:-8px" class="btn btn-link" @click="loadLeaf(leaf)"><i class="fa fa-link"></i></button>
+    selected:{{selected}}
+</div>
+
+<!--<a class="label" :title="_name(item)"  :target="target" :href="_href(item)" >{{ _name(item) }}</a>-->
+
+<script>
+
+    var treeview = new Vue({
+        el: "#treeview",
+        data: {
+            selected : null,
+            list: [{
+                id:"*@aoo",
+                name: "root"
+            }],
+            leaf: null,
+            //url: "/docer/v1/solr/select?rows=10&fq=type:(fascicolo titolario)&fl=id,name,type&q=parent:*@aoo&",
+            href: "reportvue?qt=select&parent="
+        },
+        mounted: function(){
+            var parent = new URLSearchParams(location.search).get("parent");
+            if (parent){
+                //this.loadLeaf(parent);
+                this.leaf = parent;
+            }
+        },
+        methods: {
+            getUrl: function(item) {
+
+                var url = "/docer/v1/solr/select?rows=10&fq=type:(fascicolo titolario)&fl=id,name,type&q=parent:";
+                return url += (item.id||"*@aoo");
+                //return [{id:"",name:"child"}];
+
+            },
+            clicked: function(evt) {
+                console.log(evt);
+            },
+            loadNodes: function(parents) {
+                var q = "";
+                for ( i=2; i<parents.length; i++)
+                    q += " parent:"+ encodeURIComponent(parents[i]);
+                var self = this;
+                axios.get("/docer/v1/solr/select?q="+q+"&fq=type:(fascicolo titolario)&fl=id,name,type,parent")
+                    .then(function(response){
+                        var data = response.data.data;
+                        var nodes = {};
+                        for( var x in data ){
+                            nodes[data[x].id] = data[x];
+                        }
+                        var rootchildren = [];
+                        for( var x in data ){
+                            if (data[x].parent.endsWith("@aoo")) {
+                                rootchildren.push(data[x]);
+                            } else if (nodes[data[x].parent]){
+                                var children = nodes[data[x].parent].children || [];
+                                children.push(data[x]);
+                                nodes[data[x].parent].children = children;
+                                nodes[data[x].parent].opened = true;
+                            }
+                        }
+                        self.item.children = rootchildren;
+                        self.item.opened = true;
+                        treeview.$children[0].isOpen = true;
+
+                    })
+                    .catch(function(err){
+                        console.log("error:"+err);
+                    })
+            },
+            loadLeaf: function(sid) {
+                if (sid.indexOf("@")>0){
+                    sid = sid.split("@")[0];
+                    sid = sid.substring(sid.lastIndexOf("!")+1);
+                }
+                var self = this;
+                axios.get("/docer/v1/solr/select?q=sid:"+encodeURIComponent(sid)+"&fq=type:(fascicolo titolario)&fl=id,parents:"+encodeURIComponent("[parentIds]"))
+                    .then(function(response){
+                        var leaf = response.data.data[0];
+                        if (!leaf)
+                            throw "not found";
+                        self.loadNodes(leaf["parents"]);
+                        self.leaf = null;
+                    })
+                    .catch(function(err){
+                        console.log("error:"+err);
+                    });
+            }
+        }
+    });
+</script>
+
+</body>

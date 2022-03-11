@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="/static/js/components/renderer.css?no-cache"  >
+<script type="text/javascript" src="/static/js/components/renderer.js?no-cache" ></script>
+<script type="text/javascript" src="/static/js/components/resource.js?no-cache" ></script>
+
+<!--<script id="tmpl" @server-model="description" type="text/x-template" src="/bpm/renderer?form=form" />-->
+
+<script id="mdl" @server-model="model" type="application/json" src="/static/json/model.json" />
+
+
+<script id="tmpl" @ignore type="text/x-template" @server-model="tmpl" src="/bpm/renderer?form=test3&identifier=form0&render=page" ></script>
+
+${tmpl}
+
+<script id="xxx" type="application/json">["A","B","C","D","E"]</script>
+
+<script>
+
+    function onx(data){
+        return data;
+        //return ["A","B","C","D"]
+    }
+
+    function submit(model,formId,response,handler){
+        console.log(model,formId,response,handler);
+        return false;
+    }
+
+    function actionProcess(response){
+        return response;
+    }
+
+    function actionSuccess(model,formId,response,handler){
+        alert(response);
+        return false;
+    }
+
+    //var formApp = render("#form0");
+
+    var formApp = new Vue({
+        el : "#form0",
+        data : {
+            model2: { textarea : 'pippo' }
+        }
+    });
+</script>
+
+<script>
+
+
+</script>
+
+

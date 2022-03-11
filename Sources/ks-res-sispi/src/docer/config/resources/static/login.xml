@@ -1,0 +1,13 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:aut="http://authentication.core.docer.kdm.it">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <aut:login>
+            <aut:username>${username}</aut:username>
+            <aut:password>${password}</aut:password>
+            <aut:codiceEnte>${codiceEnte}</aut:codiceEnte>
+            <aut:application>${application}</aut:application>
+        </aut:login>
+    </soapenv:Body>
+</soapenv:Envelope>
+
+

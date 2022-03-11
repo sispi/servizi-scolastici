@@ -1,0 +1,112 @@
+.modal-mask {
+    position: fixed;
+    /*z-index: 9998;*/
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: table;
+    transition: opacity 0.3s ease;
+}
+
+.modal-wrapper {
+    display: table-cell;
+    vertical-align: top;
+    padding-top: 20px;
+}
+
+.modal-container {
+    max-width: 75vw;
+    max-height: 78vh;
+    overflow-y: auto;
+    margin: 95px auto 10px auto;
+    padding: 0px 0px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+    transition: all 0.3s ease;
+    font-family: Helvetica, Arial, sans-serif;
+}
+
+.modal-header h3 {
+    margin-top: 0;
+    color: #42b983;
+}
+
+.modal-footer{
+    padding: 1rem 0rem 1rem 0rem;
+}
+
+.modal-body {
+    padding-bottom: 0rem;
+    margin: 0px 0;
+}
+
+.modal-default-button {
+    float: right;
+}
+
+.modalTitle{
+    font-size: 18px;
+    font-weight: bold;
+    color: #CC0033;
+    text-align: center;
+}
+
+/*
+ * The following styles are auto-applied to elements with
+ * transition="modal" when their visibility is toggled
+ * by Vue.js.
+ *
+ * You can easily play with the modal transition by editing
+ * these styles.
+ */
+
+.modal-enter {
+    opacity: 0;
+}
+
+.modal-leave-active {
+    opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+}
+
+.msgModal{
+    min-height: 56px;
+    box-shadow: 0px 0px 5px #b5b5b5;
+    /*background-color: #eef7ff;*/
+    background-color: #deffe3;
+    border-radius: 5px;
+}
+.msgModalTxt{
+    text-align: center;
+    font-size: 14px;
+    margin-top: -15px;
+    margin-bottom: 15px;
+}
+
+/*
+.modal-close{
+  color: #b70000;
+  font-size: 16px;
+  padding: 2px 3px 0px 8px;
+
+}
+*/
+.footer-modal{
+    border-top: 1px solid #e5e5e5;
+    margin-top: 15px;
+}
+.modal-btn-annulla{
+    margin: 15px 0px 15px -30px;
+}
+.modal-btn-conferma{
+    margin: 15px 0px 15px 30px;
+}

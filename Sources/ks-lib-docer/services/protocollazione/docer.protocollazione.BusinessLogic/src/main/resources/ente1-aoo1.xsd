@@ -1,0 +1,253 @@
+<!-- edited with XMLSpy v2012 rel. 2 sp1 (x64) (http://www.altova.com) by Stefano (1) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xs:element name="Segnatura" type="SegnaturaType"/>
+	<xs:complexType name="SegnaturaType">
+		<xs:sequence>
+			<xs:element name="Intestazione2" type="IntestazioneType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="IntestazioneType">
+		<xs:sequence>
+			<xs:element name="Oggetto" type="xs:string"/>
+			<xs:element name="Flusso" type="FlussoType"/>
+			<xs:element name="Mittenti" type="MittentiType" minOccurs="0"/>
+			<xs:element name="Destinatari" type="DestinatariType" minOccurs="0"/>
+			<xs:element name="Classifica" type="ClassificaType" minOccurs="0"/>
+			<xs:element name="FascicoloPrimario" type="FascicoloType" minOccurs="0"/>
+			<xs:element name="FascicoliSecondari" type="FascicoliSecondariType" minOccurs="0"/>
+			<xs:element name="Smistamento" type="SmistamentoType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SmistamentoType">
+		<xs:sequence>
+			<xs:element name="UnitaOrganizzativa" type="UnitaOrganizzativaType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Persona" type="PersonaType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FascicoliSecondariType">
+		<xs:sequence>
+			<xs:element name="FascicoloSecondario" type="FascicoloType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FascicoloType">
+		<xs:sequence>
+			<xs:element name="CodiceAmministrazione" type="xs:string"/>
+			<xs:element name="CodiceAOO" type="xs:string"/>
+			<xs:element name="Classifica" type="xs:string"/>
+			<xs:element name="Anno" type="xs:int"/>
+			<xs:element name="Progressivo" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ClassificaType">
+		<xs:sequence>
+			<xs:element name="CodiceAmministrazione" type="xs:string"/>
+			<xs:element name="CodiceAOO" type="xs:string"/>
+			<xs:element name="Classifica" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DestinatariType">
+		<xs:sequence>
+			<xs:element name="Destinatario" type="MittDestType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MittentiType">
+		<xs:sequence>
+			<xs:element name="Mittente" type="MittDestType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FlussoType">
+		<xs:sequence>
+			<xs:element name="TipoRichiesta" type="xs:string" minOccurs="0"/>
+			<xs:element name="Firma" type="xs:string"/>
+			<xs:element name="ForzaRegistrazione" type="xs:int"/>
+			<xs:element name="Firmatario" type="FirmatarioType" minOccurs="0"/>
+			<xs:element name="ProtocolloMittente" type="ProtocolloType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ProtocolloType">
+		<xs:sequence>
+			<xs:element name="CodiceAmministrazione" type="xs:string" minOccurs="0"/>
+			<xs:element name="CodiceAOO" type="xs:string" minOccurs="0"/>
+			<xs:element name="Classifica" type="xs:string"/>
+			<xs:element name="Data" type="xs:string" minOccurs="0"/>
+			<xs:element name="Fascicolo" type="xs:string"/>
+			<xs:element name="Numero" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FirmatarioType">
+		<xs:sequence>
+			<xs:element name="Persona" type="PersonaType"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MetadatiType">
+		<xs:sequence>
+			<xs:element name="Parametro" type="ParametroType" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ParametroType">
+		<xs:attribute name="nome" type="xs:string"/>
+		<xs:attribute name="valore" type="xs:string"/>
+	</xs:complexType>
+	<!-- Destinatario -->
+	<xs:complexType name="MittDestType">
+		<xs:sequence>
+			<xs:choice>
+				<xs:sequence>
+					<xs:element name="Amministrazione" type="AmministrazioneType"/>
+					<xs:element name="AOO" type="AOOType"/>
+					<xs:element name="RiferimentiProtocollo" type="ProtocolloType" minOccurs="0"/>
+				</xs:sequence>
+				<xs:sequence>
+					<xs:element name="Denominazione" type="DenominazioneType" minOccurs="0"/>
+					<xs:element name="Persona" type="PersonaType" maxOccurs="unbounded"/>
+				</xs:sequence>
+				<xs:element name="PersonaGiuridica" type="PersonaGiuridicaType" minOccurs="0"/>
+			</xs:choice>
+			<xs:element name="IndirizzoTelematico" type="IndirizzoTelematicoType" minOccurs="0"/>
+			<xs:element name="Telefono" type="TelefonoType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="Fax" type="FaxType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="IndirizzoPostale" type="IndirizzoPostaleType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AmministrazioneType">
+		<xs:sequence>
+			<xs:element name="Denominazione" type="DenominazioneType" minOccurs="0"/>
+			<xs:element name="CodiceAmministrazione" type="CodiceAmministrazioneType"/>
+			<xs:element name="IndirizzoTelematico" type="IndirizzoTelematicoType" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="ForzaIndirizzoTelematico" type="xs:string" minOccurs="0"/>
+			<xs:choice minOccurs="0">
+				<xs:element name="UnitaOrganizzativa" type="UnitaOrganizzativaType"/>
+				<xs:sequence>
+					<xs:choice minOccurs="0">
+						<xs:element name="Ruolo" type="RuoloType"/>
+						<xs:element name="Persona" type="PersonaType"/>
+					</xs:choice>
+					<xs:element name="IndirizzoPostale" type="IndirizzoPostaleType" minOccurs="0"/>
+					<xs:element name="Telefono" type="TelefonoType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Fax" type="FaxType" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:choice>
+			<xs:element name="InvioPEC" type="InvioPECType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AOOType">
+		<xs:sequence>
+			<xs:element name="Denominazione" type="DenominazioneType" minOccurs="0"/>
+			<xs:element name="CodiceAOO" type="CodiceAOOType"/>
+			<xs:element name="IndirizzoTelematico" type="IndirizzoTelematicoType" minOccurs="0"/>
+			<xs:element name="ForzaIndirizzoTelematico" type="xs:string" minOccurs="0"/>
+			<xs:element name="InvioPEC" type="InvioPECType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DenominazioneType" mixed="true"/>
+	<xs:complexType name="CodiceAmministrazioneType" mixed="true"/>
+	<xs:complexType name="UnitaOrganizzativaType">
+		<xs:sequence>
+			<xs:element name="Denominazione" type="DenominazioneType" minOccurs="0"/>
+			<xs:element name="Identificativo" type="IdentificativoType"/>
+			<xs:choice minOccurs="0">
+				<xs:element name="UnitaOrganizzativa" type="UnitaOrganizzativaType"/>
+				<xs:sequence>
+					<xs:choice minOccurs="0" maxOccurs="unbounded">
+						<xs:element name="Ruolo" type="RuoloType"/>
+						<xs:element name="Persona" type="PersonaType"/>
+					</xs:choice>
+					<xs:element name="IndirizzoPostale" type="IndirizzoPostaleType" minOccurs="0"/>
+					<xs:element name="IndirizzoTelematico" type="IndirizzoTelematicoType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Telefono" type="TelefonoType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="Fax" type="FaxType" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="tipo" default="permanente">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="temporanea"/>
+					<xs:enumeration value="permanente"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="RuoloType">
+		<xs:sequence>
+			<xs:element name="Denominazione" type="DenominazioneType"/>
+			<xs:element name="Identificativo" type="IdentificativoType" minOccurs="0"/>
+			<xs:element name="Persona" type="PersonaType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PersonaType">
+		<xs:sequence>
+			<xs:element name="Identificativo" type="IdentificativoType" minOccurs="0"/>
+			<xs:element name="Nome" type="NomeType" minOccurs="0"/>
+			<xs:element name="Cognome" type="CognomeType" minOccurs="0"/>
+			<xs:element name="Titolo" type="TitoloType" minOccurs="0"/>
+			<xs:element name="IndirizzoTelematico" type="IndirizzoTelematicoType" minOccurs="0"/>
+			<xs:element name="InvioPEC" type="InvioPECType" minOccurs="0"/>
+			<xs:element name="IndirizzoPostale" type="IndirizzoPostaleType" minOccurs="0"/>
+			<xs:element name="Denominazione" type="DenominazioneType" minOccurs="0"/>
+			<xs:element name="CodiceFiscale" type="CodiceFiscaleType" minOccurs="0"/>
+			<xs:element name="Metadati" type="MetadatiType" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+	</xs:complexType>
+	<xs:complexType name="IndirizzoPostaleType">
+		<xs:choice>
+			<xs:element name="Denominazione" type="DenominazioneType"/>
+			<xs:sequence>
+				<xs:element name="Toponimo" type="ToponimoType"/>
+				<xs:element name="Civico" type="CivicoType"/>
+				<xs:element name="CAP" type="CAPType"/>
+				<xs:element name="Comune" type="ComuneType"/>
+				<xs:element name="Provincia" type="ProvinciaType"/>
+				<xs:element name="Nazione" type="NazioneType" minOccurs="0"/>
+			</xs:sequence>
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="IndirizzoTelematicoType" mixed="true">
+		<xs:attribute name="tipo" use="optional" default="smtp">
+			<xs:simpleType>
+				<xs:restriction base="xs:NMTOKEN">
+					<xs:enumeration value="uri"/>
+					<xs:enumeration value="smtp"/>
+					<xs:enumeration value="NMTOKEN"/>
+				</xs:restriction>
+			</xs:simpleType>
+		</xs:attribute>
+		<xs:attribute name="note" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:complexType name="TelefonoType" mixed="true">
+		<xs:attribute name="note" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:complexType name="FaxType" mixed="true">
+		<xs:attribute name="note" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:complexType name="IdentificativoType" mixed="true"/>
+	<xs:complexType name="NomeType" mixed="true"/>
+	<xs:complexType name="CognomeType" mixed="true"/>
+	<xs:complexType name="TitoloType" mixed="true"/>
+	<xs:complexType name="CodiceFiscaleType" mixed="true"/>
+	<xs:complexType name="ToponimoType" mixed="true">
+		<xs:attribute name="dug" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:complexType name="CivicoType" mixed="true"/>
+	<xs:complexType name="CAPType" mixed="true"/>
+	<xs:complexType name="ComuneType" mixed="true">
+		<xs:attribute name="codiceISTAT" type="xs:anySimpleType"/>
+	</xs:complexType>
+	<xs:complexType name="ProvinciaType" mixed="true"/>
+	<xs:complexType name="NazioneType" mixed="true"/>
+	<xs:complexType name="CodiceAOOType" mixed="true"/>
+	<xs:complexType name="InvioPECType" mixed="true"/>
+	<xs:complexType name="PersonaGiuridicaType">
+		<xs:sequence>
+			<xs:element name="Denominazione" type="DenominazioneType"/>
+			<xs:element name="IndirizzoPostale" type="IndirizzoPostaleType" minOccurs="0"/>
+			<xs:element name="IndirizzoTelematico" type="IndirizzoTelematicoType" minOccurs="0"/>
+			<xs:element name="ForzaIndirizzoTelematico" type="xs:string" minOccurs="0"/>
+			<xs:element name="InvioPEC" type="InvioPECType" minOccurs="0"/>
+			<xs:element name="Metadati" type="MetadatiType" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="tipo" type="xs:string" use="required"/>
+		<xs:attribute name="id" type="xs:string" use="required"/>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+ 
+ 	<!-- credenziali per Alfresco -->
+	    <entry key="USER_ID">admin</entry>
+	    <entry key="PWD">admin</entry>
+	    <entry key="LIBRARY">DOCAREA</entry>  
+	      
+	    <entry key="DOCNUMBER_PADRE">1</entry>  	    
+	    
+    	<entry key="SEARCH_CRITERIA">DOCNAME=TEST.DOC,TEST 2.DOC&amp;ABSTRACT=FATTURE DANTE 001 NUOVO,DANTE TEST 001</entry>    	
+    	
+    	<entry key="PRIMARY_SERACH_MAX_ROWS">10</entry>    	
+    	
+    	<entry key="COLUMNS">DOCNUM,DOCNAME,ABSTRACT,TYPE_ID,STATO_CONSERVAZIONE</entry>
+    	
+    	<entry key="PROVIDER_NAME">it.kdm.docer.alfresco.provider.Provider</entry>     
+         	 
+		<entry key="PRIMARY_SERACH_MAX_ROWS">10</entry>
+		<entry key="DISK_BUFFER_DIRECTORY">/tmp/</entry>
+		<entry key="DISK_BUFFER_THRESHOLD">3000000</entry>	    
+	
+ 	<!-- credenziali per eDocs -->
+ 	
+	   <!-- <entry key="USER_ID">administrator</entry>
+	    <entry key="PWD">obelix</entry>
+	    <entry key="LIBRARY">libprobo2</entry>  --><!-- Per il db da 1.200.000 documenti il parametro = docarea -->
+	    
+   <!-- 
+       <entry key="DOCNUMBER_PADRE">468082</entry>
+	    	 
+	    <entry key="SEARCH_CRITERIA">DOCNAME=alfprovider&amp;ABSTRACT=test</entry>    
+		
+		<entry key="PRIMARY_SERACH_MAX_ROWS">10</entry>
+			
+		<entry key="COLUMNS">DOCNUM,DOCNAME,ABSTRACT,TYPE_ID</entry> 
+		
+		<entry key="PROVIDER_NAME">it.kdm.docer.alfresco.provider.Provider</entry>
+		
+		<entry key="PRIMARY_SERACH_MAX_ROWS">10</entry>
+		<entry key="DISK_BUFFER_DIRECTORY">/tmp/</entry>
+		<entry key="DISK_BUFFER_THRESHOLD">3000000</entry>	  
+	 --> 
+</properties>

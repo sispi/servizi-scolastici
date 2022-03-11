@@ -1,0 +1,50 @@
+<configuration>
+	<!-- <database driverClass="com.mysql.jdbc.Driver">
+		<connection connectionString="jdbc:mysql://localhost/docersystem"
+			user="docer" password="docer" />
+	</database> -->
+	<database driverClass="org.postgresql.Driver">
+		<connection connectionString="jdbc:postgresql://localhost/docersystem"
+			user="docer" password="docer" />
+	</database>
+	<auth-providers default="ldap">
+		<standard>
+			<class>it.kdm.docer.core.authentication.providers.StandardProvider
+			</class>
+			<!--<class>it.kdm.docer.core.authentication.providers.TestProvider</class> -->
+			<epr>http://localhost:8080/WSDocer/services/DocerServices</epr>
+			<!--<epr>http://192.168.0.84:8080/docer.webservices/services/DocerServices</epr> -->
+			<trustedService>WSConservazione</trustedService>
+			<trustedService>WSConservazioneBatch</trustedService>
+		</standard>
+		<sso>
+			<class>it.kdm.docer.core.authentication.providers.SsoProvider
+			</class>
+			<epr>http://localhost:8080/WSDocer/services/DocerServices</epr>
+		</sso>
+		<ldap>
+			<class>it.kdm.docer.core.authentication.providers.LDAPProvider
+			</class>
+			<epr>192.168.0.20:389</epr>
+			<internalAccount username="KDM\test" password="test.2012" />
+			<USERS_OU>ou=People,o=KDM</USERS_OU>
+			<GROUPS_OU>ou=Groups,o=KDM</GROUPS_OU>
+			<PERMISSIONS_OU>ou=Permissions,o=KDM</PERMISSIONS_OU>
+			<properties filter="CN=Users,DC=KDM,DC=local">
+				<map name="USER_ID">sAMAccountName</map>
+				<map name="FULL_NAME">name</map>
+				<map name="EMAIL_ADDRESS">mail</map>
+				<!--<map name="FIRST_NAME">user</map> <map name="LAST_NAME">user</map> 
+					<map name="PRIMARY_GROUP_ID">user</map> <map name="NETWORK_ALIAS">user</map> 
+					<map name="USER_PASSWORD">user</map> <map name="ENABLED">user</map> -->
+			</properties>
+			<trustedService>WSConservazione</trustedService>
+			<trustedService>WSConservazioneBatch</trustedService>
+		</ldap>
+		<federa>
+			<class>it.kdm.docer.core.authentication.providers.FederaProvider
+			</class>
+			<epr>http://localhost:8080/DocER/services/FederaService</epr>
+		</federa>
+	</auth-providers>
+</configuration>

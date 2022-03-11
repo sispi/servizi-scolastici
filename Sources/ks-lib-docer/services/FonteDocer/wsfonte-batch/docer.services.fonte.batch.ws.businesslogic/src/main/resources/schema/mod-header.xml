@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:rer-import-docer xmlns:p="http://www.regione.emilia-romagna.it/rer-import/docer/"
+	xmlns:p1="http://www.regione.emilia-romagna.it/rer-import/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.regione.emilia-romagna.it/rer-import/docer/ ../../xsd/rer-import-docer.xsd ">
+	<importHeader>
+		<id-fonte/>
+		<id-flusso />
+		<timestamp-flusso />
+	</importHeader>
+	<importBody/>
+</p:rer-import-docer>

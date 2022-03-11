@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	 <parent>
+	    <groupId>it.kdm.docer</groupId>
+	    <artifactId>docer.commons</artifactId>
+	    <version>Docer-2.4.6.1</version>
+	  </parent>
+	<artifactId>docer.commons.wsclients</artifactId>
+	<dependencies>
+        <dependency>
+                <groupId>it.kdm.docer</groupId>
+                <artifactId>commons-config</artifactId>
+                <version>${project.version}</version>
+        </dependency>
+		<dependency>
+			<groupId>org.apache.axis2</groupId>
+			<artifactId>axis2-integration</artifactId>
+			<version>${axis2.version}</version>		
+		</dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons-codec.version}</version>
+        </dependency>
+		<dependency>
+			<groupId>com.ibm.icu</groupId>
+			<artifactId>icu4j</artifactId>
+			<version>3.4.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.3.1</version>
+		</dependency>
+	</dependencies>
+
+	<properties>
+		<axis2.wsdl2code.generateAllClasses>true</axis2.wsdl2code.generateAllClasses>
+		<axis2.wsdl2code.generateServerSide>false</axis2.wsdl2code.generateServerSide>
+		<axis2.wsdl2code.syncMode>sync</axis2.wsdl2code.syncMode>
+		<axis2.wsdl2code.package>it.kdm.docer.clients</axis2.wsdl2code.package>			   
+	</properties>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.axis2</groupId>
+				<artifactId>axis2-wsdl2code-maven-plugin</artifactId>
+				<version>${axis2.version}</version>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>

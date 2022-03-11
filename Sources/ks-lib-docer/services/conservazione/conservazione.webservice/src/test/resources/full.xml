@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<UnitaDocumentaria xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="WSVersamentoRequest.xsd">
+
+	<Intestazione>
+		<Versatore>
+			<Ambiente>COMUNI</Ambiente>
+			<Ente>COMUNE_PARMA</Ente>
+			<Struttura>AOO000</Struttura>
+			<UserID>admin</UserID>
+		</Versatore>
+		<Chiave>
+			<Numero>5</Numero>
+			<Anno>2011</Anno>
+			<TipoRegistro>PG</TipoRegistro>
+		</Chiave>
+		<TipologiaUnitaDocumentaria>PROTOCOLLO</TipologiaUnitaDocumentaria>
+	</Intestazione>
+	<Configurazione>
+		<TipoConservazione>SOSTITUTIVA</TipoConservazione>
+		<ForzaAccetazione>true</ForzaAccetazione>
+		<ForzaConservazione>true</ForzaConservazione>
+		<ForzaCollegamento>true</ForzaCollegamento>
+	</Configurazione>
+	<ProfiloArchivistico>
+		<FascicoloPrincipale>
+			<Classifica>1.0.0</Classifica>
+			<Fascicolo>
+				<Identificativo>1.0.0/2011/1</Identificativo>
+				<Oggetto>Pratica XXX</Oggetto>
+			</Fascicolo>
+			<SottoFascicolo>
+				<Identificativo>1.0.0/2011/1/1</Identificativo>
+				<Oggetto>Giustificativi</Oggetto>
+			</SottoFascicolo>
+		</FascicoloPrincipale>
+		<FascicoliSecondari>
+			<FascicoloSecondario>
+				<Classifica>2.0</Classifica>
+				<Fascicolo>
+					<Identificativo>2.0/2011/2</Identificativo>
+					<Oggetto>Acquisti Vari</Oggetto>
+				</Fascicolo>
+			</FascicoloSecondario>
+			<FascicoloSecondario>
+				<Classifica>2.1</Classifica>
+				<Fascicolo>
+					<Identificativo>2.1/2011/3</Identificativo>
+					<Oggetto>Oggetto del fascicolo 2.1</Oggetto>
+				</Fascicolo>
+				<SottoFascicolo>
+					<Identificativo>2.1/2011/3/1</Identificativo>
+					<Oggetto>Prova</Oggetto>
+				</SottoFascicolo>
+			</FascicoloSecondario>
+		</FascicoliSecondari>
+	</ProfiloArchivistico>
+	<ProfiloUnitaDocumentaria>
+		<Oggetto>Domanda di permesso di costruire presentata da Paola Righi
+			(RGHPLA74P65H827X) nata a Milano il 25/09/1974 residente in Parma via
+			XX 8</Oggetto>
+		<Data>2011-01-01</Data>
+		<Cartaceo>true</Cartaceo>
+	</ProfiloUnitaDocumentaria>
+	<DocumentiCollegati>
+		<DocumentoCollegato>
+			<ChiaveCollegamento>
+				<Numero>12</Numero>
+				<Anno>1234</Anno>
+				<TipoRegistro>asd</TipoRegistro>
+			</ChiaveCollegamento>
+			<DescrizioneCollegamento>string</DescrizioneCollegamento>
+		</DocumentoCollegato>
+	</DocumentiCollegati>
+	<NumeroAllegati>1</NumeroAllegati>
+	<NumeroAnnessi>1</NumeroAnnessi>
+	<NumeroAnnotazioni>1</NumeroAnnotazioni>
+
+	<DocumentoPrincipale>
+		<IDDocumento>015</IDDocumento>
+		<TipoDocumento>RICHIESTA_PERMESSO_EDILIZIO</TipoDocumento>
+		<ProfiloDocumento>
+			<Descrizione>Istanza del Richiedente</Descrizione>
+			<Autore>Paolo Rossi</Autore>
+		</ProfiloDocumento>
+		<DatiSpecifici>
+			<VersioneDatiSpecifici>1.0</VersioneDatiSpecifici>
+			<DenominazioneDirettoreLavori>Giuseppe Bianchi</DenominazioneDirettoreLavori>
+			<CFDirettoreLavori>BNCGSP54G18H140V</CFDirettoreLavori>
+			<DenominazioneImpresaEsecutriceOpere>Rossi &amp; C.</DenominazioneImpresaEsecutriceOpere>
+			<PIVAImpresaEsecutriceOpere>11122456124</PIVAImpresaEsecutriceOpere>
+		</DatiSpecifici>
+		<DatiFiscali>
+			<Denominazione>string</Denominazione>
+			<Nome>string</Nome>
+			<Cognome>string</Cognome>
+			<CF>1234567890abcdef</CF>
+			<PIVA>1234567890a</PIVA>
+			<DataEmissione>1973-04-04</DataEmissione>
+			<NumeroProgressivo>12</NumeroProgressivo>
+			<Registro>0</Registro>
+			<PeriodoFiscale>string</PeriodoFiscale>
+			<DataTermineEmissione>1973-04-04</DataTermineEmissione>
+		</DatiFiscali>
+		<StrutturaOriginale>
+			<TipoStruttura>TESTO_FIRMA_DETACHED</TipoStruttura>
+			<Componenti>
+				<Componente>
+					<ID>1</ID>
+					<OrdinePresentazione>1</OrdinePresentazione>
+					<TipoComponente>CONTENUTO</TipoComponente>
+					<TipoSupportoComponente>FILE</TipoSupportoComponente>
+					<Riferimento>
+						<Numero>123</Numero>
+						<Anno>1234</Anno>
+						<TipoRegistro>REGISTRO</TipoRegistro>
+					</Riferimento>
+					<TipoRappresentazioneComponente />
+					<NomeComponente>DomandaPermessoRighi.pdf</NomeComponente>
+					<FormatoFileVersato>PDF</FormatoFileVersato>
+					<HashVersato>12345abcde</HashVersato>
+					<UrnVersato>c:\cartella permessi\righi.pdf.p7m</UrnVersato>
+					<IDComponenteVersato>0014</IDComponenteVersato>
+					<UtilizzoDataFirmaPerRifTemp>true</UtilizzoDataFirmaPerRifTemp>
+					<RiferimentoTemporale>2010-11-11T10:10:00.000</RiferimentoTemporale>
+					<DescrizioneRiferimentoTemporale />
+					<SottoComponenti>
+						<SottoComponente>
+							<ID>2</ID>
+							<OrdinePresentazione>2</OrdinePresentazione>
+							<TipoComponente>FIRMA</TipoComponente>
+							<TipoSupportoComponente>FILE</TipoSupportoComponente>
+							<NomeComponente>DomandaPermessoRighi.pdf.p7m</NomeComponente>
+							<FormatoFileVersato>p7m</FormatoFileVersato>
+							<UrnVersato />
+							<IDComponenteVersato />
+						</SottoComponente>
+					</SottoComponenti>
+				</Componente>
+			</Componenti>
+		</StrutturaOriginale>
+	</DocumentoPrincipale>
+	<Allegati>
+		<Allegato>
+			<IDDocumento>018</IDDocumento>
+			<TipoDocumento>GENERICO</TipoDocumento>
+			<ProfiloDocumento>
+				<Descrizione>Ricevuta Versamento relativa ai diritti di segreteria
+				</Descrizione>
+				<Autore />
+			</ProfiloDocumento>
+			<StrutturaOriginale>
+				<TipoStruttura>TESTO</TipoStruttura>
+				<Componenti>
+					<Componente>
+						<ID>3</ID>
+						<OrdinePresentazione>1</OrdinePresentazione>
+						<TipoComponente>CONTENUTO</TipoComponente>
+						<TipoSupportoComponente>FILE</TipoSupportoComponente>
+						<TipoRappresentazioneComponente />
+						<NomeComponente>ricevutaversamentorighi.tiff</NomeComponente>
+						<FormatoFileVersato>TIFF</FormatoFileVersato>
+						<HashVersato />
+						<UrnVersato />
+						<IDComponenteVersato />
+						<UtilizzoDataFirmaPerRifTemp>false</UtilizzoDataFirmaPerRifTemp>
+						<DescrizioneRiferimentoTemporale />
+					</Componente>
+				</Componenti>
+			</StrutturaOriginale>
+		</Allegato>
+	</Allegati>
+	<Annessi>
+		<Annesso>
+			<IDDocumento>019</IDDocumento>
+			<TipoDocumento>GENERICO</TipoDocumento>
+			<ProfiloDocumento>
+				<Descrizione>Parere di Conformità</Descrizione>
+				<Autore />
+			</ProfiloDocumento>
+			<StrutturaOriginale>
+				<TipoStruttura>TESTO_FIRMA_EMBEDDED</TipoStruttura>
+				<Componenti>
+					<Componente>
+						<ID>4</ID>
+						<OrdinePresentazione>1</OrdinePresentazione>
+						<TipoComponente>CONTENUTO</TipoComponente>
+						<TipoSupportoComponente>FILE</TipoSupportoComponente>
+						<TipoRappresentazioneComponente />
+						<NomeComponente>parere.pdf.p7m</NomeComponente>
+						<FormatoFileVersato>p7m</FormatoFileVersato>
+						<HashVersato>12345abcde</HashVersato>
+						<UrnVersato />
+						<IDComponenteVersato>0236</IDComponenteVersato>
+						<UtilizzoDataFirmaPerRifTemp>false</UtilizzoDataFirmaPerRifTemp>
+						<RiferimentoTemporale>2000-03-11T09:00:00.000</RiferimentoTemporale>
+						<DescrizioneRiferimentoTemporale>Riferimento temporale versato</DescrizioneRiferimentoTemporale>
+					</Componente>
+				</Componenti>
+			</StrutturaOriginale>
+		</Annesso>
+	</Annessi>
+	<Annotazioni>
+		<Annotazione>
+			<IDDocumento>025</IDDocumento>
+			<TipoDocumento>GENERICO</TipoDocumento>
+			<ProfiloDocumento>
+				<Descrizione>segnatura di protocollo</Descrizione>
+				<Autore />
+			</ProfiloDocumento>
+			<StrutturaOriginale>
+				<TipoStruttura>XML</TipoStruttura>
+				<Componenti>
+					<Componente>
+						<ID>token</ID>
+						<OrdinePresentazione>0</OrdinePresentazione>
+						<TipoComponente>SEGNATURA</TipoComponente>
+						<TipoSupportoComponente>FILE</TipoSupportoComponente>
+						<TipoRappresentazioneComponente />
+						<NomeComponente>segnatura.xml</NomeComponente>
+						<FormatoFileVersato>XML</FormatoFileVersato>
+						<HashVersato>12345abcde</HashVersato>
+						<UrnVersato />
+						<IDComponenteVersato />
+						<UtilizzoDataFirmaPerRifTemp>false</UtilizzoDataFirmaPerRifTemp>
+						<DescrizioneRiferimentoTemporale />
+					</Componente>
+				</Componenti>
+			</StrutturaOriginale>
+		</Annotazione>
+	</Annotazioni>
+</UnitaDocumentaria>

@@ -1,0 +1,91 @@
+<head>
+    <title>form preview</title>
+</head>
+<body>
+    <link rel="stylesheet" href="/static/css/task-style.css">
+
+    <script src="/static/js/components/file.js?no-cache" ></script>
+    <link rel="stylesheet" href="/static/js/components/file.css?no-cache">
+
+    <script src="/static/js/retrobpm.js?no-cache"></script>
+
+    <link rel="stylesheet" href="/static/js/components/renderer.css?no-cache"  >
+    <script type="text/javascript" src="/static/js/components/renderer.js?no-cache" ></script>
+
+    <script @server @server-model="model" type="javascript" >
+        Java.type("keysuite.freemarker.TemplateUtils").fromJson( (query.buffer) || '{}')
+    </script>
+
+    <script type="x-template"
+            @ignore @ignore-notfound="true" @server-model="application"
+            src="/form/v1/api/forms/{formId:0}/views"
+            @body="{'options':{'render':'application'},'model': model }"  >
+	</script>
+
+    [#if !(query.formId??) ]
+
+    [#assign application = utils.ftl( utils.FromBase64(query.template) ,model) ]
+
+    [/#if]
+
+    ${application}
+
+    <br/>
+    <hr/>
+    <small id="print" class="row">
+        <div class="col-6">
+            <h4>status</h4>
+            <pre class="p-4 m-4 text-white bg-dark">{{status|json}}</pre>
+        </div>
+        <div class="col-6">
+            <h4>model</h4>
+            <editor id="editor" ref="editor" rows="10" max="20" ></editor><button @click="update" >update</button>
+        </div>
+
+
+    </small>
+
+    <script>
+        var print = new Vue({
+            el : "#print",
+            data: {
+                status: formApp.$refs.form.$data,
+                //model: formApp.$refs.form.getClean()
+            },
+            mounted: function(){
+                //this.$refs.editor.editor.setValue(JSON.stringify(formApp.$refs.form.getClean(),null,4));
+                this.$refs.editor.setValue(formApp.$refs.form.getClean());
+            },
+            methods: {
+                update: function() {
+                    formApp.$refs.form.reset(this.$refs.editor.getValue());
+                    this.$refs.editor.setValue(formApp.$refs.form.getClean());
+                    console.log("model updated");
+                }
+
+            }
+
+        });
+
+        formApp.$refs.form.$on( "onchange" , function(evt) {
+            //print.model = formApp.$refs.form.getClean();
+            print.$refs.editor.setValue(formApp.$refs.form.getClean());
+            console.log("model changed");
+        })
+
+        /*print.$refs.editor.$on( "change-content" , function(model) {
+            //formApp.$refs.form.reset(model);
+        });*/
+
+        /*function test(value){
+            console.log(arguments);
+        }
+
+        function onKsFormAction(model,status,response,action){
+            //console.log("onKsFormAction",model,status,response,action);
+            print.model = formApp.model;
+        }*/
+    </script>
+
+</body>
+

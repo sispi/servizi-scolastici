@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="rer-import-docer">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="importHeader" type="import-header" />
+				<xs:element name="importBody">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="notification" minOccurs="1"
+								maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="saveOrUpdate">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="record">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="commonFields" type="commonFields" />
+																<xs:element name="EntitaDocumentale">
+																	<xs:complexType>
+																		<xs:choice>
+																			<xs:element name="Fascicolo" type="Fascicolo" />
+																			<xs:element name="Documento" type="Documento" />
+																		</xs:choice>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="uid" use="required"
+																type="xs:ID" />
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="delete">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="record">
+														<xs:complexType>
+															<xs:attribute name="uid" use="required"
+																type="xs:ID" />
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="Fascicolo">
+		<xs:sequence>
+			<xs:element name="classifica" type="stringNotEmpty" />
+			<xs:element name="anno" type="xs:integer" />
+			<xs:element name="progressivo" type="stringNotEmpty" />
+			<xs:element name="areaOrganizzativaOmogenea">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="codice" type="stringNotEmpty" />
+						<xs:element name="denominazione" type="stringNotEmpty" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="stato" type="stringNotEmpty"
+				minOccurs="0" />
+			<xs:element name="dataApertura" type="xs:date" minOccurs="0" />
+			<xs:element name="dataChiusura" type="xs:date" minOccurs="0" />
+			<xs:element name="identificativoProcedimento" type="stringNotEmpty"
+				minOccurs="0" />
+			<xs:element name="idFascicoloPadre" type="xs:NCName"
+				minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Documento">
+		<xs:sequence>
+			<xs:element name="numero" type="stringNotEmpty" />
+			<xs:element name="data" type="xs:date" />
+			<xs:element name="anno" type="xs:integer" />
+			<xs:element name="oggetto" type="stringNotEmpty" />
+			<xs:element name="tipologiaDocumentaria">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="codice" type="stringNotEmpty" />
+						<xs:element name="denominazione" type="stringNotEmpty" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="registro" type="stringNotEmpty" />
+			<xs:element name="idFascicolo" type="xs:NCName" minOccurs="0" />
+			<xs:element name="allegati">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="allegato" minOccurs="1" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="nomeFile" type="stringNotEmpty" />
+									<xs:element name="descrizione" type="stringNotEmpty" />
+									<xs:element name="url" type="stringNotEmpty" />
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+<xs:complexType name="import-header">
+		<xs:sequence>
+			<xs:element name="id-fonte" type="xs:NMTOKEN">
+				<xs:annotation>
+					<xs:documentation>Id della fonte che alimenta il raccoglitore
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="id-flusso" type="xs:NMTOKEN">
+				<xs:annotation>
+					<xs:documentation>Id univoco del flusso prodotto dalla fonte
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="timestamp-flusso" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>timestamp di generazione del flusso
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="commonFields">
+		<xs:sequence>
+			<xs:element name="creation-timestamp" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Timestamp di creazione dell'entita' informativa
+						nel sistema di provenienza
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="last-update-timestamp" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Timestamp di ultima modifica dell'entita'
+						informativa nel sistema di provenienza
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dataFineValidita" type="xs:dateTime" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>la data di fine validita' dell'entita' informativa</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="codice-ente" type="xs:NMTOKEN">
+				<xs:annotation>
+					<xs:documentation>Codice dell'ente che detiene l'entita'
+						informativa, cosi' come censito nel raccoglitore
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="url" type="xs:anyURI" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>URL per accedere al dettaglio dell'informazione direttamente sulla fonte</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="latitudine" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Latitudine espressa in gradi decimali</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="longitudine" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Latitudine espressa in gradi decimali</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="descrizione" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Descrizione dell'entita' informativa
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="keywords">
+				<xs:annotation>
+					<xs:documentation>Lista delle parole chiave con cui ricercare
+						l'entita' informativa
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="keyword" type="stringNotEmpty" maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="relazioni" type="relazioni" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Lista delle relazioni dell'entita' informativa
+						con entita' informative in altre fonti. Viene utilizzato per
+						specificare anche gli utenti abilitati ad accedere al dato.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="relazioni">
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element name="relazione">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="stringNotEmpty">
+							<xs:attribute name="tipoRelazione">
+								<xs:annotation>
+									<xs:documentation>Specifica la tipologia della relazione con
+										l'entita' informativa in oggetto (e.g. titolare).
+									</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">									
+										<xs:enumeration value="titolare" />
+										<xs:enumeration value="familiare" />
+										<xs:enumeration value="legaleRappresentante" />
+										<xs:enumeration value="presidente" />
+										<xs:enumeration value="amministratoreDelegato" />
+										<xs:enumeration value="consiglierediAmministrazione" />
+									</xs:restriction>								
+								</xs:simpleType>
+							</xs:attribute>
+							<xs:attribute name="tipoId" type="stringNotEmpty" use="required">
+								<xs:annotation>
+									<xs:documentation>Specifica la tipologia dell'id utilizzato per
+										indicare l'entita' informativa relazionata (e.g.
+										codiceFiscale, partitaIva)
+									</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="autorizzazione" type="xs:boolean"
+								use="required">
+								<xs:annotation>
+									<xs:documentation>Indica se la relazione deve essere
+										considerata per la determinazione dei diritti di accesso
+										all'entita informativa
+									</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="dataInizio" type="xs:date">
+								<xs:annotation>
+									<xs:documentation>Indica la data in cui ha inizio la relazione indicata</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="dataFine" type="xs:date">
+								<xs:annotation>
+									<xs:documentation>Indica la data in cui ha fine la relazione indicata</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>					
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:simpleType name="stringNotEmpty">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:pattern value=".*[^\s].*" />
+        </xs:restriction>
+    </xs:simpleType>
+
+</xs:schema>

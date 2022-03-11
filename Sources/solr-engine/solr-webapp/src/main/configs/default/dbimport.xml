@@ -1,0 +1,95 @@
+<dataConfig>
+    <propertyWriter dateFormat="yyyy-MM-dd HH:mm:ss" type="ZKPropertiesWriter" filename="dbimport.properties" locale="it-IT"/>
+
+    <dataSource
+            name="db"
+            type="JdbcDataSource"
+            driver="${dataimporter.request.driver}"
+            url="${dataimporter.request.url}"
+            user="${dataimporter.request.user}"
+            password="${dataimporter.request.password}" />
+
+    <script><![CDATA[
+
+				var logger = org.slf4j.LoggerFactory.getLogger(org.apache.solr.handler.dataimport.DataImportHandler);
+
+				function profile(row)
+                {
+					logger.info("row {}",row);
+					return row;
+				}
+
+				function props(row)
+                {
+					logger.info("props {}",row);
+
+					var key = row.remove("name") || row.remove("NAME");
+                	var value = row.remove("value") || row.remove("VALUE");
+
+					row.clear();
+
+					row.put( ""+key ,value);
+
+					return row;
+				}
+
+        ]]></script>
+
+    <document>
+
+        <entity dataSource="db_full" name="doc" transformer="script:profile" rows="500" pk="DOCNUM"
+                         query="SELECT * from SOLR_PROFILE"
+
+                         logTemplate="Row DOCNUM ${doc.ID} last_index_time ${dataimporter.doc.last_index_time}" logLevel="info">
+
+                <entity name="item_props" transformer="script:props"
+
+                        query="
+                                select *
+                                from SOLR_FIELDS
+                                where ID = '${doc.ID}'
+                                order by 1
+                            "
+
+                />
+            </entity>
+
+        <entity dataSource="db_delta" name="doc" transformer="script:profile" rows="500" pk="DOCNUM"
+                query="SELECT * from SOLR_PROFILE
+                WHERE TIMESTAMP &gt; TO_DATE('${dataimporter.doc.last_index_time}','yyyy-mm-dd HH24:MI:SS')
+                "
+
+                logTemplate="Row DOCNUM ${doc.ID} last_index_time ${dataimporter.doc.last_index_time}" logLevel="info">
+
+            <entity name="item_props" transformer="script:props"
+
+                    query="
+                        select *
+                        from SOLR_FIELDS
+                        where ID = '${doc.ID}'
+                        order by 1
+                    "
+
+            />
+        </entity>
+
+        <entity dataSource="db" name="related" transformer="script:profile" rows="500" pk="RELATED"
+                query="
+                select 'related' TYPE,
+                RELATED as ID ,
+                max(COD_ENTE) COD_ENTE,
+                max(COD_AOO) COD_AOO,
+                LISTAGG( ID , ',') WITHIN GROUP (ORDER BY ID) as RELATED
+                from SOLR_PROFILE
+                group by RELATED
+                having count(1) > 1
+                "
+
+                logTemplate="Row RELATED ${doc.RELATED} last_index_time ${dataimporter.doc.last_index_time}" logLevel="info">
+
+        </entity>
+
+    </document>
+</dataConfig>
+
+

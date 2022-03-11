@@ -1,0 +1,88 @@
+<script @server-model="gdoc" @ignore >
+
+    var type = query.type;
+    var id = query.id;
+    var html = null;
+
+    if (query.shortcut=="true"){
+        var headers = webClient.headMap("https://drive.google.com/file/d/"+id+"/preview");
+
+        logger.info("after heasders");
+
+        var loc = headers.Location;
+
+        var newid = loc.split("/")[5];
+
+        if (newid!=query.id){
+            id = newid;
+            type = "documento";
+        }
+    }
+
+    if (type!="file"){
+        try{
+            html = webClient.getString("https://docs.google.com/document/d/"+id+"/export?format=html");
+        } catch(e) {
+            logger.error(e);
+            html = null;
+            type = query.type;
+            id = query.id;
+        }
+
+    }
+
+    var gdoc = {
+        id : id,
+        type : type,
+        html: html
+    };
+
+    gdoc;
+
+</script>
+
+<title>${query.title!''}</title>
+
+<a href="https://docs.google.com/document/d/${gdoc.id}"
+   target="_blank"
+   class="btn btn-outline-info btn-sm"
+   style="float: right">
+    Apri in
+    <img src="https://www.gstatic.com/images/branding/product/1x/drive_48dp.png"
+         alt="Drive logo"
+         style="width: 16px; height: 16px; margin-left: 6px;">
+</a>
+
+<h4 style="font-size: 1.5rem;
+    font-weight: 500;
+    padding: 0px !IMPORTANT;
+    color: unset;
+    font-family: unset;">${query.title!''}</h4>
+
+[#if gdoc.type == "file" ]
+<iframe src="https://drive.google.com/file/d/${gdoc.id}/preview"
+        frameborder="0"
+        style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;min-height:61vh;width:100%;position:relative;top:0vw;left:0px;right:0px;bottom:0px" height="100%" width="100%"></iframe>
+
+[#else]
+<div style="border-top: 2px solid lightgrey; margin:0px;padding: 10px 60px 10px 60px" id="doc" type="text/html" style="" >
+     ${gdoc.html!''}
+</div>
+
+<script>
+
+    var rewrite = function(){
+        $("#doc").find("a").each(function() {
+            var href = $(this).attr("href");
+            var qs = new URLSearchParams(href.substring(href.indexOf("?")))
+            var url = qs.get("q");
+            var idx = url.indexOf("/",10);
+            $(this).attr("href",url.substring(idx));
+        })
+    }
+    rewrite();
+
+</script>
+
+[/#if]
+

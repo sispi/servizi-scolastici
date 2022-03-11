@@ -1,0 +1,45 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>it.kdm.docer</groupId>
+    <artifactId>docer</artifactId>
+    <version>Docer-2.4.6.1</version>
+  </parent>
+  <artifactId>docer.services</artifactId>
+  <packaging>pom</packaging>
+  
+  <dependencies>
+    	<dependency>
+    		<groupId>it.kdm.docer</groupId>
+    		<artifactId>commons-config</artifactId>
+    		<version>${project.version}</version>
+    	</dependency>
+  </dependencies>
+
+  <modules>
+      <module>agid</module>
+      <module>wsdocer</module>
+      <module>protocollazione</module>
+      <module>conservazione</module>      
+      <module>pec</module>
+      <module>firma</module>
+      <module>fascicolazione</module>
+      <module>registrazione</module>
+      <module>timbrodigitale</module>
+      <module>digitalstamp</module>
+      <module>verificadocumenti</module>
+ 
+  </modules>
+    <distributionManagement>
+        <repository>
+            <id>NexusCloud</id>
+            <url>https://nexusk.filippetti.it/repository/maven-releases/</url>
+            <uniqueVersion>false</uniqueVersion>
+        </repository>
+        <snapshotRepository>
+            <id>NexusCloud</id>
+            <url>https://nexusk.filippetti.it/repository/maven-snapshots/</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
+</project>

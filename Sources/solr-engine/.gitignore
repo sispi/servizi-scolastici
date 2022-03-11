@@ -1,0 +1,8 @@
+.idea
+target
+*.iml
+.DS_Store
+server/solr-webapp/webapp/WEB-INF/lib/
+server/solr/configsets/Folium/
+server/solr/configsets/holiway/
+server/solr/configsets/table/

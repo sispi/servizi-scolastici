@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<Segnatura xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<!-- obbligatorio -->
+	<Intestazione>
+
+		<!-- obbligatorio -->
+		<Oggetto>Richiesta PROT</Oggetto> 
+
+		
+		<!-- obbligatorio -->
+		<Flusso>
+
+			<!-- obbligatorio può avere i seguenti valori:
+				E=Entrata
+				U=Uscita
+				I=Interno
+			-->
+			<TipoRichiesta>I</TipoRichiesta>
+			
+			<!-- obbligatorio può avere i seguenti valori:
+					FD=firmato digitalmente
+					FE=firmato non digitalmente
+					F=da inoltrare alla firma
+					NF Non firmato 
+					
+					Se TipoRichiesta=E => Forma : FD|FE
+					Se TipoRichiesta=U => Forma : FD|F
+					
+			-->
+			<Firma>FD</Firma>
+
+			<!-- se 1 forza la protocollazione anche per docs non firmati -->
+			<ForzaRegistrazione>0</ForzaRegistrazione>
+
+			<!-- soggetto che dovrà firmare il documento , CodiceFiscale è obbligatorio
+				Non ammesso per prot.entrata
+				Obbligatorio se Firma=F -->
+			<Firmatario>
+			<Persona id="RSSMRC66M11Z999Z" >
+
+					<!--obbligatorio -->
+					<Nome>Marco</Nome>
+
+					<!--obbligatorio -->
+					<Cognome>Rossi</Cognome>
+
+					<!-- facoltativo -->
+					<Titolo></Titolo>
+					
+					
+					
+					<!-- Obbligatorio , attributo tipo : smtp|uri|NMTOKEN-->
+					<IndirizzoTelematico tipo="smtp">proto.prova3@actaliscertymail.it</IndirizzoTelematico>
+					
+					<!--obbligatorio-->
+					<IndirizzoPostale>
+						<Denominazione>Via Nazionale 100 Roma</Denominazione>
+					</IndirizzoPostale>
+					
+					<!-- facoltativo -->
+					<Metadati>
+						<Parametro nome="agd" valore="905"/>
+						<Parametro nome="uo" valore="5"/>
+					</Metadati>
+				</Persona>
+				
+			</Firmatario>
+			<!-- i seguenti campi ammessi solo in caso di prot.entrata -->
+			<ProtocolloMittente>
+				<CodiceAmministrazione>AAA</CodiceAmministrazione>
+				<CodiceAOO>AOO1</CodiceAOO>
+				<Classifica>1.3.4</Classifica>
+				<Data>01/01/2005</Data>
+				<Fascicolo>1/1/2</Fascicolo>
+				<Numero>113</Numero>
+				<!-- <Data></Data> -->
+			</ProtocolloMittente>
+		</Flusso> 
+
+		<!-- Informazioni relative  al  soggetto  che ha inoltrato la richiesta di protocollazione -->
+		<!-- obbligatorio per prot.entrata può essere Persona , PersonaGiuridica, Amministrazione, AOO ed ammette valori multipli -->
+		<Mittenti>
+			<Mittente>  
+				<Persona id="RSSMRC66M11Z999Z" >
+					<Nome>Marco</Nome>
+					<Cognome>Rossi</Cognome>
+				</Persona>
+			</Mittente>
+		</Mittenti>
+		<!-- non obbligatorio per prot.entrata/registrazione perchè è sempre l'ente. Può essere multiplo -->
+		<Destinatari>
+			<Destinatario> 
+				
+				<Amministrazione>
+					<!--obbligatorio -->
+					<Denominazione>Aaaaa</Denominazione>
+					
+					<!--obbligatorio -->
+					<CodiceAmministrazione>AAA</CodiceAmministrazione>
+					
+					<!-- Facoltativo, attributo tipo : smtp|uri|NMTOKEN-->
+					<IndirizzoTelematico tipo="smtp">
+						proto.prova3@actaliscertymail.it
+					</IndirizzoTelematico>
+					
+					
+					<UnitaOrganizzativa  tipo="temporanea" >
+						<Denominazione>UO</Denominazione>
+						<Identificativo>UO</Identificativo>
+					</UnitaOrganizzativa>
+				</Amministrazione>
+				
+				<AOO>
+					<!--obbligatorio -->
+					<Denominazione>Bbbb</Denominazione>
+					
+					
+					<!--obbligatorio -->
+					<CodiceAOO>BBB</CodiceAOO>
+					
+
+					<!-- Facoltativo, attributo tipo : smtp|uri|NMTOKEN-->
+					<IndirizzoTelematico></IndirizzoTelematico>
+					
+				</AOO>
+				
+			</Destinatario>
+			
+			<Destinatario>
+
+				<!-- obbligatorio attributo ID e TipoIdentificazione = CodiceFiscalePG|CodiceFiscalePGE -->
+				<PersonaGiuridica tipo="CodiceFiscalePG" id="1111111111" >
+
+					<!--obbligatorio-->
+					<Denominazione>AAA SpA</Denominazione>
+					<!--obbligatorio-->
+					<IndirizzoPostale>
+						<Denominazione></Denominazione>
+					</IndirizzoPostale>
+
+
+					<!-- Facoltativo, attributo tipo : smtp|uri|NMTOKEN-->
+					<IndirizzoTelematico tipo="smtp">
+						proto.prova3@actaliscertymail.it
+					</IndirizzoTelematico>
+					
+					<Metadati>
+						<Parametro nome="agd" valore="905"/>
+						<Parametro nome="uo" valore="5"/>
+					</Metadati>
+				</PersonaGiuridica>
+			</Destinatario>
+		</Destinatari>
+
+		<!-- alternativo a fascicolo per prot. entrata, non ammesso per la registrazione -->
+		<Classifica>
+			<!-- tutti i campi obbligatori -->
+			<CodiceAmministrazione>EMR</CodiceAmministrazione>
+			<CodiceAOO>AOO_EMR</CodiceAOO>
+			<Classifica>2</Classifica>
+		</Classifica>
+
+		<!-- alternativo a classifica per prot. entrata ed è unico nodo , non ammesso 
+			per la registrazione -->
+		<!-- 
+		<FascicoloPrimario>
+			<CodiceAmministrazione>EMR</CodiceAmministrazione>
+			<CodiceAOO>AOO_EMR</CodiceAOO>
+			<Classifica>1</Classifica>
+			<Anno>2014</Anno>
+			<Progressivo>1</Progressivo>
+		</FascicoloPrimario>
+ 		-->
+ 
+		<!-- i fascicoli secondari possono essere da 0 a più , non ammesso per 
+			la registrazione -->
+		<FascicoliSecondari>
+			<FascicoloSecondario>
+				<!-- tutti i campi obbligatori -->
+				<CodiceAmministrazione>EMR</CodiceAmministrazione>
+				<CodiceAOO>AOO_EMR</CodiceAOO>
+				<Classifica>1</Classifica>
+				<Anno>2014</Anno>
+				<Progressivo>2</Progressivo>
+			</FascicoloSecondario>
+
+			<FascicoloSecondario>
+				<!-- tutti i campi obbligatori -->
+				<CodiceAmministrazione>EMR</CodiceAmministrazione>
+				<CodiceAOO>AOO_EMR</CodiceAOO>
+				<Classifica>1</Classifica>
+				<Anno>2012</Anno>
+				<Progressivo>3/1</Progressivo>
+			</FascicoloSecondario>
+		</FascicoliSecondari>
+
+		<!-- consigliato per prot.entrata contiene almeno un elemento UO o Persona -->
+		<Smistamento>
+			<!--<UnitaOrganizzativa id="1" tipo="temporanea" >UO</UnitaOrganizzativa>-->
+			<UnitaOrganizzativa  tipo="temporanea" >
+						<Denominazione>UO</Denominazione>
+						<Identificativo>UO</Identificativo>
+			</UnitaOrganizzativa>
+		</Smistamento>
+	</Intestazione>
+
+</Segnatura>

@@ -1,0 +1,46 @@
+//rispetto ad un normale csv sono ignorati i tab e ammesse le linee di commento o righe vuote. Il separatore per le liste è la virgola
+//è opzionale specificare ente/aoo che vengono per default impostate tramite l'autenticazione
+//solo l'admin può creare enti ed aoo
+//le ACL , se non specificato il tipo di diritto, valgono per readOnly
+
+type,           COD_AOO,        ID,             NAME,                   PARENT,         PREFIX,         ENABLED,    ACL,    groups
+
+ente,           ,             ENTE1,          Ente 1,                  ,               PREFISSOE1
+aoo,            ,             AOO1,           Aoo 1,                  ENTE1
+group,          ,               groupx,         Group X,              ENTE1
+group,          AOO1,           group1,         Group 1
+group,          AOO1,           group2,         Group 2
+user,           AOO1,           user1,          User Uno,               ,               ,               ,           ,       "group1,group2"
+user,           AOO1,           user2,          User Due,               ,               ,               ,           ,       "group1"
+titolario,	    AOO1,	        1,		        Titolario 1,            ,               ,               ,           AOO1:EDIT
+titolario,	    AOO1,	        1.1,		    Titolario 1.1,          1,              ,               ,           AOO1
+titolario,	    AOO1,	        1.1.1,		    Titolario 1.1.1,        1.1,            ,               ,           AOO1
+titolario,	    AOO1,	        1.2,		    Titolario 1.2,          1,              ,               ,           AOO1
+titolario,	    AOO1,	        1.2.1,		    Titolario 1.2.1,        1.2,            ,               ,           AOO1
+titolario,	    AOO1,	        2,		        Titolario 1,            ,               ,               ,           AOO1
+titolario,	    AOO1,	        2.1,		    Titolario 2.1,          2,              ,               ,           AOO1
+titolario,	    AOO1,	        2.1.1,		    Titolario 2.1.1,        2.1,            ,               ,           AOO1
+titolario,	    AOO1,	        2.2,		    Titolario 2.2,          2,              ,               ,           AOO1
+titolario,	    AOO1,	        2.2.1,		    Titolario 2.2.1,        2.2,            ,               ,           AOO1
+
+ente,           ,             ENTE2,          Ente 2,                  ,               PREFISSOE2
+aoo,            ,             AOO2,           Aoo 2,                  ENTE2
+group,          AOO2,           group1,         Group 1
+group,          AOO2,           group2,         Group 2
+group,          AOO2,           group3,         Group 3,                ,               ,               false
+user,           AOO2,           user1,          User Uno,               ,               ,               ,           ,       "group1,group2"
+user,           AOO2,           user2,          User Due,               ,               ,               ,           ,       "group1"
+user,           AOO2,           user3,          User Tre,               ,               ,               false,      ,       "group1"
+titolario,	    AOO2,	        1,		        Titolario 1
+titolario,	    AOO2,	        1.1,		    Titolario 1.1,          1
+titolario,	    AOO2,	        1.1.1,		    Titolario 1.1.1,        1.1
+titolario,	    AOO2,	        1.2,		    Titolario 1.2,          1
+titolario,	    AOO2,	        1.2.1,		    Titolario 1.2.1,        1.2
+titolario,	    AOO2,	        2,		        Titolario 1
+titolario,	    AOO2,	        2.1,		    Titolario 2.1,          2
+titolario,	    AOO2,	        2.1.1,		    Titolario 2.1.1,        2.1
+titolario,	    AOO2,	        2.2,		    Titolario 2.2,          2
+titolario,	    AOO2,	        2.2.1,		    Titolario 2.2.1,        2.2,            ,               false
+
+
+

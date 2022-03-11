@@ -1,0 +1,16 @@
+server:
+    port: 8089
+
+env:
+    systemProperties:
+        - name: docer.url
+          value:  http://localhost:8080
+        - name: api-bpm-baseUrl
+          value: http://localhost:8083
+        - name: tempfiles.upload
+          value: /opt/ks6/ks-api-docer/tmp/files/upload
+
+
+
+
+

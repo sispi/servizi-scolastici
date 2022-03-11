@@ -1,0 +1,216 @@
+<add>
+
+
+        <doc>
+            <field name="type">group</field>
+            <field name="GROUP_ID">everyone</field>
+        </doc>
+
+        <doc>
+            <field name="type">user</field>
+            <field name="USER_ID">paolo</field>
+            <field name="USER_PASSWORD">7eddb8e838ed18104fa71b1331ab22ef</field>
+            <field name="groups">admins@group</field>
+        </doc>
+
+        <doc>
+            <field name="id">test!@location</field>
+            <field name="type">location</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="type">ente</field>
+            <field name="DES_ENTE">ENTE_TEST</field>
+
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">aoo</field>
+            <field name="DES_AOO">AOO_TEST</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">titolario</field>
+            <field name="CLASSIFICA">1</field>
+            <field name="DES_TITOLARIO">TITOLARIO_TEST</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">titolario</field>
+            <field name="CLASSIFICA">1.1</field>
+            <field name="PARENT_CLASSIFICA">1</field>
+            <field name="DES_TITOLARIO">TITOLARIO_TEST</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">titolario</field>
+            <field name="CLASSIFICA">1.2</field>
+            <field name="PARENT_CLASSIFICA">1</field>
+            <field name="DES_TITOLARIO">TITOLARIO_TEST</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">titolario</field>
+            <field name="CLASSIFICA">1.3</field>
+            <field name="PARENT_CLASSIFICA">1</field>
+            <field name="DES_TITOLARIO">TITOLARIO_TEST</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">titolario</field>
+            <field name="CLASSIFICA">2</field>
+            <field name="DES_TITOLARIO">TITOLARIO_TEST</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">titolario</field>
+            <field name="CLASSIFICA">2.1</field>
+            <field name="PARENT_CLASSIFICA">2</field>
+            <field name="DES_TITOLARIO">TITOLARIO_TEST</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">titolario</field>
+            <field name="CLASSIFICA">2.2</field>
+            <field name="PARENT_CLASSIFICA">2</field>
+            <field name="DES_TITOLARIO">TITOLARIO_TEST</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">titolario</field>
+            <field name="CLASSIFICA">3</field>
+            <field name="DES_TITOLARIO">TITOLARIO_TEST</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">titolario</field>
+            <field name="CLASSIFICA">3.1</field>
+            <field name="PARENT_CLASSIFICA">3</field>
+            <field name="DES_TITOLARIO">TITOLARIO_TEST</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">fascicolo</field>
+            <field name="CLASSIFICA">3.1</field>
+            <field name="ANNO_FASCICOLO">2015</field>
+            <field name="PROGR_FASCICOLO">1</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">fascicolo</field>
+            <field name="CLASSIFICA">1.1</field>
+            <field name="ANNO_FASCICOLO">2015</field>
+            <field name="PROGR_FASCICOLO">1</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">fascicolo</field>
+            <field name="CLASSIFICA">1.1</field>
+            <field name="ANNO_FASCICOLO">2015</field>
+            <field name="PROGR_FASCICOLO">2</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">fascicolo</field>
+            <field name="CLASSIFICA">1.1</field>
+            <field name="ANNO_FASCICOLO">2015</field>
+            <field name="PROGR_FASCICOLO">3</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">fascicolo</field>
+            <field name="CLASSIFICA">1.1</field>
+            <field name="ANNO_FASCICOLO">2015</field>
+            <field name="PARENT_PROGR_FASCICOLO">1</field>
+            <field name="PROGR_FASCICOLO">1.1</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">documento</field>
+            <field name="CLASSIFICA">1.1</field>
+            <field name="ANNO_FASCICOLO">2015</field>
+            <field name="PROGR_FASCICOLO">1.1</field>
+            <field name="[stream.file]">../docs/1.docx</field>
+            <field name="DOCNAME">1.docx</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">folder</field>
+            <field name="FOLDER_NAME">FOLDER_TEST</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">folder</field>
+            <field name="parent">$lastDoc</field>
+            <field name="FOLDER_NAME">SUBFOLDER_TEST</field>
+        </doc>
+
+        <doc>
+            <field name="location">test</field>
+            <field name="COD_ENTE">ENTE_TEST</field>
+            <field name="COD_AOO">AOO_TEST</field>
+            <field name="type">documento</field>
+            <field name="parent">$lastDoc</field>
+            <field name="[stream.file]">../docs/1.txt</field>
+            <field name="DOCNAME">1.txt</field>
+        </doc>
+
+
+
+</add>

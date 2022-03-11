@@ -1,0 +1,276 @@
+<html @view="master.ftl">
+<head @ignore>
+    <base href="file:///C:/Users/daniele.damiani/Desktop/vuetest/">
+    <title>Search</title>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="vendor/jquery-3.5.1.min.js"></script>
+    <script src="vendor/jquery-migrate-3.3.0.min.js"></script>
+    <script>
+        axios.interceptors.request.use(function(config) {
+            config.headers.KS_AUTH_GROUP = "admin|ANM|ANM_AOO|SYS_ADMINS|admins";
+            return config;
+        });
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,700&display=swap" rel="stylesheet"><!-- Google Font Roboto-->
+    <link rel="stylesheet" href="bootstrap-4.3.1-dist/css/bootstrap.min.css"><!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/base-style.css"><!-- css presonalizzato -->
+    <link rel="stylesheet" href="vendor/fontawesome/all.min.css"><!-- icone -->
+    <script src="vendor/moment.js"></script><!-- moment -->
+    <script src="vendor/vue-scrollto.js"></script><!-- scrollto -->
+    <script src="vendor/popper-1.14.7.min.js"></script>
+    <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/modal-style.css">
+</head>
+
+<body class="body">
+
+<script type="application/json" id="messages-model" @server src="/messages?filter=viewProfile.**,viewNavList.**,label.**,listaAnagrafiche.**,searchDocument.**,common.**"></script>
+
+<link rel="stylesheet" href="/static/css/doc-style.css">
+
+<div id="resultSearch" v-cloak>
+
+    <br>
+    <div class="card">
+            
+        <span class="page-type"><i class="bi bi-three-dots-vertical mainColor"></i>
+            <template v-if="tipoRicerca=='Protocollati'">
+                {{messages["searchDocument.cercaProtocollati"] || "Cerca protocollati"}}
+            </template>
+            <template v-if="tipoRicerca=='Registrati'">
+                {{messages["searchDocument.cercaRegistrati"] || "Cerca registrati"}}
+            </template>
+        </span>
+        
+        <div class="space-1h"></div>
+        <div class="card-body">
+
+            [#include ( "documenti/ftl/COMMON-SEARCH.ftl") ignore_missing=true /]
+
+            <hr>
+
+            <template v-if="tipoRicerca=='Protocollati'">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="labelNew">{{messages["searchDocument.tipo"] || "Tipo"}}</label>
+                        <select class="form-control nameToBuildPayload" name="TIPO_PROTOCOLLAZIONE" v-model="paramSearch.TIPO_PROTOCOLLAZIONE">
+                          <option value=""></option>
+                          <option value="E">{{messages["searchDocument.entrata"] || "Entrata"}}</option>
+                          <option value="I">{{messages["searchDocument.interna"] || "Interna"}}</option>
+                          <option value="U">{{messages["searchDocument.uscita"] || "Uscita"}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="labelNew">{{messages["searchDocument.numero"] || "Numero"}}</label>
+                        <input class="form-control nameToBuildPayload" type="text" name="NUM_PG" v-model="paramSearch.NUM_PG">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="labelNew">{{messages["searchDocument.oggetto"] || "Oggetto"}}</label>
+                        <input class="form-control nameToBuildPayload" type="text" name="OGGETTO_PG" v-model="paramSearch.OGGETTO_PG">
+                    </div>
+                </div>
+                <div class="space-1h"></div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="labelNew">{{messages["searchDocument.anno"] || "Anno"}}</label>
+                        <input class="form-control nameToBuildPayload" type="text" name="ANNO_PG" v-model="paramSearch.ANNO_PG">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="labelNew">{{messages["searchDocument.data"] || "Data"}}</label>
+                        <input class="form-control nameToBuildPayload" type="date" name="DATA_PG" v-model="paramSearch.DATA_PG">
+                    </div>
+                    <div class="col-md-6">
+                        <label style="z-index:10000;" class="labelNew">{{messages["searchDocument.classifica"] || "Classifica"}}</label>
+                        <select2 :value="paramSearch.CLASSIFICA" v-on:changed="paramSearch.CLASSIFICA=$event.values" name="CLASSIFICA" class="form-control nameToBuildPayload" url="/docer/v1/solr/select?database=false&sort=classifica_sort asc&fq=type:titolario&wt=json&fl=sid,text:name&q=name:%24%7Bterm%7D OR CLASSIFICA:%24%7Bterm%7D OR DES_TITOLARIO:%24%7Bterm%7D OR COD_TITOLARIO:*/%24%7Bterm%7D&term=..." multiple="false" ></select2>
+                    </div>
+                </div>
+                <div class="space-1h"></div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="labelNew">{{messages["searchDocument.mittente"] || "Mittente"}}</label>
+                        <input class="form-control nameToBuildPayload" type="text" name="MITTENTI_X" v-model="paramSearch.MITTENTI_X">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="labelNew">{{messages["searchDocument.destinatario"] || "Destinatario"}}</label>
+                        <input class="form-control nameToBuildPayload" type="text" name="DESTINATARI_X" v-model="paramSearch.DESTINATARI_X">
+                    </div>
+                </div>
+            </template>
+            <template v-if="tipoRicerca=='Registrati'">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="labelNew">{{messages["searchDocument.registro"] || "Registro"}}</label>
+                        <select class="form-control nameToBuildPayload" name="ID_REGISTRO" v-model="paramSearch.ID_REGISTRO">
+                            <option v-for="tipo in tipologieRegistri" :key="tipo" :value="tipo">{{ tipo }}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="labelNew">{{messages["searchDocument.numero"] || "Numero"}}</label>
+                        <input class="form-control nameToBuildPayload" type="text" name="N_REGISTRAZ" v-model="paramSearch.N_REGISTRAZ">
+                    </div>
+                    <div class="col-md-6">
+                        <label class="labelNew">{{messages["searchDocument.oggetto"] || "Oggetto"}}</label>
+                        <input class="form-control nameToBuildPayload" type="text" name="O_REGISTRAZ" v-model="paramSearch.O_REGISTRAZ">
+                    </div>
+                </div>
+                <div class="space-1h"></div>
+                <div class="row">
+                    <div class="col-md-3">
+                        <label class="labelNew">{{messages["searchDocument.anno"] || "Anno"}}</label>
+                        <input class="form-control nameToBuildPayload" type="text" name="A_REGISTRAZ" v-model="paramSearch.A_REGISTRAZ">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="labelNew">{{messages["searchDocument.data"] || "Data"}}</label>
+                        <input class="form-control nameToBuildPayload" type="date" name="D_REGISTRAZ" v-model="paramSearch.D_REGISTRAZ">
+                    </div>
+                </div>
+            </template>
+            
+        </div>
+        <div class="space-1h"></div>
+
+    </div>    
+
+    <div class="space-1h"></div>
+    <div class="row">
+        <div class="col-md-10">
+        </div>
+        <div class="col-md-2">
+            <button @click="search()" class="btn btn-default btn-block"><i class="bi bi-search mainColor"></i> {{messages["listaAnagrafiche.cerca"] || "Cerca"}}
+            </button>
+        </div>
+    </div>        
+
+    </div>
+
+
+</div><!-- chiusura resultSearch-->
+
+
+
+<script >
+    
+    //abilito tooltip
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
+    //metodi globali
+    Vue.mixin({
+        methods: {
+            moment: function(date) {
+                return moment(date);
+            },
+            date: function(date) {
+                return moment(date).format('DD/MM/YYYY HH:mm:ss');
+            },
+            
+        },
+    })
+
+    
+    var app = new Vue({
+        el: '#resultSearch',
+        data: function() {
+            return {
+                messages: JSON.parse($("#messages-model").text()),
+                paramSearch:[],
+                tipologieRegistri:[],
+                tipoRicerca: '${query.documenti}',
+            }
+        },
+        created() {
+            axios.get("/docer/v1/documenti/registri")
+                    .then(response => {
+                        this.tipologieRegistri = response.data;
+                    })
+                    .catch(error => {
+                        showError(error.response.data);
+                    });
+            
+        },
+        methods: {
+            search: function(){
+
+                var body = {}
+                //parte dinamica in base alla tipologia
+                $('.nameToBuildPayload').each(function() {
+                    body[$(this).attr('name')]= $(this).val(); //mappa    
+                });
+
+                //rimuovo attributi vuoti nel body
+                for (var propName in body) {
+                    if ( (body[propName] == "") || (body[propName] == null) ) {
+                        delete body[propName];
+                    }else{
+                        //aggiungo * per ricerca parziale
+                        body[propName] = body[propName]+"*";
+                    }
+                }
+
+                var mappaDate = [];
+                //gestione date creato dal al
+                if(this.paramSearch.creatoDal && !this.paramSearch.creatoAl){
+                    mappaDate.push("created_on=%5B"+moment(this.paramSearch.creatoDal).toISOString()+" TO *%5D");
+                }
+                if(!this.paramSearch.creatoDal && this.paramSearch.creatoAl){
+                    mappaDate.push("created_on=%5B* TO "+moment(this.paramSearch.creatoAl).toISOString()+"%5D");
+                }
+                if(this.paramSearch.creatoDal && this.paramSearch.creatoAl){
+                    mappaDate.push("created_on=%5B"+moment(this.paramSearch.creatoDal).toISOString()+" TO "+moment(this.paramSearch.creatoAl).toISOString()+"%5D");
+                }
+                //gestione date modificato dal al
+                if(this.paramSearch.modificatoDal && !this.paramSearch.modificatoAl){
+                    mappaDate.push("modified_on=%5B"+moment(this.paramSearch.modificatoDal).toISOString()+" TO *%5D");
+                }
+                if(!this.paramSearch.modificatoDal && this.paramSearch.modificatoAl){
+                    mappaDate.push("modified_on=%5B* TO "+moment(this.paramSearch.modificatoAl,).toISOString()+"%5D");
+                }
+                if(this.paramSearch.modificatoDal && this.paramSearch.modificatoAl){
+                    mappaDate.push("modified_on=%5B"+moment(this.paramSearch.modificatoDal,).toISOString()+" TO "+moment(this.paramSearch.modificatoAl,).toISOString()+"%5D");
+                }
+                
+                var stringaDate = mappaDate.toString();
+                if(stringaDate!=""){
+                    stringaDate = "&"+stringaDate;
+                }
+                
+                const searchParams = new URLSearchParams(body);
+                var searchUrl = searchParams.toString();
+
+                if( this.paramSearch.creatoDal || this.paramSearch.creatoAl ){
+                    var sort = "created_on";
+                }else{
+                    var sort = "modified_on";
+                }
+
+                if(this.tipoRicerca=="Protocollati"){
+                    if(searchUrl){
+                        window.location.href = "/documenti/listaRisultati?fq=NUM_PG:*&"+searchUrl+"&sort="+sort+"%20desc"+stringaDate;
+                    }else{
+                        window.location.href = "/documenti/listaRisultati?fq=NUM_PG:*&sort="+sort+"%20desc"+stringaDate;
+                    }    
+                }
+
+                if(this.tipoRicerca=="Registrati"){
+                    if(searchUrl){
+                        window.location.href = "/documenti/listaRisultati?fq=N_REGISTRAZ:*"+searchUrl+"&sort="+sort+"%20desc"+stringaDate;
+                    }else{
+                        window.location.href = "/documenti/listaRisultati?fq=N_REGISTRAZ:*&sort="+sort+"%20desc"+stringaDate;
+                    }
+                }
+                
+
+            },
+        	
+        }
+    });
+    
+    
+
+</script>
+
+</body>
+
+</html>

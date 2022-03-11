@@ -1,0 +1,150 @@
+<modal :show="show" @close="close">
+    <div slot="header" class="col-md-12">
+        <div class="modalTitle col-sm-12">{{messages["viewProfile.firmaDocumento"] || "Firma documento"}}</div>
+    </div>
+    <div slot="body">
+        <div class="form-group">
+            <label class="labelNew">*{{messages["viewProfile.alias"] || "Alias"}}</label>
+            <input class="form-control" v-model="alias"></input>
+        </div>
+        <label style="z-index:1" class="labelNew">*{{messages["viewProfile.pin"] || "Pin"}}</label>
+        <div class="input-group mb-3">
+            <input v-bind:type="[showPassword ? 'text' : 'password']" class="form-control" v-model="pin">
+            <div class="input-group-append">
+              <span class="input-group-text" @click="showPassword = !showPassword">
+                    <i class="fa" :class="[showPassword ? 'fa-eye' : 'fa-eye-slash']" aria-hidden="true"></i>
+              </span>
+            </div>
+        </div>
+        <div class="row">
+            <span class="col-md-3">
+                <button style="height: 38px;" @click="richiediOtp()" class="btn btn-primary btn-block">{{messages["viewProfile.richiediOtp"] || "Richiedi OTP"}}</button>
+            </span>
+            <span class="col-md-9">
+                <label class="labelNewDisabled">{{messages["viewProfile.otp"] || "OTP"}}</label>
+                <input class="form-control" v-model="otp" :disabled="disabled"></input>
+            </span>
+        </div>
+        <div class="space-1h"></div>
+        <div class="form-group">
+            <label class="labelNew">{{messages["viewProfile.tipoFirma"] || "Tipo firma"}}</label>
+            <template v-if="estensione(documento.DOCNAME) == 'pdf'">
+                <select class="form-control" v-model="selected">
+                    <option v-for="tipo in tipiFirma" v-bind:value="tipo.value">
+                        {{ tipo.text }}
+                    </option>
+                </select>
+            </template>
+            <template v-else>
+                <select class="form-control" v-model="selected">
+                    <option value="pades">PAdES</option>
+                </select>
+            </template>
+        </div>
+
+        <div class="card">
+            <table class="table table-sm table-striped">
+                <thead>
+                    <tr>
+                        <th style="width: 77%">*{{messages["viewProfile.selezionaDocDaFirmare"] || "Selezionare i documenti da firmare"}}</th>
+                        <!--<th style="width: 25%; text-align: center;">{{messages["viewProfile.tipoComponente"] || "Tipo componente"}}</th>-->
+                        <th style="width: 23%; text-align: center;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- aggiunto TIPO_COMPONENTE==null perchè creando una nuova UD il tipo componente è null -->
+                    <tr v-for="(doc,i) in listaAllegati" :key="i" v-if="(doc.TIPO_COMPONENTE=='PRINCIPALE'||doc.TIPO_COMPONENTE=='ALLEGATO'||doc.TIPO_COMPONENTE==null)">
+                        <td>
+                            <input @change="disableBtn()" type="checkbox" :id="doc.DOCNUM" :value="doc.DOCNAME+'#'+doc.url" name="doc" v-model="checkedFiles"/>
+                            <label :for="doc.DOCNUM"></label>
+                            <span class="separator">|</span>
+                            <span v-if="estensione(doc.DOCNAME) == 'pdf'"> <i class="far fa-file-pdf"></i></span>
+                            <span v-else-if="estensione(doc.DOCNAME) == 'doc' || estensione(doc.DOCNAME) == 'ocx'"> <i class="far fa-file-word"></i></span>
+                            <span v-else-if="estensione(doc.DOCNAME) == 'xls'"><i class="far fa-file-excel"></i></span>
+                            <span v-else-if="estensione(doc.DOCNAME) == 'p7m' || estensione(doc.DOCNAME) == 'eml'"><i class="far fa-envelope-open"></i></span>
+                            <span v-else><i class="far fa-file-code"></i></span>
+                            <a :href="'/docer/v1/documenti/' + listaAllegati[i].DOCNUM + '/file' ">{{ doc.DOCNAME }} ({{ doc.DOCNUM }})</a>
+                        </td>
+                        <!--
+                        <td style="text-align: center;">
+                            <span v-if="doc.TIPO_COMPONENTE == 'PRINCIPALE'" class="label-info-doc principale">
+                                {{messages["viewProfile.principale"] || "Principale"}}
+                            </span>
+                            <span v-if="doc.TIPO_COMPONENTE == 'ALLEGATO'" class="label-info-doc allegato">
+                                {{messages["viewProfile.allegato"] || "Allegato"}}
+                            </span>
+                        </td>
+                        -->
+                        <td>
+                            <a :id="'btn'+doc.DOCNUM" style="display: none; height: 21px;padding: 0px 20px;font-size: 13px;" class="btn btn-primary btn-block scaricaFirmati">{{messages["viewProfile.scaricaFirmato"] || "Scarica firmato"}}</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="space-1h"></div>
+        <!-- upload files -->
+        <div id="app-upload-firma">
+            <file flatten="false" id="file0Firma" in-bg-color="lightgray" icon="fas fa-upload" v-model="files" placeholder="upload" multiple="true">
+                <template v-slot:header>
+                    <span class="upl"><i class="bi bi-cloud-upload mainColor"></i> &nbsp;Clicca qui o trascina per aggiungere altri file da firmare</span>
+                    <hr style="margin-bottom: 0rem;">
+                </template>
+                <template slot-scope="{ file, remove, index }">
+                    <table class="table table-sm table-striped">
+                        <thead>
+                            <tr>
+                                <template v-if="index==0">
+                                    <th style="width: 90%">{{messages["viewProfile.nomeFile"] || "Nome file"}}</th>
+                                    <th style="width: 10%"></th>
+                                </template>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <a style="font-size: 14px;" :href="file.url">
+                                        {{ file.name }} {{bytesToSize(file.size) ? '('+bytesToSize(file.size)+')' : ''}}
+                                    </a>
+                                </td>
+                                <td style="width: 10%">
+                                    <button @click="remove(file)" class="btn btn-danger removeFileCaricati" data-toggle="tooltip" data-placement="top" title="Elimina">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </template>
+                <template v-slot:footer>
+                    <button v-if="files.length>0" id="btn-uploadDoc" @click="caricaFilePerFirma(files)" class="mt-2 btn btn-primary btn-100">{{messages["viewProfile.aggiungiDocDaFirmare"] || "Aggiungi ai documenti da firmare"}}</button>
+                </template>
+            </file>
+        </div>
+        
+        <div class="space-h"></div>
+
+        <div class="row">
+            <span class="col-md-6">
+            </span>
+            <span style="text-align:right;" class="col-md-6">
+                <input type="checkbox" v-model="addAvancedVersion" :disabled="disabledCheck"/>
+                <span style="font-size: 14px;">{{messages["viewProfile.versioneAvanzata"] || "Versione avanzata"}}</span>
+                <button type="submit" class="btn btn-warning btn-150 modal-btn-conferma" @click="creaUdFirmati()" :disabled="disabledBtn">{{messages["viewProfile.creaUD"] || "Crea UD"}}</button>
+            </span>
+        </div>
+
+        <div style="display: none;" id="errMsg-firmaremota" class="alert alert-danger div-alert-warning"></div>
+        <div class="col-md-12 footer-modal">
+            <div class="col-md-3 float-left">
+                <button type="submit" class="btn btn-default btn-block modal-btn-annulla" @click="$emit('close')">{{messages["viewProfile.chiudi"] || "Chiudi"}}</button>
+            </div>
+            <div class="col-md-3 float-right">
+                <button type="submit" class="btn btn-primary btn-block modal-btn-conferma" @click="confermaFirmaDocumento()">{{messages["viewProfile.firma"] || "Firma"}}</button>
+            </div>
+        </div>
+
+    </div>
+    
+</modal>

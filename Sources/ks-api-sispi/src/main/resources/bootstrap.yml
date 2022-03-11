@@ -1,0 +1,19 @@
+spring:
+  cloud:
+    kubernetes:
+        reload:
+            enabled: true
+            strategy: restart_context
+            mode: event
+            monitoring-config-maps: true
+            monitoring-secrets: false
+        config:
+            enabled: true
+            sources: 
+                - name: ${deployment.id}
+        secrets:
+            enabled: true
+            enableApi: true
+            sources: 
+                - name: ${deployment.id}
+            

@@ -1,0 +1,33 @@
+<body @menu="none">
+
+<script id="list" type="application/json" @server-model="list" src="/wiki/folder-content?id={id}"></script>
+
+<div>
+
+    <a href="https://drive.google.com/drive/folders/${query.id}"
+       target="_blank"
+       class="btn btn-outline-info btn-sm"
+       style="float: right;">
+        Apri in
+        <img src="https://www.gstatic.com/images/branding/product/1x/drive_48dp.png"
+             alt="Drive logo"
+             style="width: 16px; height: 16px; margin-left: 6px;">
+    </a>
+
+    <h4>${list.title!''}</h4>
+
+    [#list list.list as entry ]
+    <span class="row col-12">
+        <a href="javascript:showcontent('${entry.id}','${entry.name}','${entry.type}',${(entry.shortcut!false)?then('true','false')})" class="btn btn-link" >
+        [#if entry.icon??]
+        <img src="${entry.icon}" border="0" width="24px" />
+        [#else]
+        <i class="fas fa-folder" style="font-size: 24px;color:#EBBF0F"></i>
+        [/#if]
+        &nbsp;${entry.name}</a>
+    </span>
+    [/#list]
+</div>
+
+
+</body>

@@ -1,0 +1,66 @@
+<body>
+
+<script @server @ftl-model="reports" type="application/json" src="/docer/v1/reports/list?..."></script>
+
+[#assign list = utils.groupBy(reports.data,'category') /]
+
+<div class="container-fluid">
+[#list list?keys as category]
+<h3 class="col-12">${category}</h3>
+
+<!--<span class="row" style="font-weight:bold">
+    <span class="col-sm-2">id</span>
+    <span class="col-sm-3">title</span>
+    <span class="col-sm-3">roles</span>
+    <span class="col-sm-4"></span>
+</span>-->
+
+	[#list list[category] as report]
+    <span class="col-12 row">
+	[#if (report.form?has_content) ]
+		<span class="col-4">
+				<a href="/${report.form}?qt=${report.qt}">${report.title}</a>
+			[#if utils.userInfo.isAdmin()]
+				<a href="${utils.request.servletPath}?id=${report.qt}"><i class="fas fa-code"></i></a>
+			[/#if]
+		</span>
+
+		<span class="col-4" style="font-size:larger" >
+			<a title="esegui" href="/reports/${report.page!'report'}?qt=${report.qt}"><i class="glyphicon glyphicon-play-circle"></i></a>
+			<a title="mostra form" href="/${report.form}?qt=${report.qt}"><i class="glyphicon glyphicon-list-alt"></i></a>
+		</span>
+	[#else]
+		<span class="col-4">
+				<a href="/reports/${report.page!'report'}?qt=${report.qt}">${report.title}</a>
+		</span>
+
+		<span class="col-4" style="font-size:larger" >
+			<a title="esegui" href="/reports/${report.page!'report'}?qt=${report.qt}"><i class="glyphicon glyphicon-play-circle"></i></a>
+		</span>
+	[/#if]
+	<span class="col-4" />
+
+	[#if (report.description?has_content) ]
+		<span class="col-12">
+			<i>${report.description!""}</i>
+		</span>
+	[/#if]
+	</span>
+	[/#list]
+<span class="row">&nbsp;</span>
+[/#list]
+
+[#if (query.id?? && utils.userInfo.isAdmin() ) ]
+	<span class="col-12"><span style="float: right">${query.id}.properties</span></span>
+
+	<div class="row" style="background-color: #fafafa;">
+		<span class="col-12" style="margin-top: 10px">
+			<code><pre>${utils.toJson(reports.data[0])}</pre></code>
+		</span>
+	</div>
+
+[/#if]
+
+</div>
+
+</body>

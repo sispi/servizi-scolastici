@@ -1,0 +1,31 @@
+diff --git a/src/main/java/org/orbeon/oxf/xforms/XFormsConstants.java b/src/main/java/org/orbeon/oxf/xforms/XFormsConstants.java
+index 887252c..2604c88 100644
+--- a/src/main/java/org/orbeon/oxf/xforms/XFormsConstants.java
++++ b/src/main/java/org/orbeon/oxf/xforms/XFormsConstants.java
+@@ -364,8 +364,8 @@ public class XFormsConstants {
+ 
+     public static final QName XXFORMS_EVENT_MODE_QNAME = new QName("events-mode", XXFORMS_NAMESPACE);
+ 
+-    public static final char COMPONENT_SEPARATOR    = '\u2261'; // ≡ IDENTICAL TO
+-    public static final char REPEAT_SEPARATOR       = '\u2299'; // ⊙ CIRCLED DOT OPERATOR
++    public static final char COMPONENT_SEPARATOR    = ':'; // ≡ IDENTICAL TO
++    public static final char REPEAT_SEPARATOR       = '.'; // ⊙ CIRCLED DOT OPERATOR
+     public static final char REPEAT_INDEX_SEPARATOR = '-';      // - (just has to not be a digit)
+     public static final char ABSOLUTE_ID_SEPARATOR  = '|';      // | see https://github.com/orbeon/orbeon-forms/issues/551
+ 
+diff --git a/src/resources-packaged/ops/javascript/xforms.js b/src/resources-packaged/ops/javascript/xforms.js
+index 7c4d8c3..eca581d 100644
+--- a/src/resources-packaged/ops/javascript/xforms.js
++++ b/src/resources-packaged/ops/javascript/xforms.js
+@@ -16,9 +16,9 @@
+ /**
+  * Constants
+  */
+-var XF_REPEAT_SEPARATOR = "\u2299";
++var XF_REPEAT_SEPARATOR = ".";
+ var XF_REPEAT_INDEX_SEPARATOR = "-";
+-var XF_COMPONENT_SEPARATOR = "\u2261";
++var XF_COMPONENT_SEPARATOR = ":";
+ var XF_LHHAI_SEPARATOR = XF_COMPONENT_SEPARATOR + XF_COMPONENT_SEPARATOR;
+ 
+ var XFORMS_SERVER_PATH = "/xforms-server";

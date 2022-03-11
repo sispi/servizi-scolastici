@@ -1,0 +1,915 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:ax27="http://fascicolazione.docer.kdm.it/xsd"
+                  xmlns:ax29="http://classes.sdk.docer.kdm.it/xsd"
+                  xmlns:ns="http://fascicolazione.docer.kdm.it"
+                  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+                  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+                  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+                  xmlns:ns1="http://org.apache.axis2/xsd"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  targetNamespace="http://fascicolazione.docer.kdm.it">
+   <wsdl:documentation>
+		Servizio per la Fascicolazione
+	</wsdl:documentation>
+   <wsdl:types>
+      <xs:schema xmlns:ax28="http://fascicolazione.docer.kdm.it/xsd"
+                 xmlns:ax210="http://classes.sdk.docer.kdm.it/xsd"
+                 attributeFormDefault="qualified"
+                 elementFormDefault="qualified"
+                 targetNamespace="http://fascicolazione.docer.kdm.it">
+         <xs:import namespace="http://fascicolazione.docer.kdm.it/xsd"/>
+         <xs:import namespace="http://classes.sdk.docer.kdm.it/xsd"/>
+         <xs:element name="WSFascicolazioneException">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="WSFascicolazioneException" nillable="true"
+                              type="ns:Exception"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:complexType name="Exception">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="loginOnDemand">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="userId" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="password" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="codiceEnte" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="codiceAoo" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="docTicket" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginOnDemandResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="WSFascicolazioneFascicolazioneException">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="FascicolazioneException" nillable="true"
+                              type="ax28:FascicolazioneException"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="login">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="userId" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="password" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="codiceEnte" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="logout">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="logoutResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="fascicolaById">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="documentId" type="xs:long"/>
+                  <xs:element minOccurs="0" name="datiFascicolo" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="fascicolaByIdResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="creaFascicolo">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="metadati" nillable="true"
+                              type="ax29:KeyValuePair"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="creaFascicoloResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginSSO">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="saml" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="codiceEnte" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginSSOResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="readConfig">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="readConfigResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="writeConfig">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="xmlConfig" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="writeConfigResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="updateFascicolo">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="fascicoloid" nillable="true"
+                              type="ax29:KeyValuePair"/>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="metadati" nillable="true"
+                              type="ax29:KeyValuePair"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="updateFascicoloResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="changeACLFascicolo">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="fascicoloId" nillable="true"
+                              type="ax29:KeyValuePair"/>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="aclToAdd" nillable="true"
+                              type="ax29:KeyValuePair"/>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="aclToRemove" nillable="true"
+                              type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="changeACLFascicoloResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="updateACLFascicolo">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="fascicoloid" nillable="true"
+                              type="ax29:KeyValuePair"/>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="acl" nillable="true"
+                              type="ax29:KeyValuePair"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="updateACLFascicoloResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="changeFascicoliById">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="docNum" type="xs:long"/>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="fascicoliToRemove" nillable="true"
+                              type="ns:ArrayOfKeyValuePair"/>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="fascicoliToAdd" nillable="true"
+                              type="ns:ArrayOfKeyValuePair"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:complexType name="ArrayOfKeyValuePair">
+            <xs:sequence>
+               <xs:element maxOccurs="unbounded" minOccurs="0" name="array" nillable="true"
+                           type="ax29:KeyValuePair"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="changeFascicoliByIdResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="forzaNuovoFascicolo">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="metadati" nillable="true"
+                              type="ax29:KeyValuePair"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="forzaNuovoFascicoloResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+      <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified"
+                 targetNamespace="http://fascicolazione.docer.kdm.it/xsd">
+         <xs:complexType name="FascicolazioneException">
+            <xs:sequence/>
+         </xs:complexType>
+      </xs:schema>
+      <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified"
+                 targetNamespace="http://classes.sdk.docer.kdm.it/xsd">
+         <xs:complexType name="KeyValuePair">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="key" nillable="true" type="xs:string"/>
+               <xs:element minOccurs="0" name="value" nillable="true" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="readConfigRequest">
+      <wsdl:part name="parameters" element="ns:readConfig"/>
+   </wsdl:message>
+   <wsdl:message name="readConfigResponse">
+      <wsdl:part name="parameters" element="ns:readConfigResponse"/>
+   </wsdl:message>
+   <wsdl:message name="WSFascicolazioneFascicolazioneException">
+      <wsdl:part name="parameters" element="ns:WSFascicolazioneFascicolazioneException"/>
+   </wsdl:message>
+   <wsdl:message name="changeFascicoliByIdRequest">
+      <wsdl:part name="parameters" element="ns:changeFascicoliById"/>
+   </wsdl:message>
+   <wsdl:message name="changeFascicoliByIdResponse">
+      <wsdl:part name="parameters" element="ns:changeFascicoliByIdResponse"/>
+   </wsdl:message>
+   <wsdl:message name="updateACLFascicoloRequest">
+      <wsdl:part name="parameters" element="ns:updateACLFascicolo"/>
+   </wsdl:message>
+   <wsdl:message name="updateACLFascicoloResponse">
+      <wsdl:part name="parameters" element="ns:updateACLFascicoloResponse"/>
+   </wsdl:message>
+   <wsdl:message name="updateFascicoloRequest">
+      <wsdl:part name="parameters" element="ns:updateFascicolo"/>
+   </wsdl:message>
+   <wsdl:message name="updateFascicoloResponse">
+      <wsdl:part name="parameters" element="ns:updateFascicoloResponse"/>
+   </wsdl:message>
+   <wsdl:message name="loginRequest">
+      <wsdl:part name="parameters" element="ns:login"/>
+   </wsdl:message>
+   <wsdl:message name="loginResponse">
+      <wsdl:part name="parameters" element="ns:loginResponse"/>
+   </wsdl:message>
+   <wsdl:message name="logoutRequest">
+      <wsdl:part name="parameters" element="ns:logout"/>
+   </wsdl:message>
+   <wsdl:message name="logoutResponse">
+      <wsdl:part name="parameters" element="ns:logoutResponse"/>
+   </wsdl:message>
+   <wsdl:message name="creaFascicoloRequest">
+      <wsdl:part name="parameters" element="ns:creaFascicolo"/>
+   </wsdl:message>
+   <wsdl:message name="creaFascicoloResponse">
+      <wsdl:part name="parameters" element="ns:creaFascicoloResponse"/>
+   </wsdl:message>
+   <wsdl:message name="fascicolaByIdRequest">
+      <wsdl:part name="parameters" element="ns:fascicolaById"/>
+   </wsdl:message>
+   <wsdl:message name="fascicolaByIdResponse">
+      <wsdl:part name="parameters" element="ns:fascicolaByIdResponse"/>
+   </wsdl:message>
+   <wsdl:message name="forzaNuovoFascicoloRequest">
+      <wsdl:part name="parameters" element="ns:forzaNuovoFascicolo"/>
+   </wsdl:message>
+   <wsdl:message name="forzaNuovoFascicoloResponse">
+      <wsdl:part name="parameters" element="ns:forzaNuovoFascicoloResponse"/>
+   </wsdl:message>
+   <wsdl:message name="changeACLFascicoloRequest">
+      <wsdl:part name="parameters" element="ns:changeACLFascicolo"/>
+   </wsdl:message>
+   <wsdl:message name="changeACLFascicoloResponse">
+      <wsdl:part name="parameters" element="ns:changeACLFascicoloResponse"/>
+   </wsdl:message>
+   <wsdl:message name="writeConfigRequest">
+      <wsdl:part name="parameters" element="ns:writeConfig"/>
+   </wsdl:message>
+   <wsdl:message name="writeConfigResponse">
+      <wsdl:part name="parameters" element="ns:writeConfigResponse"/>
+   </wsdl:message>
+   <wsdl:message name="loginSSORequest">
+      <wsdl:part name="parameters" element="ns:loginSSO"/>
+   </wsdl:message>
+   <wsdl:message name="loginSSOResponse">
+      <wsdl:part name="parameters" element="ns:loginSSOResponse"/>
+   </wsdl:message>
+   <wsdl:message name="loginOnDemandRequest">
+      <wsdl:part name="parameters" element="ns:loginOnDemand"/>
+   </wsdl:message>
+   <wsdl:message name="loginOnDemandResponse">
+      <wsdl:part name="parameters" element="ns:loginOnDemandResponse"/>
+   </wsdl:message>
+   <wsdl:message name="WSFascicolazioneException">
+      <wsdl:part name="parameters" element="ns:WSFascicolazioneException"/>
+   </wsdl:message>
+   <wsdl:portType name="WSFascicolazionePortType">
+      <wsdl:operation name="readConfig">
+         <wsdl:input message="ns:readConfigRequest" wsaw:Action="urn:readConfig"/>
+         <wsdl:output message="ns:readConfigResponse" wsaw:Action="urn:readConfigResponse"/>
+         <wsdl:fault message="ns:WSFascicolazioneFascicolazioneException"
+                     name="WSFascicolazioneFascicolazioneException"
+                     wsaw:Action="urn:readConfigWSFascicolazioneFascicolazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="changeFascicoliById">
+         <wsdl:input message="ns:changeFascicoliByIdRequest" wsaw:Action="urn:changeFascicoliById"/>
+         <wsdl:output message="ns:changeFascicoliByIdResponse"
+                      wsaw:Action="urn:changeFascicoliByIdResponse"/>
+         <wsdl:fault message="ns:WSFascicolazioneFascicolazioneException"
+                     name="WSFascicolazioneFascicolazioneException"
+                     wsaw:Action="urn:changeFascicoliByIdWSFascicolazioneFascicolazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="updateACLFascicolo">
+         <wsdl:input message="ns:updateACLFascicoloRequest" wsaw:Action="urn:updateACLFascicolo"/>
+         <wsdl:output message="ns:updateACLFascicoloResponse"
+                      wsaw:Action="urn:updateACLFascicoloResponse"/>
+         <wsdl:fault message="ns:WSFascicolazioneFascicolazioneException"
+                     name="WSFascicolazioneFascicolazioneException"
+                     wsaw:Action="urn:updateACLFascicoloWSFascicolazioneFascicolazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="updateFascicolo">
+         <wsdl:input message="ns:updateFascicoloRequest" wsaw:Action="urn:updateFascicolo"/>
+         <wsdl:output message="ns:updateFascicoloResponse" wsaw:Action="urn:updateFascicoloResponse"/>
+         <wsdl:fault message="ns:WSFascicolazioneFascicolazioneException"
+                     name="WSFascicolazioneFascicolazioneException"
+                     wsaw:Action="urn:updateFascicoloWSFascicolazioneFascicolazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <wsdl:input message="ns:loginRequest" wsaw:Action="urn:login"/>
+         <wsdl:output message="ns:loginResponse" wsaw:Action="urn:loginResponse"/>
+         <wsdl:fault message="ns:WSFascicolazioneFascicolazioneException"
+                     name="WSFascicolazioneFascicolazioneException"
+                     wsaw:Action="urn:loginWSFascicolazioneFascicolazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="logout">
+         <wsdl:input message="ns:logoutRequest" wsaw:Action="urn:logout"/>
+         <wsdl:output message="ns:logoutResponse" wsaw:Action="urn:logoutResponse"/>
+         <wsdl:fault message="ns:WSFascicolazioneFascicolazioneException"
+                     name="WSFascicolazioneFascicolazioneException"
+                     wsaw:Action="urn:logoutWSFascicolazioneFascicolazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="creaFascicolo">
+         <wsdl:input message="ns:creaFascicoloRequest" wsaw:Action="urn:creaFascicolo"/>
+         <wsdl:output message="ns:creaFascicoloResponse" wsaw:Action="urn:creaFascicoloResponse"/>
+         <wsdl:fault message="ns:WSFascicolazioneFascicolazioneException"
+                     name="WSFascicolazioneFascicolazioneException"
+                     wsaw:Action="urn:creaFascicoloWSFascicolazioneFascicolazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="fascicolaById">
+         <wsdl:input message="ns:fascicolaByIdRequest" wsaw:Action="urn:fascicolaById"/>
+         <wsdl:output message="ns:fascicolaByIdResponse" wsaw:Action="urn:fascicolaByIdResponse"/>
+         <wsdl:fault message="ns:WSFascicolazioneFascicolazioneException"
+                     name="WSFascicolazioneFascicolazioneException"
+                     wsaw:Action="urn:fascicolaByIdWSFascicolazioneFascicolazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="forzaNuovoFascicolo">
+         <wsdl:input message="ns:forzaNuovoFascicoloRequest" wsaw:Action="urn:forzaNuovoFascicolo"/>
+         <wsdl:output message="ns:forzaNuovoFascicoloResponse"
+                      wsaw:Action="urn:forzaNuovoFascicoloResponse"/>
+         <wsdl:fault message="ns:WSFascicolazioneFascicolazioneException"
+                     name="WSFascicolazioneFascicolazioneException"
+                     wsaw:Action="urn:forzaNuovoFascicoloWSFascicolazioneFascicolazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="changeACLFascicolo">
+         <wsdl:input message="ns:changeACLFascicoloRequest" wsaw:Action="urn:changeACLFascicolo"/>
+         <wsdl:output message="ns:changeACLFascicoloResponse"
+                      wsaw:Action="urn:changeACLFascicoloResponse"/>
+         <wsdl:fault message="ns:WSFascicolazioneFascicolazioneException"
+                     name="WSFascicolazioneFascicolazioneException"
+                     wsaw:Action="urn:changeACLFascicoloWSFascicolazioneFascicolazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="writeConfig">
+         <wsdl:input message="ns:writeConfigRequest" wsaw:Action="urn:writeConfig"/>
+         <wsdl:output message="ns:writeConfigResponse" wsaw:Action="urn:writeConfigResponse"/>
+         <wsdl:fault message="ns:WSFascicolazioneFascicolazioneException"
+                     name="WSFascicolazioneFascicolazioneException"
+                     wsaw:Action="urn:writeConfigWSFascicolazioneFascicolazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <wsdl:input message="ns:loginSSORequest" wsaw:Action="urn:loginSSO"/>
+         <wsdl:output message="ns:loginSSOResponse" wsaw:Action="urn:loginSSOResponse"/>
+         <wsdl:fault message="ns:WSFascicolazioneFascicolazioneException"
+                     name="WSFascicolazioneFascicolazioneException"
+                     wsaw:Action="urn:loginSSOWSFascicolazioneFascicolazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="loginOnDemand">
+         <wsdl:input message="ns:loginOnDemandRequest" wsaw:Action="urn:loginOnDemand"/>
+         <wsdl:output message="ns:loginOnDemandResponse" wsaw:Action="urn:loginOnDemandResponse"/>
+         <wsdl:fault message="ns:WSFascicolazioneException" name="WSFascicolazioneException"
+                     wsaw:Action="urn:loginOnDemandWSFascicolazioneException"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="WSFascicolazioneSoap11Binding" type="ns:WSFascicolazionePortType">
+      <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="readConfig">
+         <soap:operation soapAction="urn:readConfig" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="changeFascicoliById">
+         <soap:operation soapAction="urn:changeFascicoliById" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="updateACLFascicolo">
+         <soap:operation soapAction="urn:updateACLFascicolo" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="updateFascicolo">
+         <soap:operation soapAction="urn:updateFascicolo" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <soap:operation soapAction="urn:login" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="logout">
+         <soap:operation soapAction="urn:logout" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="creaFascicolo">
+         <soap:operation soapAction="urn:creaFascicolo" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="fascicolaById">
+         <soap:operation soapAction="urn:fascicolaById" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="forzaNuovoFascicolo">
+         <soap:operation soapAction="urn:forzaNuovoFascicolo" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="changeACLFascicolo">
+         <soap:operation soapAction="urn:changeACLFascicolo" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="writeConfig">
+         <soap:operation soapAction="urn:writeConfig" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <soap:operation soapAction="urn:loginSSO" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="loginOnDemand">
+         <soap:operation soapAction="urn:loginOnDemand" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneException">
+            <soap:fault use="literal" name="WSFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:binding name="WSFascicolazioneSoap12Binding" type="ns:WSFascicolazionePortType">
+      <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="readConfig">
+         <soap12:operation soapAction="urn:readConfig" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap12:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="changeFascicoliById">
+         <soap12:operation soapAction="urn:changeFascicoliById" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap12:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="updateACLFascicolo">
+         <soap12:operation soapAction="urn:updateACLFascicolo" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap12:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="updateFascicolo">
+         <soap12:operation soapAction="urn:updateFascicolo" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap12:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <soap12:operation soapAction="urn:login" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap12:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="logout">
+         <soap12:operation soapAction="urn:logout" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap12:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="creaFascicolo">
+         <soap12:operation soapAction="urn:creaFascicolo" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap12:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="fascicolaById">
+         <soap12:operation soapAction="urn:fascicolaById" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap12:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="forzaNuovoFascicolo">
+         <soap12:operation soapAction="urn:forzaNuovoFascicolo" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap12:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="changeACLFascicolo">
+         <soap12:operation soapAction="urn:changeACLFascicolo" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap12:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="writeConfig">
+         <soap12:operation soapAction="urn:writeConfig" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap12:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <soap12:operation soapAction="urn:loginSSO" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneFascicolazioneException">
+            <soap12:fault use="literal" name="WSFascicolazioneFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="loginOnDemand">
+         <soap12:operation soapAction="urn:loginOnDemand" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFascicolazioneException">
+            <soap12:fault use="literal" name="WSFascicolazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:binding name="WSFascicolazioneHttpBinding" type="ns:WSFascicolazionePortType">
+      <http:binding verb="POST"/>
+      <wsdl:operation name="readConfig">
+         <http:operation location="readConfig"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="changeFascicoliById">
+         <http:operation location="changeFascicoliById"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="updateACLFascicolo">
+         <http:operation location="updateACLFascicolo"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="updateFascicolo">
+         <http:operation location="updateFascicolo"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <http:operation location="login"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="logout">
+         <http:operation location="logout"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="creaFascicolo">
+         <http:operation location="creaFascicolo"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="fascicolaById">
+         <http:operation location="fascicolaById"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="forzaNuovoFascicolo">
+         <http:operation location="forzaNuovoFascicolo"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="changeACLFascicolo">
+         <http:operation location="changeACLFascicolo"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="writeConfig">
+         <http:operation location="writeConfig"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <http:operation location="loginSSO"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="loginOnDemand">
+         <http:operation location="loginOnDemand"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="WSFascicolazione">
+      <wsdl:port name="WSFascicolazioneHttpSoap11Endpoint"
+                 binding="ns:WSFascicolazioneSoap11Binding">
+         <soap:address location="http://localhost:8080/WSFascicolazione/services/WSFascicolazione.WSFascicolazioneHttpSoap11Endpoint/"/>
+      </wsdl:port>
+      <wsdl:port name="WSFascicolazioneHttpSoap12Endpoint"
+                 binding="ns:WSFascicolazioneSoap12Binding">
+         <soap12:address location="http://localhost:8080/WSFascicolazione/services/WSFascicolazione.WSFascicolazioneHttpSoap12Endpoint/"/>
+      </wsdl:port>
+      <wsdl:port name="WSFascicolazioneHttpEndpoint" binding="ns:WSFascicolazioneHttpBinding">
+         <http:address location="http://localhost:8080/WSFascicolazione/services/WSFascicolazione.WSFascicolazioneHttpEndpoint/"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

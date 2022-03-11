@@ -1,0 +1,53 @@
+<script @server-model="title" type="javascript">
+
+    var qs = $.request.getAttribute("dirlist") || '';
+
+    qs = qs.replace(/^\\s*\/+|\/+\\s*$/,'');
+    if (!qs)
+        title = "&nbsp;";
+    else
+        title = qs.substring(qs.lastIndexOf("/")+1);
+
+    title;
+</script>
+
+[#assign gtitles = ($.request.getParameter("titles")!'false')!="false" /]
+[#assign dirlist = ($.request.getAttribute('dirlist')!'')?remove_ending("/") /]
+[#assign list = $.resources.getResources('templates/'+dirlist) /]
+
+<body>
+
+[#if list?size==0 ]
+<h4>Nessun elemento</h4>
+[/#if]
+
+[#list list as item]
+    [#if ( !item?ends_with('.html') && !item?ends_with('.ftl') && !list?seq_contains(item+'.html') ) ]
+        <!-- folder -->
+        <div class="col-12 row">
+            <a target="#main" class="btn btn-link" href="/${dirlist}/${item}${gtitles?then('?titles','')}" >
+                <i class="fas fa-folder" style="font-size: 24px;color:#EBBF0F"></i>
+                &nbsp;${item}
+            </a>
+        </div>
+    [/#if]
+[/#list]
+
+[#list list as item]
+    [#if (item?ends_with('.html')) ]
+        [#assign page = item?replace('.html','') /]
+
+        [#if gtitles]
+        [#assign pagetitle = (webClient.headMap("/"+dirlist+"/"+page)['Content-Title'])!page ]
+        [/#if]
+
+        <div class="col-12 row">
+            <a target="#main" class="btn btn-link" href="/${dirlist}/${page}${gtitles?then('?titles','')}" >
+                <i class="fas fa-link"></i>
+                &nbsp;${pagetitle!page}
+            </a>
+        </div>
+    [/#if]
+[/#list]
+
+</body>

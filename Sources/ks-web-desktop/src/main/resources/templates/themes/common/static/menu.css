@@ -1,0 +1,87 @@
+.k-menu-title .fa-folder {
+    color:#EBBF0F
+}
+
+#k-side-bar {
+    padding: 5px;
+    width: var(--menu-width);
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin-top: calc( var(--header-height) );
+    /*margin-bottom: 45px;*/
+    background-color: #F7FAFF;
+    z-index:0;
+}
+
+#k-menu * {
+    /*padding: 0px;*/
+    font-size: small;
+    line-height: 14px !important;
+}
+
+#k-menu .k-btn-link{
+    color: #007bff;
+    text-decoration: none!important;
+    background-color: transparent!important;
+    margin-top: 2px!important;
+    display: inline-block;
+}
+#k-menu .k-btn-link:first-child{
+    margin-top: 5px!important;
+}
+.k-ellipsis {
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.k-menu-title{
+font-size: 1.2em!important;
+    margin-left: 2px;
+    margin-bottom: 3px;
+}
+
+#k-side-bar-bg {
+    background-color: #F7FAFF;
+    height: 100vh;
+    min-height: 100%;
+    width: var(--menu-width);
+    position: fixed;
+    top: 0px;
+    z-index: 0;
+    left: 0;
+}
+#k-archiveTree {
+     overflow: auto;
+     font-size: smaller;
+     padding: 4px;
+     max-height: unset !important;
+ }
+.k-menu-ops{
+    float: right!important;
+    /*display: inline-block!important;
+    font-size: x-small!important;
+    padding-top: 2px!important;
+    margin-left: 2px!important;*/
+}
+#k-menu .k-text-dark{
+    color: black!important;
+}
+#k-menu .show{
+    display: block!important;
+    height:auto!important;
+}
+
+.k-badge {
+    position: absolute !important;
+    left: 0px !important;
+    font-size: small !important;
+    margin-top: -0.15rem!important;
+    padding-left:.25rem!important;
+    padding-right:.25rem!important;
+}
+
+.k-green-badge .k-badge {
+    background-color: green;
+}

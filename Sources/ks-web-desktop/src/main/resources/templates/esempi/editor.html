@@ -1,0 +1,24 @@
+
+<p>
+    <br>segue i meccanismi del controllo open source <a target="_new" href="https://ace.c9.io/">ace editor</a>
+    <br>il controllo Vue accetta le proprietà 'lang', 'theme', 'readOnly', 'rows' e 'hide-gutter'
+    <br> il model (proprietà 'value') può essere una stringa o un oggetto javascript
+</p>
+
+
+<div id="editor" >
+    json:{{JSON.stringify(json)}}
+    <editor v-model="json" />
+
+</div>
+
+<script>
+
+    var editor = new Vue({
+        el: "#editor",
+        data: {
+            json : {'test':1}
+        }
+    });
+
+</script>

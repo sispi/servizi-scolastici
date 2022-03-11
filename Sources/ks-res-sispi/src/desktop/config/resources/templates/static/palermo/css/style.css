@@ -1,0 +1,139 @@
+.modal-body {
+	padding-bottom: 16px !important;
+}
+
+.modal-footer {
+	padding: 0.8rem;
+}
+
+.clearfix {
+	border-color: #999 !important;
+}
+
+.form-group > label {
+	font-weight: 700 !important;
+}
+
+/*
+table.table td a {
+	cursor: pointer;
+	display: inline-block;
+	margin: 0 5px;
+	min-width: 24px;
+}
+*/
+
+a:hover {
+ cursor:pointer;
+}
+
+.table td.truncate {
+   max-width: 177px;
+}
+
+.table td.truncate span {
+   overflow: hidden;
+   text-overflow: ellipsis;
+   display: inline-block;
+   white-space: nowrap;
+   max-width: 100%;
+}
+
+table .row {
+	margin-left: 0px!important;
+	margin-right: 0px !important;
+}
+
+.searchable ul {
+    display: none;
+    list-style-type: none;
+    background-color: #fff;
+    border-radius: 0 0 5px 5px;
+    border: 1px solid #add8e6;
+    border-top: none;
+    max-height: 180px;
+    margin: 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 0;
+	z-index: 9999 !important;
+}
+
+.searchable ul li {
+    padding: 7px 9px;
+    border-bottom: 1px solid #e1e1e1;
+    cursor: pointer;
+    color: #6e6e6e;
+}
+
+.searchable ul li.selected {
+    background-color: #e8e8e8;
+    color: #333;
+}
+
+
+/**** AUTOCOMPLETE   ***/
+
+.suggestionlist{
+   position: absolute;
+   max-width: 100%;
+}
+
+.suggestionlist ul{
+  /* width: 100%;
+   background: whitesmoke;
+   list-style: none;
+   margin: 0;
+   padding: 5px;
+   overflow-y: scroll;
+   */
+	width: 100%;
+	background: white;
+	list-style-type: none;
+	list-style: none;
+    background-color: #fff;
+    border-radius: 0 0 5px 5px;
+    border: 1px solid #add8e6;
+    border-top: none;
+    margin: 0;
+    
+    overflow-x: hidden;
+    padding: 0;
+	z-index: 9999 !important;
+}
+
+.suggestionlist ul li{
+	/*background: whitesmoke;
+   padding: 4px;
+   margin-bottom: 1px;
+   */
+	padding: 7px 9px;
+    border-bottom: 1px solid #e1e1e1;
+    cursor: pointer;
+    color: #6e6e6e;
+	
+}
+
+.suggestionlist li:not(:last-child){
+   /*
+   border-bottom: 1px solid #cecece;
+   */
+}
+
+.suggestionlist ul li:hover{
+   cursor: pointer;
+   background: #d4d4d6;
+}
+
+.report-search-form {
+	overflow-x:auto;
+	padding:30px;
+}
+
+.panel {
+    background-color: #f5f5f5 !important;
+}
+
+.panel-body {
+	padding: 10px !important;
+}

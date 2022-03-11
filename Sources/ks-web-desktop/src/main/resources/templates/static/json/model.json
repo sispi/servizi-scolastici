@@ -1,0 +1,32 @@
+{
+    "type" : "text",
+    "source": [
+      "a",
+      "b",
+      "c",
+      "d"
+    ],
+    "checkbox1": true,
+    "textarea": "area",
+    "table": [
+      {
+        "text": "riga 1"
+      },
+      {
+        "text": "riga 2"
+      },
+      {
+        "text": "riga 3"
+      }
+    ],
+    "h": 333,
+    "test": {},
+    "arr": [
+      {
+        "x": 1
+      },
+      {
+        "x": 2
+      }
+    ]
+  }

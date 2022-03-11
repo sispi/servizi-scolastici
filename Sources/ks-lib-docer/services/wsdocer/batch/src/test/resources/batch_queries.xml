@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<batch>
+    <rule uniqueKey="id1">
+        <!--<action>change|split|fusion|remove</action>-->
+        <action>change</action>
+        <query_titolario></query_titolario>
+        <!--<query_fascicolo></query_fascicolo>
+        <query_documento></query_documento>-->
+        <source>
+            <groups>
+                <group>admins</group>
+            </groups>
+        </source>
+        <target>
+            <groups>
+                <group>ALFRESCO_ADMINISTRATORS</group>
+            </groups>
+        </target>
+    </rule>
+    <rule uniqueKey="id2">
+        <action>split</action>
+        <query_titolario></query_titolario>
+        <source>
+            <groups>
+                <group>SYS_ADMINS</group>
+            </groups>
+        </source>
+        <target>
+            <groups>
+                <group>ENTEPROVA</group>
+                <group>AOOPROVA</group>
+            </groups>
+        </target>
+    </rule>
+</batch>

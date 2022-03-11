@@ -1,0 +1,194 @@
+# al template menu.ftl è passato il modello costruito a partire dal menu associato all'app corrente
+# la struttura dipende quindi dal template ma questo file deve comunque avere al primo livello le chiavi dei menu
+
+default:
+
+documenti:
+  tree: true
+  title: Documentale
+  sections:
+    - name: Documentale
+      menuItems:
+        - name: Documenti
+          url: listaRisultati?fq=DOCNUM:*&title=Documenti&sort=modified_on%20desc
+          buttons:
+              - icon: glyphicon-search
+                title: Cerca documenti
+                url: searchDocument?type=DOCUMENTO
+                roles:
+                  - everyone
+              - icon: glyphicon-plus
+                title: Crea UD
+                url: createUd
+                badge: documento
+                roles:
+                  - everyone
+        - name: Documenti protocollati
+          url: listaRisultati?fq=NUM_PG:*&title=Documenti protocollati&sort=modified_on%20desc
+          buttons:
+              - icon: glyphicon-search
+                title: Cerca Protocollati
+                url: search?documenti=Protocollati
+                roles:
+                  - everyone
+        - name: Documenti registrati
+          url: listaRisultati?fq=N_REGISTRAZ:*&title=Documenti registrati&sort=modified_on%20desc
+          buttons:
+              - icon: glyphicon-search
+                title: Cerca Registrati
+                url: search?documenti=Registrati
+                roles:
+                  - everyone
+        #- name: crea Ud Doc
+        #  url: createUd?TYPE_ID=Documento
+        - name: Protocolla in Entrata
+          url: createUd?verso=E
+        - name: Protocolla Internamente
+          url: createUd?verso=I
+        - name: Protocolla in Uscita
+          url: createUd?verso=U
+        - name: Titolari
+          #url: viewNaviList?entity=titolari&sid=1
+          url: viewNaviList?entity=titolari&orderBy=name%20asc
+        - name: Fascicoli
+          #url: viewNaviList?entity=fascicoli&sid=3/2021/1
+          url: viewNaviList?entity=fascicoli&orderBy=MODIFIED%20desc
+        - name: Anagrafiche
+          url: listaAnagrafiche?type=RUBRICA
+        - name: Utenti
+          url: viewUserList?entity=utenti&orderBy=name%20asc
+        - name: Gruppi
+          url: viewGroupList?entity=gruppi&orderBy=name%20asc
+reports:
+  title: Reports
+  sections:
+    - name: Reports
+      menuItems:
+        - name: lista report
+          icon: glyphicon-th-list
+          url: reportlist
+          target: "#main"
+        - name: report ftl
+          icon: glyphicon-th-list
+          url: report?qt=test
+          target: "#main"
+        - name: solr select
+          icon: glyphicon-th-list
+          url: report?qt=select
+          target: "#main"
+        - name: solr select vue
+          icon: glyphicon-th-list
+          url: reportvue?qt=select
+          target: "#main"
+
+bpm:
+  sections:
+    - name: Config
+      menuItems:
+        - name: deployments
+          url: /bpm/deployments
+        - name: configurations
+          url: /bpm/configurations
+        - name: events
+          url: /bpm/events
+    - name: Processi
+      menuItems:
+        - name: instances
+          url: /bpm/instances
+        - name: tasks
+          url: /bpm/tasks
+        - name: bookmarks
+          url: /bpm/bookmarks
+        - name: notifications
+          url: /bpm/notifications
+
+esempi:
+  sections:
+    - name: Esempi
+      menuItems:
+        - url: ~help/pages
+          name: toc
+        - url: examplegdoc
+        - url: examplegdoc-div
+        - url: examplegdoc-iframe
+        - url: examplegdoc-pub
+        - url: examplegfolder?id=1BMI1wotJHA8dUWXDM_fvIMdNBzYZW1nm
+        - url: ~gdoc/wiki?id=11emL7_PKaK8cJy-xCjyFNinPSopgBa-C
+          name: wiki
+        - name: pagina test
+          url: vuetest
+          icon: glyphicon-th-list
+          title: pagina test
+          badge: related
+          roles:
+            - everyone
+        - url: treeview
+
+scrivania:
+  sections:
+    - name: Documenti con attività
+      menuItems:
+        - name: Documenti in entrata
+          icon: glyphicon-check
+          tooltip: Documenti in entrata
+          url: "doc/taskList?sort=modified_on%20desc&title=label.taskListIngresso"
+          roles:
+            - everyone
+          attributes:
+            target-data: page-content
+            update-data: 'true'
+          otherHtml: '<span id="countPotentialActivity" class="badge badge-notify" hidden=""
+        style="display: none;">&nbsp;0</span>'
+        - name: Documenti in carico
+          icon: glyphicon-check
+          tooltip: Documenti in carico
+          url: "doc/taskAssigned?sort=modified_on%20desc&title=label.taskListIncarico"
+          roles:
+            - everyone
+          attributes:
+            target-data: page-content
+            update-data: 'true'
+          otherHtml: '<span id="countActivity" class="badge badge-notify" hidden="" style="display:
+        none;">&nbsp;0</span>'
+        - name: Documenti monitorati
+          icon: glyphicon-check
+          tooltip: Documenti monitorati
+          url: "doc/taskStakeHolder?sort=modified_on%20desc&title=label.taskListStakeholder"
+          roles:
+            - everyone
+          attributes:
+            target-data: page-content
+            update-data: 'true'
+
+    - name: Attività
+      menuItems:
+        - name: in ingresso
+          icon: glyphicon-share
+          tooltip: Attività in ingresso
+          url: "taskList"
+          roles:
+            - everyone
+        - name: in carico
+          icon: glyphicon-check
+          tooltip: Attività in carico
+          url: "taskAssigned"
+          roles:
+            - everyone
+        - name: in scadenza
+          icon: glyphicon-bell
+          tooltip: Task in scadenza
+          url: "callTaskNotitications"
+          roles:
+            - everyone
+        - name: firma
+          icon: glyphicon-pencil
+          tooltip: Attività di firma
+          url: "getTaskFirmaRemotaByUser"
+          roles:
+            - everyone
+        - name: Messaggi
+          icon: glyphicon-envelope
+          tooltip: Messaggi
+          url: "viewListMessages"
+          roles:
+            - everyone

@@ -1,0 +1,17 @@
+<dataConfig>
+
+    <propertyWriter dateFormat="yyyy-MM-dd'T'HH:mm:ss'Z'" type0="SimplePropertiesWriter" type="ZKPropertiesWriter" directory="data" filename="docer24.properties" />
+
+
+    <document>
+        <entity name="solrimport" processor="SolrEntityProcessor" qt="/adminselect"
+                url="http://${dataimporter.request.host}:${dataimporter.request.port}/solr/DOCER"
+                query="COD_ENTE:${dataimporter.request.COD_ENTE} (-COD_ENTE:*)"
+                fq="*:*"
+                fl="*,_version_:0"
+                rows="500"
+
+        />
+    </document>
+
+</dataConfig>

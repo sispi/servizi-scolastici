@@ -1,0 +1,76 @@
+#**
+ *  Query logic for selecting location / Geospatial search
+ *#
+
+#set($queryOpts = $params.get("queryOpts"))
+
+#if($queryOpts == "spatial")
+
+  <div>
+
+    #set($loc = $request.params.get('pt'))
+    ## Normalize first trip through to "none" because
+    ## an empty string generates an error message later on
+    #if( ! $loc )
+      #set( $loc = "none" )
+    #end
+
+    #set($dist = $request.params.get('d', "10"))
+
+    ## Cities for The Select List
+    #set( $cities = {
+      "none": "No Filter",
+      "41.9100711,12.5359979": "Roma",
+      "45.4627338,9.1777323": "Milano",
+      "45.070139,7.6700892": "Torino",
+      "44.7974535,10.3238655": "Parma"
+    })
+
+    <label #annTitle("Add the &pt parameter")>
+      Location Filter:
+      <select id="pt" name="pt">
+
+        ## Generate <option> tag for each city
+        #foreach( $city_lon_lat in $cities.keySet() )
+          #set( $city_name = $cities.get($city_lon_lat) )
+          <option value="$city_lon_lat"
+            #if($loc == $city_lon_lat)selected="true"#end
+          >
+            $city_name
+          </option>
+        #end
+
+      </select>
+
+    </label>
+
+    <span #annTitle("Add the &d parameter")>
+      Distance (KM):
+      <input id="d" name="d" type="text" size="6"
+        value="#if($dist != '')${dist}#{else}10#end"  ## TODO: isn't the default of 10 above sufficient?  no if/else needed?
+      />
+    </span>
+
+  
+    <input type="hidden" name="sfield" value="geoloc"/>
+    <input type="hidden" id="spatialFQ" name="fq" value=""/>
+    <input type="hidden" name="queryOpts" value="spatial"/>        
+
+  </div>
+
+  <script type="text/javascript">
+    $('#query-form').submit(function() {
+      if ($("#pt").val() != "none") {
+        $("#spatialFQ").val("{!bbox}");
+      }
+      $fqs = $("#allFQs").val();
+      $fqs = $fqs.replace("{!bbox}", "");
+      if ($fqs == ''){
+        $("#allFQs").remove();
+      }
+      $("#allFQs").val($fqs);
+      return true;
+    });
+  </script>
+
+#end

@@ -1,0 +1,40 @@
+<head>
+    <title>bookmarks</title>
+</head>
+
+<body>
+<script @server id="data-model" src="/bpm/v1/bookmarks?fetch=*&orderBy=id:desc&pageSize=10&pageNumber={pageNumber}" type="application/json" ></script>
+
+<div id="app" class="container-fluid" >
+    <h2>{{model.title}}</h2>
+    <!--<report-buttons style="float:right" :model="model"></report-buttons>-->
+    <results-stats style="float:right;padding-right:5px" :tot-results="model.totResults" :elapsed="model.elapsed" ></results-stats>
+    <!--<facets :model="model" page-field="pageNumber"></facets>-->
+    <report-table :model="model" ></report-table>
+    <pager style="text-align: center"  :tot-page="model.totPage" :page-number="model.pageNumber" ></pager>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: function() {
+            var model = bpmdata("data-model");
+
+            model.columns = "description,elimina".split(',');
+            model.params["column.description.href"] = "/~instance?id={instanceId}";
+            model.params["column.elimina.href"] = "javascript:app.delete('{id}')";
+            model.params["column.elimina.href.label"] = "<i title='elimina' class='fas fa-trash-alt'></i>";
+            return {
+                model:model
+            }
+        },
+        methods:{
+            delete: function(id){
+                BpmClientApi.bookmarks.delete(id,()=>{location.refresh()});
+            }
+        }
+    });
+
+</script>
+</body>
+

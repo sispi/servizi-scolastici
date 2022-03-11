@@ -1,0 +1,20 @@
+<transition name="modal">
+    <div class="modal-mask" @click="close" v-show="show">
+        <div class="modal-container" @click.stop>
+            <div style="background-color: #f7f7f7;margin-bottom: 5px;" class="modal-header">
+		        <slot  name="header" class="col-md-12">
+		        	
+		        </slot>
+		      </div>
+		      <div class="modal-body">
+		        <slot name="body">
+		        	
+		        </slot>
+		      </div>
+		      
+        </div>
+    </div>
+</transition>
+
+
+

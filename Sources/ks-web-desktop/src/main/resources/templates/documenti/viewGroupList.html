@@ -1,0 +1,1092 @@
+<html @view="master.ftl">
+<head @ignore>
+    <base href="file:///C:/Users/daniele.damiani/Desktop/vuetest/">
+    <title>viewGroupList</title>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="vendor/jquery-3.5.1.min.js"></script>
+    <script src="vendor/jquery-migrate-3.3.0.min.js"></script>
+    <script>
+        axios.interceptors.request.use(function(config) {
+            config.headers.KS_AUTH_GROUP = "admin|ANM|ANM_AOO|SYS_ADMINS|admins";
+            return config;
+        });
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,700&display=swap" rel="stylesheet"><!-- Google Font Roboto-->
+    <link rel="stylesheet" href="bootstrap-4.3.1-dist/css/bootstrap.min.css"><!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/base-style.css"><!-- css presonalizzato -->
+    <link rel="stylesheet" href="vendor/fontawesome/all.min.css"><!-- icone -->
+    <script src="vendor/moment.js"></script><!-- moment -->
+    <script src="vendor/vue-scrollto.js"></script><!-- scrollto -->
+    <script src="vendor/popper-1.14.7.min.js"></script>
+    <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/modal-style.css">
+    <script type="application/json" id="riferimenti-model" src="./static/templates/json-template/riferimenti.json"></script><!-- riferimenti in locale -->
+
+    <!-- import paginazione -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/components/reports.js"></script>
+</head>
+
+<body class="body">
+<!-- template modal component -->
+<script type="x-template" id="modal-template" @server src="/static/templates/modal-template/modal-template.html"></script>
+
+<script type="application/json" id="documento-model" @ftl-model="documento" @ignore-notfound="true" @server src="/docer/v1/{entity}/{sid:yyy}"></script>
+
+<!--<script type="application/json" id="gruppo-model" @ftl-model="gruppo" @ignore-notfound="true" @server src="/docer/v1/gruppi/{sid:xxx}"></script>-->
+
+<script type="application/json" @server id="listautenti-model" @ftl-model="listaUtenti" src="/docer/v1/report?qt=select&output.type=bean&fq=${(query.sid?has_content)?then('groups:'+query.sid+'@group','PARENT_GROUP_ID:${utils.userInfo.codAoo} AND type:group AND GRUPPO_STRUTTURA:true')}&pageNumber={pageNumber:1}&orderBy={orderBy:name asc}"></script>
+<script type="application/json" @server id="listautenti2-model" @ftl-model="listaUtenti2" src="/docer/v1/report?qt=roles&output.type=bean&fq=${(query.sid?has_content)?then('groups:'+query.sid+'@group','type:group AND GRUPPO_STRUTTURA:false AND (PARENT_GROUP_ID:(${utils.userInfo.codEnte} ${utils.userInfo.codAoo}) id:admins@group)')}&pageNumber={pageNumber:1}&orderBy={orderBy:name asc}"></script>
+<script type="application/json" @server id="listafigli-model" @ftl-model="listaFigli" src="/docer/v1/report?qt=select&output.type=bean&fq=${(query.sid?has_content)?then('PARENT_GROUP_ID:'+query.sid,'type:group')}&pageNumber={pageNumber:1}&orderBy={orderBy:GRUPPO_STRUTTURA desc, name asc}"></script>
+
+<script type="application/json" id="messages-model" @server src="/messages?filter=viewProfile.**,viewUserList.**,label.**,common.**"></script>
+<link rel="stylesheet" href="/static/css/doc-style.css">
+
+<div style="margin-top: 10px;" id="resultList" v-cloak>
+    <div class="space-1h"></div>
+    <template v-if="documento">
+        <div v-if="documento.type" class="card">
+            <span v-if="documento.GRUPPO_STRUTTURA==true" class="page-type">
+                <i class="bi bi-three-dots-vertical mainColor"></i>{{messages["viewUserList.gruppo"] || "Gruppo"}}
+            </span>
+            <span v-if="documento.GRUPPO_STRUTTURA==false" class="page-type">
+                <i class="bi bi-three-dots-vertical mainColor"></i>{{messages["viewUserList.ruolo"] || "Ruolo"}}
+            </span>
+            <div class="card-body">
+                <h5 class="card-title">
+                    <span v-if="documento.GRUPPO_STRUTTURA==true"><i class="bi bi-people-fill"></i></span>
+                    <span v-if="documento.GRUPPO_STRUTTURA==false"><i class="bi bi-person-lines-fill"></i></span>
+                    {{documento.name}} ({{documento.docerId}})
+                </h5>
+                <div class="space-1h"></div>
+                <div class="row">
+                    <div v-if="documento.PARENT_GROUP_ID" class="col-md-4">
+                        <button @click="openElementGruppi(documento)" class="btn btn-default" href="#" @click.prevent="showEditgruppoModal = true" class="btn btn-default btn-100" :disabled="documento.permissions.indexOf('write')==-1">
+                            <i class="bi bi-pencil mainColor"></i> {{messages["viewUserList.modifica"] || "Modifica"}}
+                        </button>
+                        <button @click="confirmDelete(documento)" class="btn btn-default" class="btn btn-default btn-100" :disabled="documento.permissions.indexOf('destroy')==-1">
+                            <i class="bi bi-x-circle mainColor"></i> {{messages["viewUserList.elimina"] || "Elimina"}}
+                        </button>
+                    </div>
+                    <div id="autocompletionUtenti" class="col-md-6">
+                        <span style="margin-left: 8px;" class="labelNew autocomplete">{{messages["viewUserList.cercaUtenteDaAggiungere"] || "Cerca utente da aggiungere"}}</span>
+                        <select2 :value="utente" v-on:changed="utente=$event.values" class="form-control" url="/docer/v1/solr/select?database=false&sort=name asc&fq=type:user&wt=json&fl=sid,text:FULL_NAME&q=name:%24%7Bterm%7D OR USER_ID:%24%7Bterm%7D OR FULL_NAME:*/%24%7Bterm%7D&term=..." multiple="true"></select2>
+                    </div>
+                    <div id="btn-addUtente" class="col-md-2">
+                        <button style="height: 38px;" @click="addUtente()" class="btn btn-default btn-block">
+                            <i class="bi bi-plus-circle mainColor"></i> {{messages["viewUserList.aggiungi"] || "Aggiungi"}}
+                        </button>
+                    </div>
+                    <div style="display:none;" id="autocompletionUtentiEmpty" class="col-md-5">
+                    </div>
+                    <div style="display:none;" id="btn-addFiglio" class="col-md-3">
+                        <button style="height: 38px;" @click="addFiglio()" href="#" @click.prevent="showEditgruppoModal = true"  class="btn btn-default btn-block">
+                            <i class="bi bi-plus-circle mainColor"></i> {{messages["viewUserList.aggiungiFiglio"] || "Aggiungi figlio"}}
+                        </button>
+                    </div>
+                </div>
+                <div class="space-h"></div>
+                <div class="box-info">
+                    <div class="title-info">
+                        <p class="desc-title">{{messages["viewUserList.tipoRuolo"] || "Tipo ruolo"}}</p>
+                        <p v-if="documento.GRUPPO_STRUTTURA==true" class="desc-info">
+                            {{messages["viewUserList.gruppoStruttura"] || "Gruppo struttura"}}
+                        </p>
+                        <p v-if="documento.GRUPPO_STRUTTURA==false" class="desc-info">
+                            {{messages["viewUserList.ruolo"] || "Ruolo"}} 
+                        </p>
+                    </div>
+                    <div v-if="documento.PARENT_GROUP_ID" class="title-info">
+                        <p class="desc-title">{{messages["viewUserList.gruppoPadre"] || "Gruppo Padre"}}</p>
+                        <p class="desc-info">
+                            <a v-if="documento.PARENT_GROUP_ID != currentCodiceAOO && documento.PARENT_GROUP_ID != currentCodiceAmm" :href="'/documenti/viewGroupList?entity=gruppi&sid=' + documento.PARENT_GROUP_ID">
+                                {{ documento.PARENT_GROUP_ID }}</strong>
+                            </a>
+                            <a v-else :href="'/documenti/viewGroupList?entity=gruppi'">
+                                {{ documento.PARENT_GROUP_ID }}</strong>
+                            </a>
+                        </p>
+                    </div>
+                    <div class="title-info">
+                        <p class="desc-title">{{messages["viewUserList.abilitato"] || "Abilitato"}}</p>
+                        <p class="desc-info">{{documento.ENABLED?"Si":"No"}}</p>
+                    </div>
+                    <div class="title-info">
+                        <p class="desc-title">{{messages["viewUserList.creatoIl"] || "Creato il"}}</p>
+                        <p class="desc-info">{{date(documento.CREATED)}} <span style="font-weight: normal;">{{messages["viewUserList.da"] || "da"}}</span> {{documento.CREATOR}}</p>
+                    </div>
+                    <div class="title-info">
+                        <p class="desc-title">{{messages["viewUserList.modificatoIl"] || "Modificato il"}}</p>
+                        <p class="desc-info">{{date(documento.MODIFIED)}} <span style="font-weight: normal;">{{messages["viewUserList.da"] || "da"}}</span> {{documento.MODIFIER}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-1h"></div>
+    </template>
+    <template v-else>
+        <div v-if="entity == 'gruppi'" class="row">
+             <div class="col-md-3">
+                <button style="height: 38px;" @click="openNewGruppo()" href="#" @click.prevent="showEditgruppoModal = true" class="btn btn-primary btn-block">
+                    <template v-if="gruppiView==true">
+                        <i class="bi bi-people-fill"></i>
+                        {{messages["viewUserList.aggiungiGruppo"] || "Aggiungi gruppo"}}        
+                    </template>
+                    <template v-if="ruoliView==true">
+                        <i class="bi bi-person-lines-fill"></i>
+                        {{messages["viewUserList.aggiungiRuolo"] || "Aggiungi ruolo"}} 
+                    </template>
+                </button>
+            </div>
+            <div id="autocompletionGruppi" class="col-md-6" style="z-index:1000">
+                <span style="margin-left: 8px;" class="labelNew autocomplete">{{messages["viewUserList.cercaGruppo"] || "Cerca gruppo"}}</span>
+                <select2 :value="gruppo" v-on:changed="gruppo=$event.value" class="form-control" url="/docer/v1/solr/select?database=false&sort=name asc&fq=type:group AND GRUPPO_STRUTTURA:true&wt=json&fl=sid,text:GROUP_NAME&q=name:%24%7Bterm%7D OR GROUP_ID:%24%7Bterm%7D OR GROUP_NAME:*/%24%7Bterm%7D&term=..." multiple="true" maximum-selection-length="1"></select2>
+            </div>
+            <div id="autocompletionRuoli" style="display:none;z-index:1000" class="col-md-6" >
+                <span style="margin-left: 8px;" class="labelNew autocomplete">{{messages["viewUserList.cercaRuolo"] || "Cerca ruolo"}}</span>
+                <select2 :value="gruppo" v-on:changed="gruppo=$event.value" class="form-control" url="/docer/v1/solr/select?database=false&sort=name asc&fq=type:group AND GRUPPO_STRUTTURA:false&wt=json&fl=sid,text:GROUP_NAME&q=name:%24%7Bterm%7D OR GROUP_ID:%24%7Bterm%7D OR GROUP_NAME:*/%24%7Bterm%7D&term=..." multiple="true" maximum-selection-length="1"></select2>
+            </div>
+            <div class="col-md-3">
+                <button style="height: 38px;" @click="searchGruppo()" class="btn btn-default btn-block"><i class="bi bi-search mainColor"></i> {{messages["viewUserList.cerca"] || "Cerca"}}
+                </button>
+            </div>
+        </div>
+        <div class="space-1h"></div>
+    </template>
+    <editgruppo-modal :show="showEditgruppoModal" :gruppo="elementoListaGruppi" @close="showEditgruppoModal = false"></editgruppo-modal>
+
+    <div class="card">
+        <!-- tabella utenti/figli -->
+        <template v-if="documento.docerId">
+            <div class="row" v-if="documento.GRUPPO_STRUTTURA==true">
+                <div class="col-md-12">
+                <button id="btn-utenti" @click="mostraUtenti()" style="float: left;border-radius: 0px;" class="btn btn-primary col-md-6">UTENTI</button>
+                <button id="btn-figli" @click="mostraFigli()" style="border-radius: 0px;"class="btn btn-default col-md-6">FIGLI</button>
+                </div>
+            </div>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th style="width: 2%; text-align: center;"></th>
+                    <th style="width: 45%;">
+                        <a class="order blk" :href="changeQs('orderBy',model.sortSpecs['name'],'pageNumber')">
+                            {{messages["viewUserList.nome"] || "Nome"}} <i class="bi bi-arrow-down-up mainColor"></i>
+                        </a>
+                    </th>
+                    <th style="width: 43%;text-align: center;" v-if="documento.GRUPPO_STRUTTURA==true">
+                        <div class="checkGruppiTitle">
+                            {{messages["viewUserList.ruoli"] || "Ruoli"}}<br>
+                            <ul v-if="listaRisultati.length>0" style="padding-left: 0px;margin-bottom: 0px;">
+                                <li style="display:inline;margin-left:15px;margin-right:15px;font-weight: 500;" v-for="c in ruoliGruppiCheck">
+                                    {{removeFirstChar(c.rgId)}}
+                                </li>
+                            </ul>
+                        </div>
+                    </th>
+                    <th style="width: 10%;">
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                    <template v-if="listaRisultati.length>0">
+                        <tr v-for="(doc,i) in listaRisultati" :key="i" >
+                            <td>
+                            <input type="checkbox" :id="listaRisultati[i].docerId" :value="listaRisultati[i]" name="doc" v-model="checkedUserToDelete"/>
+                            </td>
+                            <td >
+                                <template v-if="doc.type=='user'">
+                                    <span><i class="bi bi-person-fill"></i></span>
+                                    <a :href="'/documenti/viewUserList?entity=utenti&sid=' + listaRisultati[i].docerId">
+                                        <strong>{{ doc.name }} ({{ doc.docerId }})</strong>
+                                    </a>
+                                </template>
+                                <template v-if="doc.type=='group'">
+                                    <span><i class="bi bi-people-fill"></i></span>
+                                    <a :href="'/documenti/viewGroupList?entity=gruppi&sid=' + listaRisultati[i].docerId">
+                                        <strong>{{ doc.name }} ({{ doc.docerId }})</strong>
+                                    </a>
+                                    <strong style="color: red" v-if="doc.GRUPPO_STRUTTURA==false">RUOLO</strong>
+                                </template>
+                            </td>
+                            <td style="text-align: center;" v-if="documento.GRUPPO_STRUTTURA==true">
+                                <ul class="checkGruppi" style="padding-left: 0px;margin-bottom: 0px;">
+                                    <li style="display:inline;" v-for="c in ruoliGruppiCheck">
+                                    <template v-if="c.rgId">
+                                        <input v-if="doc.groups" style="width: 70px;" type="checkbox" v-bind:checked="doc.groups.indexOf(documento.GROUP_ID+c.rgId)>=0" id="documento.GROUP_ID+c.rgIdd" @change="changeRuoliGruppi(doc,documento.GROUP_ID+c.rgId)">
+                                    </template>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td style="text-align: center;">
+                            <button v-if="doc.type=='user'" @click="removeUserToGroup(i)" class="btn-alpha" data-toggle="tooltip" data-placement="top" :title=" messages['viewUserList.rimuovi']||'Rimuovi'" >
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </template>
+                    <template v-else>
+                        <tr>
+                            <td colspan="4" style="text-align: center;">
+                                <span>Nessun elemento presente</span>   
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </template>
+        <!-- tabella gruppi/ruoli -->
+        <template v-else> 
+            <div class="row">
+                <div class="col-md-12">
+                <button id="btn-gruppi" @click="mostraGruppi()" style="float: left;border-radius: 0px;" class="btn btn-primary col-md-6">GRUPPI</button>
+                <button id="btn-ruoli" @click="mostraRuoli()" style="border-radius: 0px;"class="btn btn-default col-md-6">RUOLI</button>
+                </div>
+            </div>
+            <table class="table table-striped"> 
+                <thead>
+                <tr>
+                    <th style="width: 45%;">
+                        <a class="order blk" :href="changeQs('orderBy',model.sortSpecs['name'],'pageNumber')">
+                            {{messages["viewUserList.nome"] || "Nome"}} <i class="bi bi-arrow-down-up mainColor"></i>
+                        </a>
+                    </th>
+                    <th style="width: 45%;text-align: center;">
+                        <a class="order blk" :href="changeQs('orderBy',model.sortSpecs['PARENT_GROUP_ID'],'pageNumber')">
+                            {{messages["viewUserList.gruppoPadre"] || "Gruppo padre"}} <i class="bi bi-arrow-down-up mainColor"></i>
+                        </a>
+                    </th>
+                    <th style="width: 10%;">
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                    <template v-if="listaRisultati.length>0">
+                        <tr v-for="(doc,i) in listaRisultati" :key="i">
+                            <td>
+                                <span v-if="doc.GRUPPO_STRUTTURA==true"><i class="bi bi-people-fill"></i></span>    
+                                <span v-if="doc.GRUPPO_STRUTTURA==false"><i class="bi bi-person-lines-fill"></i></span>
+                                <a :href="'/documenti/viewGroupList?entity=gruppi&sid=' + listaRisultati[i].docerId">
+                                    <strong>{{ doc.name }} ({{ doc.docerId }})</strong>
+                                </a>
+                            </td>
+                            <td style="text-align: center;">
+                                <a :href="'/documenti/viewGroupList?entity=gruppi&sid=' + listaRisultati[i].PARENT_GROUP_ID">
+                                    <strong>{{ doc.PARENT_GROUP_ID }}</strong>
+                                </a>
+                            </td>
+                            <td style="text-align: center;">
+                            <button @click="openElementGruppi(i)" class="btn-alpha" href="#" @click.prevent="showEditgruppoModal = true" data-toggle="tooltip" data-placement="top" :title="messages['viewUserList.modifica']||'Modifica'">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                            <button @click="confirmDelete(i)" class="btn-alpha" data-toggle="tooltip" data-placement="top" :title=" messages['viewUserList.elimina']||'Elimina'" >
+                                    <i class="bi bi-x-circle"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </template>
+                    <template v-else>
+                        <tr>
+                            <td colspan="4" style="text-align: center;">
+                                <span>Nessun elemento presente</span>   
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </template>
+    </div>
+    <template v-if="documento.docerId && listaRisultati.length>0">
+        <div class="space-1h"></div>
+        <button v-if="listaRisultati[0].type=='user'" class="btn btn-danger modal-btn-default col-md-2" @click="removeUsersToGroup()" :disabled="checkedUserToDelete==''">{{messages["viewUserList.rimuoviSelezionati"] || "Rimuovi selezionati"}}</button>
+        <div class="space-1h"></div>
+    </template>
+
+    <pager style="text-align: center" :tot-page="model.totPage" :page-number="model.pageNumber"></pager>
+
+    <!-- Modal confirm delete -->
+    <div style="margin-top:64px;background: #0000005e;z-index:99999;" class="modal fade" id="messageDeleteModal" tabindex="-1" role="dialog" aria-labelledby="messageDeleteModalLabel" aria-hidden="true" data-backdrop="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body msgDeleteModal">
+                    <div style="text-align: center;" class="modal-body" id="messageDeleteModalTxtTitle"></div>
+                    <div class="modal-body contentMsg" id="messageDeleteModalTxt"></div>
+                    <div id="type" type="hidden"></div>
+                    <div id="codice" type="hidden"></div>
+
+                </div>
+                <row>
+                    <button data-dismiss="modal" style="margin: 10px;" class="btn btn-default col-md-3">No</button>
+                    <button @click="deleteGruppo()" style="margin: 10px;" class="btn btn-primary col-md-3 float-right">Si</button>
+                </row>
+            </div>
+        </div>
+    </div>
+
+</div><!-- chiusura resultList-->
+
+<!-- Modal success -->
+<div style="margin-top:64px;z-index: 99999;" class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body msgModal">
+                <div class="modal-body msgModalTxt" id="messageModalTxt"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<template id="editgruppo-modal-template">
+    <modal :show="show" @close="close">
+        <div slot="header" class="col-md-12">
+            <div class="modalTitle col-sm-12">
+                <template v-if="gruppo.docerId">
+                    {{messages["viewUserList.modifica"] || "Modifica"}}  
+                </template>
+                <template v-else>
+                    {{messages["viewUserList.nuovo"] || "Nuovo"}} 
+                </template>
+            </div>
+        </div>
+        <div slot="body">
+            <div id="warningNearModal" class="bs-example warning" style="display:none;">
+                <div class="alert alert-danger div-alert-warning"></div>
+            </div>
+            <fieldset id="editFieldset">
+                <div class="row gruppo">
+                    <div class="form-group col-md-6">
+                        <label id="label-groupId" class="labelNew">*{{messages["viewUserList.id"] || "Id"}}</label>
+                        <input id="groupId" type="text" class="form-control idCheck" name="GROUP_ID" v-model="gruppo.GROUP_ID">  
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label id="label-des_default" class="labelNew">*{{messages["viewUserList.nome"] || "Nome"}}</label>
+                        <input id="groupName" type="text" class="form-control" name="GROUP_NAME" v-model="gruppo.GROUP_NAME">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <select id="gruppoStruttura" class="form-control" name="GRUPPO_STRUTTURA" v-model="gruppo.GRUPPO_STRUTTURA">
+                            <option selected value="false">Ruolo</option>
+                            <option value="true">Gruppo</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="labelNew">{{messages["viewUserList.abilitato"] || "Abilitato"}}</label>
+                        <select class="form-control" name="ENABLED" v-model="gruppo.ENABLED">
+                            <option selected value="true">Si</option>
+                            <option value="false">No</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <span style="margin-left: 8px;" class="labelNew autocomplete">{{messages["viewUserList.gruppoPadre"] || "Gruppo padre"}}</span>
+                        <select2 :value="gruppo.PARENT_GROUP_ID" v-on:changed="gruppo.PARENT_GROUP_ID=$event.value" class="form-control" url="/docer/v1/solr/select?database=false&sort=name asc&fq=type:ente OR type:aoo OR (type:group AND GRUPPO_STRUTTURA:true)&wt=json&fl=sid:GROUP_ID,text:GROUP_NAME&q=name:%24%7Bterm%7D OR GROUP_ID:%24%7Bterm%7D OR GROUP_NAME:*/%24%7Bterm%7D&term=..." multiple="true" maximum-selection-length="1" name="PARENT_GROUP_ID"></select2>
+                        <span style="color:red;font-size: small">Se non specificato viene impostata la AOO corrente</span>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <input type="checkbox" id="isGRUPPO_SSO" name="doc" :checked="gruppo.GRUPPO_SSO=='true'"/>
+                        <span>Gruppo SSO (sincronizzato in fase di login)</span>
+                    </div>
+
+                </div>
+            </fieldset>
+            <div class="col-md-12 footer-modal">
+                <div class="col-md-3 float-left">
+                    <button type="submit" class="btn btn-default btn-block modal-btn-annulla" @click="$emit('close')">{{messages["listaAnagrafiche.chiudi"] || "Chiudi"}}</button>
+                </div>
+                <div class="col-md-3 float-right">
+                    <button type="submit" class="btn btn-primary btn-block modal-btn-conferma" @click="salvaGruppo()">{{messages["listaAnagrafiche.conferma"] || "Conferma"}}</button>
+                </div>
+            </div>
+        </div>
+    </modal>
+</template>
+
+
+<script >
+
+    var ruoliGruppo = '${utils.getProperty("ruoli.gruppo","")}';
+    
+    //abilito tooltip
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
+    //metodi globali
+    Vue.mixin({
+        methods: {
+            moment: function(date) {
+                return moment(date);
+            },
+            date: function(date) {
+                return moment(date).format('DD/MM/YYYY HH:mm:ss');
+            },
+            dateNoTime: function(date) {
+                return moment(date).format('DD/MM/YYYY');
+            },
+            estensione: function(text) {
+                if (text) {
+                    return text.substr(text.length - 3);
+                }
+            },
+            removeFirstChar: function(text) {
+                if (text) {
+                    return text.substring(1);
+                }
+            },
+        },
+    })
+
+    //modale
+    Vue.component('Modal', {
+        template: template('modal-template'),
+        props: ['show'],
+        data: function() {
+            return {
+                messages: data("messages-model"),
+            };
+        },
+        methods: {
+            close: function() {
+                this.$emit('close');
+            }
+        },
+        mounted: function() {
+            document.addEventListener("keydown", (e) => {
+                if (this.show && e.keyCode == 27) {
+                    this.close();
+                }
+            });
+        }
+    });
+    
+    Vue.component('EditgruppoModal', {
+        template: template('editgruppo-modal-template'),
+        props: ['show','gruppo'],
+        data: function () {
+            return {
+                documento: data("documento-model"),
+                messages: data("messages-model"),
+            };
+        },
+        mounted() {
+
+        },
+        methods: {
+            salvaGruppo: function() {
+                $('#warningNearModal').hide();
+                $(".div-alert-warning > p").remove();
+                $('.idCheck').css("color", "#000");
+
+                var errore = false;
+                if (!this.checkId()){
+                    errore = true;
+                }   
+                if (!errore) {
+                    if(!this.gruppo.GROUP_ID || !this.gruppo.GROUP_NAME){
+                        $('#warningNearModal').show();
+                        $('.div-alert-warning').append('<p style="margin-bottom: 0rem;">Campi * obbligatori mancanti!</p>');
+                        return false;
+                    } else {
+                        var parent = this.gruppo.PARENT_GROUP_ID ? this.gruppo.PARENT_GROUP_ID : currentCodiceAOO;
+
+                        var isSSO = $("#isGRUPPO_SSO").is(":checked");
+
+                        var body = {
+                            "GROUP_ID" : this.gruppo.GROUP_ID,
+                            "GROUP_NAME" : this.gruppo.GROUP_NAME,
+                            "PARENT_GROUP_ID" : parent,
+                            "GRUPPO_STRUTTURA" : this.gruppo.GRUPPO_STRUTTURA,
+                            "ENABLED" : this.gruppo.ENABLED,
+                            "GRUPPO_SSO" : isSSO ? "true" : "false"
+                        }
+
+                        //se ha USER_ID è un elemento esistente e chiamo la modifica
+                        if(this.gruppo.docerId){
+                            axios.patch("/docer/v1/gruppi/"+this.gruppo.GROUP_ID, body) //per la modifica response.status è 200
+                                .then(response => {
+                                    if(response.status==200){
+                                        this.close();
+                                        if($('#btn-gruppi').hasClass("btn-primary")){
+                                            var tab = $('#btn-gruppi').text();
+                                        }
+                                        if($('#btn-ruoli').hasClass("btn-primary")){
+                                            var tab = $('#btn-ruoli').text();
+                                        }
+                                        if($('#btn-figli').hasClass("btn-primary")){
+                                            var tab = $('#btn-figli').text();
+                                        }
+                                        if($('#btn-utenti').hasClass("btn-primary")){
+                                            var tab = $('#btn-utenti').text();
+                                        }
+                                        if(typeof this.documento.GROUP_ID !== "undefined"){
+                                            var sid = this.documento.GROUP_ID;
+                                        }else{
+                                            var sid = null;
+                                        }
+                                        openMessageModalTabSid("Dati modificati con successo!",tab,sid);
+                                    }
+                                }).catch(error => {
+                                showError(error.response.data);
+                            });
+                        } else {
+                            axios.post("/docer/v1/gruppi/", body)
+                                .then(response => {
+                                    if(response.status==201){
+                                        this.close();
+                                        if($('#btn-gruppi').hasClass("btn-primary")){
+                                            var tab = $('#btn-gruppi').text();
+                                        }
+                                        if($('#btn-ruoli').hasClass("btn-primary")){
+                                            var tab = $('#btn-ruoli').text();
+                                        }
+                                        if($('#btn-figli').hasClass("btn-primary")){
+                                            var tab = $('#btn-figli').text();
+                                        }
+                                        if($('#btn-utenti').hasClass("btn-primary")){
+                                            var tab = $('#btn-utenti').text();
+                                        }
+
+                                        if(typeof this.documento.GROUP_ID !== "undefined"){
+                                            var sid = this.documento.GROUP_ID;
+                                        }else{
+                                            var sid = null;
+                                        }
+                                        this.gruppo=[];
+                                        openMessageModalTabSid("Dati salvati con successo!",tab,sid);
+                                    }
+                                }).catch(error => {
+                                showError(error.response.data);
+                            });
+                        }
+
+                    }
+                } else {
+                  $('#warningNearModal').show();
+                }
+            },
+            checkId: function() {
+                var $regexid=/^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/;
+                var esitoId = true;
+                $(".idCheck").each(function(index){
+                    if ($(this).val() && !$(this).val().match($regexid)) {
+                        esitoId = false;
+                        $('.div-alert-warning').append('<p style="margin-bottom: 0rem;">Formato Id: <b>'+ $(this).val() +'</b> non corretto! <br>L\'ID deve iniziare con una lettera e sono ammessi solo lettere, numeri e _</p>');
+                        $('.idCheck').css("color", "red");
+                    }
+                });
+                return esitoId;
+            },
+            close: function () {
+                this.$emit('close');
+            },
+            
+        }
+    });
+
+    
+    
+    //resultList
+    var app = new Vue({
+        el: '#resultList',
+        data: function() {
+        documento = data("documento-model");
+            //gruppo = data("gruppo-model");
+        listaUtenti = JSON.parse($("#listautenti-model").text());
+        listaUtenti2 = JSON.parse($("#listautenti2-model").text());
+        listaFigli = JSON.parse($("#listafigli-model").text());
+            return {
+                model : listaUtenti,
+                listaRisultati: listaUtenti.data,
+                listaUtenti: listaUtenti,
+                listaUtenti2: listaUtenti2,
+                listaFigli: listaFigli,
+                messages: data("messages-model"),
+                documento: documento,
+                list : [],//serve per autocompletion
+                showEditgruppoModal: false,
+                elementoListaGruppi: {},
+                titolario : [],
+                fascicolo: [],
+                utente: [],
+                gruppo: [],
+                entity: '${query.entity}',
+                checkedRuoliGruppo: [],
+                ruoliGruppiCheck: [],
+                gruppiView: true,
+                ruoliView: false,
+                tabToClick: "",
+                checkedUserToDelete: [],
+            }
+
+        },
+        replace: false, //serve per autocompletion
+        created() {
+            let url_string = window.location.href;
+            var url = new URL(url_string);
+            var param = url.searchParams.get("firstPage");
+            if(param!="true"){
+                $("#btn-back").show();
+            }
+
+            var param2 = url.searchParams.get("TAB");
+            this.tabToClick = param2;
+
+            var ruoliGruppoForCheckbox = ruoliGruppo.split(",");
+            for( var i = 0; i < ruoliGruppoForCheckbox.length; i++ ){
+                this.ruoliGruppiCheck.push({ rgId: ruoliGruppoForCheckbox[i]});
+            }
+        },
+        mounted() {
+            if(this.tabToClick=="GRUPPI"){
+                //$('#btn-gruppi').trigger("click");
+                this.mostraGruppi();
+            }
+            if(this.tabToClick=="RUOLI"){
+                //$('#btn-ruoli').trigger("click");
+                this.mostraRuoli();
+            }
+            if(this.tabToClick=="UTENTI"){
+                //$('#btn-utenti').trigger("click");
+                this.mostraUtenti();
+            }
+            if(this.tabToClick=="FIGLI"){
+                //$('#btn-figli').trigger("click");
+                this.mostraFigli();
+            }
+        },
+        methods: {
+            changeRuoliGruppi: function(utente,groupId) {
+                var index = utente.groups.indexOf(groupId);
+                if(index==-1){
+                    utente.groups.push(groupId);
+                } else {
+                    utente.groups.splice(index, 1);
+                }
+                axios.patch("/docer/v1/utenti/"+utente.USER_ID, utente)
+                        .then(response => {
+                            if(response.status==200){
+                                if($('#btn-utenti').hasClass("btn-primary")){
+                                    var tab = $('#btn-utenti').text();
+                                }
+                                if(typeof this.documento.GROUP_ID !== "undefined"){
+                                    var sid = this.documento.GROUP_ID;
+                                }else{
+                                    var sid = null;
+                                }
+                                //openMessageModalTabSid("Ruoli aggiornati con successo!",tab,sid);
+
+                                if(index==-1) {
+                                    DocerClientApi.gruppi.get(groupId,
+                                        function () {
+                                            console.log("Ruoli aggiornati con successo");
+                                            //openMessageModalTabSid("Ruoli aggiornati con successo!",tab,sid);
+                                        },
+                                        function (e) {
+                                            if (e.response.status == 404) {
+                                                confirm(groupId + " non esiste. vuoi crearlo?",
+                                                    function(){
+                                                        var parent = groupId.substring(0,groupId.lastIndexOf("_"));
+                                                        DocerClientApi.gruppi.create({ GROUP_ID: groupId, GROUP_NAME: groupId , PARENT_GROUP_ID: parent });
+                                                    });
+                                            }
+                                        }
+                                    );
+                                } else {
+                                    console.log("Ruoli aggiornati con successo");
+                                    //openMessageModalTabSid("Ruoli aggiornati con successo!",tab,sid);
+                                }
+                            }
+                        }).catch(error => {
+                            showError(error.response.data);
+                    }); 
+            },
+
+            showTab: function(tab,pageNumber,sort){
+                var qs = changeQs("TAB", tab);
+                window.history.pushState({path:qs},'',qs);
+                qs = changeQs("pageNumber",pageNumber);
+                window.history.pushState({path:qs},'',qs);
+                qs = changeQs("orderBy",sort);
+                window.history.pushState({path:qs},'',qs);
+            },
+
+            mostraUtenti: function () {
+                this.listaRisultati = this.listaUtenti.data;
+                this.model = this.listaUtenti;
+                $('#btn-figli').removeClass("btn-primary").addClass("btn-default");
+                $('#btn-utenti').removeClass("btn-default").addClass("btn-primary");
+                $('.checkGruppiTitle').show();
+                $('.checkGruppi').show();
+                $('#autocompletionUtenti').show();
+                $('#btn-addUtente').show();
+                $('#autocompletionUtentiEmpty').hide();
+                $('#btn-addFiglio').hide();
+                this.checkedUserToDelete = [];
+                this.showTab("UTENTI");
+            },
+            mostraFigli: function () {
+                this.listaRisultati = this.listaFigli.data;
+                this.model = this.listaFigli;
+                $('#btn-figli').removeClass("btn-default").addClass("btn-primary");
+                $('#btn-utenti').removeClass("btn-primary").addClass("btn-default");
+                $('.checkGruppiTitle').hide();
+                $('.checkGruppi').hide();
+                $('#autocompletionUtenti').hide();
+                $('#btn-addUtente').hide();
+                $('#autocompletionUtentiEmpty').show();
+                $('#btn-addFiglio').show();
+                this.checkedUserToDelete = [];
+                this.showTab("FIGLI");
+            },
+            mostraGruppi: function () {
+                this.listaRisultati = this.listaUtenti.data;
+                this.model = this.listaUtenti;
+                $('#btn-ruoli').removeClass("btn-primary").addClass("btn-default");
+                $('#btn-gruppi').removeClass("btn-default").addClass("btn-primary");
+                this.gruppiView = true;
+                this.ruoliView = false;
+                $('#autocompletionGruppi').show();
+                $('#autocompletionRuoli').hide();
+                this.showTab("GRUPPI");
+            },
+            mostraRuoli: function () {
+                this.listaRisultati = this.listaUtenti2.data;
+                this.model = this.listaUtenti2;
+                $('#btn-ruoli').removeClass("btn-default").addClass("btn-primary");
+                $('#btn-gruppi').removeClass("btn-primary").addClass("btn-default");
+                this.ruoliView = true;
+                this.gruppiView = false;
+                $('#autocompletionGruppi').hide();
+                $('#autocompletionRuoli').show();
+                this.showTab("RUOLI");
+            },
+            searchGruppo: function () {
+                window.location.href = "/documenti/viewGroupList?entity=gruppi&sid="+this.gruppo;
+            },
+            addUtente: function () {
+                if(this.utente.length>0){
+                    var lunghezza = this.utente.length;
+                    var count = 0;
+                    for( var i = 0; i < this.utente.length; i++ ){
+                        axios.get("/docer/v1/utenti/"+this.utente[i])
+                            .then(response => {
+                                var gruppiPerId = response.data.groups;
+                                var userPerId = response.data.USER_ID;
+                                var gruppiFinali = gruppiPerId.concat(this.documento.GROUP_ID);
+                                var body = {
+                                    "groups" : gruppiFinali
+                                };
+                                count ++;
+                                axios.patch("/docer/v1/utenti/"+userPerId, body)
+                                    .then(response => {
+                                        if(this.utente.length == count){
+                                            if(response.status==200){
+                                                if($('#btn-utenti').hasClass("btn-primary")){
+                                                    var tab = $('#btn-utenti').text();
+                                                }
+                                                if(typeof this.documento.GROUP_ID !== "undefined"){
+                                                    var sid = this.documento.GROUP_ID;
+                                                }else{
+                                                    var sid = null;
+                                                }
+                                                openMessageModalTabSid("Dati aggiornati con successo!",tab,sid);
+                                            }    
+                                        }
+                                    }).catch(error => {
+                                    showError(error.response.data);
+                                }); 
+                            })
+                            .catch(error => {
+                                showError(error.response.data);
+                            });
+                    }
+                }
+            },
+            addFiglio: function () {
+                this.elementoListaGruppi={};
+                this.elementoListaGruppi.PARENT_GROUP_ID = this.documento.GROUP_ID;
+                this.elementoListaGruppi.GRUPPO_STRUTTURA = true;
+                this.elementoListaGruppi.GROUP_ID = this.documento.GROUP_ID+"_NEWGROUP";
+                
+                $('#groupId').prop('disabled', false);
+                $('#label-groupId').removeClass("labelNewDisabled").addClass("labelNew");
+                $('.select2').addClass("disabled"); 
+                $('#warningNearModal').hide();
+                $(".div-alert-warning > p").remove();
+                this.showEditgruppoModal = true
+            },
+            openNewGruppo: function () {
+                this.elementoListaGruppi={};
+                if(this.gruppiView==true){
+                    this.elementoListaGruppi.GRUPPO_STRUTTURA = true;
+                }
+                if(this.ruoliView==true){
+                    this.elementoListaGruppi.GRUPPO_STRUTTURA = false;
+                }
+                this.elementoListaGruppi.ENABLED = true;
+                
+                $('#gruppoStruttura').prop('disabled', true);
+                $('#groupId').prop('disabled', false);
+                $('#label-groupId').removeClass("labelNewDisabled").addClass("labelNew");
+
+                $('#warningNearModal').hide();
+                $(".div-alert-warning > p").remove();
+                this.showEditgruppoModal = true
+            },
+            confirmDelete: function (i) {
+                if (typeof i === 'number') {
+                    var descrizione = this.listaRisultati[i].name;
+                    var codice = this.listaRisultati[i].GROUP_ID;
+                } else {
+                    var descrizione = i.name;
+                    var codice = i.GROUP_ID;        
+                }
+                $("#messageDeleteModal").modal('show');
+                $('#messageDeleteModalTxtTitle').text("sicuro di voler eliminare il gruppo: ");
+                $('#messageDeleteModalTxt').text(descrizione +" (" + codice + ")");
+                $('#codice').val(codice);
+            },
+            deleteGruppo: function(){
+                var codice = $('#codice').val();
+                axios.delete("/docer/v1/gruppi/"+codice)
+                    .then(response => {
+                        if(response.status==204){
+                            $("#messageDeleteModal").hide();
+                            if (typeof this.documento.GROUP_ID !== "undefined") {
+                                var sid = this.documento.GROUP_ID;
+                            } else {
+                                var sid = null;
+                            }
+                            if ($('#btn-gruppi').hasClass("btn-primary")) {
+                                var tab = $('#btn-gruppi').text();
+                                openMessageModalTabSid("Gruppo eliminato con successo!",tab,sid);
+                            } else if($('#btn-ruoli').hasClass("btn-primary")){
+                                var tab = $('#btn-ruoli').text();
+                                openMessageModalTabSid("Gruppo eliminato con successo!",tab,sid);
+                            } else {
+                                openMessageModalReload("Gruppo eliminato con successo!");
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        showError(error.response.data);
+                    });
+            },
+            removeUserToGroup: function(i){
+                if(this.listaRisultati[i].USER_ID){
+                    var gruppi = this.listaRisultati[i].groups;
+                    var utenteDaEliminare = this.listaRisultati[i].docerId;
+                    var gruppoDaEliminare = this.documento.GROUP_ID;
+                    for( var i = 0; i < gruppi.length; i++){ 
+                        //if ( gruppi[i] === gruppoDaEliminare) { 
+                        if ( gruppi[i].includes(gruppoDaEliminare)) {  //elimino anche i ruoli associati
+                            gruppi.splice(i, 1); 
+                            i--; 
+                        }
+                    }
+                    var body = {
+                        "groups" : gruppi
+                    };
+                    axios.patch("/docer/v1/utenti/"+utenteDaEliminare, body)
+                            .then(response => {
+                                if(response.status==200){
+                                    if($('#btn-utenti').hasClass("btn-primary")){
+                                        var tab = $('#btn-utenti').text();
+                                    }
+                                    
+                                    if(typeof this.documento.GROUP_ID !== "undefined"){
+                                        var sid = this.documento.GROUP_ID;
+                                    }else{
+                                        var sid = null;
+                                    }
+                                    openMessageModalTabSid("Utente rimosso con successo!",tab,sid);
+                                }
+                            }).catch(error => {
+                            showError(error.response.data);
+                        });
+                } else {
+                    var gruppo = this.listaRisultati[i].GROUP_ID;
+                    var body = {
+                        "PARENT_GROUP_ID" : null
+                    };
+                    //BUG - IMPOSTANDO IL PARENT_GROUP_ID, IL METADATO NON VIENE AGGIORNATO
+                    axios.patch("/docer/v1/gruppi/"+gruppo, body)
+                            .then(response => {
+                                if(response.status==200){
+                                    if($('#btn-figli').hasClass("btn-primary")){
+                                        var tab = $('#btn-figli').text();
+                                    }
+                                    if(typeof this.documento.GROUP_ID !== "undefined"){
+                                        var sid = this.documento.GROUP_ID;
+                                    }else{
+                                        var sid = null;
+                                    }
+                                    openMessageModalTabSid("Figlio rimosso con successo!",tab,sid);
+                                }
+                            }).catch(error => {
+                            showError(error.response.data);
+                        });
+                }
+            },
+            removeUsersToGroup: function () {
+                if(this.checkedUserToDelete[0].USER_ID){ //verifico il primo elemento, gli altri sono uguali
+                    var count = 0;
+                    for( var j = 0; j < this.checkedUserToDelete.length; j++){
+                        var gruppi = this.checkedUserToDelete[j].groups;
+                        var utenteDaEliminare = this.checkedUserToDelete[j].USER_ID;
+                        var gruppoDaEliminare = this.documento.GROUP_ID;
+                        for( var i = 0; i < gruppi.length; i++){ 
+                            if ( gruppi[i].includes(gruppoDaEliminare)) {  //elimino anche i ruoli associati
+                                gruppi.splice(i, 1); 
+                                i--; 
+                            }
+                        }
+                        var body = {
+                            "groups" : gruppi
+                        };
+                        count ++;
+                        axios.patch("/docer/v1/utenti/"+utenteDaEliminare, body)
+                                .then(response => {
+                                    if(this.checkedUserToDelete.length == count){
+                                        if(response.status==200){
+                                            if($('#btn-utenti').hasClass("btn-primary")){
+                                                var tab = $('#btn-utenti').text();
+                                            }
+                                            if(typeof this.documento.GROUP_ID !== "undefined"){
+                                                var sid = this.documento.GROUP_ID;
+                                            }else{
+                                                var sid = null;
+                                            }
+                                            openMessageModalTabSid("Utenti eliminati con successo!",tab,sid);
+                                        }
+                                    }
+                                }).catch(error => {
+                                showError(error.response.data);
+                            });
+                    }
+                } else {
+                    var count = 0;
+                    for( var i = 0; i < this.checkedUserToDelete.length; i++){
+                        var gruppo = this.checkedUserToDelete[i].GROUP_ID;
+                        var body = {
+                            "PARENT_GROUP_ID" : null
+                        };
+                        count ++;
+                        //BUG - IMPOSTANDO IL PARENT_GROUP_ID, IL METADATO NON VIENE AGGIORNATO
+                        axios.patch("/docer/v1/gruppi/"+gruppo, body)
+                                .then(response => {
+                                    if(this.checkedUserToDelete.length == count){
+                                        if(response.status==200){
+                                            if($('#btn-figli').hasClass("btn-primary")){
+                                                var tab = $('#btn-figli').text();
+                                            }
+                                            if(typeof this.documento.GROUP_ID !== "undefined"){
+                                                var sid = this.documento.GROUP_ID;
+                                            }else{
+                                                var sid = null;
+                                            }
+                                            openMessageModalTabSid("Figli eliminati con successo!",tab,sid);
+                                        }
+                                    }
+                                }).catch(error => {
+                                showError(error.response.data);
+                            });
+                    }            
+                }
+            },
+            openElementGruppi: function (i) {
+                $('.select2').removeClass("disabled");
+                if(typeof this.listaRisultati[i] !== "undefined"){
+                    var codice = this.listaRisultati[i].docerId;
+                }else{
+                    var codice = i.docerId;
+                }
+
+                $('#groupId').prop('disabled', true);
+                $('#label-groupId').removeClass("labelNew").addClass("labelNewDisabled");
+
+                $('#warningNearModal').hide();
+                $(".div-alert-warning > p").remove();
+
+                axios.get("/docer/v1/report?qt=select&output.type=bean&fq=type:group&sid="+codice)
+                    .then(response => {
+                        this.elementoListaGruppi = response.data.data[0];
+                        this.showEditgruppoModal = true
+                    })
+                    .catch(error => {
+                        showError(error.response.data);
+                    });
+            }
+            
+        },
+        filters: {
+
+        }
+    });
+
+    
+
+    //**************************************//serve per autocompletion*****************************************
+    if (isBrowser){
+        if (!app.model){
+            app.prerender = false;
+            axios.get(uritemplate($('#app-data').attr('src')))
+                .then(function(response){
+                    app.model = response.data;
+                })
+                .catch(function(err){
+                    console.log("error:"+err);
+                });
+        } else {
+            app.prerender = true;
+        }
+    }
+
+
+    var currentCodiceAOO = '${$.userInfo.aoo.cod}';
+    var currentDenominazioneAOO = '${$.userInfo.aoo.desc}';
+    var currentCodiceAmm = '${$.userInfo.ente.cod}';
+    var currentDenominazioneAmm = '${$.userInfo.ente.desc}';
+    var utenteLoggato = '${$.userInfo.username}';
+
+
+    function openMessageModal(message){
+        $("#messageModal").modal('show');
+        $('#messageModalTxt').text(message);
+        setTimeout(function(){
+            $("#messageModal").modal('hide');
+            $('#messageModalTxt').text("");
+            window.location.reload();
+        },2000);
+    }
+
+    function openMessageModalTabSid(message,tab,sid){
+        $("#messageModal").modal('show');
+        $('#messageModalTxt').text(message);
+        setTimeout(function(){
+            $("#messageModal").modal('hide');
+            $('#messageModalTxt').text("");
+            if(sid){
+                //window.location.href = "/documenti/viewGroupList?entity=gruppi&orderBy=name%20asc&sid="+sid+"&TAB="+tab;
+                window.location.href = "/documenti/viewGroupList?entity=gruppi&sid="+sid+"&TAB="+tab;
+            }else{
+                //window.location.href = "/documenti/viewGroupList?entity=gruppi&orderBy=name%20asc&TAB="+tab;
+                window.location.href = "/documenti/viewGroupList?entity=gruppi&TAB="+tab;
+            }        
+        },2000);
+    }
+
+    function openMessageModalReload(message){
+        $("#messageModal").modal('show');
+        $('#messageModalTxt').text(message);
+        setTimeout(function(){
+            $("#messageModal").modal('hide');
+            $('#messageModalTxt').text("");
+            window.location.href = "/documenti/viewGroupList?entity=gruppi&orderBy=name%20asc";
+        },2000);
+    }
+
+
+</script>
+
+</body>
+
+</html>

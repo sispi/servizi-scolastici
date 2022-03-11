@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ruoli>
+	<ruolo name="CITTADINO" />
+	<ruolo name="OPERATORE_PA">
+		<deleghe>
+			<delega tipoRelazione="OPERATORE_PA" tipoId="fonte" id="DOCER-CARPI" />
+			<delega tipoRelazione="OPERATORE_PA" tipoId="fonte" id="ACI-CARPI" />
+			<delega tipoRelazione="OPERATORE_PA" tipoId="fonte" id="ANACNER-ER" />
+			<delega tipoRelazione="OPERATORE_PA" tipoId="fonte" id="PARIX-ER" />
+			<delega tipoRelazione="OPERATORE_PA" tipoId="fonte" id="EMR1" />
+			<delega tipoRelazione="OPERATORE_PA" tipoId="fonte" id="DOCER-TRIBUTI" />
+			<delega tipoRelazione="OPERATORE_PA" tipoId="fonte" id="FONTE_DOCER" />
+			<delega tipoRelazione="OPERATORE_PA" tipoId="fonte" id="EMRRICERCA1" />
+			<delega tipoRelazione="OPERATORE_PA" tipoId="fonte" id="EMRRICERCA1" />
+			<delega tipoRelazione="OPERATORE_PA" tipoId="fonte" id="TEST-SECURITY" />
+			<delega tipoRelazione="OPERATORE_PA" tipoId="fonte" id="EMRRICERCA1" />
+		</deleghe>
+	</ruolo>
+</ruoli>

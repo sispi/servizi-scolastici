@@ -1,0 +1,33 @@
+<configuration xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:kforms="http://kforms.tempuri.org" xmlns:xbl="http://www.w3.org/ns/xbl" xmlns:version="java:org.orbeon.oxf.common.Version" xmlns:sxc="http://sxc.tempuri.org" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:fr="http://orbeon.org/oxf/xml/form-runner" xmlns:fn="http://www.w3.org/2005/02/xpath-functions" xmlns:xxforms="http://orbeon.org/oxf/xml/xforms" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><group name="Configurazione">
+		<section name="Base">
+			<tempDir>/tmp/verificadocumenti</tempDir>
+		</section>
+                <section name="Parer">
+			<sacerHost>https://parer.regione.emilia-romagna.it/sacertest/VersamentoSync</sacerHost>
+			<sacerVersion>1.3</sacerVersion>
+			<deleteAfterSend>false</deleteAfterSend>
+			<useHttps>true</useHttps>
+                </section>
+		<section name="ParerRichiesta">
+			<userid>KDM_Versatore</userid>
+			<password>password</password>
+			<tipoConservazione>SOSTITUTIVA</tipoConservazione>
+			<forzaAccettazione>false</forzaAccettazione>
+			<forzaCollegamento>false</forzaCollegamento>
+			<forzaConservazione>false</forzaConservazione>
+			<ambiente>PARER_TEST</ambiente>
+			<ente>ente_test</ente>
+			<struttura>KDM_TEST</struttura>
+			<numero>123</numero>
+			<anno>2012</anno>
+			<tipoRegistro>NP</tipoRegistro>
+			<tipologiaUnitaDocumentaria>NON PROTOCOLLATI</tipologiaUnitaDocumentaria>
+			<tipoDocumento>NON PROTOCOLLATI</tipoDocumento>
+			<tipoStruttura>DocumentoGenerico</tipoStruttura>
+			<tipoComponente>Contenuto</tipoComponente>
+                        <versioneDatiSpecifici>1.0</versioneDatiSpecifici>
+                        <datiSpecifici>
+                                <tipo_Registrazione>E</tipo_Registrazione>
+                        </datiSpecifici>
+		</section>
+	</group></configuration>

@@ -1,0 +1,207 @@
+<configuration xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:ev="http://www.w3.org/2001/xml-events" xmlns:xi="http://www.w3.org/2001/XInclude" xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:saxon="http://saxon.sf.net/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:kforms="http://kforms.tempuri.org" xmlns:xbl="http://www.w3.org/ns/xbl" xmlns:version="java:org.orbeon.oxf.common.Version" xmlns:sxc="http://sxc.tempuri.org" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:fr="http://orbeon.org/oxf/xml/form-runner" xmlns:fn="http://www.w3.org/2005/02/xpath-functions" xmlns:xxforms="http://orbeon.org/oxf/xml/xforms" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><group name="common-configuration">
+		<section name="allowed_users">
+			<userid>admin</userid> 
+			<userid>sysadmin</userid>
+		</section>
+		<section name="email">
+			<subject>Resoconto</subject>
+			<host>smtp.gmail.com</host>
+			<fromAddress>luca.biasin@kdm.it</fromAddress>
+			<fromName>Luca Biasin</fromName>
+			<username>luca.biasin@kdm.it</username>
+			<password>&lt;mahatma></password>
+			<method>TLS</method>
+			<smtpport>587</smtpport>
+			<sslport>25</sslport>
+			<to>
+				<address id_fonte="ENTETEST" />
+				<address id_fonte="EMRRICERCA1">luca.biasin@kdm.it</address>
+				<address id_fonte="EMR1" />
+				<address id_fonte="EMR2" />
+				<address id_fonte="EMR3" />
+			</to>
+		</section>
+	</group><group name="batch-popolamento-raccoglitore">
+
+		<section name="config">
+			<enabled>true</enabled>
+			<runCronExp>30 28 17 * * ?</runCronExp>
+			<xml_transfer_mode>none</xml_transfer_mode>
+			<delete_xml_after_upload>false</delete_xml_after_upload>
+		</section>
+
+		<section name="sftp">
+			<folder id_fonte="ENTETEST" host="93.62.155.226" userid="raccoglitore" password="rac384_hjsj78">ENTETEST</folder>
+				
+		</section>
+
+		<section name="soap">
+			<url>http://raccoglitore.cn-er.org/rac-middleware-service-1.0.1-SNAPSHOT/RerServiziPerLeFonti/RerServicePerLeFontiImpl?wsdl</url>
+			<ontology>http://www.regione.emilia-romagna.it/ontologies/DOCER.owl</ontology>
+			<token id_fonte="ENTETEST">ENTETEST</token>
+			
+		</section>
+
+		<section name="profilo_fascicolo">
+
+			<customfields cod_ente="EMR" cod_aoo="*" id_fonte="*">
+				<ms_mod_tx label="modalita' di trasmissione" default="n.a." />
+				<MS_D_SU_BUR_AC label="Data SU BUR AC" default="n.a." />
+			</customfields>
+
+			<customfields cod_ente="EMR" cod_aoo="AOO_EMR" id_fonte="EMR1">
+				<id_proc label="id procedimento" />
+			</customfields>
+
+			<descrizionefields cod_ente="EMR" cod_aoo="AOO_EMR" id_fonte="*">
+				<des_fascicolo />
+				<progr_fascicolo />
+			</descrizionefields>
+
+			 
+			<relazioni cod_ente="ENTETEST" cod_aoo="*" id_fonte="*">
+				<cf_persona autorizzazione="true" tipoId="codiceFiscale" tipoRelazione="titolare" />
+				
+				<cf_azienda autorizzazione="true" tipoId="codiceFiscale" tipoRelazione="titolare" />
+				<id_immobile tipoId="idImmobile " tipoRelazione="oggetto" />
+			</relazioni>
+			
+
+		</section>
+
+		<section name="profilo_documento">
+
+			<customfields cod_ente="EMR" cod_aoo="AOO_EMR" type_id="*">
+				<DOCNAME label="nome documento" default="n.a." />
+			</customfields>			
+			<customfields cod_ente="EMR" cod_aoo="AOO_EMR" type_id="PG">
+				<ms_mod_tx label="mod tx" default="n.a." />
+				<MS_D_SU_BUR_AC label="MS DATA SUBURAC" default="n.a." />
+				<DOCNAME />
+			</customfields>
+			<keywords cod_ente="EMR" cod_aoo="AOO_EMR" type_id="*">
+				<NUM_PG />
+				<N_REGISTRAZ />
+			</keywords>
+			<keywords cod_ente="EMR" cod_aoo="AOO_EMR" type_id="DOCUMENTO">
+				<ANNO_PG />
+			</keywords>
+
+			<descrizionefields cod_ente="EMR" cod_aoo="AOO_EMR" type_id="*">
+				<DOCNAME />
+				<docnum />
+			</descrizionefields>
+
+
+			<relazioni cod_ente="ENTETEST" cod_aoo="*" type_id="*">
+				<abstract autorizzazione="true" tipoId="partitaIva" tipoRelazione="titolare" />				
+			</relazioni>
+			
+			
+		</section>
+
+
+	</group><group name="batch-popolamento-fonte">
+
+		<section name="config">
+			<enabled>true</enabled>
+			<runCronExp>0 30 17 * * ?</runCronExp>			<documenti_skip_fields>NEEDS_FONTE_UPDATE;DES_AREA;DES_FASCICOLO;DES_ENTE;DES_AOO;DES_TITOLARIO;TYPE_ID_DES;AUTHOR_ID;TYPIST_ID;DEFAULT_EXTENSION</documenti_skip_fields>
+			<fascicoli_skip_fields>NEEDS_FONTE_UPDATE;FOLDER_ID</fascicoli_skip_fields>
+		</section>
+
+		<section name="migration_criteria">
+
+			<fascicolo_criteria id="id-0" id_fonte="EMRRICERCA1" force_update="false">
+				<cod_ente>EMRRICERCA1</cod_ente>
+				<cod_aoo>AOO_EMRRICERCA1</cod_aoo>
+				<id_proc>SUAP</id_proc>
+				<documenti_principali_criteria>
+				</documenti_principali_criteria>
+			</fascicolo_criteria>
+
+			<fascicolo_criteria id="id-1" id_fonte="ENTETEST" force_update="false">
+				<cod_ente>ENTETEST</cod_ente>
+				<cod_aoo>AOOTEST</cod_aoo>
+				<id_proc>SUAP</id_proc>
+				<documenti_principali_criteria>
+				</documenti_principali_criteria>
+			</fascicolo_criteria>
+
+			<fascicolo_criteria id="id-2" id_fonte="ENTETEST" force_update="false">
+				<cod_ente>ENTETEST</cod_ente>
+				<cod_aoo>AOOTEST</cod_aoo>
+				<id_proc>ASILO</id_proc>
+				<documenti_principali_criteria>
+				</documenti_principali_criteria>
+			</fascicolo_criteria>
+			
+
+		</section>
+	</group><group name="web-services">
+		<section name="ws_archvio_corrente">
+
+			<ws_ac_login_userid>admin</ws_ac_login_userid>
+			<ws_ac_login_pwd>admin</ws_ac_login_pwd>
+			<ws_ac_login_cod_ente />
+			<ws_ac_url>http://localhost:8080/WSDocer/services/DocerServices</ws_ac_url>
+			<ws_ac_auth_url>http://localhost:8080/docersystem/services/AuthenticationService</ws_ac_auth_url>
+		</section>
+		<section name="ws_fonte">
+			<ws_fonte_login_userid>admin</ws_fonte_login_userid>
+			<ws_fonte_login_pwd>admin</ws_fonte_login_pwd>
+			<ws_fonte_login_cod_ente />
+			<ws_fonte_url>http://localhost:8083/WSFonteDocer/services/DocerServices</ws_fonte_url>
+			
+
+<ws_fonte_auth_url>http://localhost:8083/docersystem/services/AuthenticationService</ws_fonte_auth_url>
+		</section>
+	</group><group name="raccoglitore">
+
+		<section name="variables">
+		    	<user_token_expiring_minutes>1</user_token_expiring_minutes>
+				<debug>true</debug>
+				<testUser>BSNLCU74A01H501M</testUser>	
+		</section>
+    
+    			
+		<section name="search_forms_raccoglitore">
+			          
+            <simple_search>
+            	<fascicolo>
+        			<data>DATA_APERTURA</data>
+        			<testo>DES_FASCICOLO</testo>
+        			<numero>PROGR_FASCICOLO</numero>    	
+            	</fascicolo>
+            	<documento>
+            		<data>DATA_PG</data>
+        			<testo>TEXT</testo>
+        			<numero>NUM_PG</numero>
+            	</documento>
+            </simple_search>
+ 
+
+			<form id_fonte="*">
+					<tipo_oggetto descrizione="Tipo oggetto" tipoAttributo="DOMINIO" infoAttributo="{&quot;Documento&quot;, &quot;Fascicolo&quot;}" obbligatorio="true" />
+					<progr_fascicolo descrizione="Progressivo Fascicolo" visibilita="$tipo_oggetto$==&quot;Fascicolo&quot;" />
+					<anno_fascicolo descrizione="Anno Fascicolo" tipoAttributo="TESTO" visibilita="$tipo_oggetto$==&quot;Fascicolo&quot;" />
+					<des_fascicolo descrizione="DescrizioneFascicolo" tipoAttributo="TESTO" visibilita="$tipo_oggetto$==&quot;Fascicolo&quot;" />
+					<data_apertura descrizione="Data Apertura" tipoAttributo="DATARANGE" visibilita="$tipo_oggetto$==&quot;Fascicolo&quot;" />
+					<num_pg descrizione="Numero Protocollo" tipoAttributo="TESTO" visibilita="$tipo_oggetto$==&quot;Documento&quot;" />
+					<anno_pg descrizione="Anno Protocollo" tipoAttributo="TESTO" visibilita="$tipo_oggetto$==&quot;Documento&quot;" />
+					<abstract descrizione="Oggetto Documento" tipoAttributo="TESTO" visibilita="$tipo_oggetto$==&quot;Documento&quot;" />
+			</form>
+
+
+	<form id_fonte="EMRRICERCA1">
+					<anno_fascicolo descrizione="Anno Fascicolo" tipoAttributo="DOMINIO" infoAttributo="{&quot;2013&quot;, &quot;2014&quot;}" visibilita="$tipo_oggetto$==&quot;Fascicolo&quot;" />
+			</form>
+
+	<form id_fonte="EMRRICERCA2">
+					<anno_fascicolo descrizione="Anno Fascicolo" tipoAttributo="DOMINIO" infoAttributo="{&quot;2012&quot;, &quot;&quot;2013&quot;, &quot;2014&quot;}" visibilita="$tipo_oggetto$==&quot;Fascicolo&quot;" />
+			</form>
+
+		</section>
+		
+					
+				
+	</group></configuration>

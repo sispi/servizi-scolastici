@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:ax215="http://classes.sdk.docer.kdm.it/xsd"
+                  xmlns:ax213="http://registrazione.docer.kdm.it/xsd"
+                  xmlns:ns="http://registrazione.docer.kdm.it"
+                  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+                  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+                  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+                  xmlns:ns1="http://org.apache.axis2/xsd"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  targetNamespace="http://registrazione.docer.kdm.it">
+   <wsdl:documentation>
+		Servizio per la Registrazione
+	</wsdl:documentation>
+   <wsdl:types>
+      <xs:schema xmlns:ax214="http://registrazione.docer.kdm.it/xsd"
+                 xmlns:ax216="http://classes.sdk.docer.kdm.it/xsd"
+                 attributeFormDefault="qualified"
+                 elementFormDefault="qualified"
+                 targetNamespace="http://registrazione.docer.kdm.it">
+         <xs:import namespace="http://registrazione.docer.kdm.it/xsd"/>
+         <xs:import namespace="http://classes.sdk.docer.kdm.it/xsd"/>
+         <xs:element name="WSRegistrazioneRegistrazioneException">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="RegistrazioneException" nillable="true"
+                              type="ax214:RegistrazioneException"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="login">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="userId" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="password" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="codiceEnte" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="logout">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="logoutResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="registraById">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="documentoId" type="xs:long"/>
+                  <xs:element minOccurs="0" name="registroId" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="datiRegistrazione" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="registraByIdResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getRegistri">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="cod_ente" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="cod_aoo" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getRegistriResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="return" nillable="true"
+                              type="ax215:KeyValuePair"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginSSO">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="saml" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="codiceEnte" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginSSOResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="readConfig">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="readConfigResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="writeConfig">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="xmlConfig" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="writeConfigResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+      <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified"
+                 targetNamespace="http://registrazione.docer.kdm.it/xsd">
+         <xs:complexType name="RegistrazioneException">
+            <xs:sequence/>
+         </xs:complexType>
+      </xs:schema>
+      <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified"
+                 targetNamespace="http://classes.sdk.docer.kdm.it/xsd">
+         <xs:complexType name="KeyValuePair">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="key" nillable="true" type="xs:string"/>
+               <xs:element minOccurs="0" name="value" nillable="true" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="readConfigRequest">
+      <wsdl:part name="parameters" element="ns:readConfig"/>
+   </wsdl:message>
+   <wsdl:message name="readConfigResponse">
+      <wsdl:part name="parameters" element="ns:readConfigResponse"/>
+   </wsdl:message>
+   <wsdl:message name="WSRegistrazioneRegistrazioneException">
+      <wsdl:part name="parameters" element="ns:WSRegistrazioneRegistrazioneException"/>
+   </wsdl:message>
+   <wsdl:message name="logoutRequest">
+      <wsdl:part name="parameters" element="ns:logout"/>
+   </wsdl:message>
+   <wsdl:message name="logoutResponse">
+      <wsdl:part name="parameters" element="ns:logoutResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getRegistriRequest">
+      <wsdl:part name="parameters" element="ns:getRegistri"/>
+   </wsdl:message>
+   <wsdl:message name="getRegistriResponse">
+      <wsdl:part name="parameters" element="ns:getRegistriResponse"/>
+   </wsdl:message>
+   <wsdl:message name="loginSSORequest">
+      <wsdl:part name="parameters" element="ns:loginSSO"/>
+   </wsdl:message>
+   <wsdl:message name="loginSSOResponse">
+      <wsdl:part name="parameters" element="ns:loginSSOResponse"/>
+   </wsdl:message>
+   <wsdl:message name="writeConfigRequest">
+      <wsdl:part name="parameters" element="ns:writeConfig"/>
+   </wsdl:message>
+   <wsdl:message name="writeConfigResponse">
+      <wsdl:part name="parameters" element="ns:writeConfigResponse"/>
+   </wsdl:message>
+   <wsdl:message name="registraByIdRequest">
+      <wsdl:part name="parameters" element="ns:registraById"/>
+   </wsdl:message>
+   <wsdl:message name="registraByIdResponse">
+      <wsdl:part name="parameters" element="ns:registraByIdResponse"/>
+   </wsdl:message>
+   <wsdl:message name="loginRequest">
+      <wsdl:part name="parameters" element="ns:login"/>
+   </wsdl:message>
+   <wsdl:message name="loginResponse">
+      <wsdl:part name="parameters" element="ns:loginResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="WSRegistrazionePortType">
+      <wsdl:operation name="readConfig">
+         <wsdl:input message="ns:readConfigRequest" wsaw:Action="urn:readConfig"/>
+         <wsdl:output message="ns:readConfigResponse" wsaw:Action="urn:readConfigResponse"/>
+         <wsdl:fault message="ns:WSRegistrazioneRegistrazioneException"
+                     name="WSRegistrazioneRegistrazioneException"
+                     wsaw:Action="urn:readConfigWSRegistrazioneRegistrazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="logout">
+         <wsdl:input message="ns:logoutRequest" wsaw:Action="urn:logout"/>
+         <wsdl:output message="ns:logoutResponse" wsaw:Action="urn:logoutResponse"/>
+         <wsdl:fault message="ns:WSRegistrazioneRegistrazioneException"
+                     name="WSRegistrazioneRegistrazioneException"
+                     wsaw:Action="urn:logoutWSRegistrazioneRegistrazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="getRegistri">
+         <wsdl:input message="ns:getRegistriRequest" wsaw:Action="urn:getRegistri"/>
+         <wsdl:output message="ns:getRegistriResponse" wsaw:Action="urn:getRegistriResponse"/>
+         <wsdl:fault message="ns:WSRegistrazioneRegistrazioneException"
+                     name="WSRegistrazioneRegistrazioneException"
+                     wsaw:Action="urn:getRegistriWSRegistrazioneRegistrazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <wsdl:input message="ns:loginSSORequest" wsaw:Action="urn:loginSSO"/>
+         <wsdl:output message="ns:loginSSOResponse" wsaw:Action="urn:loginSSOResponse"/>
+         <wsdl:fault message="ns:WSRegistrazioneRegistrazioneException"
+                     name="WSRegistrazioneRegistrazioneException"
+                     wsaw:Action="urn:loginSSOWSRegistrazioneRegistrazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="writeConfig">
+         <wsdl:input message="ns:writeConfigRequest" wsaw:Action="urn:writeConfig"/>
+         <wsdl:output message="ns:writeConfigResponse" wsaw:Action="urn:writeConfigResponse"/>
+         <wsdl:fault message="ns:WSRegistrazioneRegistrazioneException"
+                     name="WSRegistrazioneRegistrazioneException"
+                     wsaw:Action="urn:writeConfigWSRegistrazioneRegistrazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="registraById">
+         <wsdl:input message="ns:registraByIdRequest" wsaw:Action="urn:registraById"/>
+         <wsdl:output message="ns:registraByIdResponse" wsaw:Action="urn:registraByIdResponse"/>
+         <wsdl:fault message="ns:WSRegistrazioneRegistrazioneException"
+                     name="WSRegistrazioneRegistrazioneException"
+                     wsaw:Action="urn:registraByIdWSRegistrazioneRegistrazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <wsdl:input message="ns:loginRequest" wsaw:Action="urn:login"/>
+         <wsdl:output message="ns:loginResponse" wsaw:Action="urn:loginResponse"/>
+         <wsdl:fault message="ns:WSRegistrazioneRegistrazioneException"
+                     name="WSRegistrazioneRegistrazioneException"
+                     wsaw:Action="urn:loginWSRegistrazioneRegistrazioneException"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="WSRegistrazioneSoap11Binding" type="ns:WSRegistrazionePortType">
+      <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="readConfig">
+         <soap:operation soapAction="urn:readConfig" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSRegistrazioneRegistrazioneException">
+            <soap:fault use="literal" name="WSRegistrazioneRegistrazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="logout">
+         <soap:operation soapAction="urn:logout" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSRegistrazioneRegistrazioneException">
+            <soap:fault use="literal" name="WSRegistrazioneRegistrazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="getRegistri">
+         <soap:operation soapAction="urn:getRegistri" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSRegistrazioneRegistrazioneException">
+            <soap:fault use="literal" name="WSRegistrazioneRegistrazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <soap:operation soapAction="urn:loginSSO" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSRegistrazioneRegistrazioneException">
+            <soap:fault use="literal" name="WSRegistrazioneRegistrazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="writeConfig">
+         <soap:operation soapAction="urn:writeConfig" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSRegistrazioneRegistrazioneException">
+            <soap:fault use="literal" name="WSRegistrazioneRegistrazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="registraById">
+         <soap:operation soapAction="urn:registraById" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSRegistrazioneRegistrazioneException">
+            <soap:fault use="literal" name="WSRegistrazioneRegistrazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <soap:operation soapAction="urn:login" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSRegistrazioneRegistrazioneException">
+            <soap:fault use="literal" name="WSRegistrazioneRegistrazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:binding name="WSRegistrazioneSoap12Binding" type="ns:WSRegistrazionePortType">
+      <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="readConfig">
+         <soap12:operation soapAction="urn:readConfig" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSRegistrazioneRegistrazioneException">
+            <soap12:fault use="literal" name="WSRegistrazioneRegistrazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="logout">
+         <soap12:operation soapAction="urn:logout" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSRegistrazioneRegistrazioneException">
+            <soap12:fault use="literal" name="WSRegistrazioneRegistrazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="getRegistri">
+         <soap12:operation soapAction="urn:getRegistri" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSRegistrazioneRegistrazioneException">
+            <soap12:fault use="literal" name="WSRegistrazioneRegistrazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <soap12:operation soapAction="urn:loginSSO" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSRegistrazioneRegistrazioneException">
+            <soap12:fault use="literal" name="WSRegistrazioneRegistrazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="writeConfig">
+         <soap12:operation soapAction="urn:writeConfig" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSRegistrazioneRegistrazioneException">
+            <soap12:fault use="literal" name="WSRegistrazioneRegistrazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="registraById">
+         <soap12:operation soapAction="urn:registraById" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSRegistrazioneRegistrazioneException">
+            <soap12:fault use="literal" name="WSRegistrazioneRegistrazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <soap12:operation soapAction="urn:login" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSRegistrazioneRegistrazioneException">
+            <soap12:fault use="literal" name="WSRegistrazioneRegistrazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:binding name="WSRegistrazioneHttpBinding" type="ns:WSRegistrazionePortType">
+      <http:binding verb="POST"/>
+      <wsdl:operation name="readConfig">
+         <http:operation location="readConfig"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="logout">
+         <http:operation location="logout"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getRegistri">
+         <http:operation location="getRegistri"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <http:operation location="loginSSO"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="writeConfig">
+         <http:operation location="writeConfig"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="registraById">
+         <http:operation location="registraById"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <http:operation location="login"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="WSRegistrazione">
+      <wsdl:port name="WSRegistrazioneHttpSoap11Endpoint"
+                 binding="ns:WSRegistrazioneSoap11Binding">
+         <soap:address location="http://localhost:8080/WSRegistrazione/services/WSRegistrazione.WSRegistrazioneHttpSoap11Endpoint/"/>
+      </wsdl:port>
+      <wsdl:port name="WSRegistrazioneHttpSoap12Endpoint"
+                 binding="ns:WSRegistrazioneSoap12Binding">
+         <soap12:address location="http://localhost:8080/WSRegistrazione/services/WSRegistrazione.WSRegistrazioneHttpSoap12Endpoint/"/>
+      </wsdl:port>
+      <wsdl:port name="WSRegistrazioneHttpEndpoint" binding="ns:WSRegistrazioneHttpBinding">
+         <http:address location="http://localhost:8080/WSRegistrazione/services/WSRegistrazione.WSRegistrazioneHttpEndpoint/"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

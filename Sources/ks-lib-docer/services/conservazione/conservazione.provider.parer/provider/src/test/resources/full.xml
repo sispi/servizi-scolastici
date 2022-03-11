@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unitaDocumentaria>
+	<codiceEnte>COMUNE_PARMA</codiceEnte>
+	<codiceAoo>AOO000</codiceAoo>
+	<ambiente>COMUNI</ambiente>
+	<userId>admin</userId>
+	<numeroPG>5</numeroPG>
+	<annoPG>2011</annoPG>
+	<registroPG>PG</registroPG>
+	<tipologia>PROTOCOLLO</tipologia>
+	<oggetto>Domanda di permesso di costruire presentata da Paola Righi
+		(RGHPLA74P65H827X) nata a Milano il 25/09/1974 residente in Parma via
+		XX 8
+	</oggetto>
+	<dataRegistrazione>2011-01-01</dataRegistrazione>
+	<fascicoloPrincipale>
+		<codiceTitolario>1.0.0</codiceTitolario>
+		<codiceFascicolo>1.0.0/2011/1</codiceFascicolo>
+		<descrizioneFascicolo>Pratica XXX</descrizioneFascicolo>
+		<sottoFascicolo>
+			<codiceFascicolo>1.0.0/2011/1/1</codiceFascicolo>
+			<descrizioneFascicolo>Giustificativi</descrizioneFascicolo>
+		</sottoFascicolo>
+	</fascicoloPrincipale>
+	<fascicoloSecondario>
+		<codiceTitolario>2.0</codiceTitolario>
+		<codiceFascicolo>2.0/2011/2</codiceFascicolo>
+		<descrizioneFascicolo>Acquisti Vari</descrizioneFascicolo>
+	</fascicoloSecondario>
+	<fascicoloSecondario>
+		<codiceTitolario>2.1</codiceTitolario>
+		<codiceFascicolo>2.1/2011/3</codiceFascicolo>
+		<descrizioneFascicolo>Oggetto del fascicolo 2.1</descrizioneFascicolo>
+		<sottoFascicolo>
+			<codiceFascicolo>2.1/2011/3/1</codiceFascicolo>
+			<descrizioneFascicolo>Prova</descrizioneFascicolo>
+		</sottoFascicolo>
+	</fascicoloSecondario>
+	<documentoCollegato>
+		<numeroPG>12</numeroPG>
+		<annoPG>1234</annoPG>
+		<registroPG>asd</registroPG>
+		<descrizioneCollegamento>string</descrizioneCollegamento>
+	</documentoCollegato>
+	<documento>
+		<docNum>015</docNum>
+		<typeId>RICHIESTA_PERMESSO_EDILIZIO</typeId>
+		<description>Istanza del Richiedente</description>
+		<authorId>Paolo Rossi</authorId>
+		<datiSpecifici>
+			<VersioneDatiSpecifici>1.0</VersioneDatiSpecifici>
+		</datiSpecifici>
+		<datiSpecifici>
+			<DenominazioneDirettoreLavori>Giuseppe Bianchi
+			</DenominazioneDirettoreLavori>
+		</datiSpecifici>
+		<datiSpecifici>
+			<CFDirettoreLavori>BNCGSP54G18H140V</CFDirettoreLavori>
+		</datiSpecifici>
+		<datiSpecifici>
+			<DenominazioneImpresaEsecutriceOpere>Rossi &amp; C.
+			</DenominazioneImpresaEsecutriceOpere>
+		</datiSpecifici>
+		<datiSpecifici>
+			<PIVAImpresaEsecutriceOpere>11122456124</PIVAImpresaEsecutriceOpere>
+		</datiSpecifici>
+		<datiFiscali>
+			<denominazione>string</denominazione>
+			<nome>string</nome>
+			<cognome>string</cognome>
+			<cf>1234567890abcdef</cf>
+			<pIVA>1234567890a</pIVA>
+			<dataEmissione>1973-04-04</dataEmissione>
+			<numeroProgressivo>12</numeroProgressivo>
+			<registro>0</registro>
+			<periodoFiscale>string</periodoFiscale>
+			<dataTermineEmissione>1973-04-04</dataTermineEmissione>
+		</datiFiscali>
+		<tipoStruttura>TESTO_FIRMA_DETACHED</tipoStruttura>
+		<componente>
+			<id>1</id>
+			<ordinePresentazione>1</ordinePresentazione>
+			<tipoComponente>CONTENUTO</tipoComponente>
+			<tipoSupportoComponente>FILE</tipoSupportoComponente>
+			<riferimento>
+				<numeroPG>123</numeroPG>
+				<annoPG>1234</annoPG>
+				<registroPG>REGISTRO</registroPG>
+			</riferimento>
+			<tipoRappresentazioneComponente />
+			<nomeComponente>DomandaPermessoRighi.pdf</nomeComponente>
+			<formatoFileVersato>PDF</formatoFileVersato>
+			<hashVersato>12345abcde</hashVersato>
+			<urnVersato>c:\cartella permessi\righi.pdf.p7m</urnVersato>
+			<utilizzoDataFirmaPerRifTemp>true</utilizzoDataFirmaPerRifTemp>
+			<riferimentoTemporale>2010-11-11T10:10:00.000</riferimentoTemporale>
+			<descrizioneRiferimentoTemporale />
+			<sottoComponente>
+				<id>2</id>
+				<ordinePresentazione>2</ordinePresentazione>
+				<tipoComponente>FIRMA</tipoComponente>
+				<tipoSupportoComponente>FILE</tipoSupportoComponente>
+				<nomeComponente>DomandaPermessoRighi.pdf.p7m</nomeComponente>
+				<formatoFileVersato>p7m</formatoFileVersato>
+				<urnVersato />
+				<utilizzoDataFirmaPerRifTemp />
+			</sottoComponente>
+		</componente>
+	</documento>
+	<allegato>
+		<docNum>018</docNum>
+		<typeId>GENERICO</typeId>
+		<description>Ricevuta Versamento relativa ai diritti di segreteria
+		</description>
+		<authorId />
+		<tipoStruttura>TESTO</tipoStruttura>
+		<componente>
+			<id>3</id>
+			<ordinePresentazione>1</ordinePresentazione>
+			<tipoComponente>CONTENUTO</tipoComponente>
+			<tipoSupportoComponente>FILE</tipoSupportoComponente>
+			<tipoRappresentazioneComponente />
+			<nomeComponente>ricevutaversamentorighi.tiff</nomeComponente>
+			<formatoFileVersato>TIFF</formatoFileVersato>
+			<hashVersato />
+			<urnVersato />
+			<utilizzoDataFirmaPerRifTemp>false</utilizzoDataFirmaPerRifTemp>
+			<descrizioneRiferimentoTemporale />
+		</componente>
+	</allegato>
+	<annesso>
+		<docNum>019</docNum>
+		<typeId>GENERICO</typeId>
+		<description>Parere di Conformità</description>
+		<authorId />
+		<tipoStruttura>TESTO_FIRMA_EMBEDDED</tipoStruttura>
+		<componente>
+			<id>4</id>
+			<ordinePresentazione>1</ordinePresentazione>
+			<tipoComponente>CONTENUTO</tipoComponente>
+			<tipoSupportoComponente>FILE</tipoSupportoComponente>
+			<tipoRappresentazioneComponente />
+			<nomeComponente>parere.pdf.p7m</nomeComponente>
+			<formatoFileVersato>p7m</formatoFileVersato>
+			<hashVersato>12345abcde</hashVersato>
+			<urnVersato />
+			<utilizzoDataFirmaPerRifTemp>false</utilizzoDataFirmaPerRifTemp>
+			<riferimentoTemporale>2000-03-11T09:00:00.000</riferimentoTemporale>
+			<descrizioneRiferimentoTemporale>Riferimento temporale versato
+			</descrizioneRiferimentoTemporale>
+		</componente>
+	</annesso>
+	<annotazione>
+		<docNum>025</docNum>
+		<typeId>GENERICO</typeId>
+		<description>segnatura di protocollo</description>
+		<authorId />
+		<tipoStruttura>XML</tipoStruttura>
+		<componente>
+			<id>token</id>
+			<ordinePresentazione>0</ordinePresentazione>
+			<tipoComponente>SEGNATURA</tipoComponente>
+			<tipoSupportoComponente>FILE</tipoSupportoComponente>
+			<tipoRappresentazioneComponente />
+			<nomeComponente>segnatura.xml</nomeComponente>
+			<formatoFileVersato>XML</formatoFileVersato>
+			<hashVersato>12345abcde</hashVersato>
+			<urnVersato />
+			<utilizzoDataFirmaPerRifTemp>false</utilizzoDataFirmaPerRifTemp>
+			<descrizioneRiferimentoTemporale />
+		</componente>
+	</annotazione>
+</unitaDocumentaria>

@@ -1,0 +1,19 @@
+<add>
+    <doc>
+        <field name="type">group</field>
+        <field name="name">everyone</field>
+    </doc>
+
+    <doc>
+        <field name="type">group</field>
+        <field name="name">admins</field>
+    </doc>
+
+    <doc>
+        <field name="type">user</field>
+        <field name="name">admin</field>
+        <field name="groups">admins@group</field>
+        <field name="groups">everyone@group</field>
+    </doc>
+
+</add>

@@ -1,0 +1,99 @@
+{
+  "wizard": false,
+  "header": "<p>qqq</p>\n",
+  "footer": null,
+  "toolbar": {
+    "position": "bottom",
+    "buttons": [
+      {
+        "type": "button",
+        "role": "submit",
+        "actionUrl": "",
+        "actionUrlProcessor": "",
+        "validationUrl": "",
+        "validationUrlProcessor": "",
+        "handler": "",
+        "show": "",
+        "disabled": "",
+        "label": "Submit",
+        "margin": 0,
+        "width": 0,
+        "break": false,
+        "class": "btn-primary",
+        "style": null
+      },
+      {
+        "type": "button",
+        "role": "save",
+        "actionUrl": "",
+        "actionUrlProcessor": "",
+        "validationUrl": "",
+        "validationUrlProcessor": "",
+        "handler": "",
+        "show": "",
+        "disabled": "",
+        "label": "Save",
+        "margin": 0,
+        "width": 0,
+        "break": false,
+        "class": "btn-primary",
+        "style": null
+      }
+    ]
+  },
+  "tabs": [
+    {
+      "title": "Tab 1",
+      "sticky": false,
+      "disabled": "false",
+      "sections": [
+        {
+          "type": "single",
+          "input": "",
+          "output": "",
+          "show": "true",
+          "class": null,
+          "style": null,
+          "header": {
+            "title": "Sezione di prova 1",
+            "collapsible": false,
+            "class": null,
+            "style": null
+          },
+          "repeatable": null,
+          "shared": null,
+          "elements": [
+            {
+              "type": "button",
+              "role": "submit",
+              "show": "true",
+              "disabled": "false",
+              "label": "Button",
+              "margin": 0,
+              "width": 2,
+              "break": false,
+              "classes": "btn btn-primary"
+            },
+            {
+              "type": "text",
+              "subtype": "text",
+              "input": "aaa",
+              "output": "bbb",
+              "show": "true",
+              "disabled": "false",
+              "required": true,
+              "valid": "true",
+              "min": 0,
+              "max": 255,
+              "label": "Text Field",
+              "margin": 0,
+              "width": 4,
+              "break": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "sections": {}
+}

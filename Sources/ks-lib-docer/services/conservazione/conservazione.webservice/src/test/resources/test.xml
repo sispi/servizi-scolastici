@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<group name="jobs">
+	<section active="true" isCliJob="true" cronExpr="0/27 0 0 * * ?"
+		className="it.kdm.docer.conservazione.quartz.CommandLineExecuterJob"
+		name="secondoJobCommandLine">
+		<log_path>/Dev/apache-tomcat-7.0.64/logs/orbeon.log</log_path>
+		<rows_displayed>500</rows_displayed>
+		<cli_params>java -jar map.jar time.rel test.txt debug</cli_params>
+	</section>
+
+	<section active="true" isCliJob="false" cronExpr="0/30 0 0 * * ?"
+		className="it.kdm.docer.conservazione.quartz.SendMailJob" name="mailConservazioneJob">
+		<log_path>/Dev/apache-tomcat-7.0.64/logs/orbeon.log</log_path>
+		<rows_displayed>500</rows_displayed>
+		<cli_params />
+		<ente name="ENTEPROVA">
+			<aoo name="AOOPROVA">
+				<where_condition />
+				<to>francesco.mongali@silicondev.com</to>
+				<subject>Oggetto della mail</subject>
+				<body>Corpo della mail</body>
+			</aoo>
+			<aoo name="AOOPROVA2">
+				<where_condition />
+				<to>francesco.mongali@silicondev.com</to>
+				<subject>Oggetto della mail AOOPROVA2</subject>
+				<body>Corpo della mail AOOPROVA2</body>
+			</aoo>
+		</ente>
+	</section>
+</group>

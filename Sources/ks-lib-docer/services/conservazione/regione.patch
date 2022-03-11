@@ -1,0 +1,46 @@
+From c8008f8736c15350ef36e621589e4cb9ee1ef207 Mon Sep 17 00:00:00 2001
+From: Lorenzo Lucherini <lorenxs@gmail.com>
+Date: Thu, 15 Sep 2011 13:12:54 +0200
+Subject: [PATCH] Configurazione per la regione
+
+---
+ .../src/main/resources/filter-configuration.xml    |    2 +-
+ .../src/main/resources/wsconservazione.properties  |   10 +++++-----
+ 2 files changed, 6 insertions(+), 6 deletions(-)
+
+diff --git a/conservazione.webservice/src/main/resources/filter-configuration.xml b/conservazione.webservice/src/main/resources/filter-configuration.xml
+index b95d17c..34d8d4b 100644
+--- a/conservazione.webservice/src/main/resources/filter-configuration.xml
++++ b/conservazione.webservice/src/main/resources/filter-configuration.xml
+@@ -1,3 +1,3 @@
+ <configuration>
+-	<remote-epr>http://localhost:8080/docersystem/services/AuthorizationService</remote-epr>
++	<remote-epr>http://docertest.ente.regione.emr.it/docersystem/services/AuthorizationService</remote-epr>
+ </configuration>
+\ No newline at end of file
+diff --git a/conservazione.webservice/src/main/resources/wsconservazione.properties b/conservazione.webservice/src/main/resources/wsconservazione.properties
+index 8a7efe9..b10ad13 100644
+--- a/conservazione.webservice/src/main/resources/wsconservazione.properties
++++ b/conservazione.webservice/src/main/resources/wsconservazione.properties
+@@ -3,12 +3,12 @@ test.mode=true
+ # Formato URI per Windows: 	file:/C:/tmp
+ # Formato URI per Linux:	file:/tmp
+ 
+-temp.dir=file:/tmp
+-templates.dir=file:/home/lorenxs/workspaces/eclipse/conservazione/conservazione.converter/src/main/resources/templates
++temp.dir=file:/d:/DocER/temp
++templates.dir=file:/d:/DocER/templates
+ parer.provider=it.kdm.docer.conservazione.provider.parer.ProviderParer
+ 
+-#docer.provider.name=it.kdm.docer.edocs.EDocsProvider
+-docer.provider.name=it.kdm.docer.alfresco.provider.Provider
++docer.provider.name=it.kdm.docer.edocs.EDocsProvider
++#docer.provider.name=it.kdm.docer.alfresco.provider.Provider
+ docer.provider.primary_search_max_rows=10
+-docer.provider.temp_folder=file:/tmp/
++docer.provider.temp_folder=file:/d:/DocER/temp
+ docer.provider.max_file_size=3000000
+\ No newline at end of file
+-- 
+1.7.3.4
+

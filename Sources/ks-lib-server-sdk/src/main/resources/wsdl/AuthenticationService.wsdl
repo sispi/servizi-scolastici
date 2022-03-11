@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:ns="http://authentication.core.docer.kdm.it"
+                  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+                  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+                  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns:ax21="http://keyvalue.collections.commons.apache.org/xsd"
+                  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+                  xmlns:ns1="http://org.apache.axis2/xsd"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  targetNamespace="http://authentication.core.docer.kdm.it">
+   <wsdl:documentation>
+		Please Type your service description here
+	</wsdl:documentation>
+   <wsdl:types>
+      <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified"
+                 targetNamespace="http://keyvalue.collections.commons.apache.org/xsd">
+         <xs:complexType name="AbstractKeyValue">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="key" nillable="true" type="xs:anyType"/>
+               <xs:element minOccurs="0" name="value" nillable="true" type="xs:anyType"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="DefaultKeyValue">
+            <xs:complexContent>
+               <xs:extension base="ax21:AbstractKeyValue">
+                  <xs:sequence/>
+               </xs:extension>
+            </xs:complexContent>
+         </xs:complexType>
+      </xs:schema>
+      <xs:schema xmlns:ax22="http://keyvalue.collections.commons.apache.org/xsd"
+                 attributeFormDefault="qualified"
+                 elementFormDefault="qualified"
+                 targetNamespace="http://authentication.core.docer.kdm.it">
+         <xs:import namespace="http://keyvalue.collections.commons.apache.org/xsd"/>
+         <xs:element name="AuthenticationServiceException">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="AuthenticationServiceException" nillable="true"
+                              type="ns:Exception"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:complexType name="Exception">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="getUserInfo">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getUserInfoResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="return" nillable="true"
+                              type="ax22:DefaultKeyValue"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="verifyToken">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="verifyTokenResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginOnDemand">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="serviceName" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="serviceUrl" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginOnDemandResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="login">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="username" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="password" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="codiceEnte" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="application" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="logout">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="logoutResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginSSO">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="jwtToken" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="codiceEnte" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="application" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginSSOResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getRealUser">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="jwtToken" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getRealUserResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getEnteDescription">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="getEnteDescriptionResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="verifyTokenRequest">
+      <wsdl:part name="parameters" element="ns:verifyToken"/>
+   </wsdl:message>
+   <wsdl:message name="verifyTokenResponse">
+      <wsdl:part name="parameters" element="ns:verifyTokenResponse"/>
+   </wsdl:message>
+   <wsdl:message name="AuthenticationServiceException">
+      <wsdl:part name="parameters" element="ns:AuthenticationServiceException"/>
+   </wsdl:message>
+   <wsdl:message name="logoutRequest">
+      <wsdl:part name="parameters" element="ns:logout"/>
+   </wsdl:message>
+   <wsdl:message name="logoutResponse">
+      <wsdl:part name="parameters" element="ns:logoutResponse"/>
+   </wsdl:message>
+   <wsdl:message name="loginSSORequest">
+      <wsdl:part name="parameters" element="ns:loginSSO"/>
+   </wsdl:message>
+   <wsdl:message name="loginSSOResponse">
+      <wsdl:part name="parameters" element="ns:loginSSOResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getRealUserRequest">
+      <wsdl:part name="parameters" element="ns:getRealUser"/>
+   </wsdl:message>
+   <wsdl:message name="getRealUserResponse">
+      <wsdl:part name="parameters" element="ns:getRealUserResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getUserInfoRequest">
+      <wsdl:part name="parameters" element="ns:getUserInfo"/>
+   </wsdl:message>
+   <wsdl:message name="getUserInfoResponse">
+      <wsdl:part name="parameters" element="ns:getUserInfoResponse"/>
+   </wsdl:message>
+   <wsdl:message name="loginRequest">
+      <wsdl:part name="parameters" element="ns:login"/>
+   </wsdl:message>
+   <wsdl:message name="loginResponse">
+      <wsdl:part name="parameters" element="ns:loginResponse"/>
+   </wsdl:message>
+   <wsdl:message name="loginOnDemandRequest">
+      <wsdl:part name="parameters" element="ns:loginOnDemand"/>
+   </wsdl:message>
+   <wsdl:message name="loginOnDemandResponse">
+      <wsdl:part name="parameters" element="ns:loginOnDemandResponse"/>
+   </wsdl:message>
+   <wsdl:message name="getEnteDescriptionRequest">
+      <wsdl:part name="parameters" element="ns:getEnteDescription"/>
+   </wsdl:message>
+   <wsdl:message name="getEnteDescriptionResponse">
+      <wsdl:part name="parameters" element="ns:getEnteDescriptionResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="AuthenticationServicePortType">
+      <wsdl:operation name="verifyToken">
+         <wsdl:input message="ns:verifyTokenRequest" wsaw:Action="urn:verifyToken"/>
+         <wsdl:output message="ns:verifyTokenResponse" wsaw:Action="urn:verifyTokenResponse"/>
+         <wsdl:fault message="ns:AuthenticationServiceException"
+                     name="AuthenticationServiceException"
+                     wsaw:Action="urn:verifyTokenAuthenticationServiceException"/>
+      </wsdl:operation>
+      <wsdl:operation name="logout">
+         <wsdl:input message="ns:logoutRequest" wsaw:Action="urn:logout"/>
+         <wsdl:output message="ns:logoutResponse" wsaw:Action="urn:logoutResponse"/>
+         <wsdl:fault message="ns:AuthenticationServiceException"
+                     name="AuthenticationServiceException"
+                     wsaw:Action="urn:logoutAuthenticationServiceException"/>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <wsdl:input message="ns:loginSSORequest" wsaw:Action="urn:loginSSO"/>
+         <wsdl:output message="ns:loginSSOResponse" wsaw:Action="urn:loginSSOResponse"/>
+         <wsdl:fault message="ns:AuthenticationServiceException"
+                     name="AuthenticationServiceException"
+                     wsaw:Action="urn:loginSSOAuthenticationServiceException"/>
+      </wsdl:operation>
+      <wsdl:operation name="getRealUser">
+         <wsdl:input message="ns:getRealUserRequest" wsaw:Action="urn:getRealUser"/>
+         <wsdl:output message="ns:getRealUserResponse" wsaw:Action="urn:getRealUserResponse"/>
+         <wsdl:fault message="ns:AuthenticationServiceException"
+                     name="AuthenticationServiceException"
+                     wsaw:Action="urn:getRealUserAuthenticationServiceException"/>
+      </wsdl:operation>
+      <wsdl:operation name="getUserInfo">
+         <wsdl:input message="ns:getUserInfoRequest" wsaw:Action="urn:getUserInfo"/>
+         <wsdl:output message="ns:getUserInfoResponse" wsaw:Action="urn:getUserInfoResponse"/>
+         <wsdl:fault message="ns:AuthenticationServiceException"
+                     name="AuthenticationServiceException"
+                     wsaw:Action="urn:getUserInfoAuthenticationServiceException"/>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <wsdl:input message="ns:loginRequest" wsaw:Action="urn:login"/>
+         <wsdl:output message="ns:loginResponse" wsaw:Action="urn:loginResponse"/>
+         <wsdl:fault message="ns:AuthenticationServiceException"
+                     name="AuthenticationServiceException"
+                     wsaw:Action="urn:loginAuthenticationServiceException"/>
+      </wsdl:operation>
+      <wsdl:operation name="loginOnDemand">
+         <wsdl:input message="ns:loginOnDemandRequest" wsaw:Action="urn:loginOnDemand"/>
+         <wsdl:output message="ns:loginOnDemandResponse" wsaw:Action="urn:loginOnDemandResponse"/>
+         <wsdl:fault message="ns:AuthenticationServiceException"
+                     name="AuthenticationServiceException"
+                     wsaw:Action="urn:loginOnDemandAuthenticationServiceException"/>
+      </wsdl:operation>
+      <wsdl:operation name="getEnteDescription">
+         <wsdl:input message="ns:getEnteDescriptionRequest" wsaw:Action="urn:getEnteDescription"/>
+         <wsdl:output message="ns:getEnteDescriptionResponse"
+                      wsaw:Action="urn:getEnteDescriptionResponse"/>
+         <wsdl:fault message="ns:AuthenticationServiceException"
+                     name="AuthenticationServiceException"
+                     wsaw:Action="urn:getEnteDescriptionAuthenticationServiceException"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="AuthenticationServiceSoap11Binding"
+                 type="ns:AuthenticationServicePortType">
+      <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="verifyToken">
+         <soap:operation soapAction="urn:verifyToken" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="AuthenticationServiceException">
+            <soap:fault use="literal" name="AuthenticationServiceException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="logout">
+         <soap:operation soapAction="urn:logout" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="AuthenticationServiceException">
+            <soap:fault use="literal" name="AuthenticationServiceException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <soap:operation soapAction="urn:loginSSO" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="AuthenticationServiceException">
+            <soap:fault use="literal" name="AuthenticationServiceException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="getRealUser">
+         <soap:operation soapAction="urn:getRealUser" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="AuthenticationServiceException">
+            <soap:fault use="literal" name="AuthenticationServiceException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="getUserInfo">
+         <soap:operation soapAction="urn:getUserInfo" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="AuthenticationServiceException">
+            <soap:fault use="literal" name="AuthenticationServiceException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <soap:operation soapAction="urn:login" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="AuthenticationServiceException">
+            <soap:fault use="literal" name="AuthenticationServiceException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="loginOnDemand">
+         <soap:operation soapAction="urn:loginOnDemand" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="AuthenticationServiceException">
+            <soap:fault use="literal" name="AuthenticationServiceException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="getEnteDescription">
+         <soap:operation soapAction="urn:getEnteDescription" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="AuthenticationServiceException">
+            <soap:fault use="literal" name="AuthenticationServiceException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:binding name="AuthenticationServiceSoap12Binding"
+                 type="ns:AuthenticationServicePortType">
+      <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="verifyToken">
+         <soap12:operation soapAction="urn:verifyToken" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="AuthenticationServiceException">
+            <soap12:fault use="literal" name="AuthenticationServiceException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="logout">
+         <soap12:operation soapAction="urn:logout" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="AuthenticationServiceException">
+            <soap12:fault use="literal" name="AuthenticationServiceException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <soap12:operation soapAction="urn:loginSSO" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="AuthenticationServiceException">
+            <soap12:fault use="literal" name="AuthenticationServiceException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="getRealUser">
+         <soap12:operation soapAction="urn:getRealUser" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="AuthenticationServiceException">
+            <soap12:fault use="literal" name="AuthenticationServiceException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="getUserInfo">
+         <soap12:operation soapAction="urn:getUserInfo" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="AuthenticationServiceException">
+            <soap12:fault use="literal" name="AuthenticationServiceException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <soap12:operation soapAction="urn:login" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="AuthenticationServiceException">
+            <soap12:fault use="literal" name="AuthenticationServiceException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="loginOnDemand">
+         <soap12:operation soapAction="urn:loginOnDemand" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="AuthenticationServiceException">
+            <soap12:fault use="literal" name="AuthenticationServiceException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="getEnteDescription">
+         <soap12:operation soapAction="urn:getEnteDescription" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="AuthenticationServiceException">
+            <soap12:fault use="literal" name="AuthenticationServiceException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:binding name="AuthenticationServiceHttpBinding" type="ns:AuthenticationServicePortType">
+      <http:binding verb="POST"/>
+      <wsdl:operation name="verifyToken">
+         <http:operation location="verifyToken"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="logout">
+         <http:operation location="logout"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <http:operation location="loginSSO"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getRealUser">
+         <http:operation location="getRealUser"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getUserInfo">
+         <http:operation location="getUserInfo"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <http:operation location="login"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="loginOnDemand">
+         <http:operation location="loginOnDemand"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="getEnteDescription">
+         <http:operation location="getEnteDescription"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="AuthenticationService">
+      <wsdl:port name="AuthenticationServiceHttpSoap11Endpoint"
+                 binding="ns:AuthenticationServiceSoap11Binding">
+         <soap:address location="http://localhost:8080/docersystem/services/AuthenticationService.AuthenticationServiceHttpSoap11Endpoint/"/>
+      </wsdl:port>
+      <wsdl:port name="AuthenticationServiceHttpSoap12Endpoint"
+                 binding="ns:AuthenticationServiceSoap12Binding">
+         <soap12:address location="http://localhost:8080/docersystem/services/AuthenticationService.AuthenticationServiceHttpSoap12Endpoint/"/>
+      </wsdl:port>
+      <wsdl:port name="AuthenticationServiceHttpEndpoint"
+                 binding="ns:AuthenticationServiceHttpBinding">
+         <http:address location="http://localhost:8080/docersystem/services/AuthenticationService.AuthenticationServiceHttpEndpoint/"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

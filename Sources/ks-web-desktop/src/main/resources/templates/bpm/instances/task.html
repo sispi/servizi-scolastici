@@ -1,0 +1,439 @@
+<head>
+    <title>dettaglio task #${(task.id)!''} - ${(task.name)!''}</title>
+    <title href="/~instance?id=${(task.instance.id)!''}">dettaglio istanza #${(task.instance.id)!0} - ${(task.instance.businessName)!''}</title>
+</head>
+<body>
+<link rel="stylesheet" href="/static/css/task-style.css">
+
+<script src="/static/js/components/file.js?no-cache" ></script>
+<link rel="stylesheet" href="/static/js/components/file.css?no-cache">
+
+<script src="/static/js/retrobpm.js?no-cache"></script>
+
+<link rel="stylesheet" href="/static/js/components/renderer.css?no-cache"  >
+<script type="text/javascript" src="/static/js/components/renderer.js?no-cache" ></script>
+
+
+<script @server @server-model="task" id="model-task" src="/bpm/v1/tasks/{id:0}?fetch=assignments,input,node,rootInstance,authorizations,attachments,comments,history" type="application/json" >
+    null
+</script>
+
+<script id="form" type="x-template"
+        src="/bpm/v1/tasks/{id:0}/form/views"
+        @body="{}"
+        @server-model="form" @ignore ></script>
+
+<script @server @server-model="node" id="node" type="application/json" src="/bpm/v1/instances/${(task.instance.id)!0}/nodes/${(task.node.id)!0}?fetch=input">
+    <!-- empty -->
+</script>
+
+<script id="form-template" type="x-template">
+    <fieldset>
+        ${form}
+    </fieldset>
+</script>
+
+<div id="task-app" class="container-fluid" >
+    <div>
+
+
+        <span style="float: right"><b>#${task.id}</b> (${task.status})</span>
+        <h5 class="card-title-task"><i style="font-size: 20px;" class="bi bi-play-fill mainColor"></i> ${task.name}</h5>
+        <div class="row col-12 teskDesc-task">${task.description}</div>
+
+        <button class="btn btn-mini btn-light btn-modal-task" :disabled="permissions.indexOf('Claim')==-1" v-on:click="claim()"><i class="bi bi-arrow-down-circle mainColor"></i> Caim</button>
+        <button class="btn btn-mini btn-light btn-modal-task" :disabled="permissions.indexOf('Release')==-1" v-on:click="release()"><i class="bi bi-arrow-up-circle mainColor"></i> Release</button>
+        <button class="btn btn-mini btn-light btn-modal-task" :disabled="permissions.indexOf('Forward')==-1" v-on:click="forward()"><i class="bi bi-arrow-left-right mainColor"></i> Forward</button>
+        <button class="btn btn-mini btn-light btn-modal-task" :disabled="permissions.indexOf('Delegate')==-1" v-on:click="delegate()"><i class="bi bi-person-circle mainColor"></i> Delegate</button>
+        <button class="btn btn-mini btn-danger btn-modal-task" :disabled="permissions.indexOf('Skip')==-1" v-on:click="skip()"><i class="bi bi-skip-forward-circle mainColor"></i> Skip</button>
+        <button class="btn btn-mini btn-danger btn-modal-task" :disabled="permissions.indexOf('Refuse')==-1" v-on:click="refuse()"><i class="bi bi-skip-backward-circle mainColor"></i> Refuse</button>
+        &nbsp;
+        &nbsp;
+        <button class="btn btn-mini btn-outline-primary btn-modal-task" v-on:click="$refs.history.show()" ><i class="bi bi-clock-history primaryColor"></i> History</button>
+        <button class="btn btn-mini btn-outline-primary btn-modal-task" v-on:click="$refs.comments.show()" ><i class="bi bi-chat-dots primaryColor"></i> Comments</button>
+
+        <div class="space-2h-task"></div>
+        <div class="box-info-task">
+            <div class="title-info-task">
+                <p class="desc-title-task">startTs</p>
+                <p class="desc-info-task">{{moment(details.startTs).format(dateTimeFormat)}}</p>
+            </div>
+            <template v-if="details.createdBy">
+                <div class="title-info-task">
+                    <p class="desc-title-task">createdBy</p>
+                    <p class="desc-info-task">{{details.createdBy}}</p>
+                </div>
+            </template>
+            <div class="title-info-task">
+                <p class="desc-title-task">potentialOwners</p>
+                <p class="desc-info-task">{{details.potentialOwners}}</p>
+            </div>
+            <template v-if="details.actualOwner">
+                <div class="title-info-task">
+                    <p class="desc-title-task">actualOwner</p>
+                    <p class="desc-info-task">{{details.actualOwner}}</p>
+                </div>
+            </template>
+            <template v-if="details.taskStakeholders">
+                <div class="title-info-task">
+                    <p class="desc-title-task">taskStakeholders</p>
+                    <p class="desc-info-task">{{details.taskStakeholders}}</p>
+                </div>
+            </template>
+            <template v-if="details.expireTs">
+                <div class="title-info-task">
+                    <p class="desc-title-task">expireTs</p>
+                    <p class="desc-info-task">{{moment(details.expireTs).format(dateTimeFormat)}}</p>
+                </div>
+            </template>
+            <template v-if="details.endTs">
+                <div class="title-info-task">
+                    <p class="desc-title-task">endTs</p>
+                    <p class="desc-info-task">{{moment(details.endTs).format(dateTimeFormat)}}</p>
+                </div>
+            </template>
+            <div class="title-info-task">
+                <p class="desc-title-task">Subject</p>
+                <p class="desc-info-task">${task.subject}</p>
+            </div>
+        </div>
+        <div class="space-1h-task"></div>
+
+        <div v-if="attachments.length>0" class="row col-12" >
+            <h5>Attachments</h5>
+            <report-table :model="attachments" ></report-table>
+        </div>
+
+        <simplemodal ref="comments" id="comments" title="Comments" size="xl">
+            <button style="float:right" class="btn btn-mini btn-primary" v-on:click="addcomment()"><i class="bi bi-chat-dots"></i> Add comment</button>
+            <report-table :model="comments" ></report-table>
+        </simplemodal>
+
+        <simplemodal ref="history" id="history" title="History" size="xl">
+            <report-table :model="history" ></report-table>
+        </simplemodal>
+
+        <div id="task-toolbar" class="row new-toolbar" v-if="permissions.indexOf('Complete')!=-1" >
+            <div class="col-12">
+                <button role="submit" class="btn btn-mini btn-info" v-on:click="submit()" >complete</button>
+                <button role="save" class="btn btn-mini btn-info" v-on:click="save()">save</button>
+                <button role="clear" class="btn btn-mini btn-info" v-on:click="clear()">restore</button>
+            </div>
+            <br/>
+            <br/>
+        </div>
+
+        <div id="task-form" >
+            [#if form?contains('form-renderer-vue') ]
+            <ks-form disabled="false" form-id="task-form"  ref="managed" v-model="input" template="#form-template" ></ks-form>
+            [#else]
+            <fieldset>
+                ${form}
+            </fieldset>
+            [/#if]
+        </div>
+
+        <div class="space-2h-task"></div>
+
+    </div>
+</div>
+
+<script id="form-script" src="/bpm/v1/tasks/${query.id}/form/script"></script>
+
+<script>
+
+    var taskApp = new Vue({
+        el: "#task-app",
+        mounted: function() {
+
+            if (this.xform){
+
+                if (!window.waitingDialog){
+                    window.waitingDialog = {
+                        show : (msg) => alert(msg)
+                    }
+                }
+
+                $(".new-toolbar").hide();
+
+                window.ht_savedraft = function() {};
+
+                var draft = this.input._draft_;
+
+                if (draft){
+                    initDOM($(this.form));
+
+                    for ( x in draft){
+                        var ctrl = $(this.form).find("[name='"+x+"']");
+                        if (ctrl.length>0){
+                            if (ctrl.attr("type")=="checkbox"){
+                                ctrl.prop('checked',input[x]);
+                            } else {
+                                ctrl.val(draft[x]);
+                            }
+                        }
+                    }
+
+                    var ctrl = $(this.form).find(".form-value-target");
+                    for( xx=0; xx<ctrl.length; xx++){
+                        var cxx = ctrl[xx];
+                        if (typeof cxx.setValue == "function")
+                            cxx.setValue(draft);
+                    }
+                }
+
+                /*if (typeof ht_savedraft == "undefined"){
+                    window.ht_savedraft = function() {};
+                }
+
+                if (typeof ht_restoredraft == "undefined"){
+                    restoredraft(this.form,this.input);
+                } else {
+                    ht_restoredraft();
+                }*/
+                var self = this;
+
+                var subm = function() {
+                    event.preventDefault();
+                    self.submit();
+                    return false;
+                };
+
+                $("#task-form form")[0].submit = subm;
+
+                $("#task-form form").on("submit", subm);
+            }
+
+            var tBtnSubmit = $("#task-toolbar").find("button[role='submit'");
+            var fBtnSubmit = $("#task-form").find("button[role='submit'");
+            var tBtnSave = $("#task-toolbar").find("button[role='save'");
+            var fBtnSave = $("#task-form").find("button[role='save'");
+            var tBtnClear = $("#task-toolbar").find("button[role='clear'");
+            var fBtnClear = $("#task-form").find("button[role='clear'");
+
+            if (fBtnSubmit.length>0)
+                tBtnSubmit.hide();
+
+            if (fBtnSave.length>0)
+                tBtnSave.hide();
+
+            if (fBtnClear.length>0)
+                tBtnClear.hide();
+
+            if (this.permissions.indexOf('Complete')==-1){
+                $("#task-form fieldset").attr("disabled",true);
+
+                $("#task-form").addClass("noselect");
+
+                if (this.details.endTs == null){
+                    $("#task-form fieldset").css("opacity",0.5);
+                }
+
+                if (this.permissions.indexOf('Claim')>=0){
+                    var self = this;
+                    $("#task-form *").css("cursor","pointer");
+                    $("#task-form").on("click", () => {
+                        confirm("vuoi prendere in carico il task?", () => self.claim() )
+                    })
+                }
+            }
+        },
+        data: function() {
+            var task = data("model-task");
+            var node = data("node");
+
+            var details = (task||{});
+
+            details.createdBy = (details.input||{}).CreatedBy;
+
+            /*var variables = {};
+
+            for ( x in instance.variables ){
+                variables[x] = instance.variables[x].value
+            }*/
+
+            var attachments  = bpmdata({data:(details.attachments||[])});
+            attachments.columns = "name,contentType".split(",");
+            attachments.params["column.contentType.href"] = "/~documento?DOCNUM={name}";
+            attachments.params["column.contentType.label"] = "Nome";
+            attachments.params["column.name.label"] = "#";
+
+            var comments  = bpmdata({data:(details.comments||[])});
+            comments.columns = "id,timestamp,userId,text,delete".split(",");
+
+            comments.params["column.delete.href"] = "javascript:app.deletecomment(\"{id}\")";
+            comments.params["column.delete.label"] = " ";
+            comments.params["column.delete.href.label"] = "<i title='elimina' class='fas fa-trash-alt'></i>";
+
+            var history  = bpmdata({data:(details.history||[])});
+            history.columns = "timestamp,userId,action,targetIdentity,message".split(",");
+
+            var assignments = details.assignments;
+            delete details.assignments;
+
+            if (task){
+                task.potentialOwners = (assignments.potentialOwners||[]).join();
+                task.actualOwner = assignments.actualOwner;
+                task.taskStakeholders = (assignments.taskStakeholders||[]).join();
+            }
+
+            var xform = $("#task-form form").attr("action")=="complete";
+
+            return {
+                xform: xform,
+                form: "#task-form form",
+                history:history,
+                details: details,
+                task: details,
+                input: details.input,
+                node: node,
+                permissions: details.authorizations || [],
+                attachments: attachments,
+                comments: comments,
+                isValid: xform
+            }
+        },
+        methods: {
+
+            onvalidate: function(model) {
+                this.isValid = model.form$validation.length==0;
+            },
+
+            claim: function() {
+                var task = this.task;
+                BpmClientApi.tasks.claim(this.task.id, {},()=>{location.refresh()} );
+            },
+            release: function() {
+                var task = this.task;
+                BpmClientApi.tasks.release(this.task.id, {},()=>{location.refresh()} );
+            },
+            skip: function() {
+                var task = this.task;
+                prompt({ message : "" }, function(obj) {
+                    var payload = {};
+                    if(obj.message)
+                        payload.message = obj.message;
+                    BpmClientApi.tasks.skip(task.id, payload ,()=>{location.refresh()} );
+                })
+            },
+            refuse: function() {
+                var task = this.task;
+                prompt({ message : "" }, function(obj) {
+                    var payload = {};
+                    if(obj.message)
+                        payload.message = obj.message;
+                    BpmClientApi.tasks.refuse(task.id, payload,()=>{location.refresh()} );
+                })
+            },
+            delegate: function() {
+                var task = this.task;
+                prompt({ user : "", message : "" }, function(obj) {
+
+                    var payload = {
+                        targetUserId: obj.user
+                    };
+
+                    if(obj.message)
+                        payload.message = obj.message;
+
+                    BpmClientApi.tasks.delegate(task.id, payload,()=>{location.refresh()} );
+                })
+            },
+            forward: function() {
+                var task = this.task;
+                prompt({ group : "", message : "" }, function(obj) {
+
+                    var payload = {
+                        targetIdentity: obj.group,
+                    };
+                    if(obj.message)
+                        payload.message = obj.message;
+
+                    BpmClientApi.tasks.forward(task.id, payload,()=>{location.refresh()} );
+                })
+            },
+            addcomment: function() {
+                var task = this.details;
+                prompt({ text : ""}, function(obj) {
+
+                    var payload = {
+                        text: obj.text
+                    };
+
+                    BpmClientApi.tasks.createComment(task.id, payload,()=>{location.refresh()} );
+                })
+            },
+            deletecomment: function(id) {
+                var task = this.details;
+                BpmClientApi.tasks.deleteComment(task.id,id,()=>{location.refresh()} );
+            },
+
+            save: function(){
+                var input;
+
+                if (this.xform){
+                    input = this.task.input;
+                    input._draft_ = $(this.form).toMap();
+                } else {
+                    input = this.input;
+                }
+
+                BpmClientApi.tasks.save(this.task.id, {
+                    input : input,
+                    mergeInput : true
+                }, ()=>{location.refresh()});
+            },
+            clear: function(){
+                var self=this;
+                confirm("sei sicuro?", function() {
+                    BpmClientApi.tasks.save(self.task.id, {
+                        input : self.node.input
+                    }, ()=>{location.refresh()});
+                })
+
+            },
+            submit: function() {
+                var task = this.details;
+
+                function completed(data){
+                    var nextTasks = data.nextTasks;
+                    if (nextTasks[0])
+                        location.href = "/~task?id="+nextTasks[0].id;
+                    else
+                        location.href = "/~instance?id="+task.instance.id;
+                }
+
+                if (this.xform) {
+                    var input = this.task.input;
+                    input._draft_ = $(this.form).toMap();
+
+                    BpmClientApi.tasks.save(this.task.id, {
+                        input : input,
+                        mergeInput : true
+                    }, ()=>{
+                        BpmClientApi.tasks.completeForm(task.id, $(this.form).serialize() || "dummy=", (data) => {
+                            completed(data);
+                        });
+                    });
+
+
+                } else {
+
+                    var payload = {
+                        "mergeInput": true,
+                        "input": this.input,
+                        "output": this.input,
+                        "message": null
+                    }
+
+                    BpmClientApi.tasks.complete(task.id, payload, (data) => {
+                        completed(data);
+                    });
+                }
+            }
+        }
+    });
+
+</script>
+</body>
+

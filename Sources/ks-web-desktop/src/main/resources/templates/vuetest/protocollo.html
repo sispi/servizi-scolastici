@@ -1,0 +1,59 @@
+<html @view="master.ftl" >
+	<head @ignore>
+		<base href="http://localhost:8080/AppDoc/" >
+		
+		<title>test app</title>
+		
+		<script src="js/vue.js"></script>
+		<script src="js/axios.min.js"></script>
+		
+		<script src="vendor/jquery-3.5.1.min.js"></script>
+		<script src="vendor/jquery-migrate-3.3.0.min.js"></script>
+		
+		<script>
+			axios.interceptors.request.use(function (config) {
+				config.headers.KS_AUTH_GROUP =  "admin|ANM|ANM_AOO|SYS_ADMINS|admins";
+				return config;
+			});
+		</script>
+	</head>
+	<body class="body" >
+	
+		<script @server src="/static/js/components/buttoncounter2.js" ></script>
+
+		<div id="app" data-model-url="model/vuetest" >
+			<input type='text' v-model='msg' />
+			<br/>
+			Protocollo:{{ msg }}
+			<br/>
+			<button-counter></button-counter>
+		</div>
+
+		<script>
+
+			var app = new Vue({
+				el: "#app",
+				data: $("#app").data('model') || { msg:null } ,
+				template : $("#app").data('template') ,
+				mounted: function() {
+
+					// se c'è stata injection non serve chiamare la REST
+					if ($("#app").data('model'))
+						return;
+
+					//questo riferimento serve nella callback 'then'
+					self = this;
+					axios.get("model/vuetest")
+						.then(function(response){
+							self.msg = response.data.msg;
+						})
+						.catch(function(err){
+							console.log("error:"+err);
+						}  );
+				}
+			});
+
+		</script>
+		
+	</body>
+</html>

@@ -1,0 +1,379 @@
+<Segnatura>
+    <Intestazione>
+        <Oggetto>string</Oggetto>
+        <Flusso>
+            <ModalitaInvio>string</ModalitaInvio>
+            <TipoRichiesta>string</TipoRichiesta>
+            <ForzaInvio>3</ForzaInvio>
+        </Flusso>
+        <Destinatari>
+            <!--Zero or more repetitions:-->
+            <Destinatario>
+                <!--You have a CHOICE of the next 3 items at this level-->
+                <Amministrazione>
+                    <Denominazione>e gero</Denominazione>
+                    <CodiceAmministrazione>cum sonoras</CodiceAmministrazione>
+                    <!--1 or more repetitions:-->
+                    <IndirizzoTelematico tipo="smtp" note="anySimpleType">aeoliam quae</IndirizzoTelematico>
+                    <!--Optional:-->
+                    <ForzaIndirizzoTelematico>string</ForzaIndirizzoTelematico>
+                    <!--You have a CHOICE of the next 2 items at this level-->
+                    <UnitaOrganizzativa tipo="permanente">
+                        <!--Optional:-->
+                        <Denominazione>ventos verrantque</Denominazione>
+                        <Identificativo>temperat per</Identificativo>
+                        <!--You have a CHOICE of the next 2 items at this level-->
+                        <UnitaOrganizzativa/>
+                        <!--You have a CHOICE of the next 2 items at this level-->
+                        <Ruolo>
+                            <Denominazione>turbine circum</Denominazione>
+                            <!--Optional:-->
+                            <Identificativo>regemque nimborum</Identificativo>
+                            <!--Optional:-->
+                            <Persona id="string">
+                                <!--Optional:-->
+                                <Identificativo>fremunt foedere</Identificativo>
+                                <!--Optional:-->
+                                <Nome>ferant profundum</Nome>
+                                <!--Optional:-->
+                                <Cognome>sceptra et</Cognome>
+                                <!--Optional:-->
+                                <Titolo>turbine iovis</Titolo>
+                                <!--Optional:-->
+                                <IndirizzoTelematico tipo="smtp" note="anySimpleType">flammato speluncis
+                                </IndirizzoTelematico>
+                                <!--Optional:-->
+                                <InvioPEC>profundum bella</InvioPEC>
+                                <!--Optional:-->
+                                <IndirizzoPostale>
+                                    <!--You have a CHOICE of the next 2 items at this level-->
+                                    <Denominazione>nubibus flammas</Denominazione>
+                                    <Toponimo dug="anySimpleType">ac hoc</Toponimo>
+                                    <Civico>rapidum ac</Civico>
+                                    <CAP>caelumque speluncis</CAP>
+                                    <Comune codiceISTAT="anySimpleType">circum aris</Comune>
+                                    <Provincia>coniunx praeterea</Provincia>
+                                    <!--Optional:-->
+                                    <Nazione>arce claustra</Nazione>
+                                </IndirizzoPostale>
+                                <!--Optional:-->
+                                <Denominazione>circum imperio</Denominazione>
+                                <!--Optional:-->
+                                <CodiceFiscale>certo quisquam</CodiceFiscale>
+                                <!--Optional:-->
+                                <Metadati>
+                                    <!--Zero or more repetitions:-->
+                                    <Parametro nome="string" valore="string"/>
+                                </Metadati>
+                            </Persona>
+                        </Ruolo>
+                        <Persona id="string">
+                            <!--Optional:-->
+                            <Identificativo>et ac</Identificativo>
+                            <!--Optional:-->
+                            <Nome>feta ac</Nome>
+                            <!--Optional:-->
+                            <Cognome>sed pectore</Cognome>
+                            <!--Optional:-->
+                            <Titolo>talia pectore</Titolo>
+                            <!--Optional:-->
+                            <IndirizzoTelematico tipo="smtp" note="anySimpleType">austris annos</IndirizzoTelematico>
+                            <!--Optional:-->
+                            <InvioPEC>sciret certo</InvioPEC>
+                            <!--Optional:-->
+                            <IndirizzoPostale>
+                                <!--You have a CHOICE of the next 2 items at this level-->
+                                <Denominazione>dare rates</Denominazione>
+                                <Toponimo dug="anySimpleType">bella volutans</Toponimo>
+                                <Civico>dedit faciat</Civico>
+                                <CAP>magno et</CAP>
+                                <Comune codiceISTAT="anySimpleType">ac et</Comune>
+                                <Provincia>regemque annos</Provincia>
+                                <!--Optional:-->
+                                <Nazione>infixit ventos</Nazione>
+                            </IndirizzoPostale>
+                            <!--Optional:-->
+                            <Denominazione>tenens regina</Denominazione>
+                            <!--Optional:-->
+                            <CodiceFiscale>montis rapidum</CodiceFiscale>
+                            <!--Optional:-->
+                            <Metadati>
+                                <!--Zero or more repetitions:-->
+                                <Parametro nome="string" valore="string"/>
+                            </Metadati>
+                        </Persona>
+                        <!--Optional:-->
+                        <IndirizzoPostale>
+                            <!--You have a CHOICE of the next 2 items at this level-->
+                            <Denominazione>habenas insuper</Denominazione>
+                            <Toponimo dug="anySimpleType">mollitque cum</Toponimo>
+                            <Civico>iovisque in</Civico>
+                            <CAP>soror abdidit</CAP>
+                            <Comune codiceISTAT="anySimpleType">iunonis coniunx</Comune>
+                            <Provincia>adorat ipsa</Provincia>
+                            <!--Optional:-->
+                            <Nazione>illum frenat</Nazione>
+                        </IndirizzoPostale>
+                        <!--Zero or more repetitions:-->
+                        <IndirizzoTelematico tipo="smtp" note="anySimpleType">aris nimborum</IndirizzoTelematico>
+                        <!--Zero or more repetitions:-->
+                        <Telefono note="anySimpleType">aris mollitque</Telefono>
+                        <!--Zero or more repetitions:-->
+                        <Fax note="anySimpleType">premere montis</Fax>
+                    </UnitaOrganizzativa>
+                    <!--You have a CHOICE of the next 2 items at this level-->
+                    <Ruolo>
+                        <Denominazione>insuper molemque</Denominazione>
+                        <!--Optional:-->
+                        <Identificativo>ferant gero</Identificativo>
+                        <!--Optional:-->
+                        <Persona id="string">
+                            <!--Optional:-->
+                            <Identificativo>nimborum circum</Identificativo>
+                            <!--Optional:-->
+                            <Nome>vasto montis</Nome>
+                            <!--Optional:-->
+                            <Cognome>flammato aris</Cognome>
+                            <!--Optional:-->
+                            <Titolo>tempestatesque aris</Titolo>
+                            <!--Optional:-->
+                            <IndirizzoTelematico tipo="smtp" note="anySimpleType">tenens incedo</IndirizzoTelematico>
+                            <!--Optional:-->
+                            <InvioPEC>premit ac</InvioPEC>
+                            <!--Optional:-->
+                            <IndirizzoPostale>
+                                <!--You have a CHOICE of the next 2 items at this level-->
+                                <Denominazione>iras acuto</Denominazione>
+                                <Toponimo dug="anySimpleType">nubibus et</Toponimo>
+                                <Civico>austris dedit</Civico>
+                                <CAP>qui profundum</CAP>
+                                <Comune codiceISTAT="anySimpleType">atris imposuit</Comune>
+                                <Provincia>atris magno</Provincia>
+                                <!--Optional:-->
+                                <Nazione>animos iras</Nazione>
+                            </IndirizzoPostale>
+                            <!--Optional:-->
+                            <Denominazione>sonoras verrantque</Denominazione>
+                            <!--Optional:-->
+                            <CodiceFiscale>patriam metuens</CodiceFiscale>
+                            <!--Optional:-->
+                            <Metadati>
+                                <!--Zero or more repetitions:-->
+                                <Parametro nome="string" valore="string"/>
+                            </Metadati>
+                        </Persona>
+                    </Ruolo>
+                    <Persona id="string">
+                        <!--Optional:-->
+                        <Identificativo>montis dare</Identificativo>
+                        <!--Optional:-->
+                        <Nome>laxas tempestatesque</Nome>
+                        <!--Optional:-->
+                        <Cognome>e sceptra</Cognome>
+                        <!--Optional:-->
+                        <Titolo>volutans vasto</Titolo>
+                        <!--Optional:-->
+                        <IndirizzoTelematico tipo="smtp" note="anySimpleType">murmure coniunx</IndirizzoTelematico>
+                        <!--Optional:-->
+                        <InvioPEC>vinclis rapidum</InvioPEC>
+                        <!--Optional:-->
+                        <IndirizzoPostale>
+                            <!--You have a CHOICE of the next 2 items at this level-->
+                            <Denominazione>rapidi turbine</Denominazione>
+                            <Toponimo dug="anySimpleType">antro auras</Toponimo>
+                            <Civico>sciret aequora</Civico>
+                            <CAP>luctantis aequora</CAP>
+                            <Comune codiceISTAT="anySimpleType">ipsa et</Comune>
+                            <Provincia>aris incedo</Provincia>
+                            <!--Optional:-->
+                            <Nazione>imperio hic</Nazione>
+                        </IndirizzoPostale>
+                        <!--Optional:-->
+                        <Denominazione>arce ego</Denominazione>
+                        <!--Optional:-->
+                        <CodiceFiscale>ni tempestatesque</CodiceFiscale>
+                        <!--Optional:-->
+                        <Metadati>
+                            <!--Zero or more repetitions:-->
+                            <Parametro nome="string" valore="string"/>
+                        </Metadati>
+                    </Persona>
+                    <!--Optional:-->
+                    <IndirizzoPostale>
+                        <!--You have a CHOICE of the next 2 items at this level-->
+                        <Denominazione>circum ego</Denominazione>
+                        <Toponimo dug="anySimpleType">corde aris</Toponimo>
+                        <Civico>insuper molemque</Civico>
+                        <CAP>temperat rapidum</CAP>
+                        <Comune codiceISTAT="anySimpleType">magno nimborum</Comune>
+                        <Provincia>gero altos</Provincia>
+                        <!--Optional:-->
+                        <Nazione>iunonis aeoliam</Nazione>
+                    </IndirizzoPostale>
+                    <!--Zero or more repetitions:-->
+                    <Telefono note="anySimpleType">premere hic</Telefono>
+                    <!--Zero or more repetitions:-->
+                    <Fax note="anySimpleType">iovisque et</Fax>
+                </Amministrazione>
+                <AOO>
+                    <!--Optional:-->
+                    <Denominazione>nubibus carcere</Denominazione>
+                    <CodiceAOO>imposuit murmure</CodiceAOO>
+                    <!--Optional:-->
+                    <IndirizzoTelematico tipo="smtp" note="anySimpleType">rates maria</IndirizzoTelematico>
+                    <!--Optional:-->
+                    <ForzaIndirizzoTelematico>string</ForzaIndirizzoTelematico>
+                    <!--Optional:-->
+                    <InvioPEC>supplex imponet</InvioPEC>
+                </AOO>
+                <!--Optional:-->
+                <RiferimentiProtocollo>
+                    <!--Optional:-->
+                    <CodiceAmministrazione>string</CodiceAmministrazione>
+                    <!--Optional:-->
+                    <CodiceAOO>string</CodiceAOO>
+                    <Classifica>string</Classifica>
+                    <!--Optional:-->
+                    <Data>string</Data>
+                    <Fascicolo>string</Fascicolo>
+                    <!--Optional:-->
+                    <Numero>string</Numero>
+                </RiferimentiProtocollo>
+                <!--Optional:-->
+                <Denominazione>ipsa numen</Denominazione>
+                <!--1 or more repetitions:-->
+                <Persona id="string">
+                    <!--Optional:-->
+                    <Identificativo>volutans per</Identificativo>
+                    <!--Optional:-->
+                    <Nome>maria et</Nome>
+                    <!--Optional:-->
+                    <Cognome>foedere tempestatesque</Cognome>
+                    <!--Optional:-->
+                    <Titolo>sciret ego</Titolo>
+                    <!--Optional:-->
+                    <IndirizzoTelematico tipo="smtp" note="anySimpleType">rapidi iaculata</IndirizzoTelematico>
+                    <!--Optional:-->
+                    <InvioPEC>montis omnipotens</InvioPEC>
+                    <!--Optional:-->
+                    <IndirizzoPostale>
+                        <!--You have a CHOICE of the next 2 items at this level-->
+                        <Denominazione>et premere</Denominazione>
+                        <Toponimo dug="anySimpleType">premit talia</Toponimo>
+                        <Civico>numen terras</Civico>
+                        <CAP>vasto et</CAP>
+                        <Comune codiceISTAT="anySimpleType">profundum dare</Comune>
+                        <Provincia>premit vasto</Provincia>
+                        <!--Optional:-->
+                        <Nazione>illi arce</Nazione>
+                    </IndirizzoPostale>
+                    <!--Optional:-->
+                    <Denominazione>dea luctantis</Denominazione>
+                    <!--Optional:-->
+                    <CodiceFiscale>rapidum bella</CodiceFiscale>
+                    <!--Optional:-->
+                    <Metadati>
+                        <!--Zero or more repetitions:-->
+                        <Parametro nome="string" valore="string"/>
+                    </Metadati>
+                </Persona>
+                <!--Optional:-->
+                <PersonaGiuridica tipo="string" id="string">
+                    <Denominazione>tempestatesque ac</Denominazione>
+                    <!--Optional:-->
+                    <IndirizzoPostale>
+                        <!--You have a CHOICE of the next 2 items at this level-->
+                        <Denominazione>rapidi imposuit</Denominazione>
+                        <Toponimo dug="anySimpleType">e ignem</Toponimo>
+                        <Civico>tenens et</Civico>
+                        <CAP>vinclis murmure</CAP>
+                        <Comune codiceISTAT="anySimpleType">aeolus premere</Comune>
+                        <Provincia>sonoras rapidi</Provincia>
+                        <!--Optional:-->
+                        <Nazione>soror rapidum</Nazione>
+                    </IndirizzoPostale>
+                    <!--Optional:-->
+                    <IndirizzoTelematico tipo="smtp" note="anySimpleType">imperio premere</IndirizzoTelematico>
+                    <!--Optional:-->
+                    <ForzaIndirizzoTelematico>string</ForzaIndirizzoTelematico>
+                    <!--Optional:-->
+                    <InvioPEC>transfixo insuper</InvioPEC>
+                    <!--Optional:-->
+                    <Metadati>
+                        <!--Zero or more repetitions:-->
+                        <Parametro nome="string" valore="string"/>
+                    </Metadati>
+                </PersonaGiuridica>
+                <!--Optional:-->
+                <IndirizzoTelematico tipo="smtp" note="anySimpleType">ego maria</IndirizzoTelematico>
+                <!--Zero or more repetitions:-->
+                <Telefono note="anySimpleType">cum rates</Telefono>
+                <!--Zero or more repetitions:-->
+                <Fax note="anySimpleType">arce iovis</Fax>
+                <!--Optional:-->
+                <IndirizzoPostale>
+                    <!--You have a CHOICE of the next 2 items at this level-->
+                    <Denominazione>austris indignantes</Denominazione>
+                    <Toponimo dug="anySimpleType">ventis sonoras</Toponimo>
+                    <Civico>ni rapidum</Civico>
+                    <CAP>secum auras</CAP>
+                    <Comune codiceISTAT="anySimpleType">animos iovisque</Comune>
+                    <Provincia>magno flammato</Provincia>
+                    <!--Optional:-->
+                    <Nazione>secum hic</Nazione>
+                </IndirizzoPostale>
+            </Destinatario>
+        </Destinatari>
+    </Intestazione>
+    <Documenti>
+        <Documento uri="string" id="100">
+            <Metadati>
+                <!--Zero or more repetitions:-->
+                <Parametro nome="string" valore="string"/>
+            </Metadati>
+            <Acl>
+                <!--Zero or more repetitions:-->
+                <Parametro nome="string" valore="string"/>
+            </Acl>
+        </Documento>
+        <Allegati>
+            <!--Zero or more repetitions:-->
+            <Documento uri="string" id="100">
+                <Metadati>
+                    <!--Zero or more repetitions:-->
+                    <Parametro nome="string" valore="string"/>
+                </Metadati>
+                <Acl>
+                    <!--Zero or more repetitions:-->
+                    <Parametro nome="string" valore="string"/>
+                </Acl>
+            </Documento>
+        </Allegati>
+        <Annessi>
+            <!--Zero or more repetitions:-->
+            <Documento uri="string" id="100">
+                <Metadati>
+                    <!--Zero or more repetitions:-->
+                    <Parametro nome="string" valore="string"/>
+                </Metadati>
+                <Acl>
+                    <!--Zero or more repetitions:-->
+                    <Parametro nome="string" valore="string"/>
+                </Acl>
+            </Documento>
+        </Annessi>
+        <Annotazioni>
+            <!--Zero or more repetitions:-->
+            <Documento uri="string" id="100">
+                <Metadati>
+                    <!--Zero or more repetitions:-->
+                    <Parametro nome="string" valore="string"/>
+                </Metadati>
+                <Acl>
+                    <!--Zero or more repetitions:-->
+                    <Parametro nome="string" valore="string"/>
+                </Acl>
+            </Documento>
+        </Annotazioni>
+    </Documenti>
+</Segnatura>

@@ -1,0 +1,292 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:prot="http://www.digitPa.gov.it/protocollo/">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <prot:SegnaturaEnvelope>
+            <prot:Segnatura versione="aaaa-mm-gg" xml-lang="it">
+
+
+                <prot:Intestazione>
+                    <prot:Identificatore>
+                        <prot:CodiceAmministrazione>COD_ENTE</prot:CodiceAmministrazione>
+                        <prot:CodiceAOO>COD_AOO</prot:CodiceAOO>
+                        <prot:CodiceRegistro>REGISTRO_PG</prot:CodiceRegistro>
+                        <prot:NumeroRegistrazione>NUM_PG</prot:NumeroRegistrazione>
+                        <prot:DataRegistrazione>DATA_PG</prot:DataRegistrazione>
+                    </prot:Identificatore>
+                    <!-- SE REGISTRAZIONE PARTICOLARE PRESENTE -->
+                    <prot:PrimaRegistrazione>
+                        <prot:Identificatore>
+                            <prot:CodiceAmministrazione>COD_ENTE</prot:CodiceAmministrazione>
+                            <prot:CodiceAOO>COD_AOO</prot:CodiceAOO>
+                            <prot:CodiceRegistro>ID_REGISTRO</prot:CodiceRegistro>
+                            <prot:NumeroRegistrazione>N_REGISTRAZ</prot:NumeroRegistrazione>
+                            <prot:DataRegistrazione>D_REGISTRAZ</prot:DataRegistrazione>
+                        </prot:Identificatore>
+                    </prot:PrimaRegistrazione>
+
+                    <prot:Origine>
+                        <prot:IndirizzoTelematico tipo="uri" note="porta di dominio">qui URI porta di dominio
+                        </prot:IndirizzoTelematico>
+                        <prot:Mittente>
+                            <prot:Amministrazione>
+                                <prot:Denominazione>DES_ENTE</prot:Denominazione>
+                                <prot:CodiceAmministrazione>COD_ENTE</prot:CodiceAmministrazione>
+
+                                <prot:UnitaOrganizzativa tipo="permanente">
+                                    <prot:Denominazione>AOOPROVA</prot:Denominazione>
+                                    <prot:IndirizzoPostale>
+                                        <prot:Denominazione></prot:Denominazione>
+                                    </prot:IndirizzoPostale>
+                                </prot:UnitaOrganizzativa>
+
+
+                            </prot:Amministrazione>
+                            <prot:AOO>
+                                <prot:Denominazione>DES_AOO</prot:Denominazione>
+                                <prot:CodiceAOO>COD_AOO</prot:CodiceAOO>
+                            </prot:AOO>
+                        </prot:Mittente>
+                    </prot:Origine>
+
+
+                    <!--1 or more repetitions:-->
+                    <prot:Destinazione confermaRicezione="no">
+                        <prot:IndirizzoTelematico tipo="uri" note="porta di dominio">qui va la porta di dominio
+                        </prot:IndirizzoTelematico>
+                        <prot:Destinatario>
+                            <prot:Amministrazione>
+                                <prot:Denominazione>ENTEPROVA</prot:Denominazione>
+                                <prot:CodiceAmministrazione>ENTEPROVA</prot:CodiceAmministrazione>
+
+                                <prot:IndirizzoPostale>
+                                    <prot:Denominazione></prot:Denominazione>
+                                </prot:IndirizzoPostale>
+                                <prot:UnitaOrganizzativa tipo="permanente">
+                                    <prot:Denominazione>AOOPROVA</prot:Denominazione>
+                                    <prot:IndirizzoPostale>
+                                        <prot:Denominazione></prot:Denominazione>
+                                    </prot:IndirizzoPostale>
+                                </prot:UnitaOrganizzativa>
+                            </prot:Amministrazione>
+
+                            <prot:AOO>
+                                <prot:Denominazione>AOOPROVA</prot:Denominazione>
+                                <prot:CodiceAOO>AOOPROVA</prot:CodiceAOO>
+                            </prot:AOO>
+                            <prot:IndirizzoPostale>
+                                <prot:Denominazione></prot:Denominazione>
+                            </prot:IndirizzoPostale>
+                        </prot:Destinatario>
+
+                        <prot:Destinatario>
+                            <prot:Amministrazione>
+                                <prot:Denominazione>ENTEPROVA</prot:Denominazione>
+                                <prot:CodiceAmministrazione>ENTEPROVA</prot:CodiceAmministrazione>
+
+                                <prot:IndirizzoPostale>
+                                    <prot:Denominazione></prot:Denominazione>
+                                </prot:IndirizzoPostale>
+                            </prot:Amministrazione>
+
+                            <prot:AOO>
+                                <prot:Denominazione>AOOPROVA</prot:Denominazione>
+                                <prot:CodiceAOO>AOOPROVA</prot:CodiceAOO>
+                            </prot:AOO>
+                            <prot:IndirizzoPostale>
+                                <prot:Denominazione></prot:Denominazione>
+                            </prot:IndirizzoPostale>
+                        </prot:Destinatario>
+                    </prot:Destinazione>
+
+
+                    <prot:Oggetto>OGGETTO_PG</prot:Oggetto>
+                    <prot:Classifica>
+                        <prot:CodiceAmministrazione>codice ente doc principale mittente</prot:CodiceAmministrazione>
+                        <prot:CodiceAOO>codice aoo doc principale mittente</prot:CodiceAOO>
+                        <prot:Denominazione>des_titolario doc principale mittente</prot:Denominazione>
+                        <prot:Livello nome="anySimpleType">classifica doc principale mittente</prot:Livello>
+                    </prot:Classifica>
+                </prot:Intestazione>
+
+                <!--                          PRINCIPALE                                   -->
+                <prot:Descrizione>
+                    <prot:Documento id="DOC-000000" rife="DOC-000000" nome="qui va il docname.pdf" tipoMIME="base64"
+                                    tipoRiferimento="MIME">
+                        <prot:CollocazioneTelematica>PRINCIPALE</prot:CollocazioneTelematica>
+                        <prot:Impronta algoritmo="SHA-256" codifica="base64">rex e</prot:Impronta>
+                        <prot:TitoloDocumento>Test AGID.jpg</prot:TitoloDocumento>
+                        <!-- come sopra -->
+                        <prot:PrimaRegistrazione>
+                            <prot:Identificatore>
+                                <prot:CodiceAmministrazione>imperio ferant</prot:CodiceAmministrazione>
+                                <prot:CodiceAOO>secum bella</prot:CodiceAOO>
+                                <prot:CodiceRegistro>regemque profundum</prot:CodiceRegistro>
+                                <prot:NumeroRegistrazione>corde altos</prot:NumeroRegistrazione>
+                                <prot:DataRegistrazione>vinclis ventos</prot:DataRegistrazione>
+                            </prot:Identificatore>
+                        </prot:PrimaRegistrazione>
+
+                        <prot:TipoDocumento>GENERICO</prot:TipoDocumento>
+                        <prot:Oggetto>OGGETTO</prot:Oggetto>
+                        <prot:Classifica>
+                            <!-- come sopra -->
+                            <prot:CodiceAmministrazione>pectore dare</prot:CodiceAmministrazione>
+                            <prot:CodiceAOO>quae ventos</prot:CodiceAOO>
+                            <prot:Denominazione>secum ni</prot:Denominazione>
+                            <prot:Livello nome="anySimpleType">circum talia</prot:Livello>
+                        </prot:Classifica>
+                        <!--Optional:-->
+                        <prot:PiuInfo XMLSchema="profilo_docer.xsd">
+                            <prot:MetadatiInterni><![CDATA[<documento>
+ <OGGETTO_PUB/>
+ <FORZA_COLL>false</FORZA_COLL>
+ <MS_T_REGISTRAZ/>
+ <A_REGISTRAZ/>
+ <FASCICOLO_MITTENTE/>
+ <STATO_CONSERV/>
+ <ANNULLATO_PG/>
+ <STATO_BUSINESS>0</STATO_BUSINESS>
+ <DES_AOO>AOO EMR</DES_AOO>
+ <NUMERO_PUB/>
+ <DATA_INIZIO_PUB/>
+ <ANNO_PG>2013</ANNO_PG>
+ <D_REGISTRAZ/>
+ <AUTHOR_ID/>
+ <ID_REGISTRO/>
+ <ID_FONTE>FONTE_DOCER</ID_FONTE>
+ <ANNO_FASCICOLO>2013</ANNO_FASCICOLO>
+ <T_CONSERV/>
+ <ABSTRACT>Domanda per iscrizione alla Scuola Materna per A.S. 2013-14 </ABSTRACT>
+ <DESTINATARI/>
+ <NUM_FASCICOLO>15633</NUM_FASCICOLO>
+ <T_D_CONTR_CER/>
+ <D_ANNULL_REGISTRAZ/>
+ <M_ANNULL_REGISTRAZ/>
+ <NUM_PG_MITTENTE/>
+ <O_REGISTRAZ/>
+ <FLAG_CONSERV/>
+ <REGISTRO_PUB/>
+ <TIPO_FIRMA>FD</TIPO_FIRMA>
+ <NEEDS_RACCOGLITORE_UPDATE/>
+ <DES_FASCICOLO>Dichiarazione di variazione di occupazione TARSU</DES_FASCICOLO>
+ <PROGR_FASCICOLO>751</PROGR_>
+ <COD_AOO_MITTENTE/>
+ <M_ANNULL_PG/>
+ <DOCNUM>113720</DOCNUM>
+ <PUBBLICATO>NO</PUBBLICATO>
+ <COD_ENTE>EMR</COD_ENTE>
+ <ANNO_PUB/>
+ <MS_TIPOLOGIA/>
+ <MITTENTI>&lt;Mittenti&gt; &lt;Mittente&gt; &lt;Persona id="DGVNDR69P02L103G" &gt; &lt;Nome&gt;Andrea&lt;/Nome&gt; &lt;Cognome&gt;Di Giovanni&lt;/Cognome&gt; &lt;/Persona&gt; &lt;/Mittente&gt; &lt;/Mittenti&gt;</MITTENTI>
+ <TYPE_ID_DES>Documento</TYPE_ID_DES>
+ <CLASSIFICA_MITTENTE/>
+ <USA_D_CO_CER/>
+ <D_ANNULL_PG/>
+ <DOCNUM_RECORD/>
+ <DOCNUM_PRINC/>
+ <REGISTRO_PG>PG</REGISTRO_PG>
+ <DES_ENTE>Regione Emilia-Romagna</DES_ENTE>
+ <P_ANNULL_PG/>
+ <DOC_HASH/>
+ <NUM_PG>188423</NUM_PG>
+ <TYPIST_ID/>
+ <MS_OPERATORE/>
+ <STATO_ARCHIVISTICO>5</STATO_ARCHIVISTICO>
+ <DES_TITOLARIO>Classifica 1</DES_TITOLARIO>
+ <COD_ENTE_MITTENTE/>
+ <OGGETTO_PG/>
+ <COD_AOO>AOO_EMR</COD_AOO>
+ <FASC_SECONDARI/>
+ <D_CO_CER/>
+ <E_ANNULL_PG/>
+ <VISTO/>
+ <UD_VERSION/>
+ <DATA_PG>2013-07-10T00:00:00.000+02:00</DATA_PG>
+ <ANNULL_REGISTRAZ/>
+ <CLASSIFICA>550.200.50.20</CLASSIFICA>
+ <COD_TITOLARIO>1</COD_TITOLARIO>
+ <DEFAULT_EXTENSION/>
+ <ARCHIVE_TYPE/>
+ <FORZA_ACCETTAZ>false</FORZA_ACCETTAZ>
+ <MS_MOD_TX/>
+ <FIRMATARIO/>
+ <TIPO_PROTOCOLLAZIONE>E</TIPO_PROTOCOLLAZIONE>
+ <CREATION_DATE>2013-07-10T12:00:00.649+02:00</CREATION_DATE>
+ <FORZA_CONSERV>false</FORZA_CONSERV>
+ <RACC_UID>SIS-BO-D787</RACC_UID>
+ <DATA_FINE_PUB/>
+ <TIPO_COMPONENTE>PRINCIPALE</TIPO_COMPONENTE>
+ <TYPE_ID>DOCUMENTO</TYPE_ID>
+ <N_REGISTRAZ/>
+ <STATO_PANTAREI>4</STATO_PANTAREI>
+ <DOC_URL/>
+ <APP_VERSANTE/>
+ <DATA_PG_MITTENTE/>
+ <DOCNAME>Iscrizione_Scuola_Materna.pdf</DOCNAME>
+ </documento>
+]]></prot:MetadatiInterni>
+                        </prot:PiuInfo>
+                    </prot:Documento>
+
+                    <!--
+                    <prot:TestoDelMessaggio id="anySimpleType" tipoMIME="anySimpleType" tipoRiferimento="MIME"/>
+                     -->
+                    <!--Optional:-->
+                    <prot:Allegati>
+                        <prot:Fascicolo id="FASCICOLO_PRINCIPALE" rife="FASCICOLO_PRINCIPALE">
+                            <prot:CodiceAmministrazione>ENTEPROVA</prot:CodiceAmministrazione>
+                            <prot:Identificativo>2014/1</prot:Identificativo>
+                            <prot:Classifica>
+                                <prot:CodiceAmministrazione>ENTEPROVA</prot:CodiceAmministrazione>
+                                <prot:CodiceAOO>AOOPROVA</prot:CodiceAOO>
+                                <prot:Livello nome="">1.0.0</prot:Livello>
+                            </prot:Classifica>
+                        </prot:Fascicolo>
+                        <prot:Documento id="DOC-111111" rife="DOC-111111" nome="anySimpleType.pdf" tipoMIME="base64"
+                                        tipoRiferimento="MIME">
+
+                            <prot:CollocazioneTelematica>ALLEGATO</prot:CollocazioneTelematica>
+                            <prot:TitoloDocumento>allegato.txt</prot:TitoloDocumento>
+                            <prot:TipoDocumento>GENERICO</prot:TipoDocumento>
+
+                            <prot:Impronta algoritmo="SHA-256" codifica="base64">flammato iussus</prot:Impronta>
+                            <prot:PiuInfo XMLSchema="profilo_docer.xsd">
+                                <prot:MetadatiInterni>adorat gente</prot:MetadatiInterni>
+                            </prot:PiuInfo>
+                        </prot:Documento>
+
+                        <prot:Documento id="DOC-222222" rife="DOC-222222" nome="anySimpleType.pdf" tipoMIME="base64"
+                                        tipoRiferimento="MIME">
+
+                            <prot:CollocazioneTelematica>ANNOTAZIONO</prot:CollocazioneTelematica>
+                            <prot:TitoloDocumento>annotazione.txt</prot:TitoloDocumento>
+                            <prot:TipoDocumento>GENERICO</prot:TipoDocumento>
+
+                            <prot:Impronta algoritmo="SHA-256" codifica="base64">flammato iussus</prot:Impronta>
+                            <prot:PiuInfo XMLSchema="profilo_docer.xsd">
+                                <prot:MetadatiInterni>adorat gente</prot:MetadatiInterni>
+                            </prot:PiuInfo>
+                        </prot:Documento>
+
+                        <prot:Documento id="DOC-333333" rife="DOC-333333" nome="anySimpleType.pdf" tipoMIME="base64"
+                                        tipoRiferimento="MIME">
+
+                            <prot:CollocazioneTelematica>ANNESSO</prot:CollocazioneTelematica>
+                            <prot:TitoloDocumento>annessi.txt</prot:TitoloDocumento>
+                            <prot:TipoDocumento>GENERICO</prot:TipoDocumento>
+
+                            <prot:Impronta algoritmo="SHA-256" codifica="base64">flammato iussus</prot:Impronta>
+                            <prot:PiuInfo XMLSchema="profilo_docer.xsd">
+                                <prot:MetadatiInterni>adorat gente</prot:MetadatiInterni>
+                            </prot:PiuInfo>
+                        </prot:Documento>
+
+
+                    </prot:Allegati>
+
+                </prot:Descrizione>
+            </prot:Segnatura>
+        </prot:SegnaturaEnvelope>
+    </soapenv:Body>
+</soapenv:Envelope>

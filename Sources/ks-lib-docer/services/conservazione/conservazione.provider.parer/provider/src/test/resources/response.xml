@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<EsitoVersamento xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="WSVersamentoEsito.xsd">
+	<DataVersamento>2011-11-11T10:10:10.000</DataVersamento>
+	<EsitoGenerale>
+		<CodiceEsito>POSITIVO</CodiceEsito>
+		<CodiceErrore>0</CodiceErrore>
+		<MessaggioErrore>asd</MessaggioErrore>
+	</EsitoGenerale>
+	<EsitoChiamataWS>
+		<VersioneWSCorretta>POSITIVO</VersioneWSCorretta>
+		<CredenzialiOperatore>POSITIVO</CredenzialiOperatore>
+		<FileAttesiRicevuti>POSITIVO</FileAttesiRicevuti>
+	</EsitoChiamataWS>
+	<EsitoXSD>
+		<CodiceEsito>POSITIVO</CodiceEsito>
+	</EsitoXSD>
+	<UnitaDocumentaria>
+		<Chiave>
+			<Numero>123</Numero>
+			<Anno>1234</Anno>
+			<TipoRegistro>asd</TipoRegistro>
+		</Chiave>
+		<DataVersamento>2010-10-10T10:10:10.000	</DataVersamento>
+		<FirmatoDigitalmente>true</FirmatoDigitalmente>
+		<EsitoUnitaDocumentaria>
+			<CodiceEsito>POSITIVO</CodiceEsito>
+			<IdentificazioneVersatore></IdentificazioneVersatore>
+		</EsitoUnitaDocumentaria>
+		<DocumentoPrincipale>
+			<ChiaveDoc>asd</ChiaveDoc>
+			<TipoDocumento>FILE</TipoDocumento>
+			<FirmatoDigitalmente>true</FirmatoDigitalmente>
+			<EsitoDocumento>
+				<CodiceEsito>POSITIVO</CodiceEsito>
+				<VerificaTipoDocumento>asd</VerificaTipoDocumento>
+			</EsitoDocumento>
+			<Componenti>
+				<Componente>
+					<OrdinePresentazione>1</OrdinePresentazione>
+					<TipoComponente>TIPO</TipoComponente>
+					<URN>URN</URN>
+					<EsitoComponente>
+						<CodiceEsito>POSITIVO</CodiceEsito>
+						<VerificaTipoComponente>POSITIVO</VerificaTipoComponente>
+					</EsitoComponente>
+				</Componente>
+			</Componenti>
+		</DocumentoPrincipale>
+	</UnitaDocumentaria>
+</EsitoVersamento>

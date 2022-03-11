@@ -1,0 +1,13 @@
+kind: Service
+metadata:
+    name: ${deployment.id}
+    labels:
+        application: ${deployment.id}
+spec:
+    ports:
+        - name: http
+          port: 8080
+          protocol: TCP
+          targetPort: 8080
+    selector:
+        application: ${deployment.id}

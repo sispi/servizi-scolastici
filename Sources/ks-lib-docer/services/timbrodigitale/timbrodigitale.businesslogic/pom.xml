@@ -1,0 +1,22 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>docer.services.timbrodigitale</artifactId>
+    <groupId>it.kdm.docer</groupId>
+    <version>Docer-2.4.6.1</version>
+  </parent>
+  <artifactId>docer.services.timbrodigitale.businesslogic</artifactId>
+  <dependencies>
+  	<dependency>
+  		<groupId>${project.groupId}</groupId>
+  		<artifactId>${project.parent.artifactId}.sdk</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>org.apache.pdfbox</groupId>
+  		<artifactId>pdfbox</artifactId>
+  		<version>1.6.0</version>
+  		<type>jar</type>
+  	</dependency>
+  </dependencies>
+</project>

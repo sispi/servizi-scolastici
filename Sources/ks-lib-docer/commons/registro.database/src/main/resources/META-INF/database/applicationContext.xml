@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd         http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.2.xsd         http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+	<context:property-placeholder
+		location="classpath*:META-INF/database/*.properties" />
+
+	<context:annotation-config />
+
+	<context:component-scan base-package="it.kdm.docer.registrazione.database">
+		<context:exclude-filter expression="org.springframework.stereotype.Controller"
+			type="annotation" />
+	</context:component-scan>
+
+	<!--<bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" 
+		id="dataSource"> <property name="driverClassName" value="${database.driverClassName}"/> 
+		<property name="url" value="${database.url}"/> <property name="username" 
+		value="${database.username}"/> <property name="password" value="${database.password}"/> 
+		<property name="testOnBorrow" value="true"/> <property name="testOnReturn" 
+		value="true"/> <property name="testWhileIdle" value="true"/> <property name="timeBetweenEvictionRunsMillis" 
+		value="1800000"/> <property name="numTestsPerEvictionRun" value="3"/> <property 
+		name="minEvictableIdleTimeMillis" value="1800000"/> &lt;!&ndash; <property 
+		name="validationQuery" value="SELECT 1"/> &ndash;&gt; &lt;!&ndash; ORACLE!!!! 
+		&ndash;&gt; <property name="validationQuery" value="SELECT 1 from dual"/> 
+		</bean> -->
+
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+
+		<property name="driverClass" value="${database.driverClassName}" />
+		<property name="jdbcUrl" value="${database.url}" />
+		<property name="user" value="${database.username}" />
+		<property name="password" value="${database.password}" />
+
+		<property name="maxStatementsPerConnection" value="5" />
+
+		<property name="automaticTestTable" value="validation_table" />
+		<property name="idleConnectionTestPeriod" value="180" />
+		<property name="testConnectionOnCheckin" value="true" />
+	</bean>
+
+	<bean class="org.springframework.orm.jpa.JpaTransactionManager"
+		id="transactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<tx:annotation-driven mode="aspectj"
+		transaction-manager="transactionManager" />
+
+	<bean
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+		id="entityManagerFactory">
+		<property name="persistenceUnitName" value="persistenceUnit" />
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+</beans>

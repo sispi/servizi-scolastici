@@ -1,0 +1,83 @@
+kind: StatefulSet
+metadata:
+    name: ${deployment.id}
+    labels:
+        application: ${deployment.id}
+spec:
+    serviceName: ${deployment.id}
+    replicas: 1
+    selector:
+        matchLabels:
+            application: ${deployment.id}
+    template:
+        metadata:
+            name: ${deployment.id}
+            labels:
+                application: ${deployment.id}
+        spec:
+            serviceAccountName: ${deployment.id}
+            containers:
+                - name: application
+                  image: @project.artifactId@:@project.version@
+                  imagePullPolicy: IfNotPresent
+                  env:
+                    - name: DEPLOYMENT_POD_NAME
+                      valueFrom:
+                        fieldRef:
+                            fieldPath: metadata.name
+                - name: LOADER_PATH
+                  value: /deployments/data/config/ks-api-bpm/libs                            
+                  ports:
+                    - containerPort: 8080
+                      name: http
+                      protocol: TCP
+                    - containerPort: 9779
+                      name: prometheus
+                      protocol: TCP
+                    - containerPort: 8778
+                      name: jolokia
+                      protocol: TCP
+                  readinessProbe:
+                    failureThreshold: 3
+                    httpGet:
+                        path: /actuator/health
+                        port: 8080
+                        scheme: HTTP
+                    initialDelaySeconds: 10
+                    successThreshold: 1
+                  livenessProbe:
+                    failureThreshold: 3
+                    httpGet:
+                        path: /actuator/health
+                        port: 8080
+                        scheme: HTTP
+                    initialDelaySeconds: 180
+                    successThreshold: 1
+                  securityContext:
+                    privileged: false
+                  volumeMounts:
+                    - name: shared
+                      readOnly: false
+                      mountPath: /deployments/data/shared
+                    - name: private
+                      readOnly: false
+                      mountPath: /deployments/data/private
+                    - name: tmp
+                      readOnly: false
+                      mountPath: /deployments/data/tmp
+                    - name: config
+                      readOnly: false
+                      mountPath: /deployments/data/config
+                      
+            volumes:
+                - name: shared
+                  persistentVolumeClaim:
+                    claimName: shared-${deployment.id}  
+                - name: tmp
+                  persistentVolumeClaim:
+                    claimName: docer-upload
+                - name: config
+                  persistentVolumeClaim:
+                    claimName: microservice-config
+
+                

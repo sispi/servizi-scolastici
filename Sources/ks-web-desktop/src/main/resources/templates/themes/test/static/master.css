@@ -1,0 +1,43 @@
+
+html,body {
+    height: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+    background: lightgrey;
+}
+
+::-webkit-scrollbar-thumb {
+    background: gray;
+}
+
+#body {
+    margin: 0px;
+    padding: 5px;
+    height: calc(100% - var(--header-height) - var(--footer-height));
+    min-height: calc(100% - var(--header-height) - var(--footer-height));
+    /*width: 100%;
+    min-width: 100%;*/
+    display: flex;
+    position: relative;
+    overflow: auto;
+    top: var(--header-height) !important;
+}
+
+#main {
+    height:calc(100% - var(--subheader-height) );
+    width:100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+#overlay {
+    background-color: white;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+

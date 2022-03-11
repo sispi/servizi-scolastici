@@ -1,0 +1,10 @@
+logo: /static/images/logo.png
+header-height: 70px
+subheader-height: 35px
+footer-height: 35px
+menu-width: 200px
+header-bg-color: royalblue
+footer-bg-color: royalblue
+header-text-color: white;
+
+menu: horizontal

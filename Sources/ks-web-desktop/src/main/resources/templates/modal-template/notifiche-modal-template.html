@@ -1,0 +1,117 @@
+<modal :show="show" @close="close">
+    <div slot="header" class="col-md-12">
+        <div class="modalTitle col-sm-12">{{messages["viewProfile.notifiche"] || "Notifiche"}}</div>
+    </div>
+    <div slot="body">   
+            <template v-if="notifiche.length>0">
+                <div id="notifiche" class="card">
+                    <table class="table table-sm table-striped">
+                        <tr>
+                            <th style="width: 3%; text-align: center;">{{messages["viewProfile.smarca"] || "Smarca"}}</th>
+                            <th style="width: 8%; text-align: center; ">{{messages["viewProfile.id"] || "Id"}}</th>
+                            <th style="width: 10%; text-align: center;">{{messages["viewProfile.Data"] || "Data"}}</th>
+                            <th style="width: 38%; text-align: center;">{{messages["viewProfile.titolo"] || "Titolo"}}</th>
+                            <th style="width: 38%; text-align: center;">{{messages["viewProfile.testo"] || "Testo"}}</th>
+                            <th style="width: 3%; text-align: center;">{{messages["viewProfile.allegati"] || "Allegati"}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(a,i) in notifiche" :key="i">
+                                <td style="text-align: center;">
+                                    <template v-for="(r,j) in a.recipients" :key="j">
+                                        <template v-if="(!r.readTs)&&(r.userId==$userLoggato)">
+                                            <a class="numNotifiche" style="cursor: pointer;" @click="markAsRead(a.id)"><i class="fas fa-check mainColor"></i></a> 
+                                        </template>
+                                    </template>
+                                </td>
+                                <td style="text-align: center;">
+                                    {{a.id}}
+                                </td>
+                                <td style="text-align: center;">
+                                    {{dateNoTime(a.notifyTs)}}
+                                </td>
+                                <td style="text-align: center;">
+                                    <button @click="openNotificaDetail(a.id)" type="submit" class="btn btn-link" >{{a.subject|limitText30}}</button>
+                                </td>
+                                <td style="text-align: center;">
+                                    {{a.body|limitText30}}
+                                </td>
+                                <td style="text-align: center;">
+                                    <template v-if="a.attachments.length>0">
+                                        <i class="fas fa-paperclip"></i>
+                                    </template>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </template>
+            <template v-else>
+                <div class="noElementTable">
+                    <span>{{messages["viewProfile.nessunaNotificaPresente"] || "Nessuna notifica presente"}}</span>
+                </div>
+            </template>
+
+            <div style="display: none" id="dettaglioNotifica">
+                
+                <div class="form-group">
+                    <label class="labelNew">{{messages["viewProfile.titolo"] || "Titolo notifica"}}</label>
+                    <textarea style="pointer-events: none;" class="form-control" rows="1">{{dettaglioNotifica.subject}}</textarea>
+                </div>
+                <div class="form-group">
+                    <label class="labelNew">{{messages["viewProfile.testo"] || "Testo notifica"}}</label>
+                    <textarea style="pointer-events: none;" class="form-control" rows="7">{{dettaglioNotifica.body}}</textarea>
+                </div>
+                <template v-if="(dettaglioNotifica.attachments)&&(dettaglioNotifica.attachments.length)">
+                    <div class="form-group">
+                        <label class="labelNew">{{messages["viewProfile.allegati"] || "Allegati"}}</label>
+                        <hr>
+                        <ul>
+                            <li v-for="(att,i) in dettaglioNotifica.attachments" :key="i">
+                                <a style="font-size: 14px;" :href=" '/bpm/v1/notifications/'+ dettaglioNotifica.id +'/attachment-content?name=' + att.name "><i class="fas fa-file-download"></i>{{att.name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </template>
+
+                <div class="card">
+                    <table style="background-color: #f9f9f9" class="table table-sm">
+                        <tr>
+                            <th style="width: 65%; text-align: left;">{{messages["viewProfile.notificati"] || "Notificati"}}</th>
+                            <th style="width: 5%; text-align: center;">{{messages["viewProfile.letta"] || "Letta"}}</th>
+                            <th style="width: 30%; text-align: center;">{{messages["viewProfile.DataLettura"] || "Data lettura"}}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(n,i) in dettaglioNotifica.recipients" :key="i">
+                                <td style="text-align: left;">
+                                    {{n.userId}}
+                                </td>
+                                <td style="text-align: center;">
+                                    <template v-if="(n.readTs)">
+                                        <i class="fas fa-check mainColor"></i>
+                                    </template>
+                                </td>
+                                <td style="text-align: center;">
+                                    <template v-if="(n.readTs)">
+                                        {{date(n.readTs)}}
+                                    </template>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        <div class="col-md-12 footer-modal">
+            <div class="col-md-3 float-left">
+                <button type="submit" class="btn btn-default btn-block modal-btn-annulla" @click="chiudiNotifiche()">{{messages["viewProfile.chiudi"] || "Chiudi"}}</button>
+            </div>
+            <div class="col-md-3 float-right">
+                <button style="display: none; margin-top: 0.9rem;" id="apriNotifiche" type="submit" class="btn btn-primary btn-block modal-btn-conferma" @click="chiudiDettaglioNotifica()">{{messages["viewProfile.indietro"] || "Indietro"}}</button>
+            </div>
+        </div>
+
+    </div>
+    
+</modal>

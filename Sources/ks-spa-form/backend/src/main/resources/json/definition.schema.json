@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "description": [
+    "JSON definition schema (draft v6)"
+  ],  
+  "type": "object",
+  "properties": {
+    "wizard": { "type": "boolean" },    
+    "header": { "oneOf": [{"type": "null"}, {"type": "string"}] },
+    "footer": { "oneOf": [{"type": "null"}, {"type": "string"}] },
+    "toolbar": {
+      "type": "object",
+      "properties": {
+        "position": {
+          "type": "string",
+          "enum": ["top", "bottom"],
+          "default": "bottom"          
+        },
+        "buttons": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }          
+        }
+      },
+      "required": [
+        "position", "buttons"
+      ],
+      "additionalProperties": true
+    },
+    "tabs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "sections": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "elements": {
+                  "oneOf": [
+                    {
+                      "type": "array", 
+                      "items": {
+                        "type" : "object"
+                      } 
+                    },
+                    {
+                      "type": "string",
+                      "pattern": "^[^\\s]+$"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "elements"
+              ],
+              "additionalProperties": true
+            }
+          }
+        },
+        "required": [
+          "sections"
+        ],
+        "additionalProperties": true
+      }
+    },
+    "sections": {
+      "type": "object",
+      "additionalProperties": {
+        "type" : "array",
+        "items" : {
+          "type" : "object"
+        }          
+      }      
+    },
+    "script": { "oneOf": [{"type": "null"}, {"type": "string"}] }
+  },
+  "required": [
+    "wizard",    
+    "header",
+    "footer",
+    "toolbar",
+    "tabs",
+    "sections",
+    "script"    
+  ],
+  "additionalProperties": true
+}

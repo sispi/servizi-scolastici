@@ -1,0 +1,212 @@
+UnitaDocumentaria ud = new UnitaDocumentaria();
+		
+Intestazione intestazione = new Intestazione();
+		
+Versatore versatore = new Versatore();
+versatore.setEnte("COMUNE_PARMA");  // COD_ENTE
+versatore.setStruttura("AOO000");	// COD_AOO
+versatore.setAmbiente("COMUNI");	//TODO: controllare
+versatore.setUserID("admin");		// utente
+intestazione.setVersatore(versatore); 
+
+Chiave chiave = new Chiave(); 
+chiave.setNumero("5");				// NUM_PG
+chiave.setAnno(2011);				// ANNO_PG
+chiave.setTipoRegistro("PG");		// REGISTRO_PG
+
+intestazione.setTipologiaUnitaDocumentaria("PROTOCOLLO");	//TODO: controllare
+
+Configurazione configurazione = new Configurazione();
+
+switch (type) {
+case SOSTITUTIVA:
+	configurazione.setTipoConservazione(TipoConservazioneType.SOSTITUTIVA);	
+	break;
+case FISCALE:
+	configurazione.setTipoConservazione(TipoConservazioneType.FISCALE);
+	break;
+default:
+	throw new ConservazioneException("Tipo specificato non valido");
+}
+
+configurazione.setForzaAccetazione(forzaAccettazione);	// PARAMETRO
+configurazione.setForzaConservazione(forzaConservazione);	// PARAMETRO
+configurazione.setForzaCollegamento(forzaCollegamento);	// PARAMETRO
+
+ProfiloArchivistico profiloArch = new ProfiloArchivistico();
+
+FascicoloPrincipale fascicoloP = new FascicoloPrincipale();
+fascicoloP.setClassifica("1.0.0");	// COD_TITOLARIO
+
+Fascicolo fascicolo = new Fascicolo();
+fascicolo.setIdentificativo("1.0.0/2011/1");	// COD_FASCICOLO
+fascicolo.setOggetto("Pratica XXX");			// DES_FASCICOLO
+fascicoloP.setFascicolo(fascicolo);
+
+SottoFascicolo sottoFascicolo = new SottoFascicolo();
+sottoFascicolo.setIdentificativo("1.0.0/2011/1/1");	// COD_SOTTOFASCICOLO
+sottoFascicolo.setOggetto("Giustificativi");		// DES_SOTTOFASCICOLO
+fascicoloP.setSottoFascicolo(sottoFascicolo);
+
+profiloArch.setFascicoloPrincipale(fascicoloP);
+
+FascicoliSecondari fascicoliS = new FascicoliSecondari();
+
+// Ciclo sui fascicoli secondari
+
+FascicoloSecondario fascicoloS = new FascicoloSecondario();
+fascicoloS.setClassifica("1.0.0");	// COD_TITOLARIO (secondario)
+
+fascicolo = new Fascicolo();
+fascicolo.setIdentificativo("1.0.0/2011/1");	// COD_FASCICOLO (secondario)
+fascicolo.setOggetto("Pratica XXX");			// DES_FASCICOLO (secondario)
+fascicoloS.setFascicolo(fascicolo);
+
+sottoFascicolo = new SottoFascicolo();
+sottoFascicolo.setIdentificativo("1.0.0/2011/1/1");	// COD_SOTTOFASCICOLO (secondario)
+sottoFascicolo.setOggetto("Giustificativi");		// DES_SOTTOFASCICOLO (secondario)
+fascicoloS.setSottoFascicolo(sottoFascicolo);
+
+fascicoliS.addFascicoloSecondario(fascicoloS);
+
+profiloArch.setFascicoliSecondari(fascicoliS);
+
+ProfiloUnitaDocumentaria profiloUD = new ProfiloUnitaDocumentaria();
+profiloUD.setOggetto("Lorem ipsum dolor sit amet");		// OGGETTO_PG
+profiloUD.setDataRegistrazione(new Date());				// TODO: controllare
+profiloUD.setUfficioCompetente("Protocollo Generale");	// TODO: controllare
+
+ud.setProfiloUnitaDocumentaria(profiloUD);
+
+DocumentiCollegati dc = new DocumentiCollegati();
+
+// Ciclare sui documenti collegati
+DocumentoCollegato doc = new DocumentoCollegato();
+
+ChiaveCollegamento chiaveColl = new ChiaveCollegamento(); 
+chiaveColl.setNumero("5");				// NUM_PG
+chiaveColl.setAnno(2011);				// ANNO_PG
+chiaveColl.setTipoRegistro("PG");		// REGISTRO_PG
+
+doc.setChiaveCollegamento(chiaveColl);
+doc.setDescrizioneCollegamento("abc"); 	// TODO: controllare
+
+dc.addDocumentoCollegato(doc);
+
+ud.setDocumentiCollegati(dc);
+
+// Questi saranno da calcolare in base alle occorrenze
+ud.setNumeroAllegati(1);
+ud.setNumeroAnnessi(1);
+ud.setNumeroAnnotazioni(1);
+
+DocumentoPrincipale dp = new DocumentoPrincipale();
+dp.setIDDocumento("abc");	// DOCNUM
+dp.setTipoDocumento("RICHIESTA....."); // TYPE_ID
+
+ProfiloDocumento profiloD = new ProfiloDocumento();
+profiloD.setAutore("Paolo Rossi");	// AUTHOR_ID
+profiloD.setDescrizione("Descrizione");	// DESCRIPTION
+
+dp.setProfiloDocumento(profiloD);
+
+// Metadati custom da mappare in configurazione
+DatiSpecifici datiSpecifici = new DatiSpecifici();
+String[] pair = new String[] {"DenominazioneDirettoreLavori", "Giuseppe Bianchi"};
+datiSpecifici.addAnyObject(pair);
+pair = new String[] {"CFDirettoreLavori", "BNCGSP54G18H140V" };
+datiSpecifici.addAnyObject(pair);
+pair = new String[] {"DenominazioneImpresaEsecutriceOpere", "Rossi & C." };
+datiSpecifici.addAnyObject(pair);
+pair = new String[] {"PIVAImpresaEsecutriceOpere", "11122456124" };
+datiSpecifici.addAnyObject(pair);
+
+dp.setDatiSpecifici(datiSpecifici);
+
+DatiFiscali df = new DatiFiscali();
+df.setNome("nome");
+df.setCognome("cognome");
+df.setCF("ABC");
+df.setPIVA("piva");
+df.setDataEmissione(new Date());
+df.setDataTermineEmissione(new Date());
+df.setPeriodoFiscale("periodo");
+df.setDenominazione("denominazione");
+df.setNumeroProgressivo(123);
+df.setRegistro("registro");
+
+dp.setDatiFiscali(df);
+
+StrutturaOriginale so = new StrutturaOriginale();
+so.setTipoStruttura("TIPO_STRUTTURA");
+
+Componenti comps = new Componenti();
+// Ciclare i componenti
+
+Componente comp = new Componente();
+comp.setID("1");
+comp.setOrdinePresentazione(1);
+comp.setTipoComponente("CONTENUTO");
+comp.setTipoSupportoComponente(TipoSupportoType.FILE);
+
+Riferimento_C rifC = new Riferimento_C();
+rifC.setAnno(123);
+rifC.setNumero("123");
+rifC.setTipoRegistro("tipo");
+
+comp.setRiferimento_C(rifC);
+
+comp.setTipoRappresentazioneComponente("abc");
+comp.setNomeComponente("DomandaPermessoRighi.pdf");
+comp.setFormatoFileVersato("PDF");
+comp.setHashVersato("123".getBytes());
+comp.setUrnVersato("c:\\cartella permessi\\righi.pdf.p7m");
+comp.setIDComponenteVersato("0014");
+comp.setUtilizzoDataFirmaPerRifTemp(true);
+comp.setRiferimentoTemporale(new java.util.Date());
+comp.setDescrizioneRiferimentoTemporale("desc");
+
+SottoComponenti sottoComps = new SottoComponenti();
+
+// iterare per ciascun sottocomponente
+SottoComponente sottoComp = new SottoComponente();
+
+// IDENTICO A COMPONENTE
+
+sottoComps.addSottoComponente(sottoComp);
+
+comp.setSottoComponenti(sottoComps);
+
+comps.addComponente(comp);
+
+so.setComponenti(comps);
+
+dp.setStrutturaOriginale(so);
+
+ud.setDocumentoPrincipale(dp);
+
+Allegati allegati = new Allegati();
+
+// Ciclare per ciascun allegato
+Allegato allegato  = new Allegato();
+// IDENTICO A DOCUMENTO PRINCIPALE
+allegati.addAllegato(allegato);
+
+ud.setAllegati(allegati);
+
+Annessi annessi = new Annessi();
+
+// Ciclare per ciascun annesso
+Annesso annesso = new Annesso();
+// IDENTICO A DOCUMENTO PRINCIPALE
+annessi.addAnnesso(annesso);
+
+ud.setAnnessi(annessi);
+
+Annotazioni annotazioni = new Annotazioni();
+// Ciclare per ciascuna annotazione
+Annotazione annotazione = new Annotazione();
+// IDENTICO A DOCUMENTO PRINCIPALE
+annotazioni.addAnnotazione(annotazione);
+
+ud.setAnnotazioni(annotazioni);

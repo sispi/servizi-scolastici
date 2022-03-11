@@ -1,0 +1,52 @@
+<!--
+  Copyright (C) 2010 Orbeon, Inc.
+
+  This program is free software; you can redistribute it and/or modify it under the terms of the
+  GNU Lesser General Public License as published by the Free Software Foundation; either version
+  2.1 of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+  without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+  See the GNU Lesser General Public License for more details.
+
+  The full text of the license is available at http://www.gnu.org/copyleft/lesser.html
+  -->
+<applications>
+    <section label="Documenti">
+		<application visible="true" id="XForms?action=create&amp;" label="Nuovo documento"/>
+		<application visible="true" id="XForms?action=search&amp;" label="Ricerca"/>
+		<application visible="true" id="XForms?action=navigation&amp;current-path=%20&amp;desc=doc/ER" label="Navigazione"/>
+		<!--<application visible="true" id="XForms?action=navigation&amp;current-path=EENTE_TEST&amp;desc=des%20ENTE_TEST" label="des ENTE_TEST"/>
+		<application visible="true" id="XForms?action=navigation&amp;current-path=EENTE_TEST_2&amp;desc=des%20ENTE_TEST_2" label="des ENTE_TEST_2"/>
+		-->
+	</section>
+	
+	<section label="Gestione Anagrafiche">
+		<application visible="true" list="XForms?action=search-ente&amp;" create="XForms?action=viewente&amp;" label="Enti"/>
+		<application visible="true" list="XForms?action=search-aoo&amp;" create="XForms?action=viewaoo&amp;"  label="AOO"/>
+		<application visible="true" list="XForms?action=search-titolario&amp;" create="XForms?action=viewtitolario&amp;"  label="Titolari"/>
+		<!--<application visible="true" list="XForms?action=search-fascicolo&amp;" create="XForms?action=viewfascicolo&amp;"  label="Fascicoli"/>
+		<application visible="true" list="XForms?action=search-anagrafica-custom&amp;anagrafica=area_tematica" 
+			     create="XForms?action=viewanagrafica-custom&amp;anagrafica=area_tematica"  label="Aree tematiche"/>-->
+	</section>
+	
+	<section label="Servizio di Conservazione">
+		<application visible="true" id="XForms?action=invia-conservazione&amp;" label="Invio in conservazione"/>
+    	</section>
+	
+	<section label="Gestione Conservazione">
+		<application visible="true" id="XForms?action=searchjobs" label="Ricerca nel Log"/>
+		<application visible="true" id="XForms?action=listjobs&amp;dataInizio=&amp;dataFine=&amp;esito=E&amp;docId=&amp;docType=&amp;errCode=&amp;" label="Log degli errori"/>
+   	</section>
+   	
+   	<section label="Gestione Servizi">
+		<application visible="true" id="XForms?action=getServiceList" label="Lista dei servizi"/>
+		
+   	</section>
+   	
+   	<section label="Gestione Forms">
+   		<application visible="true" id="XForms?action=view-document-types&amp;service=1" label="Documenti"/>
+   		<application visible="true" id="XForms?action=view-forms-anagrafica" label="Anagrafiche"/>
+   	</section>
+
+</applications>

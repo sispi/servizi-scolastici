@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" @view="portal/master-portale">
+    <head @ignore>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Chat</title>
+    </head>
+    <body>
+        <script>
+            var username = '${$.userInfo.username}';
+        </script>
+        <script @server id="data-instance" @ftl-model="instance" type="application/json" src="/bpm/v1/instances/{id}"></script>
+        <script @server id="data-chat-messages" @ftl-model="chatMessages" type="application/json" src="/bpm/v1/instances/{id}/chat/messages?fetch=*"></script>
+        <script @server id="data-chat" @ftl-model="chat" type="application/json" src="/bpm/v1/instances/{id}/chat"></script>
+        <div id="app">
+            <App></App>
+        </div>
+
+        <!-- Assistance request .js -->
+        <script type="module" src="/static/portal/js/features/chat.js?no-cache"></script>
+    </body>
+</html>

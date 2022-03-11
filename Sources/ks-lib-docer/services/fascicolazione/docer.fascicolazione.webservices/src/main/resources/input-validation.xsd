@@ -1,0 +1,49 @@
+<!-- edited with XMLSpy v2012 rel. 2 sp1 (x64) (http://www.altova.com) by 
+	Stefano (1) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified" attributeFormDefault="unqualified"
+	version="1.0">
+	<xsd:element name="Segnatura" type="SegnaturaType" />
+	<xsd:complexType name="SegnaturaType">
+		<xsd:sequence>
+			<xsd:element name="Intestazione" type="IntestazioneType" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IntestazioneType">
+		<xsd:sequence>
+			<xsd:element name="FascicoloPrimario" type="FascicoloType"
+				minOccurs="0" />
+			<xsd:element name="FascicoliSecondari" type="FascicoliSecondariType"
+				minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="FascicoliSecondariType">
+		<xsd:sequence minOccurs="0">
+			<xsd:element name="FascicoloSecondario" type="FascicoloType"
+				maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IdentificatoreType">
+		<xsd:sequence>
+			<xsd:element name="CodiceAmministrazione" type="xsd:string"
+				minOccurs="1" />
+			<xsd:element name="CodiceAOO" type="xsd:string"
+				minOccurs="1" />
+			<xsd:element name="CodiceApplicativo" type="xsd:string"
+				minOccurs="1" />
+			<xsd:element name="DescrizioneApplicativo" type="xsd:string"
+				minOccurs="1" />
+			<xsd:element name="IdentificativoDocer" type="xsd:string"
+				minOccurs="1" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="FascicoloType">
+		<xsd:sequence>
+			<xsd:element name="CodiceAmministrazione" type="xsd:string" />
+			<xsd:element name="CodiceAOO" type="xsd:string" />
+			<xsd:element name="Classifica" type="xsd:string" />
+			<xsd:element name="Anno" type="xsd:int" />
+			<xsd:element name="Progressivo" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

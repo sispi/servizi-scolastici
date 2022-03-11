@@ -1,0 +1,81 @@
+.placeholder {
+
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 700;
+    color: lightgrey;
+}
+
+.ctrl {
+    border: 1px dashed;
+    min-height: 60px;
+    background-color: white;
+}
+
+.section-area {
+    background-color: #eeeeee;
+    min-height: 60px;
+}
+
+.selected .section-area {
+    height:0px;
+}
+
+.toolbar {
+    padding: 0px !important;
+    border-left: 2px solid #17a2b8;
+    background-color: white;
+}
+
+.toolbar .list-group-item {
+    background-color: #c3e6cb;
+    border-radius: 6px;
+    margin: 3px !important;
+}
+
+.section-editor.selected {
+    background-color: #eeeeee;
+    border: 2px solid #17a2b8;
+}
+
+.tb-icon {
+    font-size: 14px !important;
+}
+
+.resize-corner {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    cursor: w-resize;
+    border: 1px solid;
+    width: 20px;
+    height: 20px;
+    text-align: right;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    margin: 0;
+    padding: 0px 1px 0px 0px;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.offset-corner {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    cursor: w-resize;
+    border: 1px solid;
+    width: 20px;
+    height: 20px;
+    text-align: left;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    margin: 0;
+    padding: 0px 0px 0px 3px;
+    font-size: 12px;
+    font-weight: 800;
+}

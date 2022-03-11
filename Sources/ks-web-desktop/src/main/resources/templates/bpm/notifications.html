@@ -1,0 +1,165 @@
+<head>
+    <title>notifications</title>
+</head>
+
+<body>
+<script @server id="data-model" src="/bpm/v1/notifications?activeOnly={activeOnly:true}&fetch=*&orderBy=&pageNumber=&pageSize=&tags={tags}" type="application/json" ></script>
+
+<div id="app" class="container-fluid" >
+    <h2>{{model.title}}</h2>
+
+    <button class="btn btn-primary" type="button" v-on:click="$refs.sendnew.show()"  >notify</button>
+    <br/>
+
+    <input type="checkbox" v-model="activeOnly" @change="changeActive($event)"> only active
+
+    <!--<report-buttons style="float:right" :model="model"></report-buttons>-->
+    <results-stats style="float:right;padding-right:5px" :tot-results="model.totResults" :elapsed="model.elapsed" ></results-stats>
+    <!--<facets :model="model" page-field="pageNumber"></facets>-->
+    <report-table :model="model" rowfield="body" ></report-table>
+    <pager style="text-align: center"  :tot-page="model.totPage" :page-number="model.pageNumber" ></pager>
+
+    <br/>
+
+
+    <simplemodal ref="sendnew" id="sendnew" button-class="btn btn-secondary" title="new notification" buttons="ok|close" ref="modal" size="lg" v-on:ok="send($event)" >
+
+        <div class="form-group">
+            <label>recipients</label>
+            <select2 :value="notification.toRecipients" v-on:changed="notification.toRecipients=$event.ids" class="form-control" url="/docer/v1/solr/select?fq=type:(user group)&wt=json&fl=id:sid,text:name&q=name:%24%7Bterm%7D OR text:%24%7Bterm%7D&term=..." multiple="true"></select2>
+        </div>
+
+        <!--<div class="form-group">
+            <select2 id="options" class="form-control" minimum-input-length="0" close-on-select="false" multiple="true">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select2>
+        </div>-->
+
+        <div class="form-group">
+            <label>subject</label>
+            <input v-model="notification.subject" class="form-control" type="text" />
+        </div>
+
+        <div class="form-group">
+            <label>body</label>
+            <editor id="ace_body" style="height: auto" rows="4" class="form-control"
+                    hide-gutter="true"
+                    :content="notification.body" v-on:change-content="value=>notification.body=value" />
+        </div>
+
+        <div class="form-check">
+            <input v-model="notification.email" class="form-check-input" type="checkbox" >
+            <label class="form-check-label" >email</label>
+        </div>
+
+        <!--<div class="form-group">
+            <label>email</label>
+            <input v-model="notification.email" class="form-control" type="checkbox" >
+        </div>-->
+
+        <div class="form-group">
+            <label>tags</label>
+            <select2 :value="notification.tags" v-on:changed="notification.tags=$event.ids" class="form-control" tags="true" multiple="true"></select2>
+        </div>
+    </simplemodal>
+
+</div>
+
+<script>
+
+    var app = new Vue({
+        el: "#app",
+        data: function() {
+
+            return {
+                notification: {
+                    "subject": "",
+                    "toRecipients": [],
+                    "email": false,
+                    "body": "",
+                    "tags": []
+                },
+                activeOnly: ${query.activeOnly!'true'},
+                model: this.prepare("data-model")
+            }
+        },
+        methods : {
+            prepare: function(mdl) {
+                var model = bpmdata(mdl);
+                model.columns = "subject,priority,tags,notifyTs,expireTs,recipients,attachments,mark,body".split(',');
+                //model.params["column.elimina.href"] = "javascript:delBookmark('{id}')";
+                //model.params["column.elimina.href.label"] = "elimina";
+
+                //model.params["column.recipients.html"] = "{.userDisplayName}";
+
+                model.params["column.recipients.format"] = function(value) {
+                    var res = value.userDisplayName;
+                    if (res!=value.userId)
+                        res+=" ("+value.userId+")";
+                    if (value.readTs)
+                        res += "&nbsp;<i class='fa fa-check'></i>";
+                    return res;
+                };
+                model.params["column.recipients.separator"] = "<br/>";
+                model.params["column.tags.span"] = 100;
+                model.params["column.body.span"] = 100;
+
+                model.params["column.priority.format"] = function(value) {
+                    if (value)
+                        return "<i class='fa fa-check'></i>";
+                    else
+                        return "<i class='fa fa-ban'></i>";
+                };
+                model.params["column.tags.format"] = function(value) {
+                    return value;
+                };
+                model.params["column.expireTs.format"] = model.params["column.readTs.format"] = model.params["column.notifyTs.format"] =
+                    function(value){
+                        if (value)
+                            return moment(String(value)).format('DD/MM/YYYY HH:mm');
+                        else
+                            return "";
+                    };
+                model.params["column.attachments.format"] = function(value) { return value.name };
+                model.params["column.attachments.href"] = "/bpm/v1/notifications/{id}/attachment-content?name={.name}";
+
+                var self = this;
+                model.params["column.mark.href"] = function(value,ctx,rowidx) {
+                    self.markAsRead(ctx.id);
+                };
+
+                model.params["column.mark.href.label"] = "<i title='segna come letto' class='fas fa-check'></i>";
+
+                return model;
+
+            },
+            markAsRead: function(id) {
+                BpmClientApi.notifications.markNotificationAsRead(id,()=>{location.refresh()});
+            },
+            changeActive: function($event) {
+                var self = this;
+                BpmClientApi.notifications.get( {activeOnly:this.activeOnly, fetch:"*"}, function(data) {
+                    self.model = self.prepare(data);
+                });
+
+            },
+            sendnew: function() {
+                /*if (this.modal)
+                    this.modal.show();
+                else
+                    this.modal = new Vue(modalConf);*/
+                this.$refs.modal.show();
+            },
+            send: function() {
+                if (!this.notification.body)
+                    delete this.notification.body;
+                BpmClientApi.notifications.post(this.notification ,()=>{location.reload()} );
+            }
+        }
+    });
+
+</script>
+</body>
+

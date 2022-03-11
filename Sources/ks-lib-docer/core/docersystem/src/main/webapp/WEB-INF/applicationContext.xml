@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean class="it.kdm.docer.commons.configuration.ExtendedPropertySourcesPlaceholderConfigurer">
+         <property name="locations">
+            <list>
+                <value>classpath:database.properties</value>
+                <value>classpath:jms.properties</value>
+                
+                <value>file:${DOCER_CONFIG}/docersystem/database.properties</value>
+                <value>file:${DOCER_CONFIG}/docersystem/jms.properties</value>
+
+                <value>${DOCER_CONFIG}/docersystem/database.properties</value>
+                <value>${DOCER_CONFIG}/docersystem/jms.properties</value>
+                
+                <value>file:${user.home}/docer-config/database.properties</value>
+                <value>file:${user.home}/docer-config/jms.properties</value>
+
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="localOverride" value="false"/>
+    </bean>
+
+
+    <!--<bean id="poolConfig" class="com.jolbox.bonecp.BoneCPConfig">
+        <constructor-arg name="props">
+            <util:properties location="classpath:connectionPool.properties" />
+        </constructor-arg>
+    </bean>
+
+    <bean id="dataSource" class="com.jolbox.bonecp.BoneCPDataSource"
+          destroy-method="close">
+
+        <constructor-arg name="config" ref="poolConfig" />
+
+        <property name="driverClass" value="${database.driver}" />
+        <property name="jdbcUrl" value="${database.url}" />
+        <property name="username" value="${database.username}" />
+        <property name="password" value="${database.password}" />
+
+
+    </bean>-->
+
+    <bean id="configuration" class="it.kdm.docer.core.tracer.bean.Configuration">
+        <property name="enabledJMS" value="${jms.enabledEventJMS}" />
+        <property name="methodToSkipJMS" value="${jms.methodToSkipJMS}" />
+    </bean>
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close">
+
+        <property name="driverClass" value="${database.driver}" />
+        <property name="jdbcUrl" value="${database.url}" />
+        <property name="user" value="${database.username}" />
+        <property name="password" value="${database.password}" />
+
+        <property name="maxStatementsPerConnection" value="5" />
+
+        <property name="automaticTestTable" value="validation_table" />
+        <property name="idleConnectionTestPeriod" value="180" />
+        <property name="testConnectionOnCheckin" value="true" />
+    </bean>
+
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <constructor-arg name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean class="it.kdm.docer.core.SpringContextHolder" />
+
+
+<!-- import la configurazione di camel per la gestion jms-->
+    <import resource="camel-context.xml" />
+
+
+</beans>

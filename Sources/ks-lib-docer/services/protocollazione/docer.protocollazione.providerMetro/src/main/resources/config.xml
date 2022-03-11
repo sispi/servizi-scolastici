@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+    <entry key="wsuser">test</entry>
+    <entry key="wspwd">test</entry>
+    <entry key="wsurl">http://192.168.0.63:8088/mockProtocollazioneServiceSoapBinding</entry>
+    <entry key="registro">REGISTRO_PROTOCOLLO</entry>
+
+
+</properties>

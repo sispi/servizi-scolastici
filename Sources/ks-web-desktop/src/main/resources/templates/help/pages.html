@@ -1,0 +1,265 @@
+<html>
+<title>Guida scrittura pagine</title>
+</html>
+<body data-spy="scroll" data-target="#toc" >
+
+<h3>Guida scrittura pagine</h3>
+
+<nav id="toc" data-toggle="toc"></nav>
+
+<h4>Struttura della pagina</h4>
+
+<p  style="white-space: pre-wrap;" >
+    Per aggiungere una pagina html o una SPA è sufficiente aggiungere un file html nella cartella <a href="~admin/resources?/:resources/templates">/resources/templates</a>
+    <br>
+    La pagina può esere scritta come una normale pagina html che verrà poi inclusa nel desktop applicando la master page <a href="~admin/resources?/:resources/templates/master.ftl">master.ftl</a>
+    <br>La pagina è acceduta seguendo il posizionamento naturale sul filesystem all'interno del folder <a href="~admin/resources?/:resources/templates">/resources/templates</a> estratto nella parte successiva al contesto dell'url invocato prefixato con il folder dell'app corrente
+    <br><b>Se l'url richiesto inizia per tilde (~) la risorsa è ricercata nel root dei templates.</b>
+    <br>Se si richiede .../AppDoc/home , verrà caricato /resources/templates/AppDoc/home.html, mentre la richiesta .../AppDoc/~home caricherà /resources/templates/home.html
+    E' possibile specificare una master page alternativa aggiungengo l'attributo <b>@view</b> al tag root <b>html</b>:
+
+<pre><code>&lt;html @view="master.ftl" &gt;</code></pre>
+
+E' possibile spcificare una pagina di help aggiungendo l'attributo <b>@help</b> al tag root <b>html</b>
+<br/>
+
+Quando viene inclusa una pagina tramite la master page avvengono i seguenti processi:
+<li>vengono rimossi tutti i tag (ed il relativo contenuto) con attributo <b>@ignore</b> permettendo così di scrivere pagina con logiche client ignorate dal server</li>
+<li>vengono elaborati lato server tutti i tag con attributo <b>@server</b> risolvendo eventuali sintassi ftl nell'attributo "src"
+    <ul style="white-space: pre-wrap;">
+per script tag con <b>type='application-json'</b> viene eseguita la chiamata ed incluso il risultato json
+        <code><pre>     &lt;script id='doc-profile' type='application-json' src='/docer/v1/documenti/{docnum}' &gt;&lt;/script&gt;</pre></code>
+
+        per script tag con <b>type='javascript'</b> il codice viene eseguito lato server permettendo di modificare o arricchire il modello
+        <code><pre>            &#x3C;script @server id=&#x22;model-tasks&#x22; type=&#x22;javascript&#x22;&#x3E;
+                tasks.data[0].assignments.actualOwner = $.format(tasks.data[x].assignments.actualOwner);
+                tasks;
+            &#x3C;/script&#x3E;</pre></code>
+             per script tag con <b>type='x-template'</b> o qualunque altro type viene inclusa la risorsa
+
+        se si specifica l'attributo <b>@server-model</b> il risultato viene aggiunto al modello server
+        se si specifica l'attributo <b>@ignore-notfound</b> viene ignorato un 404 ed eventualmente utilizzato il contenuto inline
+        I dati così iniettati nella pagina possono essere recuperati senza chiamate ajax/axios aggiuntive aumentando le performance
+
+        <br>Con questa tecnica è possibile anche inglobare contenuto html in un div ( qualunque altro tag ) come in <a href="~examplegdoc">questo esempio</a> che ingloba un google document
+    </ul>
+</li>
+
+<li>l'head (se non ha @ignore) viene aggiunto all'head del master template</li>
+<li>il body viene aggiunto al body del master template</li>
+<li>il body viene processato con il motore FTL: eventuali tag dinamici vengono risolti utlizzando il modello server costruito</li>
+<li>la master page imposta come baseUrl della pagina l'homepage del desktop. Quindi ogni chiamata o risorsa con url relativo viene risolta nei confronti dell'homepage e non della pagina corrente.</li>
+
+<li>gli attributi 'src' dei server tag :
+    <ul>
+        supportano la sintassi ftl $ {....} per comporre l'url dinamicamente utilizzando il modello ftl
+        <br>{....} viene sostituito con un parametro in querystring
+        <br> "..." viene sostituito con la intera querystring
+        <br> "#...." aggiunto alla fine dell'url del json estrae una chiave specifica
+    </ul>
+</li>
+
+<li>
+    Il breadcrumb viene costruito automaticamente dalla master page seguendo il path fisico della pagina caricata
+    <br>E' eventualmente possibile aggiungere livelli intermedi specificando tag &lt;title&gt; aggiuntivi dotati di attributo href
+</li>
+<p>
+    Il processamento ftl degli attributi "src" e dei tag "title" avviene prima del processamento del body (ma dopo l'esecuzione dei modelli negli server script tags).
+    Questo significa che eventuali variabili ftl generate nel corpo della pagina non sono disponibili .
+</p>
+
+<h4>API del desktop</h4>
+
+<p>
+    Il dektop offre i seguenti REST services (oltre quelli già documentati in info page):
+<li><a target="_new" href="/messages">/messages</a> per accedere agli Spring Messages multi-lingua delle risorse specificanfo un filtro 'filter' e un opzionale 'locale' </li>
+<li><a target="_new" href="/names?key=everyone,admin">/names</a> per accedere alle descrizioni (attributo 'name') degli oggetti sul documentale a partire dall'id </li>
+</p>
+
+<h4>Utilizzo FTL</h4>
+
+<p>
+    Il modello passato al motore FTL è arricchito con l'utility <b>$</b> che contiene i seguenti bean e funzioni:
+</p>
+<p>
+    <code>
+        <b>$.request</b> : restituisce la HttpServletRequest corrente<br/>
+        <b>$.response</b> : restituisce la HttpServletResponse corrente <br/>
+        <b>$.getBean(bean)</b> : restituisce il bean secondo le registrazioni Spring <br/>
+        <b>$.env</b> : restituisce lo Spring Environment <br/>
+        <b>$.currentApp</b> : restitusice la app corrente configurata in header.json <br/>
+        <b>$.clientCache</b> : bean che permette un accesso diretto ai dati su Solr <br/>
+        <b>$.messageSource</b> : Spring Message bean <br/>
+        <b>$.remove(qs,key,val)</b> : genera un url rimuovendo o sostituendo nella querystring una specifica chiave, utile per le paginazioni o ordinamenti <br/>
+        <b>$.userInfo</b> : bean dell'utente corrente <br/>
+        <b>$.ftl(template,buffer)</b> : permette di eseguire un template FTL <br/>
+        <b>$.format(key,format,type)</b> : formatta nome e identificativo dell'oggetto documentale by key/type <br/>
+        <b>$.format(isodate,format)</b> : formatta la data secondo il formato specificato nelle property 'dateTimeFormat' e 'dateFormat' (se non c'è ora) <br/>
+        <b>$.checkRights(rights,mask)</b> : risolve la right mask specificata rispetto all'utente corrente <br/>
+        <b>$.fromJson(string)</b><br/>
+        <b>$.toJson(object)</b><br/>
+        <b>$.fromBase64(string)</b><br/>
+        <b>$.toBase64(string)</b><br/>
+    </code>
+</p>
+
+
+
+
+<h4>Gestione delle eccezioni</h4>
+
+<p>
+    Il desktop intercetta le eccezioni di runtime o i codici http di errore (4xx e 5xx) provenienti da chiamate esterne presentando
+    <a href="aaaaaaa">una pagina di cortesia</a>
+    <br>Aggiungendo pagine nella forma <b>error-&lt;http code&gt;.html</b> è possibile creare una pagina specifica per l'errore
+</p>
+
+
+<h4>Risorse e caching</h4>
+
+<p>
+    L'accesso alle risorse html (immagini, css, font, templates, ...) avviene tramite il path assoluto <a target="_new" href="/static">/static/...</a>
+    Esso corrisponde al folder <a href="/admin/resources?/resources/static">/resources/static</a> nelle risorse
+
+    Quando si include una risorsa in una pagina html è possibile specificare come querystring :
+<p>
+<li><b>...?no-cache</b> per indicare un protocollo 'must-revalidate' tramite ETag automaticamente gestito dal server</li>
+<li><b>...?no-store</b> per impedire qualunque forma di caching</li>
+<li><b>...?max-age</b> per impostare caching a scadenza temporale (default di 1 anno)</li>
+<li><b>...?max-age=86400</b> o specificando qualunque numero in secondi</li>
+</p>
+Se non  viene specificata la querystring viene impostato un max-age di 1 anno senza rivalidazione
+
+</p>
+
+<h4>Traduzioni</h4>
+
+<p>
+    Le traduzioni vanno configurate in <a href="~admin/resources?/:resources/apps.yaml">/resources/apps.yaml</a> specificando la mappa associativa tra le lingue (due lettere minuscole) e i locales (due o tre lettere minuscole - due lettere maiuscole)
+    <br>Il valore corrente della lingua utente è salvato nel cookie <b>KS_LANG</b> ed è impostato automaticamente se si richiede una pagina specificando alla fine dell'url <b>;lang=...</b>
+    <br>Esso è anche reso dispnibile nella variabile ftl <b>lang</b>
+<br>
+<li>Le traduzioni associate ai locales sono scritte nei vari files <a href="~admin/resources?/:resources/messages.properties">/resources/messages&lt;locale&gt;.properties</a></li>
+<li>possono essere usati nei template ftl con la sintassi <b>$ [code:def]</b> per leggere dalle risorse oppure <b>$ [lang1:...,lang2:....]</b> per specificare direttamente le traduzioni. Questa tecnica può essere usato anche per persistere metadati multilingua sul documentale o il bpm</li>
+<li>Il valore corrente può essere utilizzato per condizionare le chiamate alle API nei @server scripts laddove l'API lo supporti</li>
+<li>template FTL e html supportano la localizzazione aggiungendo come suffisso il locale stesso. Ad esempio: <b>info_en.html</b> verrà caricato in caso di locale <b>en</b> o <b>en-GB</b> </li>
+
+
+
+</p>
+
+<h4>Funzionalità javascript del desktop</h4>
+
+<p>
+    Il desktop include tramite master-page delle librerie javascript di base che offrono le seguenti utility:
+    <h5>Funzioni</h5>
+    <p>
+    <code>
+        <b>openUrl(url,target)</b> : apre la pagina in modalità ajax senza rinfrescare menu, footer e header<br>
+        Il target può puntare un elemento specificando l'id dopo '#' (viene aggiornata l'history) oppyre '@'<br>
+        Se il target è una modal boostrap, essa viene riempita nel body e mostrata.
+        Sono già inizializzate le @modal-xl , @modal-sm e @modal-lg<br/>
+        la shortcut <b>openPage(url)</b> invoca <i>openUrl(url,'#main')</i> mentre openModal(url) invoca <i>openUrl(url,'@target-xl')</i><br>
+        <b>showModal(html,target)</b> : mostra una modal specificando l'html<br>
+        <b>showError(error)</b> : mostra una modal con l'errore che può essere una stringa una mappa contenente code, message, cause<br>
+        <b>location.refresh()</b> : ricarica la pagina in modalità ajax<br>
+        <b>target <i>che inizi per # o @ su un link</i></b> : apre il link in modalità ajax seguendo la sintassi di <i>openUrl</i><br>
+        <b>confirm <i>come 'class' su button o link)</i></b> : chiede conferma visualizzando il  messaggio in 'data-title' prima di eseguire l'azione di default <br/>
+        <b>confirm(message,callback)</b> : chiede conferma prima di eseguire la callback <br/>
+        <b>prompt <i>come 'class' su button o link</i></b> : offre una modal di prompt che imposta il valore inserito nel 'value'<br/>
+        <b>prompt(data,callback)</b> : richiede i data prima di eseguire la callback <br/>
+        <b>data(id)</b> : estrae dal tag identificato dall'id il json caricato lato server<br/>
+        <b>template(id)</b> : estrae dal tag identificato dall'id il template caricato lato server<br/>
+        <b>updateBadges(url)</b> : aggiorna elementi del dom identificati dalle chiavi della risposta con il contenuto associato<br/>
+        <b>changeQs(param,value,clean,onlyQs)</b> : genera un url rimuovendo o sostituendo nella querystring una specifica chiave, utile per le paginazioni o ordinamenti <br/>
+        <b>uritempate(template)</b> : risolve l'uri template con la querystring corrente <br/>
+    </code>
+    </p>
+    <h5>Oggetti</h5>
+    <p>
+    <code>
+        <b><a href="~admin/resources?/:resources/static/js/docer.js">DocerClientApi</a></b> : offre un completo client javascript per accedere alle API Docer<br/>
+        <b><a href="~admin/resources?/:resources/static/js/bpm.js">BpmClientApi</a></b> : offre un completo client javascript per accedere alle API del bpm server<br/>
+        <b><a href="~admin/resources?/:resources/static/js/docer.js">FileClientApi</a></b> : offre un completo client javascript per accedere alle API del file server<br/>
+    </code>
+    </p>
+</p>
+
+<h5>Controlli client</h5>
+
+<p>
+    Il desktop utilizza:
+<li><a target="_new" href="https://getbootstrap.com/">bootstrap versione 4.3.1</a></li>
+<li><a target="_new" href="https://jquery.com/">JQuery 3.5.1</a></li>
+<li><a target="_new" href="https://fontawesome.com/">Font Awesome 5.13.0</a></li>
+<br>
+
+<div id="appHelp">
+
+    Inoltre nelle risorse del desktop sono presenti i seguenti controlli :
+    <br/>
+    <br>
+
+    <li><b>editor</b> basato su ACE</li>
+
+    <div class="row" >
+        <div class="col-12">
+            <editor id="config-editor" rows="3" :content="'test'" ></editor>
+        </div>
+    </div>
+    <br>
+
+    <li><b>select2</b> per consentire l'inserimento di tags da domini basati su rest o inseriti manualmente</li>
+
+    <div class="row">
+        <div class="col-12">
+            <select2 class="form-control" tags="true" multiple="true"></select2>
+        </div>>
+    </div>
+
+    <li><a target="_new" href="bpm/tasks"><b>facets</b> <b>report-table</b> e <b>pager</b></a> per costruire liste di riultati</li>
+
+    <li><button class="p-0 btn btn-link" v-on:click="$refs.test.show()">simplemodal</button> per aprire in modalità modale porzioni di template</li>
+
+    <simplemodal ref="test">test</simplemodal>
+
+    <li><b>input file</b> integrato con le Docer API per il caricamento di file</li>
+
+    <input type="file" />
+
+    <li>treeview (mostrato nella pagina)</li>
+
+</div>
+
+<script>
+
+    new Vue({
+        el: "#appHelp"
+    });
+
+    initFiles("#appHelp");
+
+</script>
+</p>
+
+<p>
+    Questa pagina utilizza il controllo <b>bootstrap-toc</b> che genera automaticamente un "table of content" a partire dai tag "h"<br>
+    Per inizializzarlo è sufficiente aggiungere il seguente markup alla pagina:<br>
+<pre>&lt;nav id="toc" data-toggle="toc"&gt;</code></pre>
+
+</p>
+
+<h4>Navigazione</h4>
+<p>Se tramite url viene richiesto il path ad un folder viene ricercata la pagina html omonima nel folder padre e poi index.html nel folder stesso.
+    <br>Se non trovate, viene eseguita la pagina <b><a href="~admin/resources?/:resources/templates/dirlist.html">dirlist.html</a></b>
+    <br>La pagina genera la lista del contenuto del folder elencando folder e pagine.
+    Se si aggiunge in querystring <b>titles</b> per ogni pagina elencata viene richiesto il "title" chiamando la pagina stessa.
+    <br>
+    <br>Per personalizzare la navigazione è sufficiente aggiungere la pagina html con lo stesso nome del folder.
+</p>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+</body>
+
+
+

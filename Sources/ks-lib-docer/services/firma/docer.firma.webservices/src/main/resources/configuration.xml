@@ -1,0 +1,37 @@
+<configuration>
+    <group name="Configurazione">
+        <section name="Base">
+            <xformsServiceURL>http://localhost:8080/xforms/XForms</xformsServiceURL>
+        </section>
+        <section name="BusinessLogic">
+            <validation-destinatari>false</validation-destinatari>
+        </section>
+        <section name="Providers" default-xsd="input-validation.xsd">
+            <provider ente="ENTEPROVA" aoo="AOOPROVA">it.kdm.docer.firma.Provider</provider>
+        </section>
+        <section name="ProviderConfigurations">
+            <configuration ente="ENTEPROVA" aoo="AOOPROVA">
+                <pec>
+                    <smtp>smtp.googlemail.com</smtp>
+                    <port>465</port>
+                    <from>test@kdm.it</from>
+                    <auth>
+                        <username>test@kdm.it</username>
+                        <password>test.2001</password>
+                    </auth>
+                    <ssl-on-connect>true</ssl-on-connect>
+                </pec>
+                <agid>
+                    <epr>http://localhost:8080/WSAgid/services/ProtocolloService</epr>
+                </agid>
+            </configuration>
+        </section>
+        <section name="Mapping">
+            <amministrazione ente="ENTEPROVA" aoo="AOOPROVA">
+                <ente>ENTEPROVA</ente>
+                <aoo>AOOPROVA</aoo>
+                <uo>UO</uo>
+            </amministrazione>
+        </section>
+    </group>
+</configuration>

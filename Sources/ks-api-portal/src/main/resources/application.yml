@@ -1,0 +1,38 @@
+server:
+    port: 8084
+    
+spring:
+    datasource:
+        username: username
+        password: password
+        url: jdbc:mysql://localhost:3306/portal?serverTimezone=UTC&rewriteBatchedStatements=true
+    jpa:
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL57InnoDBDialect
+
+env:
+    systemProperties:
+        - name: docer.url
+          value:  http://localhost:8080
+
+mail:
+    protocol: smtp
+    host: smtp.host
+    port: 587
+    username: username
+    password: password
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+application:
+    mailTo: email@example.com
+    baseUrl: http://ks-portal:8082
+    bpmBaseUrl: http://localhost:8083
+    paymentBaseUrl: http://localhost:8091
+    docerBaseUrl: http://localhost:8080
+  

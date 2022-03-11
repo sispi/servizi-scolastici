@@ -1,0 +1,109 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>it.kdm.docer</groupId>
+    <artifactId>docer</artifactId>
+    <version>Docer-2.4.6.1</version>
+  </parent>
+  <artifactId>docer.core</artifactId>
+  <packaging>pom</packaging>
+  
+  
+   <properties>
+        <camel.version>2.11.1</camel.version>
+        <activemq.version>5.8.0</activemq.version>
+    </properties>
+
+
+    <modules>
+        <module>docersystem</module>
+        <module>docersystemSqlServer</module>
+        <module>docersystemORACLE</module>
+
+    </modules>
+    <dependencies>
+    	<dependency>
+    		<groupId>it.kdm.docer</groupId>
+    		<artifactId>commons-config</artifactId>
+    		<version>${project.version}</version>
+    	</dependency>
+    
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-core</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jms</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-spring</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.camel</groupId>
+			<artifactId>camel-jackson</artifactId>
+			<version>${camel.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-camel</artifactId>
+			<version>${activemq.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-pool</artifactId>
+			<version>${activemq.version}</version>
+		</dependency>
+    
+    
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>fop</artifactId>
+            <version>1.1</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.avalon.framework</groupId>
+                    <artifactId>avalon-framework-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.apache.avalon.framework</groupId>
+                    <artifactId>avalon-framework-impl</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>avalon-framework</groupId>
+            <artifactId>avalon-framework-api</artifactId>
+            <version>4.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+        </dependency>
+    </dependencies>
+    
+    <build>
+    	<plugins>
+    		<plugin>
+    		<groupId>org.apache.maven.plugins</groupId>
+    		<artifactId>maven-compiler-plugin</artifactId>
+    		<version>2.3.2</version>
+    		<configuration>
+    			<encoding>UTF-8</encoding>
+    			<source>1.7</source>
+    			<target>1.7</target>
+    			<fork>true</fork>
+                <!--
+      	        <meminitial>1024m</meminitial>
+      	        <maxmem>2024m</maxmem>
+                -->
+    		</configuration>
+    	</plugin>
+    	</plugins>
+    </build>
+</project>

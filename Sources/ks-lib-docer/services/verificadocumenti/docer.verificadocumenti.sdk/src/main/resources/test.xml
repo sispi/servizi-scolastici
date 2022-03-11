@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<verifiche xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+			xsi:noNamespaceSchemaLocation="metadata.xsd">
+	<verifica>FIRMA</verifica>
+	<verifica>FORMATO</verifica>
+</verifiche>

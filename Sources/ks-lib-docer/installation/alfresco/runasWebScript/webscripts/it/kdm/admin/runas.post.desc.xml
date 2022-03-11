@@ -1,0 +1,7 @@
+<webscript>
+  <shortname>KDM - runas</shortname>
+  <description>esegue operazioni impersonificando l'admin</description>
+  <url>/kdm/runas</url>
+  <authentication>user</authentication>
+  <transaction>required</transaction>
+</webscript>

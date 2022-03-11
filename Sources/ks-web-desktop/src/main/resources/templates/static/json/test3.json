@@ -1,0 +1,109 @@
+{
+  "wizard": false,
+  "header": null,
+  "footer": null,
+  "toolbar": {
+    "position": "bottom",
+    "buttons": [
+      {
+        "type": "button",
+        "role": "submit",
+        "actionUrl": "",
+        "actionUrlProcessor": "",
+        "validationUrl": "",
+        "validationUrlProcessor": "",
+        "handler": "",
+        "show": "",
+        "disabled": "",
+        "label": "Submit",
+        "margin": 0,
+        "width": 0,
+        "break": false,
+        "class": "btn-primary",
+        "style": null
+      }
+    ]
+  },
+  "tabs": [
+    {
+      "title": "Tab 1",
+      "sticky": false,
+      "disabled": "false",
+      "sections": [
+        {
+          "type": "single",
+          "input": "c",
+          "output": "",
+          "show": "true",
+          "class": null,
+          "style": null,
+          "header": null,
+          "repeatable": null,
+          "shared": false,
+          "elements": [
+            {
+              "type": "button",
+              "role": "submit",
+              "show": "true",
+              "disabled": "false",
+              "label": "Button",
+              "margin": "0",
+              "width": "12",
+              "break": false,
+              "classes": "btn-primary"
+            },
+            {
+              "type": "select",
+              "mode": "multiple",
+              "input": "qqq",
+              "output": "w",
+              "show": "true",
+              "disabled": "false",
+              "required": true,
+              "valid": "true",
+              "source": "values",
+              "tags": true,
+              "min": "1",
+              "label": "Select",
+              "margin": "0",
+              "width": "12",
+              "break": true,
+              "values": [
+                {
+                  "label": "Option 1",
+                  "value": "option-1",
+                  "selected": true
+                },
+                {
+                  "label": "Option 2",
+                  "value": "option-2",
+                  "selected": false
+                },
+                {
+                  "label": "Option 3",
+                  "value": "option-3",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "subtype": "text",
+              "show": "true",
+              "disabled": "false",
+              "required": true,
+              "valid": "true",
+              "min": "0",
+              "max": "255",
+              "label": "Text Field",
+              "margin": "0",
+              "width": "4",
+              "break": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "sections": {}
+}

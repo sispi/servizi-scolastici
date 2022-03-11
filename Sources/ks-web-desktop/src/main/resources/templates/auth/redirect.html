@@ -1,0 +1,3 @@
+<script @server>
+    response.sendRedirect( encodeURI(request.getParameter("requestURL") || "/") );
+</script>

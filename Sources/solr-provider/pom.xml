@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	<modelVersion>4.0.0</modelVersion>
+
+	<properties>
+		<docer.version>6.2.0</docer.version>
+	</properties>
+
+
+	<groupId>it.kdm.docer</groupId>
+	<artifactId>solr-provider</artifactId>
+	<version>6.2.0</version>
+		
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<version>3.8.1</version>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>11</source>
+					<target>11</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+			<version>4.4.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.solr</groupId>
+			<artifactId>solr-solrj</artifactId>
+			<version>8.5.2</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpcore</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>kdm</groupId>
+			<artifactId>solr-common</artifactId>
+			<version>6.1.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.hadoop</groupId>
+					<artifactId>hadoop-annotations</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>it.kdm.docer</groupId>
+			<artifactId>commons-config</artifactId>
+			<version>${docer.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>it.kdm.docer</groupId>
+			<artifactId>docer.services.wsdocer.sdk</artifactId>
+			<version>${docer.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>it.kdm.docer</groupId>
+			<artifactId>docer.commons.services</artifactId>
+			<version>${docer.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>it.kdm.docer</groupId>
+			<artifactId>docer.services.fascicolazione.sdk</artifactId>
+			<version>${docer.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>it.kdm.docer</groupId>
+			<artifactId>docer.services.registrazione.sdk</artifactId>
+			<version>${docer.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>it.kdm.docer</groupId>
+			<artifactId>docer.services.protocollazione.sdk</artifactId>
+			<version>${docer.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+
+		<!--<dependency> <groupId>it.kdm.docer</groupId> <artifactId>commons-sso</artifactId> 
+			<version>${docer.version}</version> </dependency> -->
+		<!--<dependency> <groupId>it.kdm</groupId> <artifactId>utils</artifactId> 
+			<version>1.2</version> </dependency> -->
+		<!--<dependency> <groupId>it.kdm.docer</groupId> <artifactId>docer.tools.sso-kdm-kit.backend-kit</artifactId> 
+			<version>${project.parent.version}</version> </dependency> -->
+		<!--<dependency> <groupId>it.emilia_romagna.regione.security_mvn</groupId> 
+			<artifactId>security-cli</artifactId> <version>0.0.2</version> <exclusions> 
+			<exclusion> <groupId>joda-time</groupId> <artifactId>joda-time</artifactId> 
+			</exclusion> </exclusions> </dependency> -->
+	</dependencies>
+
+</project>

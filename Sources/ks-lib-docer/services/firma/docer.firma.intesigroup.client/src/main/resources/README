@@ -1,0 +1,10 @@
+Firma remota
+otpId: remota01
+otpProvider: kdm
+alias: remota01
+pin: 12345678
+
+
+Firma automatica
+alias: auto01
+pin: 12345678

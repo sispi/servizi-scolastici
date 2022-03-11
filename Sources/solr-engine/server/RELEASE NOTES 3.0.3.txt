@@ -1,0 +1,27 @@
+RELEASE NOTES Protocollo 1.1.4
+
+Docer versione 2.4.2
+Solr versione 3.0.3
+Scanbatch 1.1
+
+Problemi noti:
+- non funziona ancora la ereditarietà dei documenti dai fascicoli secondari quindi eventuali acl su tali fascicoli non vengono tramandati sui documenti associati
+- tendina autocompletion a volte si apre coprendo la editbox associata
+- alcuni campi nella ricerca avanzata non funzionano correttamente utilizzando parole contenute (Autore, Oggetto di protocollazione e registrazione , Mittenti, Destinatari e Firmatario)
+- è possibile cambiare il livello di riservatezza di un documento protocollato, ma non ha effetto sulle acl
+- la lista dei registri proposti all'utente per la registrazione non è filtrata in base ai gruppi dell'utente, che riceverà comunque errore se prova a registrare
+- la PEC ricevuta con più destinatari non salva correttamente tutti i destinatari
+- Gli errori mostrati nelle dialog non sono formattati correttamente
+- Se si assegna allo stesso utente (direttamente o tramite gruppo) più attività per lo stesso documento, il task non è sempre completato automaticamente
+- Se l'utente non ha UO associate , può creare documenti senza UO (non protocollabili in uscita)
+- Se si apre la lookup di scelta di un titolario (pagina di fascicolazione) per un documento fascicolato, se l'utente corrente non ha diritti sul fascicolo la lookup va in errore
+
+Prossimo rilascio 1.1.5:
+- Nuova gestione riservatezza del nuovo fascicolo: in caso di fascicolo non riservato, saranno impostate le acl del documento fascicolato
+- Gestione registro di emergenza
+- Gestione flusso risposte
+
+Rilascio 1.1.6:
+- Rubrica gestibile come anagrafica e utilizzabile nelle ricerche avanzate
+
+

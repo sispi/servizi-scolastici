@@ -1,0 +1,54 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>it.kdm.docer</groupId>
+        <artifactId>docer.services.verificadocumenti</artifactId>
+        <version>Docer-2.4.6.1</version>
+    </parent>
+    
+    <artifactId>docer.services.verificadocumenti.BusinessLogic</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>docer.services.wsdocer.sdk</artifactId>
+            <version>Docer-2.4.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>docer.commons.wsclients</artifactId>
+			<version>Docer-2.4.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>docer.commons.services</artifactId>
+			<version>Docer-2.4.6.1</version>
+		</dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+        	<artifactId>docer.services.conservazione.provider.parer.provider</artifactId>
+            <version>${project.version}</version>
+
+        </dependency>
+        	
+	<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>${project.parent.artifactId}.sdk</artifactId>
+			<version>Docer-2.4.6.1</version>
+			<type>jar</type>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.axis2</groupId>
+					<artifactId>axis2-adb</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.ws.commons.axiom</groupId>
+					<artifactId>axiom-api</artifactId>
+				</exclusion>
+
+			</exclusions>
+		</dependency>
+    </dependencies>
+
+</project>

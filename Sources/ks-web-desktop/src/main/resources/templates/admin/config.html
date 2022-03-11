@@ -1,0 +1,319 @@
+<body>
+
+<script @server id="apps" type="application/json" src="/:resources/apps.yaml?json" />
+<script @server id="menus" type="application/json" src="/:resources/menus.yaml?json" />
+<script @server id="themes" type="application/json" src="/:resources/templates/themes" />
+<script @server id="proxies" type="application/json" src="/:resources/templates/proxy" />
+
+<script id="aoos" type="application/json" >
+    ${$.toJson(utils.actorsCache.getAOO())}
+</script>
+
+<style>
+    .select2-selection--multiple,.select2-selection--single
+    {
+        height: 32px !important;
+    }
+
+    .select2-selection__choice {
+        margin-top: 2px !important;
+        background-color: #89cae4 !important;
+    }
+
+    .select2-selection--multiple .select2-selection__rendered {
+        padding-left: 2px !important;
+    }
+
+    .select2-selection__choice__remove{
+        color: red !important;
+    }
+</style>
+
+<div id="app">
+
+    <div class="row col-12">
+        <button v-on:click="save()" class="btn btn-warning btn-sm">Save</button>
+    </div>
+
+    <div class="form-row">
+        <div class="row col-12">
+            <div class="col-2">
+                <small class="font-weight-bold">theme</small>
+                <i style="cursor: pointer" class="fa fa-question-circle" data-toggle="tooltip"
+                   title="scegli il tema tra quelli installati" >
+                </i>
+
+                <select class="form-control form-control-sm" v-model="apps.theme">
+                    <option v-for="theme in themes" v-bind:value="theme">{{theme}}</option>
+                </select>
+
+                <!--<small class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+            </div>
+
+            <div class="col-2">
+                <small class="font-weight-bold">default menu</small>
+                <i style="cursor: pointer" class="fa fa-question-circle" data-toggle="tooltip"
+                   title="scegli il menu tra quelli disponibili (può essere vuoto)" >
+                </i>
+
+                <select class="form-control form-control-sm" v-model="apps.menu">
+                    <option v-for="menu in menus" v-bind:value="menu">{{menu}}</option>
+                </select>
+
+                <!--<small class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+            </div>
+
+            <div class="col-2">
+                <small class="font-weight-bold">home</small>
+                <i title="homepage utente autenticato" style="cursor: pointer" class="fa fa-question-circle" data-toggle="tooltip"></i>
+
+                <select class="form-control form-control-sm" v-model="apps.home">
+                    <option v-for="app in homes" v-bind:value="app.link">{{app.link}}</option>
+                </select>
+
+            </div>
+            <div class="col-2">
+                <small class="font-weight-bold">public home</small>
+                <i title="homepage utente guest" style="cursor: pointer" class="fa fa-question-circle" data-toggle="tooltip"></i>
+
+                <select class="form-control form-control-sm" v-model="apps['public-home']">
+                    <option v-for="app in publicHomes" v-bind:value="app.link">{{app.link}}</option>
+                </select>
+
+            </div>
+            <div class="col-2">
+                <small class="font-weight-bold">default aoo</small>
+                <i title="default aoo" style="cursor: pointer" class="fa fa-question-circle" data-toggle="tooltip"></i>
+
+                <select class="form-control form-control-sm" v-model="apps.defaultAoo">
+                    <option v-for="aoo in aoos" v-bind:value="aoo.COD_AOO">{{aoo.name}} ({{aoo.COD_AOO}})</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+
+                <div class="col-2">
+                    <small class="font-weight-bold">locales</small>
+                    <i title="locales" style="cursor: pointer" class="fas fa-question-circle" data-toggle="tooltip"></i>
+                    <a href="#" v-on:click="add_locale" ><i class="fas fa-plus"  ></i></a>
+                    <div class="row col-12 p-0" v-for="(locale,code) in apps.locales" >
+                        <span class="col-4">
+                        <input class="form-control form-control-sm" type="text" v-model="code" />
+                        </span>
+                        <span class="col-6">
+                        <select class="form-control form-control-sm" v-model="apps.locales[code]">
+                            <option v-for="a_locale in locales" v-bind:value="a_locale">{{a_locale}}</option>
+                        </select>
+                        </span>
+                        <a href="#" class="btn btn-link form-control form-control-sm  col-2" v-on:click="remove_locale(code)" ><i class="fas fa-minus"  ></i></a>
+                    </div>
+                </div>
+
+    </div>
+    <div class="form-row">
+        <div class="row col-12">
+            <div class="col-12">
+            <small class="font-weight-bold">apps</small>
+            <i title="web applications accessibili dall'header" style="cursor: pointer" class="fas fa-question-circle" data-toggle="tooltip"></i>
+            <a href="#" v-on:click="add_app" ><i class="fas fa-plus"  ></i></a>
+            </div>
+
+            <div class="row col-12">
+                <small class="form-text text-muted col-2">
+                    link
+                    <i title="link home dell'app" style="cursor: pointer" class="fas fa-question-circle" data-toggle="tooltip"></i>
+                </small>
+                <small class="form-text text-muted col-2">
+                    title
+                    <i title="display name dell'app" style="cursor: pointer" class="fas fa-question-circle" data-toggle="tooltip"></i>
+                </small>
+                <small class="form-text text-muted col-2">
+                    menu
+                    <i title="menu dell'app (può essere vuoto)" style="cursor: pointer" class="fas fa-question-circle" data-toggle="tooltip"></i>
+                </small>
+                <small class="form-text text-muted col-2">
+                    targetUri
+                    <i title="url di destinazione per una web application externa" style="cursor: pointer" class="fas fa-question-circle" data-toggle="tooltip"></i>
+                </small>
+                <small class="form-text text-muted col-4">
+                    roles
+                    <i title="rouli autorizzati. 'guest' abilita l'accesso non autenticato" style="cursor: pointer" class="fas fa-question-circle" data-toggle="tooltip"></i>
+                </small>
+            </div>
+
+            <div class="row col-12" v-for="(app,idx) in apps.apps" >
+
+                <span class="col-2">
+                    <input class="form-control form-control-sm" type="text" v-model="app.link" />
+                </span>
+                <span class="col-2">
+                    <input class="form-control form-control-sm" type="text" v-model="app.title" />
+                </span>
+                <span class="col-1">
+                <select class="form-control form-control-sm " v-model="app.menu">
+                    <option v-for="menu in menus" v-bind:value="menu">{{menu}}</option>
+                </select>
+                </span>
+                <span class="col-2">
+                    <input class="form-control form-control-sm" type="text" v-model="app.targetUri" />
+                </span>
+                <span class="col-1">
+                <select :disabled="!app.targetUri" class="form-control form-control-sm" v-model="app.template">
+                    <option v-for="template in proxies" v-bind:value="'proxy/'+template">{{template}}</option>
+                </select>
+                </span>
+                <div class="col-2">
+                    <select2 tags="true" class="form-control form-control-sm" :value="app.roles" v-on:changed="app.roles=$event.ids" class="form-control" url="/docer/v1/solr/select?database=false&fq=type:group&wt=json&fl=sid,text:name&q=name:..." multiple="true"></select2>
+                </div>
+
+                <div class="col-1">
+                    <a href="#" class="btn btn-link" v-on:click="remove_aoo(idx)" ><i class="fas fa-minus"  ></i></a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="row col-12">
+            <div class="col-12">
+                <small class="font-weight-bold">menus</small>
+                <i title="menus" style="cursor: pointer" class="fas fa-question-circle" data-toggle="tooltip"></i>
+                <a href="#" v-on:click="add_menu" ><i class="fas fa-plus"  ></i></a>
+            </div>
+
+            <div class="row col-12">
+                <small class="form-text text-muted col-1">
+                    section
+                </small>
+                <small class="form-text text-muted col-1">
+                    name
+                </small>
+                <small class="form-text text-muted col-2">
+                    url
+                </small>
+                <small class="form-text text-muted col-1">
+                    icon
+                </small>
+                <small class="form-text text-muted col-1">
+                    target
+                </small>
+                <small class="form-text text-muted col-3">
+                    roles
+                </small>
+                <small class="form-text text-muted col-3">
+                    buttons
+                </small>
+            </div>
+
+            <!--<div class="row col-12" v-for="(app,idx) in menus" >
+
+                <span class="col-1">
+                    <select2 tags="true" class="form-control form-control-sm" :value="app.roles" v-on:changed="app.roles=$event.ids" multiple="false">
+                        <option v-for="section in menus.sections" v-bind:value="section">{{section}}</option>
+                    </select2>
+                </span>
+                <span class="col-2">
+                    <input class="form-control form-control-sm" type="text" v-model="app.title" />
+                </span>
+                <span class="col-1">
+                <select class="form-control form-control-sm " v-model="app.menu">
+                    <option v-for="menu in menus" v-bind:value="menu">{{menu}}</option>
+                </select>
+                </span>
+                <span class="col-2">
+                    <input class="form-control form-control-sm" type="text" v-model="app.targetUri" />
+                </span>
+                <span class="col-1">
+                <select :disabled="!app.targetUri" class="form-control form-control-sm" v-model="app.template">
+                    <option v-for="template in proxies" v-bind:value="'proxy/'+template">{{template}}</option>
+                </select>
+                </span>
+                <div class="col-2">
+                    <select2 tags="true" class="form-control form-control-sm" :value="app.roles" v-on:changed="app.roles=$event.ids" class="form-control" url="/docer/v1/solr/select?database=false&fq=type:group&wt=json&fl=sid,text:name&q=name:..." multiple="true"></select2>
+                </div>
+
+                <div class="col-1">
+                    <a href="#" class="btn btn-link" v-on:click="remove_aoo(idx)" ><i class="fas fa-minus"  ></i></a>
+                </div>
+
+            </div>-->
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var syslocales = '${$.getProperty("locales","it-IT,en-GB")}';
+
+    var app = new Vue({
+        el: "#app",
+        data: function() {
+            var menus = Object.keys(JSON.parse($("#menus").text()));
+            menus.push(null);
+
+            var apps = JSON.parse($("#apps").text());
+
+            var publicHomes = apps.apps
+                .filter( (app) =>  app.targetUri==null && (app.roles||[]).indexOf('guest')>=0 );
+
+            var homes = apps.apps
+                .filter( (app) =>  app.targetUri==null );
+
+            var alllocales = syslocales.split(",");
+
+            for( code in apps.locales ){
+                if (alllocales.indexOf(apps.locales[code])==-1)
+                    alllocales.push(apps.locales[code]);
+            }
+
+            return {
+                locales: alllocales,
+                apps: apps,
+                themes: JSON.parse($("#themes").text()),
+                proxies: JSON.parse($("#proxies").text()),
+                menus: menus,
+                aoos: JSON.parse($("#aoos").text()),
+                publicHomes: publicHomes,
+                homes: homes
+            }
+        },
+        mounted: function() {
+            $('[data-toggle="tooltip"]').tooltip()
+        },
+        methods: {
+            add_locale: function(code) {
+                this.apps.locales['new']='';
+                this.$forceUpdate();
+            },
+            remove_locale: function(code) {
+                delete this.apps.locales[code];
+                this.$forceUpdate();
+            },
+            add_app: function(code) {
+                this.apps.apps.push({ url: 'new', title: 'new', menu: null });
+                this.$forceUpdate();
+            },
+            remove_app: function(idx) {
+                this.apps.apps.splice(idx);
+                this.$forceUpdate();
+            },
+            add_menu: function() {
+            },
+            save: function () {
+                ClientApi.post("/:resources/apps.yaml?json", this.apps,
+                    () => {
+                        console.log("ok");
+                    },
+                    (error) => {
+                        showError(error);
+                    });
+            }
+        }
+    });
+
+</script>
+
+</body>

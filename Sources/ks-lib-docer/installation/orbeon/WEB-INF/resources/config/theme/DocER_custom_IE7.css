@@ -1,0 +1,102 @@
+/*
+ORBEON.CSS
+*/ 
+
+*:first-child+html {
+	padding-top: 0 !important;
+	margin-top: 0;
+/*	background: blue
+*/}
+
+*:first-child+html .tree-section  /*li titolo dei submenu*/ {
+	background: url(docER-images/ie6-ie7-menuhead.jpg) no-repeat center top;
+}
+
+*:first-child+html .tabs {margin-bottom: 0}
+
+*:first-child+html div.menu {margin-bottom: 22px !important; overflow: hidden; padding-bottom:0;}
+
+*:first-child+html li.tree-section {margin-top: 22px}
+
+*:first-child+html  ul.tree-items li{
+	text-align:left
+}
+
+
+*:first-child+html .maintitle {
+display: block;
+height: 3em;
+}
+
+*:first-child+html .maintitle h1 {
+	float:left;
+}
+
+*:first-child+html .help-control a {
+	float:left;
+	clear:right;
+	padding-top: 5px;
+}
+
+
+*:first-child+html .upload-control button{
+margin-bottom: 0;}
+
+*:first-child+html .kforms-lookup-panel .kforms-add{
+}
+*:first-child+html .kforms-lookup-panel .kforms-value-label {
+}
+
+*:first-child+html .kforms-label a {margin-top: -15px !important}
+
+*:first-child+html  div.res-info  div.xforms-group {
+	display: inline !important;}
+
+*:first-child+html  .kforms-lookup-panel {
+}
+
+*:first-child+html  .kforms-lookup-panel .kforms-label {
+	width: auto !important;
+}
+
+*:first-child+html .kforms-lookup-panel .lookup-row .kforms-value-label {
+white-space:nowrap !important;
+}
+
+*:first-child+html .kforms-form-field-lookup  .kforms-value{
+/* height:2em;
+ */}
+
+*:first-child+html .kforms-form-field-lookup .kforms-label a.kforms-select{
+/* padding-top: 1em;
+ */float:right}
+
+*:first-child+html .kforms-label-lookup {
+display:inline !important
+}
+
+*:first-child+html  .narrow .kforms-lookup-panel .kforms-add , *:first-child+html  .narrow .kforms-lookup-panel .kforms-value-label{
+    display: block !important;
+	text-align:left;
+}
+
+*:first-child+html  .narrow .kforms-lookup-panel .lookup-row {
+text-transform:lowercase;
+}
+
+*:first-child+html  .narrow .kforms-lookup-panel  {
+}
+
+*:first-child+html  .narrow .kforms-form-field-lookup .kforms-label a.kforms-select{
+padding-top: 0.5em;
+float:left}
+
+*:first-child+html  .narrow .kforms-lookup-panel .lookup-row .kforms-value-label {
+white-space:wrap !important;
+}
+
+td.tree {width:350px\9; }
+.treeview-row { width:300px\9; }
+table.actor-table{  table-layout:fixed\9;}
+*:first-child+html  td.selection .res-info .kforms-form-field .kforms-value{border-right:none;}
+

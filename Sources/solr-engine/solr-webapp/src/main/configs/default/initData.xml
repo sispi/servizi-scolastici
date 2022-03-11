@@ -1,0 +1,86 @@
+<add>
+    <doc>
+        <field name="type">location</field>
+        <field name="name">DOCAREA</field>
+    </doc>
+
+    <doc>
+        <field name="type">group</field>
+        <field name="GROUP_ID">everyone</field>
+    </doc>
+
+    <doc>
+        <field name="type">group</field>
+        <field name="GROUP_ID">admins</field>
+    </doc>
+
+
+
+
+    <doc>
+        <field name="type">group</field>
+        <field name="GROUP_ID">SYS_ADMINS</field>
+    </doc>
+
+    <doc>
+        <field name="type">group</field>
+        <field name="GROUP_ID">RESP_SBM</field>
+    </doc>
+
+    <doc>
+        <field name="type">group</field>
+        <field name="GROUP_ID">UO_TEST</field>
+    </doc>
+
+    <doc>
+        <field name="type">group</field>
+        <field name="GROUP_ID">SBM</field>
+    </doc>
+
+
+    <doc>
+        <field name="type">user</field>
+        <field name="USER_ID">admin</field>
+        <field name="USER_PASSWORD">082c2f28df91f2345f7481de01380371</field>
+        <field name="groups">SYS_ADMINS@group</field>
+        <field name="groups">admins@group</field>
+        <field name="groups">everyone@group</field>
+    </doc>
+
+    <doc>
+        <field name="type">user</field>
+        <field name="USER_ID">user1</field>
+        <field name="USER_PASSWORD">219d6e7bd591706442b11aafecfe037a</field>
+        <field name="groups">SBM@group</field>
+    </doc>
+
+    <doc>
+        <field name="type">user</field>
+        <field name="USER_ID">user_resp</field>
+        <field name="USER_PASSWORD">1180a6daf864ed836e9a0a3a78769316</field>
+        <field name="groups">RESP_SBM@group</field>
+    </doc>
+
+
+    <doc>
+        <field name="type">user</field>
+        <field name="USER_ID">utest</field>
+        <field name="USER_PASSWORD">34480d2d39a582c34c301d929f1603bc</field>
+        <field name="groups">UO_TEST@group</field>
+    </doc>
+
+
+    <doc>
+        <field name="type">ente</field>
+        <field name="COD_ENTE">POSTE</field>
+        <field name="DES_ENTE">POSTE</field>
+    </doc>
+
+    <doc>
+        <field name="type">aoo</field>
+        <field name="COD_ENTE">POSTE</field>
+        <field name="COD_AOO">POSTE_AOO</field>
+        <field name="DES_AOO">POSTE_AOO</field>
+    </doc>
+
+</add>

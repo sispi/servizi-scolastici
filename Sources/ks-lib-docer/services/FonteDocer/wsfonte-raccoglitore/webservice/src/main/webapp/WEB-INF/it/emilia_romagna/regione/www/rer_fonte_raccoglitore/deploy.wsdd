@@ -1,0 +1,192 @@
+<!-- Use this file to deploy some handlers/chains and services      -->
+<!-- Two ways to do this:                                           -->
+<!--   java org.apache.axis.client.AdminClient deploy.wsdd          -->
+<!--      after the axis server is running                          -->
+<!-- or                                                             -->
+<!--   java org.apache.axis.utils.Admin client|server deploy.wsdd   -->
+<!--      from the same directory that the Axis engine runs         -->
+
+<deployment
+    xmlns="http://xml.apache.org/axis/wsdd/"
+    xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+
+  <!-- Services from rer-fonte WSDL service -->
+
+  <service name="rer-fonteSOAP" provider="java:RPC" style="document" use="literal">
+      <parameter name="wsdlTargetNamespace" value="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"/>
+      <parameter name="wsdlServiceElement" value="rer-fonte"/>
+      <parameter name="schemaUnqualified" value="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"/>
+      <parameter name="wsdlServicePort" value="rer-fonteSOAP"/>
+      <parameter name="className" value="it.emilia_romagna.regione.www.rer_fonte_raccoglitore.RerFonteSOAPSkeleton"/>
+      <parameter name="wsdlPortType" value="rer-fonte-raccoglitore"/>
+      <parameter name="typeMappingVersion" value="1.2"/>
+      <parameter name="allowedMethods" value="*"/>
+
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:AttributoType"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.AttributoType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:GetEntitaInformativaRequestDelegheDelega"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.GetEntitaInformativaRequestDelegheDelega"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:>searchEntitaInformativaRequest"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.SearchEntitaInformativaRequest"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:>getEntitaInformativaResponse"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.GetEntitaInformativaResponse"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:AttributoDataType"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.AttributoDataType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:AttributoTestoType"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.AttributoTestoType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:AttributoNumeroType"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.AttributoNumeroType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:>searchEntitaInformativaAvanzataResponse"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.SearchEntitaInformativaAvanzataResponse"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:>getAttributiRicercaResponse"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.GetAttributiRicercaResponse"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:>getEntitaInformativaRequest"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.GetEntitaInformativaRequest"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:>searchEntitaInformativaResponse"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.SearchEntitaInformativaResponse"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:>searchEntitaInformativaAvanzataRequest"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.SearchEntitaInformativaAvanzataRequest"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <arrayMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:GenericFaultType"
+        type="java:java.lang.String[]"
+        innerType="cmp-ns:string" xmlns:cmp-ns="http://www.w3.org/2001/XMLSchema"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:AttributoDataRangeType"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.AttributoDataRangeType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:>getMetadatiEntitaInformativaRequest"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.GetMetadatiEntitaInformativaRequest"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:TipoAttributoType"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.TipoAttributoType"
+        serializer="org.apache.axis.encoding.ser.EnumSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.EnumDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:DateRangeType"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.DateRangeType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:>getMetadatiEntitaInformativaResponse"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.GetMetadatiEntitaInformativaResponse"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <arrayMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:DelegheType"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.GetEntitaInformativaRequestDelegheDelega[]"
+        innerType="cmp-ns:GetEntitaInformativaRequestDelegheDelega" xmlns:cmp-ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:AttributoBooleanoType"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.AttributoBooleanoType"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+      <typeMapping
+        xmlns:ns="http://www.regione.emilia-romagna.it/rer-fonte-raccoglitore/"
+        qname="ns:>getAttributiRicercaRequest"
+        type="java:it.emilia_romagna.regione.www.rer_fonte_raccoglitore.GetAttributiRicercaRequest"
+        serializer="org.apache.axis.encoding.ser.BeanSerializerFactory"
+        deserializer="org.apache.axis.encoding.ser.BeanDeserializerFactory"
+        encodingStyle=""
+      />
+  </service>
+</deployment>

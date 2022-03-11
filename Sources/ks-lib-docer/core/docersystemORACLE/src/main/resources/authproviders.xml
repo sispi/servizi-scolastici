@@ -1,0 +1,49 @@
+<configuration>
+	
+	<auth-providers default="standard" expirationToken="D1" maxCacheToken="10000">
+		<test>
+			<class>it.kdm.docer.core.authentication.providers.TestProvider
+			</class>
+			<epr>http://localhost:8080/WSDocer/services/DocerServices</epr>
+			<!--<epr>http://192.168.0.84:8080/docer.webservices/services/DocerServices</epr> -->
+			<trustedService>WSConservazione</trustedService>
+			<trustedService>WSConservazioneBatch</trustedService>
+		</test>
+        <standard>
+            <class>it.kdm.docer.core.authentication.providers.StandardProvider</class>
+            <epr>http://localhost:8080/WSDocer/services/DocerServices</epr>
+            <trustedService>WSConservazione</trustedService>
+            <trustedService>WSConservazioneBatch</trustedService>
+        </standard>
+		<sso>
+			<class>it.kdm.docer.core.authentication.providers.SSOProvider
+			</class>
+			<epr>http://localhost:8080/WSDocer/services/DocerServices</epr>
+		</sso>
+		<ldap>
+            <class>it.kdm.docer.core.authentication.providers.LDAPProvider</class>
+            <epr>http://localhost:8080/WSDocer/services/DocerServices</epr>
+            <secret>SECRET</secret>
+            <use-prefix>false</use-prefix>
+            <configuration>
+                <ente>ENTEPROVA</ente>
+                <prefix>ENTEPROVA</prefix>
+                <epr>192.168.0.20:389</epr>
+                <ldap-user-dn-format></ldap-user-dn-format>
+            </configuration>
+            <configuration>
+                <ente>ENTETEST</ente>
+                <prefix>ENTETEST</prefix>
+                <epr>192.168.0.105:389</epr>
+                <ldap-user-dn-format></ldap-user-dn-format>
+            </configuration>
+            <trustedService>WSConservazione</trustedService>
+            <trustedService>WSConservazioneBatch</trustedService>
+		</ldap>
+		<federa>
+			<class>it.kdm.docer.core.authentication.providers.FederaProvider
+			</class>
+			<epr>http://localhost:8080/DocER/services/FederaService</epr>
+		</federa>
+	</auth-providers>
+</configuration>

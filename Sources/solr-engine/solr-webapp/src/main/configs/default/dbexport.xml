@@ -1,0 +1,94 @@
+<!--
+    README
+
+    La procedura travasa i dati da solr a database
+
+    La tabella di destinazione puo essere controllato dallo script tramite il metadato $table
+    I documenti vengono cancellati tramite lo special cmd $deleteDocById
+    In questo caso la tabella puo prefixare lo id, ad esempio: tabellaX:user1@user
+
+    Se la tabella non e specificata oppure non esistente sul db, viene riempita la tabella "document"
+
+    Tutti i campi ritornati dalla select che non hanno colonna corrispondente nella tabella
+    sono travasati nella tabella fields
+
+    Dei campi mv trattati in tabella principale , viene preso solo il primo valore
+
+    Lo schema della tabella puo essere definito in zk su /config/DOCER/ddl/solr
+
+    Il clean fa truncate di tutte le tabelle del db
+
+    con updateDDL=true si aggiorna lo schema del db
+
+	Parametri:
+
+    q=type:(documento fascicolo)
+	table=document					tabella del db da riempire
+	fl=id,type,name,parent
+	updateDDL=false					se aggiornare lo schema del db
+	sort=sequence asc
+	from=0
+	chunk=1000
+	synchronous=true
+	cursorMarker=true
+
+-->
+
+<dataConfig>
+
+    <propertyWriter dateFormat="yyyy-MM-dd'T'HH:mm:ss'Z'" type0="SimplePropertiesWriter" type="ZKPropertiesWriter" directory="data" filename="solrimport.properties" />
+
+    <dataSource name="solr" type="JdbcDataSource" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost/solr" user="root" password="root" batchSize="-1" />
+
+    <script><![CDATA[
+
+        function dbexport(row)
+        {
+            var id = ""+row.get("id");
+            var TYPE_ID = row.get("TYPE_ID");
+
+            if (TYPE_ID != null){
+                id = TYPE_ID + ":" + id;
+                row.put("[table]",TYPE_ID);
+            }
+
+            var enabled = ""+ row.get("enabled");
+
+            if (enabled == "false"){
+				row.clear();
+				row.put("$deleteDocById" , id);
+			}
+
+            return row;
+        }
+
+
+    ]]></script>
+
+    <document>
+        <entity onError="abort" name="EXPORT" transformer="script:dbexport" processor="SolrEntityProcessor" qt="${dataimporter.request.qt}"
+
+                fl="${dataimporter.request.fl}"
+                url="http://localhost:${jetty.port}/solr/${solr.core.collection}"
+                rows="${dataimporter.request.chunk}"
+                sort="${dataimporter.request.sort}"
+                fq="indexed_on:[${dataimporter.last_index_time}${dataimporter.request.from} TO *]"
+                query="${dataimporter.request.q}"
+                cursorMark="${dataimporter.request.cursorMark}"
+        >
+
+            <info><![CDATA[
+q=type:(documento fascicolo)
+fl=id,type,name,parent,COD_ENTE,COD_AOO,acl_explicit
+sort=id asc
+from=NOW-10YEAR
+chunk=1000
+synchronous=true
+updateDDL=false
+				]]></info>
+
+        </entity>
+    </document>
+
+
+</dataConfig>

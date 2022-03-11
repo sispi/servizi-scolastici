@@ -1,0 +1,34 @@
+<html @view="master.ftl">
+
+<body class="body">
+    
+    <script src="/static/js/components/upload-component.js" ></script>
+    <link rel="stylesheet" href="/static/css/upload-component.css">
+
+    <div id="main-app">
+        <upload-component v-on:uploaded="caricaFile($event)" :multiple="true" :options="['allega']" :option-first="['aggiungi','sostituisci','allega']"></upload-component>
+    </div>
+
+    <script>
+
+    var vm = new Vue({
+        el: '#main-app',
+        data: function() {
+            return {
+            
+            }
+        },
+        methods:{
+            caricaFile: function(evt){
+                console.log(evt);
+                alert(evt);
+            },
+        }
+    })
+
+    
+    </script>
+
+</body>
+
+</html>

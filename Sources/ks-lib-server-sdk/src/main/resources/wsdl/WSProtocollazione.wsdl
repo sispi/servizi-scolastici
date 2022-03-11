@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:ax211="http://protocollazione.docer.kdm.it/xsd"
+                  xmlns:ns="http://protocollazione.docer.kdm.it"
+                  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+                  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+                  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+                  xmlns:ns1="http://org.apache.axis2/xsd"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  targetNamespace="http://protocollazione.docer.kdm.it">
+   <wsdl:documentation>
+		Servizio per la Protocollazione
+	</wsdl:documentation>
+   <wsdl:types>
+      <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified"
+                 targetNamespace="http://protocollazione.docer.kdm.it/xsd">
+         <xs:complexType name="ProtocollazioneException">
+            <xs:sequence/>
+         </xs:complexType>
+      </xs:schema>
+      <xs:schema xmlns:ax212="http://protocollazione.docer.kdm.it/xsd"
+                 attributeFormDefault="qualified"
+                 elementFormDefault="qualified"
+                 targetNamespace="http://protocollazione.docer.kdm.it">
+         <xs:import namespace="http://protocollazione.docer.kdm.it/xsd"/>
+         <xs:element name="WSProtocollazioneException">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="WSProtocollazioneException" nillable="true"
+                              type="ns:Exception"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:complexType name="Exception">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="Message" nillable="true" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:element name="loginOnDemand">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="userId" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="password" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="codiceEnte" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="codiceAoo" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="docTicket" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginOnDemandResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="WSProtocollazioneProtocollazioneException">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="ProtocollazioneException" nillable="true"
+                              type="ax212:ProtocollazioneException"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="login">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="userId" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="password" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="codiceEnte" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="logout">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="logoutResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="protocollaById">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="documentoId" type="xs:long"/>
+                  <xs:element minOccurs="0" name="datiProtocollo" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="protocollaByIdResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginSSO">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="saml" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="codiceEnte" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginSSOResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="readConfig">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="readConfigResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="writeConfig">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="xmlConfig" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="writeConfigResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="readConfigRequest">
+      <wsdl:part name="parameters" element="ns:readConfig"/>
+   </wsdl:message>
+   <wsdl:message name="readConfigResponse">
+      <wsdl:part name="parameters" element="ns:readConfigResponse"/>
+   </wsdl:message>
+   <wsdl:message name="WSProtocollazioneProtocollazioneException">
+      <wsdl:part name="parameters" element="ns:WSProtocollazioneProtocollazioneException"/>
+   </wsdl:message>
+   <wsdl:message name="logoutRequest">
+      <wsdl:part name="parameters" element="ns:logout"/>
+   </wsdl:message>
+   <wsdl:message name="logoutResponse">
+      <wsdl:part name="parameters" element="ns:logoutResponse"/>
+   </wsdl:message>
+   <wsdl:message name="protocollaByIdRequest">
+      <wsdl:part name="parameters" element="ns:protocollaById"/>
+   </wsdl:message>
+   <wsdl:message name="protocollaByIdResponse">
+      <wsdl:part name="parameters" element="ns:protocollaByIdResponse"/>
+   </wsdl:message>
+   <wsdl:message name="loginSSORequest">
+      <wsdl:part name="parameters" element="ns:loginSSO"/>
+   </wsdl:message>
+   <wsdl:message name="loginSSOResponse">
+      <wsdl:part name="parameters" element="ns:loginSSOResponse"/>
+   </wsdl:message>
+   <wsdl:message name="writeConfigRequest">
+      <wsdl:part name="parameters" element="ns:writeConfig"/>
+   </wsdl:message>
+   <wsdl:message name="writeConfigResponse">
+      <wsdl:part name="parameters" element="ns:writeConfigResponse"/>
+   </wsdl:message>
+   <wsdl:message name="loginRequest">
+      <wsdl:part name="parameters" element="ns:login"/>
+   </wsdl:message>
+   <wsdl:message name="loginResponse">
+      <wsdl:part name="parameters" element="ns:loginResponse"/>
+   </wsdl:message>
+   <wsdl:message name="loginOnDemandRequest">
+      <wsdl:part name="parameters" element="ns:loginOnDemand"/>
+   </wsdl:message>
+   <wsdl:message name="loginOnDemandResponse">
+      <wsdl:part name="parameters" element="ns:loginOnDemandResponse"/>
+   </wsdl:message>
+   <wsdl:message name="WSProtocollazioneException">
+      <wsdl:part name="parameters" element="ns:WSProtocollazioneException"/>
+   </wsdl:message>
+   <wsdl:portType name="WSProtocollazionePortType">
+      <wsdl:operation name="readConfig">
+         <wsdl:input message="ns:readConfigRequest" wsaw:Action="urn:readConfig"/>
+         <wsdl:output message="ns:readConfigResponse" wsaw:Action="urn:readConfigResponse"/>
+         <wsdl:fault message="ns:WSProtocollazioneProtocollazioneException"
+                     name="WSProtocollazioneProtocollazioneException"
+                     wsaw:Action="urn:readConfigWSProtocollazioneProtocollazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="logout">
+         <wsdl:input message="ns:logoutRequest" wsaw:Action="urn:logout"/>
+         <wsdl:output message="ns:logoutResponse" wsaw:Action="urn:logoutResponse"/>
+         <wsdl:fault message="ns:WSProtocollazioneProtocollazioneException"
+                     name="WSProtocollazioneProtocollazioneException"
+                     wsaw:Action="urn:logoutWSProtocollazioneProtocollazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="protocollaById">
+         <wsdl:input message="ns:protocollaByIdRequest" wsaw:Action="urn:protocollaById"/>
+         <wsdl:output message="ns:protocollaByIdResponse" wsaw:Action="urn:protocollaByIdResponse"/>
+         <wsdl:fault message="ns:WSProtocollazioneProtocollazioneException"
+                     name="WSProtocollazioneProtocollazioneException"
+                     wsaw:Action="urn:protocollaByIdWSProtocollazioneProtocollazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <wsdl:input message="ns:loginSSORequest" wsaw:Action="urn:loginSSO"/>
+         <wsdl:output message="ns:loginSSOResponse" wsaw:Action="urn:loginSSOResponse"/>
+         <wsdl:fault message="ns:WSProtocollazioneProtocollazioneException"
+                     name="WSProtocollazioneProtocollazioneException"
+                     wsaw:Action="urn:loginSSOWSProtocollazioneProtocollazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="writeConfig">
+         <wsdl:input message="ns:writeConfigRequest" wsaw:Action="urn:writeConfig"/>
+         <wsdl:output message="ns:writeConfigResponse" wsaw:Action="urn:writeConfigResponse"/>
+         <wsdl:fault message="ns:WSProtocollazioneProtocollazioneException"
+                     name="WSProtocollazioneProtocollazioneException"
+                     wsaw:Action="urn:writeConfigWSProtocollazioneProtocollazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <wsdl:input message="ns:loginRequest" wsaw:Action="urn:login"/>
+         <wsdl:output message="ns:loginResponse" wsaw:Action="urn:loginResponse"/>
+         <wsdl:fault message="ns:WSProtocollazioneProtocollazioneException"
+                     name="WSProtocollazioneProtocollazioneException"
+                     wsaw:Action="urn:loginWSProtocollazioneProtocollazioneException"/>
+      </wsdl:operation>
+      <wsdl:operation name="loginOnDemand">
+         <wsdl:input message="ns:loginOnDemandRequest" wsaw:Action="urn:loginOnDemand"/>
+         <wsdl:output message="ns:loginOnDemandResponse" wsaw:Action="urn:loginOnDemandResponse"/>
+         <wsdl:fault message="ns:WSProtocollazioneException" name="WSProtocollazioneException"
+                     wsaw:Action="urn:loginOnDemandWSProtocollazioneException"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="WSProtocollazioneSoap11Binding" type="ns:WSProtocollazionePortType">
+      <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="readConfig">
+         <soap:operation soapAction="urn:readConfig" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSProtocollazioneProtocollazioneException">
+            <soap:fault use="literal" name="WSProtocollazioneProtocollazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="logout">
+         <soap:operation soapAction="urn:logout" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSProtocollazioneProtocollazioneException">
+            <soap:fault use="literal" name="WSProtocollazioneProtocollazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="protocollaById">
+         <soap:operation soapAction="urn:protocollaById" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSProtocollazioneProtocollazioneException">
+            <soap:fault use="literal" name="WSProtocollazioneProtocollazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <soap:operation soapAction="urn:loginSSO" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSProtocollazioneProtocollazioneException">
+            <soap:fault use="literal" name="WSProtocollazioneProtocollazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="writeConfig">
+         <soap:operation soapAction="urn:writeConfig" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSProtocollazioneProtocollazioneException">
+            <soap:fault use="literal" name="WSProtocollazioneProtocollazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <soap:operation soapAction="urn:login" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSProtocollazioneProtocollazioneException">
+            <soap:fault use="literal" name="WSProtocollazioneProtocollazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="loginOnDemand">
+         <soap:operation soapAction="urn:loginOnDemand" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSProtocollazioneException">
+            <soap:fault use="literal" name="WSProtocollazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:binding name="WSProtocollazioneSoap12Binding" type="ns:WSProtocollazionePortType">
+      <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="readConfig">
+         <soap12:operation soapAction="urn:readConfig" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSProtocollazioneProtocollazioneException">
+            <soap12:fault use="literal" name="WSProtocollazioneProtocollazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="logout">
+         <soap12:operation soapAction="urn:logout" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSProtocollazioneProtocollazioneException">
+            <soap12:fault use="literal" name="WSProtocollazioneProtocollazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="protocollaById">
+         <soap12:operation soapAction="urn:protocollaById" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSProtocollazioneProtocollazioneException">
+            <soap12:fault use="literal" name="WSProtocollazioneProtocollazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <soap12:operation soapAction="urn:loginSSO" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSProtocollazioneProtocollazioneException">
+            <soap12:fault use="literal" name="WSProtocollazioneProtocollazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="writeConfig">
+         <soap12:operation soapAction="urn:writeConfig" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSProtocollazioneProtocollazioneException">
+            <soap12:fault use="literal" name="WSProtocollazioneProtocollazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <soap12:operation soapAction="urn:login" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSProtocollazioneProtocollazioneException">
+            <soap12:fault use="literal" name="WSProtocollazioneProtocollazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="loginOnDemand">
+         <soap12:operation soapAction="urn:loginOnDemand" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSProtocollazioneException">
+            <soap12:fault use="literal" name="WSProtocollazioneException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:binding name="WSProtocollazioneHttpBinding" type="ns:WSProtocollazionePortType">
+      <http:binding verb="POST"/>
+      <wsdl:operation name="readConfig">
+         <http:operation location="readConfig"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="logout">
+         <http:operation location="logout"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="protocollaById">
+         <http:operation location="protocollaById"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <http:operation location="loginSSO"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="writeConfig">
+         <http:operation location="writeConfig"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <http:operation location="login"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="loginOnDemand">
+         <http:operation location="loginOnDemand"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="WSProtocollazione">
+      <wsdl:port name="WSProtocollazioneHttpSoap11Endpoint"
+                 binding="ns:WSProtocollazioneSoap11Binding">
+         <soap:address location="http://localhost:8080/WSProtocollazione/services/WSProtocollazione.WSProtocollazioneHttpSoap11Endpoint/"/>
+      </wsdl:port>
+      <wsdl:port name="WSProtocollazioneHttpSoap12Endpoint"
+                 binding="ns:WSProtocollazioneSoap12Binding">
+         <soap12:address location="http://localhost:8080/WSProtocollazione/services/WSProtocollazione.WSProtocollazioneHttpSoap12Endpoint/"/>
+      </wsdl:port>
+      <wsdl:port name="WSProtocollazioneHttpEndpoint" binding="ns:WSProtocollazioneHttpBinding">
+         <http:address location="http://localhost:8080/WSProtocollazione/services/WSProtocollazione.WSProtocollazioneHttpEndpoint/"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>

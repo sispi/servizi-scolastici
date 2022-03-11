@@ -1,0 +1,308 @@
+{
+  "wizard": false,
+  "header": null,
+  "footer": null,
+  "toolbar": {
+    "position": "bottom",
+    "buttons": []
+  },
+  "tabs": [
+    {
+      "title": "Tab 1",
+      "sticky": false,
+      "disabled": "false",
+      "sections": [
+        {
+          "type": "repeatable",
+          "input": "",
+          "output": "",
+          "show": "true",
+          "class": null,
+          "style": null,
+          "header": {
+            "title": "Sezione ripetibile e collassabile",
+            "collapsible": true,
+            "class": null,
+            "style": null
+          },
+          "repeatable": {
+            "addLabel": "Aggiungi item",
+            "min": 0,
+            "max": "5"
+          },
+          "shared": false,
+          "elements": [
+            {
+              "type": "button",
+              "role": "submit",
+              "show": "true",
+              "disabled": "false",
+              "label": "Button",
+              "margin": "0",
+              "width": "2",
+              "break": false,
+              "classes": "btn btn-primary"
+            },
+            {
+              "type": "checkbox-group",
+              "show": "true",
+              "disabled": "false",
+              "required": true,
+              "valid": "true",
+              "source": "values",
+              "inline": false,
+              "label": "Checkbox Group",
+              "margin": "0",
+              "width": "4",
+              "break": true,
+              "values": [
+                {
+                  "label": "Option 1",
+                  "value": "option-1",
+                  "selected": true
+                }
+              ]
+            },
+            {
+              "type": "checkbox",
+              "show": "true",
+              "disabled": "false",
+              "required": true,
+              "label": "Checkbox",
+              "margin": "0",
+              "width": "4",
+              "break": true,
+              "values": []
+            },
+            {
+              "type": "file",
+              "mode": "single",
+              "show": "true",
+              "disabled": "false",
+              "required": true,
+              "valid": "true",
+              "min": "1",
+              "label": "File Upload",
+              "margin": "0",
+              "width": "4",
+              "break": true
+            },
+            {
+              "type": "header",
+              "subtype": "h1",
+              "label": "Header",
+              "show": "true"
+            },
+            {
+              "type": "hidden",
+              "valid": "true",
+              "margin": "0",
+              "width": "4",
+              "break": true
+            },
+            {
+              "type": "number",
+              "show": "true",
+              "disabled": "false",
+              "required": true,
+              "valid": "true",
+              "step": "1",
+              "label": "Number",
+              "margin": "0",
+              "width": "4",
+              "break": true
+            },
+            {
+              "type": "radio-group",
+              "show": "true",
+              "disabled": "false",
+              "required": true,
+              "valid": "true",
+              "source": "values",
+              "inline": false,
+              "label": "Radio Group",
+              "margin": "0",
+              "width": "4",
+              "break": true,
+              "values": [
+                {
+                  "label": "Option 1",
+                  "value": "option-1",
+                  "selected": false
+                },
+                {
+                  "label": "Option 2",
+                  "value": "option-2",
+                  "selected": false
+                },
+                {
+                  "label": "Option 3",
+                  "value": "option-3",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "date",
+              "subtype": "date",
+              "show": "true",
+              "disabled": "false",
+              "required": true,
+              "valid": "true",
+              "offset": "start",
+              "label": "Date Field",
+              "margin": "0",
+              "width": "4",
+              "break": true
+            },
+            {
+              "type": "text",
+              "subtype": "text",
+              "show": "true",
+              "disabled": "false",
+              "required": true,
+              "valid": "true",
+              "min": "0",
+              "max": "255",
+              "label": "Text Field",
+              "margin": "0",
+              "width": "4",
+              "break": true
+            },
+            {
+              "type": "textarea",
+              "subtype": "text",
+              "show": "true",
+              "disabled": "false",
+              "required": true,
+              "valid": "true",
+              "min": "0",
+              "max": "255",
+              "height": "0",
+              "label": "Text Area",
+              "margin": "0",
+              "width": "4",
+              "break": true
+            },
+            {
+              "type": "html",
+              "show": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Tab 2",
+      "sticky": false,
+      "disabled": "false",
+      "sections": [
+        {
+          "type": "single",
+          "input": "",
+          "output": "",
+          "show": "true",
+          "class": null,
+          "style": null,
+          "header": {
+            "title": "Sezione 1",
+            "collapsible": false,
+            "class": null,
+            "style": null
+          },
+          "repeatable": null,
+          "shared": null,
+          "elements": [
+            {
+              "type": "text",
+              "subtype": "text",
+              "show": "true",
+              "disabled": "false",
+              "required": true,
+              "valid": "true",
+              "min": "0",
+              "max": "255",
+              "label": "Text Field",
+              "margin": "0",
+              "width": "4",
+              "break": true
+            }
+          ]
+        },
+        {
+          "type": "single",
+          "input": "",
+          "output": "",
+          "show": "true",
+          "class": null,
+          "style": null,
+          "header": {
+            "title": "Sezione 2",
+            "collapsible": false,
+            "class": null,
+            "style": null
+          },
+          "repeatable": null,
+          "shared": null,
+          "elements": [
+            {
+              "type": "select",
+              "mode": "single",
+              "show": "true",
+              "disabled": "false",
+              "required": true,
+              "valid": "true",
+              "source": "values",
+              "tags": false,
+              "min": "1",
+              "label": "Select",
+              "margin": "0",
+              "width": "4",
+              "break": true,
+              "values": [
+                {
+                  "label": "Option 1",
+                  "value": "option-1",
+                  "selected": true
+                },
+                {
+                  "label": "Option 2",
+                  "value": "option-2",
+                  "selected": false
+                },
+                {
+                  "label": "Option 3",
+                  "value": "option-3",
+                  "selected": false
+                }
+              ]
+            },
+            {
+              "type": "checkbox-group",
+              "input": "aaa",
+              "output": "bbb",
+              "show": "true",
+              "disabled": "false",
+              "required": true,
+              "valid": "true",
+              "source": "values",
+              "inline": false,
+              "label": "Checkbox Group",
+              "margin": "0",
+              "width": "4",
+              "break": true,
+              "values": [
+                {
+                  "label": "Option 1",
+                  "value": "option-1",
+                  "selected": true
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "sections": {}
+}

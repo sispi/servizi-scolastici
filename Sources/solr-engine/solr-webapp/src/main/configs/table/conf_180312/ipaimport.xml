@@ -1,0 +1,223 @@
+<dataConfig>
+
+    <propertyWriter dateFormat="yyyy-MM-dd'T'HH:mm:ss'Z'" type0="SimplePropertiesWriter" type="ZKPropertiesWriter" directory="data" filename="ipa.properties" />
+
+    <dataSource name="ipa" encoding="UTF-8" connectionTimeout="5000" readTimeout="10000" type="URLDataSource" baseUrl="http://www.indicepa.gov.it/public-services/opendata-read-service.php?dstype=FS&amp;filename=" />
+
+    <script><![CDATA[
+
+                var logger = org.slf4j.LoggerFactory.getLogger(org.apache.solr.handler.dataimport.DataImportHandler);
+
+                var headers = null;
+                
+                var sequence = 0;
+				
+				function get_des_amm(cod_amm)
+				{
+					var params = new org.apache.solr.client.solrj.SolrQuery();
+					params["set(java.lang.String,java.lang.String[])"]( "ticket" , "admin" );
+					params["set(java.lang.String,java.lang.String[])"]( "id" , cod_amm+"@ipa_amm" );
+					params["set(java.lang.String,java.lang.String[])"]( "fl" , "id,name");
+					
+					var doc = Packages.it.kdm.solr.client.SolrClient.getInstance().get(params);
+					
+					return doc.get("name");
+				}
+
+                function get(vals,field)
+                {
+                    var idx = headers.indexOf(field);
+                    var val = vals[idx];
+					
+					if (val==null)
+						return null;
+					else if (val.toString() == "jdk.nashorn.internal.runtime.Undefined" )
+						return null;
+					else if (val.trim)
+						return val.trim();
+					else
+						return val;
+                }
+
+                function importipa(row)
+                {
+                    var line = ""+row["rawLine"];
+                    var vals = line.split("\t");
+
+                    if (line.startsWith("cod_"))
+                    {
+                        headers = vals;
+                        //logger.warn("headers:{}",headers);
+                        return null;
+                    }
+
+                    sequence=0;
+
+                    var cod_amm = (get(vals,"cod_amm")||"").toUpperCase();
+                    var des_amm = get(vals,"des_amm");
+                    var cod_ou = get(vals,"cod_ou");
+                    var des_ou = get(vals,"des_ou");
+                    var cod_aoo = get(vals,"cod_aoo");
+                    var des_aoo = get(vals,"des_aoo");
+                    var comune = get(vals,"Comune") || get(vals,"comune") || "";
+					var cap = get(vals,"Cap") || "";
+					var provincia = get(vals,"Provincia") || get(vals,"provincia") || "";
+					var indirizzo_via = get(vals,"Indirizzo");
+					var indirizzo_postale = get(vals,"Indirizzo") + " - " + cap + " " + comune + " " + provincia ;
+					var tipologia_istat = get(vals,"tipologia_istat");
+                    var tipologia_amm = get(vals,"tipologia_amm");
+                    var acronimo = get(vals,"acronimo");
+                    var codice_fiscale = get(vals,"Cf");
+                    var indirizzo_pec = get(vals,"mail1");
+                    var cod_uni_ou = get(vals,"cod_uni_ou");
+                    var ipatype;
+                    var type;
+
+                    row.clear();
+
+                    if (des_amm)
+                    {
+                        ipatype = "amm";
+                        type = "ipa_"+ipatype;
+
+                        row.put("id",cod_amm+"@"+type);
+                        row.put("sid",cod_amm);
+                        row.put("name",des_amm);
+                        row.put("display_name",des_amm+" (Amm.)");
+
+                    }
+                    else if (cod_ou)
+                    {
+						cod_ou = cod_ou.toUpperCase();
+						cod_uni_ou = cod_uni_ou.toUpperCase();
+						cod_aoo = cod_aoo.toUpperCase();
+					
+                        ipatype = "ou";
+                        type = "ipa_"+ipatype;
+
+                        row.put("id",cod_amm+"_"+cod_ou+"@"+type);
+                        row.put("sid",cod_ou);
+                        row.put("name",des_ou);
+                        row.put("display_name",des_ou+" (Uff.)");
+                        row.put("parent",cod_amm+"@ipa_amm");
+						
+						des_amm = get_des_amm(cod_amm);
+                    }
+                    else if (cod_aoo)
+                    {
+						cod_aoo = cod_aoo.toUpperCase();
+						
+                        ipatype = "aoo";
+                        type = "ipa_"+ipatype;
+
+                        row.put("id",cod_amm+"_"+cod_aoo+"@"+type);
+                        row.put("sid",cod_aoo);
+                        row.put("name",des_aoo);
+                        row.put("display_name",des_aoo+" (AOO)");
+                        row.put("parent",cod_amm+"@ipa_amm");
+						
+						des_amm = get_des_amm(cod_amm);
+                    }
+                    else
+                    {
+                        logger.warn("invalid row:{}",vals);
+                        return rnull;
+                    }
+
+                    if (!des_amm)
+                    {
+                        logger.warn("null des_amm:{}",cod_amm);
+                        return null;
+                    }
+
+                    row.put("type",type);
+                    row.put("acl_inherits",false);
+                    row.put("division",cod_amm);
+                    row.put("sequence",sequence);
+                    row.put("location","ipa");
+                    row.put("views",type);
+                    row.put("location","ipa");
+                    row.put("uncommitted",false);
+                    row.put("acl_explicit" , "everyone@group:readOnly");
+                    row.put("acl_read" , "everyone@group");
+					row.put("indexed_on", new Date( Date.now() ).toISOString() ); 
+					row.put("created_on", new Date( Date.now() ).toISOString() ); 
+					row.put("modified_on", new Date( Date.now() ).toISOString() ); 
+					row.put("created_by","admin");
+					row.put("modified_by","admin");
+					
+
+                    row.put("ipatype",ipatype);
+                    row.put("cod_amm",cod_amm);
+                    row.put("des_amm",des_amm);
+                    row.put("cod_aoo",cod_aoo);
+                    row.put("des_aoo",des_aoo);
+                    row.put("cod_uo",cod_ou);
+                    row.put("des_uo",des_ou);
+                    row.put("indirizzo_postale",indirizzo_postale);
+                    row.put("indirizzo_pec",indirizzo_pec);
+                    row.put("tipologia_istat",tipologia_istat);
+                    row.put("tipologia_amm",tipologia_amm);
+                    row.put("acronimo",acronimo);
+                    row.put("codice_fiscale",codice_fiscale);
+                    row.put("cod_uni_ou",cod_uni_ou);
+					row.put("comune",comune);
+					row.put("provincia",provincia);
+					row.put("cap",cap);
+					row.put("indirizzo_via",indirizzo_via);
+					
+					/*var name_terms = row.get("name").toLowerCase().split(" ");
+					
+					var name_terms_out = des_amm.toLowerCase().split(" ");
+					
+					var amm_terms = des_amm.toLowerCase().split(" ");
+					
+					for ( var i=0; i<name_terms.length; i++ )
+						if (amm_terms.indexOf(name_terms[i])==-1) name_terms_out.push(name_terms[i]);
+					
+					row.put("fulltext",name_terms_out.join(" ") );
+					row.put("queryterms_t",name_terms_out.join(" ") );*/
+					row.put("des_amm_t",des_amm );
+
+                    //logger.info("new ipa type:{} cod_amm:{} cod_uo:{} cod_aoo:{} des_amm:{} des_amm_t:{}", type,cod_amm,cod_ou,cod_aoo,des_amm,des_amm_t);
+
+                    return row;
+                }
+
+
+
+        ]]></script>
+
+    <document>
+        <entity name="amministrazioni"
+                processor="LineEntityProcessor"
+                url="amministrazioni.txt"
+                dataSource="ipa"
+                transformer="script:importipa"
+                onError="continue"
+                postImportDeleteQuery="+type:ipa_amm +indexed_on:[* TO NOW-2DAYS]"
+                >
+        </entity>
+
+        <entity name="aoo"
+                processor="LineEntityProcessor"
+                url="aoo.txt"
+                dataSource="ipa"
+                transformer="script:importipa"
+                onError="continue"
+
+                >
+        </entity>
+
+        <entity name="ou"
+                processor="LineEntityProcessor"
+                url="ou.txt"
+                dataSource="ipa"
+                transformer="script:importipa"
+                onError="continue"
+
+                >
+        </entity>
+    </document>
+
+</dataConfig>

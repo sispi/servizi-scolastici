@@ -1,0 +1,19 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>it.kdm.docer</groupId>
+    <artifactId>docer.services</artifactId>
+    <version>Docer-2.4.6.1</version>
+  </parent>
+  <artifactId>docer.services.firma</artifactId>  
+  <packaging>pom</packaging>
+  
+    <modules>
+        <module>docer.firma.sdk</module>
+        <module>docer.firma.provider</module>
+        <module>docer.firma.BusinessLogic</module>
+        <module>docer.firma.webservices</module>
+        <module>docer.firma.intesigroup.client</module>
+        <module>docer.firma.aruba.provider</module>
+    </modules>
+</project>

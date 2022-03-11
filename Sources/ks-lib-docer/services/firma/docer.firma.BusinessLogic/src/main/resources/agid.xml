@@ -1,0 +1,34 @@
+<Segnatura xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="input-validation.xsd">
+    <Intestazione>
+        <Oggetto>string</Oggetto>
+        <Flusso>
+            <ModalitaInvio>string</ModalitaInvio>
+            <TipoRichiesta>string</TipoRichiesta>
+            <ForzaInvio>3</ForzaInvio>
+        </Flusso>
+        <Destinatari>
+            <Destinatario>
+                <Amministrazione>
+                    <Denominazione>Denominazione</Denominazione>
+                    <CodiceAmministrazione>ENTEPROVA</CodiceAmministrazione>
+                    <IndirizzoTelematico>IndirizzoTelematico</IndirizzoTelematico>
+                </Amministrazione>
+                <AOO>
+                    <CodiceAOO>AOOPROVA</CodiceAOO>
+                </AOO>
+            </Destinatario>
+        </Destinatari>
+    </Intestazione>
+    <Documenti>
+        <Documento uri="string" id="100">
+            <Metadati>
+            </Metadati>
+            <Acl>
+            </Acl>
+        </Documento>
+        <Allegati/>
+        <Annessi/>
+        <Annotazioni/>
+    </Documenti>
+</Segnatura>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:camel="http://camel.apache.org/schema/spring/camel-spring"
+	xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+<!--	<bean class="it.kdm.orchestratore.util.SpringContextHolder" /> -->
+
+	<context:component-scan base-package="it.kdm.docer.core.tracer.broker" />
+
+	<bean id="jms" class="org.apache.activemq.camel.component.ActiveMQComponent">
+		<property name="brokerURL" value="${jms.broker.url}" />
+		<property name="userName" value="${jms.broker.user}"/>
+        <property name="password" value="${jms.broker.password}"/>
+	</bean>
+
+	<camelContext xmlns="http://camel.apache.org/schema/spring"
+		id="camelContext">
+		<package>it.kdm.docer.core.tracer.broker</package>
+
+		<dataFormats>
+			<json id="json" library="Jackson" unmarshalTypeName="it.kdm.docer.core.tracer.bean.TraceMessage" />
+		</dataFormats>
+
+		<route>
+			<from uri="direct:docer-events" />
+			<marshal ref="json" />
+			<to uri="log:it.kdm.docer.core.tracer" />
+			<to uri="jms:queue:docer-events" />
+		</route>
+
+		<route>
+			<from uri="jms:docer-events"/>
+			<wireTap uri="jms:audit_queue"/>
+		<!--	<wireTap uri="jms:bpm_event_queue"/> -->
+			<!--<to uri="to_do_something"/>-->
+		</route>
+
+		<route>
+			<from uri="jms:queue:audit_queue" />
+			<to uri="log:it.kdm.docer.core.tracer" />
+			<unmarshal ref="json" />
+			<to uri="direct:audit_queue" />
+		</route>
+
+
+
+
+
+
+
+<!--
+		<route>
+			<from uri="jms:queue:docer-responses" />
+			<to uri="log:it.kdm.orchestratore.jms" />
+			<unmarshal ref="json" />
+			<to uri="direct:docer-responses" />
+		</route>
+
+		<route>
+			<from uri="jms:queue:bpmserver.eventi.queue" />
+			<to uri="direct:bpmserver.eventi.queue" />
+			<to uri="log:it.kdm.orchestratore.jms?showHeaders=true" />
+		</route>
+
+		<route>
+			<from uri="jms:queue:dlqMail"></from>
+			<to uri="direct:dlqMail.queue" />
+		</route>
+-->
+	</camelContext>
+	
+	<bean id="messageConsumer" class="it.kdm.docer.core.tracer.broker.MessageBroker" />
+<!--	<bean id="eventConsumer" class="it.kdm.orchestratore.jms.EventConsumer" />
+	<bean id="dlqConsumer" class="it.kdm.orchestratore.jms.DlqConsume" />-->
+	
+</beans>

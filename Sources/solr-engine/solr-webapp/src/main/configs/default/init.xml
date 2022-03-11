@@ -1,0 +1,10 @@
+<dataConfig>
+	
+  	<propertyWriter dateFormat="yyyy-MM-dd'T'HH:mm:ss'Z'" type0="SimplePropertiesWriter" type="ZKPropertiesWriter" directory="data" filename="init.properties" />
+
+	<dataSource name="init" type="URLDataSource" baseUrl="http://localhost:${jetty.port}/solr/${solr.core.collection}/admin/file?contentType=text/xml;charset=utf-8&amp;file=" />
+
+    <document>
+		<entity name="init" processor="XPathEntityProcessor" url="initData.xml" useSolrAddSchema="true" />
+  	</document>
+</dataConfig>

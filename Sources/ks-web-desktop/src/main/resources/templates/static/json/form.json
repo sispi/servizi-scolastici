@@ -1,0 +1,659 @@
+{
+  "header": "<i class='bi bi-play-circle'></i>Errori di validazione:{{invalidFeedbacks().length}}",
+  "footer": "FOOTER",
+  "wizard" : false,
+  "toolbar": {
+    "position": "bottom",
+    "class" : "btn-group",
+    "buttons": [
+      {
+        "label": "Submit",
+        "handler": "submit",
+        "description":"errori: {{invalidFeedbacks().length}}",
+        "class": "btn-primary",
+        "disabled" : "!isValid()"
+      },
+      {
+        "label": "Confirm",
+        "handler": "confirm('number1 = (number1|0)+1')",
+        "class": "btn-secondary",
+        "disabled" : "tab$index!=1",
+        "description" : "{{tab$index!=1 ? 'devi essere nel primo tab' : ''}}"
+      },
+      {
+        "label": "Prompt",
+        "handler": "prompt('number1 = (number1|0)+Number(value)')",
+        "class": "btn-secondary",
+        "disabled" : "tab$index!=1",
+        "description" : "{{tab$index!=1 ? 'devi essere nel primo tab' : ''}}",
+        "break" : true
+      },
+      {
+        "label": "Valida OK",
+        "validationUrl": "/validation?errors=0",
+        "class": "btn-success"
+      },
+      {
+        "label": "Valida Err",
+        "validationUrl": "/validation?errors=3",
+        "actionUrl": "/validation?errors=0",
+        "actionProcess" : "actionProcess",
+        "class": "btn-danger",
+        "break" : true
+      },
+      {
+        "label": "Custom OK",
+        "validationUrl": "/validation?errors=0",
+        "actionUrl": "/validation?errors=0",
+        "actionProcess" : "actionProcess",
+        "handler" : "actionSuccess",
+        "class": "btn-success",
+        "break" : true
+      },
+      {
+        "label": "Custom Err",
+        "validationUrl": "/validation?errors=1",
+        "actionUrl": "/validation?errors=3",
+        "actionProcess" : "actionProcess",
+        "class": "btn-danger",
+        "break" : true
+      },
+      {
+        "label": "Handler",
+        "validationUrl": "/validation?errors=0",
+        "actionUrl": "/validation?errors=0",
+        "handler" : "(a,b,c,rsp)=> alert(rsp)",
+        "class": "btn-warning",
+        "break" : true
+      }
+    ]
+  },
+  "tabs": [
+    {
+      "title" : "Sticky {{$index}}",
+      "sticky" : true,
+      "sections": [
+        {
+          "elements" : [
+            {
+              "type" : "resource",
+              "url" : "/static/json/model.json",
+              "processor" : "onx",
+              "contentType" : null,
+              "input" : "extern",
+              "source" : "xxx"
+            },
+            {
+              "label" : "textarea",
+              "type" : "textarea",
+              "subtype" : "json",
+              "input" : "textarea",
+              "width" : 12,
+              "class" : "hide2-gutter",
+              "height" : "3"
+            },
+            {
+              "label" : "file (single)",
+              "type" : "file",
+              "subtype" : "single",
+              "input" : "singlefile",
+              "placeholder" : "file single",
+              "required" : true,
+              "size" : 10000,
+              "width" : 6
+            },
+            {
+              "label" : "file (multiple)",
+              "type" : "file",
+              "subtype" : "multiple",
+              "input" : "multiplefile",
+              "placeholder" : "file multiple",
+              "description" : "",
+              "valid" : "multiplefile && multiplefile.length>1",
+              "invalidFeedback" : "più di uno",
+              "max" : 3,
+              "extensions" : [".pdf",".txt"],
+              "url" : "test",
+              "processor" : "console.log(value); return {'fake-url1':'fake-1.txt','fake-url2':'fake-2.txt'};",
+              "width" : 6
+            }
+          ]
+        },
+        {
+          "elements" : [
+            {
+              "label": "Required Number",
+              "type": "text",
+              "subtype": "number",
+              "input": "number2",
+              "placeholder": "Placeholder",
+              "description": "Description",
+              "width": 4,
+              "required": true,
+              "valid": "number2>2",
+              "invalidFeedback" : "valore almeno 3",
+              "min": 0,
+              "max": 255
+            },
+            {
+              "label": "Prompt",
+              "handler": "prompt('number2 = (number2|0)+Number(value)')",
+              "class": "btn-secondary",
+              "disabled" : "tab$index!=1",
+              "description" : "{{tab$index!=1 ? 'devi essere nel primo tab' : ''}}",
+              "break" : true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Primo {{$index}}",
+      "sections": [
+        {
+          "header": {
+            "title": "Section Title 0_{{$index}}"
+          },
+          "elements": [
+            {
+              "type": "header",
+              "value": "Interploable header text {{$index}}",
+              "description" : "sub header",
+              "break":true
+            },
+            {
+              "label": "checkbox con validazione",
+              "type": "checkbox",
+              "input": "checkbox1",
+              "description" : "devi selezionare",
+              "required" : false,
+              "valid" : "checkbox1",
+              "invalidFeedback" : "devi per forza accettare",
+              "break":false,
+              "width" : 6
+            },
+            {
+              "label": "checkbox required",
+              "type": "checkbox",
+              "input": "checkbox2",
+              "required" : true,
+              "valid" : "true",
+              "invalidFeedback" : "specificare",
+              "break":true
+
+            },
+            {
+              "label": "radio group (required)",
+              "type": "radio-group",
+              "input": "radio",
+              "description" : "radio:{{radio}}",
+              "values": [
+                {"id": null, "text": "null"},
+                {"id": 1, "text": "uno"},
+                {"id": 2, "text": "due"},
+                {"id": 4, "text": "tre"},
+                {"id": 8, "text": "quattro"},
+                {"id": 16, "text": "cinque"},
+                {"id": 32, "text": "sei"},
+                {"id": 64, "text": "sette"},
+                {"id": 128, "text": "otto"},
+                {"id": 256, "text": "nove"},
+                {"id": 512, "text": "dieci"},
+                {"id": 1024, "text": "undici"},
+                {"id": 2048, "text": "dodici"}],
+              "break":false,
+              "required" : true,
+              "width" : 6,
+              "height" : 3
+            },
+            {
+              "label": "Checkbox bitmask",
+              "type": "checkbox-group",
+              "input": "bitmask",
+              "description" : "bitmask:{{bitmask}}",
+              "values": [
+                {"id": 1, "text": "uno"},
+                {"id": 2, "text": "due"},
+                {"id": 4, "text": "tre"},
+                {"id": 8, "text": "quattro"},
+                {"id": 16, "text": "cinque"},
+                {"id": 32, "text": "sei"},
+                {"id": 64, "text": "sette"},
+                {"id": 128, "text": "otto"},
+                {"id": 256, "text": "nove"},
+                {"id": 512, "text": "dieci"}],
+              "break":false,
+              "valid" : "bitmask>0",
+              "invalidFeedback" : "almeno uno",
+              "width" : 6,
+              "height" : 2
+            },
+            {
+              "label": "Checkbox array (required)",
+              "type": "checkbox-group",
+              "input": "array",
+              "description" : "array:{{array}}",
+              "values": [
+                {"id": 1, "text": "uno"},
+                {"id": 2, "text": "due"},
+                {"id": 3, "text": "tre"},
+                {"id": 4, "text": "quattro"},
+                {"id": 5, "text": "cinque"}],
+              "break":false,
+              "required" : true,
+              "width" : 6,
+              "height" : 2
+            },
+            {
+              "label": "Checkbox str (binded)",
+              "type": "checkbox-group",
+              "input": "str",
+              "description" : "str:{{str}}",
+              "values": "extern",
+              "break":false,
+              "valid" : "str && str.length>1",
+              "invalidFeedback" : "almeno due",
+              "width" : 6,
+              "height" : 1
+            },
+            {
+              "label": "Datetime",
+              "type": "date",
+              "subtype": "date",
+              "input": "date1",
+              "offset" : "end",
+              "placeholder": "Placeholder",
+              "description": "Description",
+              "width": 4,
+              "required": true,
+              "valid": "true",
+              "min": 0,
+              "max": 255
+            },
+            {
+              "label": "Text",
+              "type": "text",
+              "subtype": "text",
+              "input": "text2",
+              "placeholder": "Placeholder",
+              "description": "Description",
+              "width": 4,
+              "margin": 0,
+              "break": true,
+              "class": "",
+              "style": "",
+              "show": "true",
+              "disabled":"false",
+              "required": false,
+              "valid": "true",
+              "regex": "",
+              "min": 0,
+              "max": 255
+            }
+          ]
+        },
+        {
+          "input": "test",
+          "header": {
+            "title": "Section Title 0_{{$index}}",
+            "collapsible": false,
+            "class": "",
+            "style": ""
+          },
+          "elements": [
+            {
+              "type": "header",
+              "subtype": "h1",
+              "show": "true",
+              "value": "Interploable header text",
+              "class": "",
+              "style": ""
+            },
+            {
+              "value": "Interploable HTML markup",
+              "type": "html",
+              "show": "true",
+              "class": "",
+              "style": ""
+            },
+            {
+              "input": "$item.x7",
+              "type": "hidden"
+            },
+            {
+              "label": "Password",
+              "type": "text",
+              "subtype": "password",
+              "input": "$item.x1",
+              "placeholder": "Placeholder",
+              "description": "Description",
+              "width": 4,
+              "margin": 0,
+              "break": true,
+              "class": "",
+              "style": "",
+              "show": "true",
+              "required": false,
+              "valid": "true",
+              "regex": "",
+              "min": 0,
+              "max": 255
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Secondo {{$index}}",
+      "sections": [
+        {
+          "header" : {
+              "title" : "select2"
+          },
+          "elements" : [
+            {
+              "label": "select2 (multiple)",
+              "type": "select",
+              "subtype": "multiple",
+              "input": "select2_1",
+              "output": null,
+              "show": "true",
+              "disabled": "false",
+              "required": false,
+              "valid": "select2_1 && select2_1.length>=2",
+              "invalidFeedback" : "almeno 3",
+              "values": [{"id": "AAA", "text": "Option AAA"},{"id": "BBB", "text": "Option BBB"}],
+              "url": "/docer/v1/solr/select?fq=type:(user group)&fl=sid,name&q=name:{{$q}}",
+              "processor": "value.data.map( (x) => ({id:x.sid , text: x.name}) ) ",
+              "tags": true,
+              "chars": 1,
+              "max": 3,
+              "placeholder": "Placeholder",
+              "description": "Description",
+              "margin": 0,
+              "width": 4,
+              "break": false,
+              "class": null,
+              "style": null
+            },
+            {
+              "label": "select2 (combo/values)",
+              "type": "select",
+              "subtype": "single",
+              "input": "select2_2",
+              "output": null,
+              "show": "true",
+              "disabled": "false",
+              "required": false,
+              "valid": "true",
+              "values": [{"id": "AAA", "text": "Option AAA"},{"id": "BBB", "text": "Option BBB"}],
+              "tags": true,
+              "chars": 0,
+              "max": 2,
+              "placeholder": "Placeholder",
+              "description": "Description",
+              "margin": 0,
+              "width": 4,
+              "break": false,
+              "class": null,
+              "style": null
+            },
+            {
+              "label": "select2 (single/0chars)",
+              "type": "select",
+              "subtype": "multiple",
+              "input": "select2_3",
+              "output": null,
+              "show": "true",
+              "disabled": "false",
+              "required": true,
+              "valid": "true",
+              "values": [{"id": "AAA", "text": "Option AAA"},{"id": "BBB", "text": "Option BBB"}],
+              "url": "/docer/v1/solr/select?fq=type:(user group)&fl=sid,name&q=name:{{$q}}",
+              "processor": "value.data.map( (x) => ({id:x.sid , text: x.name}) ) ",
+              "tags": true,
+              "chars": 0,
+              "max": 1,
+              "placeholder": "Placeholder",
+              "description": "Description",
+              "margin": 0,
+              "width": 4,
+              "break": false,
+              "class": null,
+              "style": null
+            }
+          ]
+        },
+        {
+          "input": "arr",
+          "output": "arr2",
+          "class": "show",
+          "header": {
+            "title": "Section Collapsible",
+            "collapsible": true
+          },
+          "type" : "repeatable",
+          "repeatable": {
+            "addLabel": "Add",
+            "min": "2",
+            "max": "3"
+          },
+          "elements": [
+            {
+              "type": "header",
+              "subtype": "h1",
+              "show": "true",
+              "value": "Interploable header text",
+              "class": "",
+              "style": ""
+            },
+            {
+              "value": "Interploable HTML markup",
+              "type": "html",
+              "show": "true",
+              "class": "",
+              "style": ""
+            },
+            {
+              "input": "$item.x2",
+              "type": "hidden"
+            },
+            {
+              "label": "text tooshort",
+              "type": "text",
+              "subtype": "text",
+              "input": "$item.x3",
+              "placeholder": "Placeholder",
+              "description": "Description",
+              "width": 4,
+              "margin": 0,
+              "break": true,
+              "class": "",
+              "style": "",
+              "show": "true",
+              "required": false,
+              "valid": "true",
+              "regex": "",
+              "min": 4,
+              "max": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Terzo {{$index}}",
+      "sections": [
+        {
+          "input": "test",
+          "header": {
+            "title": "Section Title 2_0",
+            "collapsible": false,
+            "class": "",
+            "style": ""
+          },
+          "elements": [
+            {
+              "type": "header",
+              "subtype": "h1",
+              "show": "true",
+              "value": "Interploable header text",
+              "class": "",
+              "style": ""
+            },
+            {
+              "value": "Interploable HTML markup",
+              "type": "html",
+              "show": "true",
+              "class": "",
+              "style": ""
+            },
+            {
+              "input": "$item.x4",
+              "type": "hidden"
+            },
+            {
+              "label": "number",
+              "type": "text",
+              "subtype": "number",
+              "input": "$item.nmb",
+              "output": "$item.nmb2",
+              "placeholder": "Placeholder",
+              "description": "Description",
+              "width": 4,
+              "margin": 0,
+              "break": false,
+              "class": "",
+              "style": "",
+              "show": "true",
+              "required": false,
+              "valid": "true",
+              "regex": "",
+              "min": 1,
+              "max": 255
+            },
+            {
+              "label": "text (required)",
+              "type": "text",
+              "subtype": "text",
+              "input": "$item.str",
+              "output": "$item.str2",
+              "placeholder": "Placeholder",
+              "description": "Description",
+              "width": 4,
+              "margin": 0,
+              "break": true,
+              "class": "",
+              "style": "",
+              "show": "true",
+              "required": true,
+              "valid": "true",
+              "regex": "",
+              "min": 0,
+              "max": 255
+            }
+          ]
+        },
+        {
+          "input": "test",
+          "header": {
+            "title": "Section Title 2_1",
+            "collapsible": false,
+            "class": "",
+            "style": ""
+          },
+          "elements": [
+            {
+              "type": "header",
+              "value": "Interploable header text",
+              "subtype": "h1",
+              "show": "true",
+              "class": "",
+              "style": ""
+            },
+            {
+              "value": "Interploable HTML markup",
+              "type": "html",
+              "show": "true",
+              "class": "",
+              "style": ""
+            },
+            {
+              "input": "$item.x5",
+              "type": "hidden"
+            },
+            {
+              "label": "email",
+              "type": "text",
+              "subtype": "email",
+              "input": "$item.x6",
+              "placeholder": "Placeholder",
+              "description": "Description",
+              "width": 4,
+              "margin": 0,
+              "break": true,
+              "class": "",
+              "style": "",
+              "show": "true",
+              "required": false,
+              "valid": "true",
+              "regex": "",
+              "min": 0,
+              "max": 255
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Tabella {{$index}}",
+      "show" : "true || isValid(3)",
+      "sections": [
+        {
+          "elements" : [
+            {
+              "invalidFeedback" : "la tabella almeno 4 righe",
+              "type": "hidden",
+              "description" : "Inserire le righe nell'ultimo tab",
+              "valid": "table.length>3"
+            }
+          ]
+        },
+
+        {
+          "input" : "table",
+          "class" : "table",
+          "type" : "repeatable",
+          "repeatable": {
+            "min": "0",
+            "max": "10"
+          },
+          "elements": [
+            {
+              "label": "hcol1",
+              "value": "col1 {{$index}}",
+              "type": "text",
+              "input" : "$item.textx",
+              "width" : 6,
+              "break" : false
+            },
+            {
+              "label": "hcol2",
+              "value": "col2 {{$index}}",
+              "type": "html",
+              "width" : 3,
+              "break" : false
+            },
+            {
+              "label": "hcol3",
+              "value": "col3 {{$index}}",
+              "type": "html",
+              "width" : 3,
+              "break" : false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

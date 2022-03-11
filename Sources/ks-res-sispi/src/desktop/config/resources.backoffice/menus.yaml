@@ -1,0 +1,207 @@
+
+backoffice:
+
+    - name: Documentale
+      roles: [admins]
+      url: documenti/listaRisultati?fq=DOCNUM:*&sort=modified_on%20desc
+      menuItems:
+        - title: Documenti
+          url: /documenti/listaRisultati?fq=DOCNUM:*&sort=modified_on%20desc
+        - title: Titolari
+          url: /documenti/viewNaviList?entity=titolari&orderBy=name%20asc
+        - title: Fascicoli
+          url: /documenti/viewNaviList?entity=fascicoli&orderBy=MODIFIED%20desc
+        - title: Anagrafiche
+          url: /documenti/listaAnagrafiche?type=RUBRICA
+        - title: Utenti
+          url: /documenti/viewUserList?entity=utenti&orderBy=name%20asc
+          roles: [admins]
+        - title: Gruppi
+          url: /documenti/viewGroupList?entity=gruppi&orderBy=name%20asc
+          roles: [admins]
+
+    - name: Processi
+      roles: [admins]
+      menuItems:
+        - title: deployments
+          url: /bpm/deployments
+          roles: [admins]
+        - title: configurations
+          url: /bpm/configurations
+        - title: events
+          url: /bpm/events
+          roles: [admins]
+
+
+    - name: Istanze
+      roles: [admins]
+      menuItems:
+        - title: instances
+          url: /bpm/instances
+        - title: tasks
+          url: /bpm/tasks
+        - title: bookmarks
+          url: /bpm/bookmarks
+        - title: notifications
+          url: /bpm/notifications
+
+    - name: Portale
+      roles: [admins]
+      menuItems:
+        - title: Servizi
+          url: /backOffice/service/service
+        - title: Procedimenti
+          url: /backOffice/proceeding/proceeding
+        - title: Media
+          url: /backOffice/media/media
+        - title: Pagamenti
+          url: /backOffice/payment/payment
+        - title: Settings
+          url: /backOffice/settings/settings
+        - sep: true
+        - title: Canali di pagamento
+          url: /backOffice/channel/channel
+          roles: [admins]
+
+    - name: Amministrazione
+      roles: [admins]
+      menuItems:
+        - title: Configurazioni
+          url: /admin/config
+        - title: Directory
+          url: /admin/dirlist
+        - title: Info
+          url: /admin/info
+        - title: Risorse
+          url: /admin/resources
+        - title: Reports
+          url: /reports/reportlist
+        - sep: true
+        - title: Flow Designer
+          url: /FlowDesigner/
+        - title: Solr
+          url: /solr/#/
+        - title: Form Manager
+          url: /form-manager/console
+
+    - name: Scuola
+      roles: [admins]
+      menuItems:
+        - title: Conferme di iscrizione asilo nido
+          url: /reports/report?qt=conferma_iscrizione_nido&ANNO_SCOLASTICO=2021/2022
+        - title: Conferme di iscrizione scuola infanzia
+          url: /reports/report?qt=conferma_iscrizione_infanzia&ANNO_SCOLASTICO=2021/2022
+        - title: Gestione ISEE
+          url: /reports/report?qt=gestione_isee
+        - title: Rate scolastiche
+          url: /reports/report?qt=modifica_rata
+        - title: Pagamenti retta scolastica
+          url: /reports/report?qt=pagamenti_retta_scolastica
+        - title: Iscrizione centro infanzia
+          url: /reports/report?qt=iscrizioni_centro_infanzia
+        - title: Pagamenti Refezione
+          url: /reports/report?qt=pagamento_refezione
+        - title: Pagamenti centro infanzia
+          url: /reports/report?qt=pagamenti_centro_infanzia
+        - sep: true
+        - title: Registra pagamento
+          url: /~newInstance?processId=Gestione%20pagamento%20retta%20scolastica%20manuale2.0
+        - title: Registra pagamento centro infanzia
+          url: /~newInstance?processId=Gestione%20pagamento%20retta%20centro%20infanzia%20manuale2.0
+        - title: Cambio fascia/istituto
+          url: /~newInstance?processId=Cambio%20Fascia%20Oraria%20Istituto2.0
+
+    - name: Pagamenti
+      roles: [admins,operatore_asilo_nido,operatore_contabile,responsabile_ude,responsabile_servizio,amministratore_scuola]
+      menuItems:
+        - title: Pagamenti retta asilo nido
+          url: /reports/report?qt=pagamenti_retta_scolastica
+          roles: [admins,operatore_asilo_nido,operatore_contabile,responsabile_ude,responsabile_servizio,amministratore_scuola]
+        - title: Pagamenti retta centro infanzia
+          url: /reports/report?qt=pagamenti_centro_infanzia
+          roles: [admins,operatore_asilo_nido,operatore_contabile,responsabile_ude,responsabile_servizio,amministratore_scuola]
+        - title: Pagamenti refezione
+          url: /reports/report?qt=pagamento_refezione
+          roles: [admins,amministratore_scuola]
+        - title: Rate scolastiche asilo nido
+          url: /reports/report?qt=modifica_rata
+          roles: [admins,operatore_asilo_nido,responsabile_ude,responsabile_servizio,amministratore_scuola]
+        - sep: true
+        - title: Registra pagamento asilo nido
+          url: /~newInstance?processId=Gestione%20pagamento%20retta%20scolastica%20manuale2.0
+          roles: [admins,operatore_asilo_nido,amministratore_scuola]
+        - title: Registra pagamento centro infanzia
+          url: /~newInstance?processId=Gestione%20pagamento%20retta%20centro%20infanzia%20manuale2.0
+          roles: [admins,operatore_asilo_nido,amministratore_scuola]
+
+    - name: Iscrizioni
+      roles: [admins,operatore_asilo_nido,operatore_scuola_infanzia,responsabile_ude,responsabile_servizio,amministratore_scuola]
+      menuItems:
+        - title: Conferme di iscrizione asilo nido
+          url: /reports/report?qt=conferma_iscrizione_nido&ANNO_SCOLASTICO=2021/2022
+          roles: [admins,operatore_asilo_nido,responsabile_ude,responsabile_servizio,amministratore_scuola]
+        - title: Conferme di iscrizione scuola infanzia
+          url: /reports/report?qt=conferma_iscrizione_infanzia&ANNO_SCOLASTICO=2021/2022
+          roles: [admins,operatore_scuola_infanzia,responsabile_ude,responsabile_servizio,amministratore_scuola]
+        - title: Conferme di iscrizione centro infanzia
+          url: /reports/report?qt=iscrizioni_centro_infanzia
+          roles: [admins,operatore_asilo_nido,responsabile_ude,responsabile_servizio,amministratore_scuola]
+        - sep: true
+        - title: Iscrizioni nido 2022/2023
+          url: /reports/report?qt=iscrizioni_nido_2022
+          roles: [admins,operatore_asilo_nido,responsabile_ude,responsabile_servizio,amministratore_scuola]
+        - title: Iscrizione infanzia 2022/2023
+          url: /reports/report?qt=iscrizioni_infanzia_2022
+          roles: [admins,operatore_scuola_infanzia,responsabile_ude,responsabile_servizio,amministratore_scuola]
+        - title: Iscrizione centro infanzia 2022/2023
+          url: /reports/report?qt=iscrizioni_ci_2022
+          roles: [admins,operatore_asilo_nido,responsabile_ude,responsabile_servizio,amministratore_scuola]
+        - sep: true
+        - title: Inserimento iscrizione nido
+          url: /bpm/instances/startInstance?processId=Domanda%20di%20iscrizione%20asilo%20nido2.0
+          roles: [admins,operatore_asilo_nido,responsabile_ude,responsabile_servizio,amministratore_scuola]
+        - title: Inserimento trasferimento nido
+          url: /bpm/instances/startInstance?processId=Domanda%20di%20trasferimento%20asilo%20nido2.0
+          roles: [admins,operatore_asilo_nido,responsabile_ude,responsabile_servizio,amministratore_scuola]
+        - title: Inserimento riconferma nido
+          url: /bpm/instances/startInstance?processId=Domanda%20di%20riconferma%20asilo%20nido2.0
+          roles: [admins,operatore_asilo_nido,responsabile_ude,responsabile_servizio,amministratore_scuola]
+        - title: Inserimento iscrizione infanzia
+          url: /bpm/instances/startInstance?processId=Domanda%20di%20iscrizione%20scuola%20infanzia2.0
+          roles: [admins,operatore_scuola_infanzia,responsabile_ude,responsabile_servizio,amministratore_scuola]
+        - title: Inserimento trasferimento infanzia
+          url: /bpm/instances/startInstance?processId=Domanda%20di%20trasferimento%20scuola%20infanzia2.0
+          roles: [admins,operatore_scuola_infanzia,responsabile_ude,responsabile_servizio,amministratore_scuola]
+        - title: Inserimento riconferma infanzia
+          url: /bpm/instances/startInstance?processId=Domanda%20di%20riconferma%20scuola%20infanzia2.0
+          roles: [admins,operatore_scuola_infanzia,responsabile_ude,responsabile_servizio,amministratore_scuola]
+        - title: Inserimento iscrizione centro infanzia
+          url: /bpm/instances/startInstance?processId=Domanda%20di%20iscrizione%20centro%20infanzia2.0
+          roles: [admins,operatore_asilo_nido,responsabile_ude,responsabile_servizio,amministratore_scuola]
+
+    - name: Comunicazioni ISEE
+      roles: [admins,operatore_asilo_nido,amministratore_scuola]
+      menuItems:
+        - title: Gestione ISEE
+          url: /reports/report?qt=gestione_isee
+          roles: [admins,operatore_asilo_nido,amministratore_scuola]
+
+    - name: Configurazione istituti
+      roles: [admins,operatore_asilo_nido,operatore_scuola_infanzia,responsabile_ude,responsabile_servizio,amministratore_scuola]
+      menuItems:
+        - title: Cambio fascia/istituto
+          url: /~newInstance?processId=Cambio%20Fascia%20Oraria%20Istituto2.0
+          roles: [admins,operatore_asilo_nido,operatore_scuola_infanzia,responsabile_ude,responsabile_servizio,amministratore_scuola]
+
+    - name: Configurazione servizi
+      roles: [admins,amministratore_scuola]
+      menuItems:
+        - title: Servizi
+          url: /backOffice/service/service
+          roles: [admins,amministratore_scuola]
+        - title: Procedimenti
+          url: /backOffice/proceeding/proceeding
+          roles: [admins,amministratore_scuola]
+        - title: Media
+          url: /backOffice/media/media
+          roles: [admins,amministratore_scuola]

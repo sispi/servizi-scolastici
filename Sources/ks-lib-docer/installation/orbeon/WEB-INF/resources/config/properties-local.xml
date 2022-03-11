@@ -1,0 +1,44 @@
+<!-- Copyright (C) 2010 Orbeon, Inc. This program is free software; you can 
+	redistribute it and/or modify it under the terms of the GNU Lesser General 
+	Public License as published by the Free Software Foundation; either version 
+	2.1 of the License, or (at your option) any later version. This program is 
+	distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+	without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+	PURPOSE. See the GNU Lesser General Public License for more details. The 
+	full text of the license is available at http://www.gnu.org/copyleft/lesser.html -->
+<properties xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:oxf="http://www.orbeon.com/oxf/processors" xmlns:xi="http://www.w3.org/2001/XInclude">
+
+
+    <property as="xs:string" name="oxf.url-rewriting.app-prefix"
+              value=""/>
+    <property as="xs:boolean" name="oxf.xforms.xbl.fr.tabview.tab-changes-context"
+              value="false"/>
+
+    <property as="xs:boolean" name="oxf.epilogue.output-xhtml"
+              value="true"/>
+    <property as="xs:boolean" name="oxf.xforms.minimal-resources"
+              value="true"/>
+    <property as="xs:boolean" name="oxf.xforms.combine-resources"
+              value="false"/>
+    <property as="xs:string" name="oxf.xforms.format.input.date"
+              value="[D]/[M]/[Y]"/>
+    <!-- [M]/[D]/[Y] or [D]/[M]/[Y] or [D].[M].[Y] -->
+    <property as="xs:string" name="oxf.xforms.format.output.dateTime"
+              value="if (. castable as xs:dateTime) then format-dateTime(xs:dateTime(.), '[D01]/[M01]/[Y], [H01]:[m01]:[s01]') else ."/>
+    <property as="xs:string" name="oxf.xforms.format.output.date"
+              value="if (. castable as xs:date) then format-date(xs:date(.), '[D01]/[M01]/[Y]') else ."/>
+    <property as="xs:string" name="oxf.xforms.format.output.time"
+              value="if (. castable as xs:time) then format-date(xs:time(.), '[H01]:[m01]:[s01]') else ."/>
+    <property as="xs:anyURI" name="oxf.url-rewriting.service.base-uri" value="http://localhost:8080/docer"/>
+
+    <!-- Impostare a true per abilitare l'inspector -->
+    <property as="xs:boolean" name="oxf.epilogue.xforms.inspector"
+              value="true"/>
+
+    <property as="xs:string" name="oxf.http.forward-cookies"
+              value="JSESSIONID JSESSIONIDSSO Username docer_authbean_uuid"/>
+
+    <property as="xs:string" name="kdm.help.base-url"
+              value="http://www.scschange.it/docerwiki/doku.php?id=manuale" />
+
+</properties>

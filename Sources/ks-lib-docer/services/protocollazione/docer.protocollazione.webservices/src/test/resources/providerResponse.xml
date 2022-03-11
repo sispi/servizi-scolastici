@@ -1,0 +1,11 @@
+<esito>
+    <codice>0 OK|1 WARNING</codice>
+    <descrizione></descrizione>
+    <dati_protocollo>
+        <NUM_PG>1</NUM_PG> 
+        <DATA_PG>06/06/2012</DATA_PG>
+        <ANNO_PG>2012</ANNO_PG>
+        <OGGETTO_PG>ogpg</OGGETTO_PG>
+        <REGISTRO_PG>regpg</REGISTRO_PG>
+    </dati_protocollo>
+</esito>

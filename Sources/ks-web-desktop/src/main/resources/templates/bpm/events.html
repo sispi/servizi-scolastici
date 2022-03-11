@@ -1,0 +1,48 @@
+<head>
+    <title>events</title>
+</head>
+
+<body>
+<script @server id="model-events" src="/bpm/v1/events?fetch=*" type="application/json" ></script>
+
+<div id="app" class="container-fluid" >
+    <h2>{{model.title}}</h2>
+    <!--<report-buttons style="float:right" :model="model"></report-buttons>-->
+    <results-stats style="float:right;padding-right:5px" :tot-results="model.totResults" :elapsed="model.elapsed" ></results-stats>
+    <!--<facets :model="model" page-field="pageNumber"></facets>-->
+    <report-table :model="model" ></report-table>
+    <pager style="text-align: center"  :tot-page="model.totPage" :page-number="model.pageNumber" ></pager>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: function() {
+            var model = bpmdata("model-events");
+
+            model.params["column.signals.href"] = "javascript:app.signals(\"{id}\")";
+
+            model.columns=["id","type","start","signals"];
+            model.params["column.signals.href.label"] = "<i class='fas fa-satellite-dish'></i>&nbsp;invia evento";
+            //model.params["column.crea.href"] = "home/bpm/instances?id={id}";
+            //model.params["column.crea.label"] = " ";
+
+            return {
+                model:model
+            }
+        },
+        methods: {
+            signals: function(action) {
+                prompt(action, function(response) {
+                    var payload = {
+                        payload: JSON.parse(response||"null")
+                    };
+                    BpmClientApi.events.signalEvent(action,payload,()=>{location.refresh()});
+                })
+            }
+        }
+    });
+
+</script>
+</body>
+

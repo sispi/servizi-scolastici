@@ -1,0 +1,63 @@
+<body @content-type="application/json" />
+
+<script @server-model="body" >
+
+    var html = webClient.getString("https://drive.google.com/embeddedfolderview?id="+query.id);
+
+    var doc = org.jsoup.Jsoup.parse(html);
+
+    var content = {};
+
+    var list = new java.util.ArrayList();
+
+    content.id = query.id;
+    content.list = list;
+    content.title = doc.selectFirst("title").text();
+
+    var links = doc.select("a[href]");
+
+    for( idx in links ){
+
+        var item = {};
+        var link = links[idx];
+
+        item.href = link.attr("href");
+        item.name = link.text();
+
+        if (item.href.contains(".com/drive/folders")){
+            item.type = "folder";
+            item.id = item.href.split("/")[5];
+        } else if (item.href.contains(".com/document/")){
+            item.type = "document";
+            item.class = "empty";
+            item.id = item.href.split("/")[5];
+        } else if (item.href.contains(".com/file/")){
+            item.type = "file";
+            item.class = "empty";
+            item.id = item.href.split("/")[5];
+        }
+
+        var icon = link.selectFirst("[class='flip-entry-list-icon'] img");
+        if (icon!=null){
+            item.icon = icon.attr("src");
+            if (item.icon.endsWith(".shortcut"))
+                item.shortcut=true;
+        }
+
+
+        var preview = link.selectFirst("[class='flip-entry-thumb'] img");
+        if (preview!=null)
+            item.preview = preview.attr("src");
+
+        list.add(item);
+    }
+
+    var $ = Java.type("keysuite.freemarker.TemplateUtils");
+
+    $.ToJson(content);
+
+</script>
+
+
+
+

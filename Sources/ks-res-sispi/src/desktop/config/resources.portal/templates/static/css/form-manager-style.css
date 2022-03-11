@@ -1,0 +1,142 @@
+.form-manager .h2, h2 {
+    font-size: 1.5rem;
+}
+.form-manager .h3, h3 {
+    font-size: 1.0rem;
+}
+.form-manager .pb-0, .form-manager .py-0 {
+    padding-bottom: 1.1rem!important;
+}
+.form-manager .pt-0, .form-manager .py-0 {
+    padding-top: 1.0rem!important;
+}
+.form-manager .mb-2, .form-manager .my-2 {
+    margin-bottom: 1rem!important;
+}
+.form-manager .mt-2, .form-manager .my-2 {
+    margin-top: 1rem!important;
+}
+.form-manager .section {
+    padding: 0px;
+}
+.form-manager .form-group{
+    margin-bottom: 2rem;
+}
+.form-group label:first-child {
+    color: #0066cc;
+    font-weight: 600;
+    font-size: 16px;
+}
+.form-group label{
+    background-color: transparent;
+    position: inherit!important;
+    font-weight: normal;
+    line-height: calc(2.5rem - 1px);
+    -webkit-transition: .2s ease-out;
+    transition: .2s ease-out;
+    top: 0;
+    font-size: 1rem;
+    cursor: text;
+    display: block;
+    max-width: 100%;
+    width: auto;
+    overflow: unset!important;
+    text-overflow: unset!important;
+    white-space: unset!important;
+    padding: 0 0.5rem;
+    min-width: 950px!important;
+    margin-bottom: 0rem!important;
+}
+
+.form-group label.active {
+    -webkit-transform: translateY(-15%);
+    transform: translateY(-15%);
+    font-size: .777rem;
+    width: auto!important;
+}
+.form-manager .header-line {
+    margin-bottom: 30px;
+    margin-top: 5px;
+    font-style: italic;
+    border-bottom: 1px solid #e0e0e0;
+}
+.form-manager .select2-container--default .select2-selection--single{
+    height: 44px;
+    border-radius: 0px;
+    border: none;
+    border-bottom: 1px solid #5c6f82;
+}
+.form-manager .select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 44px;
+}
+.form-manager .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 42px;
+}
+.form-manager .nav-tabs {
+    margin-bottom: 20px;
+    width: 100%;
+}
+.form-manager .form-group small.form-text{
+    margin-top: -12px;
+}
+.form-manager .invalid-feedback {
+    margin-top: -2rem;
+    margin-bottom: 1rem;
+}
+.form-manager .sticky {
+    display: block!important;
+    opacity: 1!important;
+}
+.form-manager .toolbar{
+    height: 48px;
+}
+.form-manager .toolbar:before{
+    display: none;
+}
+.form-manager .vhidden{
+    /*visibility: hidden;*/
+    display: none;
+}
+.form-manager .form-check{
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+.form-manager .file-component{
+    min-height: 40px;
+}
+.form-manager .file-component .label{
+    cursor: pointer;
+    width: 100%!important;
+    text-align: center;
+}
+.form-manager .file-component .list:first-of-type {
+    margin-top: 20px;
+    margin-left: 20px;
+    font-size: 16px;
+}
+.form-manager .file-component .list {
+    margin-top: 0px;
+    margin-left: 20px;
+    font-size: 16px;
+}
+.form-manager .file-component .list .fa-times{
+    font-size: 23px;
+    margin-top: 8px;
+    margin-left: 5px;
+}
+.form-manager .form-control {
+    margin-bottom: 10px;
+}
+.del-button:before {
+    content: "X";
+    color: red;
+    font-weight: bold;
+}
+.deletebutton{
+    position: unset!important;
+    margin-top: 30px;
+}
+.modal .modal-dialog .modal-content{
+    border: 1px solid #b1b1b3;
+    background-color: #fcfcfc;
+}

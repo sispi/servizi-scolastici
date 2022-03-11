@@ -1,0 +1,63 @@
+#**
+ *  Render a hit representing a Product
+ *  assumed to have a field called "name"
+ *#
+
+<div class="result-title"><b>#field('name')</b><span class="mlt"> #field('id') 
+
+ #if($params.getBool('mlt', false) == false)<a href="/solr/admin/luke?wt=xslt&tr=luke.xsl&id$docId">Inspect</a>#end</span></div>
+ 
+##do we have a physical store for this product
+#set($geoloc = $doc.getFieldValue('geoloc'))
+#set($parent = $doc.getFieldValue('parent'))
+#set($ticket = $params.get('ticket'))
+#if($geoloc)<div class="map"><img src="http://maps.google.com/maps/api/staticmap?&zoom=12&size=150x80&maptype=roadmap&markers=$doc.getFieldValue('geoloc')&sensor=false" /><div><small><a target="_map" href="http://maps.google.com/?q=$store&amp;source=embed">Larger Map</a></small></div></div>#end
+
+
+#set($PATH = 'PATH=' + $doc.getFieldValue('[FULLPATH]')+ '/*')
+#set($PARENTPATH = 'PATH=' + $doc.getFieldValue('[PARENTPATH]'))
+#set($PARENT = 'q=id:'+$parent )
+
+#fieldrow('parent', 'parent',$PARENT)
+#fieldrow('Children','[FULLPATH]',$PATH)
+#fieldrow('Parent-Path','[PARENTPATH]',$PARENTPATH)
+
+<a href="#" onclick='jQuery(this).siblings("pre2").toggle(); return false;'>
+    toggle all fields</a>
+
+  <pre2 style="display:none">
+  <table>
+ #foreach($fieldname in $doc.fieldNames)
+      <tr>
+      <td><span class="field-name">$fieldname</span></td>
+      <td><div>
+          #foreach($value in $doc.getFieldValues($fieldname))
+            $esc.html($value)<br/>
+          #end
+        </div></td>
+      </tr>
+    #end
+    </table>
+  </pre2>
+
+</div>
+<div>#field('x')</div>
+<div class="mlt">
+  #set($mlt = $mltResults.get($docId))
+  #set($mltOn = $params.getBool('mlt'))
+  #if($mltOn == true)<div class="field-name">Similar Items</div>#end
+  #if ($mltOn && $mlt && $mlt.size() > 0)
+  <ul>
+    #foreach($mltHit in $mlt)
+      #set($mltId = $mltHit.getFieldValue('id'))
+      <li><div><a href="#url_for_home?q=id:$mltId">$mltId</a></div><div><span class="field-name">Name:</span> $mltHit.getFieldValue('name')</div>
+        <div><span class="field-name">Path:</span> $mltHit.getFieldValue('path')</div>
+
+      </li>
+    #end
+  </ul>
+  #elseif($mltOn && $mlt.size() == 0)
+    <div>No Similar Items Found</div>
+  #end
+</div>
+#parse('debug.vm')

@@ -1,0 +1,215 @@
+<modal :show="show" @close="close">
+    <div slot="header" class="col-md-12">
+        <div class="modalTitle col-sm-12">{{messages["viewProfile.listaRiferimenti"] || "Lista Riferimenti"}}</div>
+    </div>
+    <div slot="body">
+        <template v-if="riferimenti.length>0">
+            <div class="card">
+                <table class="table table-sm table-striped">
+                    <thead>
+                    <tr>
+                        <th>{{messages["viewProfile.titolo"] || "Titolo"}}</th>
+                        <th>{{messages["viewProfile.tipo"] || "Tipo"}}</th>
+                        <th>{{messages["viewProfile.autore"] || "Autore"}}</th>
+                        <th>{{messages["viewProfile.ultimaModifica"] || "Ultima modifica"}}</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody v-for="(doc,i) in riferimenti" :key="i">
+                    <template v-if="riferimenti" >
+                        <tr >
+                            <td style="text-transform: none;">
+                                <span v-if="estensione(doc.DOCNAME) == 'pdf'"> <i class="far fa-file-pdf icon-lista"></i></span>
+                                <span v-else-if="estensione(doc.DOCNAME) == 'doc' || estensione(doc.DOCNAME) == 'ocx'"> <i class="far fa-file-word icon-lista"></i></span>
+                                <span v-else-if="estensione(doc.DOCNAME) == 'xls'"><i class="far fa-file-excel icon-lista"></i></span>
+                                <span v-else-if="estensione(doc.DOCNAME) == 'p7m' || estensione(doc.DOCNAME) == 'eml'"><i class="far fa-envelope-open icon-lista"></i></span>
+                                <span v-else><i class="far fa-file-code icon-lista"></i></span>
+                                <a :href="'/documenti/viewProfile?DOCNUM=' + riferimenti[i].DOCNUM">{{ doc.DOCNAME }} ({{ doc.DOCNUM }})</a>
+                                <br>
+                                <!-- documento registrato -->
+                                <template v-if="doc.N_REGISTRAZ">
+                                    <span class="green-title"><strong>{{messages["viewProfile.docRegistrato"] || "Documento registrato"}}</strong> ({{messages["viewProfile.registro"] || "Registro"}}: {{doc.ID_REGISTRO}}) <strong><span>{{messages["viewProfile.num"] || "N."}}</span> {{doc.N_REGISTRAZ}}</strong> {{messages["viewProfile.il"] || "il"}} <span class="date-row">{{date(doc.D_REGISTRAZ)}}</span></span>
+                                    <br>
+                                    {{messages["viewProfile.oggetto"] || "Oggetto"}}: {{doc.O_REGISTRAZ}}
+                                    <template v-if="doc.P_ANNULL_REGISTRAZ">
+                                        <br>
+                                        <span style="margin-left: 0px;" class="label label-danger"> {{messages["viewProfile.annullato"] || "ANNULLATO"}}</span>
+                                        {{messages["viewProfile.riferimento"] || "Riferimento"}}: <strong>{{doc.P_ANNULL_REGISTRAZ}}</strong> {{messages["viewProfile.del"] || "del"}} {{date(doc.D_ANNULL_REGISTRAZ)}} - {{doc.M_ANNULL_REGISTRAZ}}
+                                    </template>
+                                    <br>
+                                </template>
+                                <!-- documento protocollato -->
+                                <template v-if="doc.NUM_PG">
+                                    <span class="green-title"><strong>{{messages["viewProfile.docProtocollato"] || "Documento protocollato"}}</strong> {{messages["viewProfile.in"] || "in"}} {{doc.TIPO_PROTOCOLLAZIONE|verso}} <strong><span>{{messages["viewProfile.num"] || "N."}}</span> {{doc.NUM_PG}}</strong> {{messages["viewProfile.il"] || "il"}} <span class="date-row">{{date(doc.DATA_PG)}}</span></span>
+                                    <br>
+                                    <template v-if="doc.NUM_PG_EMERGENZA">
+                                        <span class="regEmergenzaLista"><i style="color:red" class="fas fa-exclamation"></i>{{messages["viewProfile.regEmergenza"] || "Registro Emergenza"}} {{messages["viewProfile.num"] || "N."}} {{doc.NUM_PG_EMERGENZA}} {{messages["viewProfile.del"] || "del"}} {{date(doc.DATA_PG_EMERGENZA)}}</span>
+                                        <br>
+                                    </template>
+                                    {{messages["viewProfile.oggetto"] || "Oggetto"}}: {{doc.OGGETTO_PG}}
+                                    <br>
+                                    {{messages["viewProfile.mittente"] || "Mittente"}}:
+                                    <strong>
+                                    <template v-if="doc.mittente.tipoCorrispondente == 'Amministrazione'">
+                                        <template v-if="doc.mittente.persona">
+                                            <span class="label-mitt-dest">
+                                                <i class="fas fa-user-tie small-pad-right"></i>
+                                                {{doc.mittente.persona.denominazione}} ({{doc.mittente.denominazioneUO}})
+                                                <template v-if="doc.mittente.denominazioneAmm">
+                                                    <a class="btn-icon" data-toggle="tooltip" data-placement="top" :title="doc.mittente.denominazioneAmm">
+                                                        <i class="fas fa-info-circle i-icon"></i>
+                                                    </a>
+                                                </template>
+                                            </span>
+                                        </template>
+                                        <template v-else>
+                                            <span class="label-mitt-dest">
+                                                <i class="fas fa-home small-pad-right"></i>
+                                                <!--{{doc.mittente.denominazioneUO ? doc.mittente.denominazioneUO : doc.mittente.denominazioneAmm}}-->
+                                                {{doc.mittente.denominazioneUO}}
+                                                <template v-if="doc.mittente.denominazioneAmm">
+                                                    ({{doc.mittente.denominazioneAmm}})   
+                                                </template>
+                                                <template v-if="doc.mittente.indirizzoTelematico">
+                                                    <a class="btn-icon" data-toggle="tooltip" data-placement="top" :title="doc.mittente.indirizzoTelematico">
+                                                        <i class="fas fa-info-circle i-icon"></i>
+                                                    </a>
+                                                </template>
+                                                <template v-else-if="(doc.mittente.denominazioneUO)&&(doc.mittente.denominazioneAmm)">
+                                                    <a class="btn-icon" data-toggle="tooltip" data-placement="top" :title="doc.mittente.denominazioneAmm">
+                                                        <i class="fas fa-info-circle i-icon"></i>
+                                                    </a>
+                                                </template>
+                                            </span>
+                                        </template>
+                                    </template>
+                                    <template v-else>
+                                        <span class="label-mitt-dest">
+                                            <i class="fas fa-user small-pad-right"></i>
+                                            {{doc.mittente.denominazione}}
+                                            <template v-if="doc.mittente.indirizzoTelematico">
+                                                <a class="btn-icon" data-toggle="tooltip" data-placement="top" :title="doc.mittente.indirizzoTelematico">
+                                                    <i class="fas fa-info-circle i-icon"></i>
+                                                </a>
+                                            </template>
+                                        </span>
+                                    </template>
+                                    </strong>
+                                    <br>
+                                    {{messages["viewProfile.destinatari"] || "Destinatari"}}:
+                                    <strong>
+                                    <template v-for="destinatario in doc.destinatari">
+                                        <template v-if="destinatario.tipoCorrispondente == 'Amministrazione'">
+                                            <template v-if="destinatario.persona">
+                                                <span class="label-mitt-dest">
+                                                    <i class="fas fa-user-tie small-pad-right"></i>
+                                                    {{destinatario.persona.denominazione}} ({{destinatario.denominazioneUO}})
+                                                    <template v-if="destinatario.denominazioneAmm">
+                                                        <a class="btn-icon" data-toggle="tooltip" data-placement="top" :title="destinatario.denominazioneAmm">
+                                                            <i class="fas fa-info-circle i-icon"></i>
+                                                        </a>
+                                                    </template>
+                                                </span>
+                                            </template>
+                                            <template v-else>
+                                                <span class="label-mitt-dest">
+                                                    <i class="fas fa-home small-pad-right"></i>
+                                                    <!--{{destinatario.denominazioneUO ? destinatario.denominazioneUO : destinatario.denominazioneAmm}}-->
+                                                    {{destinatario.denominazioneUO}} 
+                                                    <template v-if="destinatario.denominazioneAmm">
+                                                        ({{destinatario.denominazioneAmm}})    
+                                                    </template>
+                                                    <template v-if="destinatario.indirizzoTelematico">
+                                                        <a class="btn-icon" data-toggle="tooltip" data-placement="top" :title="destinatario.indirizzoTelematico">
+                                                            <i class="fas fa-info-circle i-icon"></i>
+                                                        </a>
+                                                    </template>
+                                                    <template v-else-if="(destinatario.denominazioneUO)&&(destinatario.denominazioneAmm)">
+                                                        <a class="btn-icon" data-toggle="tooltip" data-placement="top" :title="destinatario.denominazioneAmm">
+                                                            <i class="fas fa-info-circle i-icon"></i>
+                                                        </a>
+                                                    </template>
+                                                </span>
+                                            </template>
+                                        </template>
+                                        <template v-else>
+                                            <span class="label-mitt-dest">
+                                                <i class="fas fa-user small-pad-right"></i>
+                                                {{destinatario.denominazione}}
+                                                <template v-if="destinatario.indirizzoTelematico">
+                                                    <a class="btn-icon" data-toggle="tooltip" data-placement="top" :title="destinatario.indirizzoTelematico">
+                                                        <i class="fas fa-info-circle i-icon"></i>
+                                                    </a>
+                                                </template>
+                                            </span>
+                                        </template>
+                                    </template>
+                                    </strong>
+                                    <template v-if="doc.P_ANNULL_PG">
+                                        <br>
+                                        <span style="margin-left: 0px;" class="label label-danger"> {{messages["viewProfile.annullato"] || "ANNULLATO"}}</span>
+                                        {{messages["viewProfile.riferimento"] || "Riferimento"}}: <strong>{{doc.P_ANNULL_PG}}</strong> {{messages["viewProfile.del"] || "del"}} {{date(doc.D_ANNULL_PG)}} - {{doc.M_ANNULL_PG}}
+                                    </template>
+                                </template>
+
+                                <!-- mail -->
+                                <template v-if="doc.TYPE_ID == 'MAIL'">
+                                    <div class="list-detail">
+                                        <span class="green-title"><strong> <i class="fas fa-download"></i></strong> <span class="date-row">{{date(doc.MAIL_DATE)}}</span>
+                                    </span>
+                                    <br>
+                                    <span class="list-detail-mail"> {{doc.MAIL_TO}} <i class="fas fa-long-arrow-alt-left"></i></strong> {{doc.MAIL_FROM}}</span>
+                                    <br><span class="list-detail-object">{{doc.MAIL_SUBJECT}}</span>
+                                    </div>
+                                </template>
+                            </td>
+                            <td>
+                                {{ doc.TYPE_ID }}
+                            </td>
+                            <td style="text-transform: none;">
+                                {{ doc.CREATOR }}
+                            </td>
+                            <td>
+                                {{date(doc.ULTIMA_MODIFICA)}}
+                            </td>
+                            <td>
+                                <a :href="'/docer/v1/documenti/' + riferimenti[i].DOCNUM + '/file'" class="btn-icon" data-toggle="tooltip" data-placement="top" :title=" messages['viewProfile.scarica']||'Scarica' " ><i style="padding-right: 0px;" class="bi bi-download mainColor"></i></a>
+                                <a @click="getDocnumRifToDelete(riferimenti[i].DOCNUM)" class="btn-icon" data-toggle="tooltip" data-placement="top" :title=" messages['viewProfile.elimina']||'Elimina' "><i style="color: red;" class="bi bi-x-circle"></i></a>
+                            </td>
+                        </tr>
+                        <!--
+                        <tr>
+                            <td colspan="5">
+                                <span class="doc-url-title">{{messages["viewProfile.url"] || "Percorso"}}:</span><span class="doc-url-rif">{{doc.VIRTUAL_PATH}}</span>
+                            </td>
+                        </tr>
+                        -->
+                    </template>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+        <template v-else>
+            <div class="noElementTable">
+                <span>{{messages["viewProfile.nessunRiferimentoPresente"] || "Nessun riferimento presente"}}</span>
+            </div>
+        </template>
+        <hr>
+        <div class="row">
+            <span class="labelNew autocomplete">{{messages["viewProfile.documenti"] || "Documenti"}}</span>
+            <!--<div class="col-md-12" v-if="model">-->
+            <div class="col-md-12">
+                <select2 :value="list" v-on:changed="list=$event.ids" class="form-control" url="/docer/v1/solr/select?database=false&fq=type:documento&wt=json&fl=sid,text:name&q=name:%24%7Bterm%7D OR DOCNUM:%24%7Bterm%7D OR DOCNAME:*/%24%7Bterm%7D&term=..." multiple="true"></select2>
+            </div>
+        </div>
+
+        <div class="col-md-12 footer-modal">
+            <div class="col-md-3 float-left">
+                <button type="submit" class="btn btn-default btn-block modal-btn-annulla" @click="$emit('close')">{{messages["viewProfile.chiudi"] || "Chiudi"}}</button>
+            </div>
+            <div class="col-md-3 float-right">
+                <button type="submit" class="btn btn-primary btn-block modal-btn-conferma" @click="aggiungiRiferimenti(list)">{{messages["viewProfile.aggiungiRiferimenti"] || "Aggiungi riferimenti"}}</button>
+            </div>
+        </div>
+    </div>
+</modal>

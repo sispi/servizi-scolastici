@@ -1,0 +1,125 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>it.kdm.docer</groupId>
+  <artifactId>docer</artifactId>
+  <packaging>pom</packaging>
+  <version>Docer-2.4.6.1</version>
+  <name>DocER</name>
+  <url>http://maven.apache.org</url>
+  <modules>
+  	  <module>commons</module>
+	  <module>services</module>
+	  <module>core</module>
+
+   </modules>
+
+	<!--<repositories>
+		<repository>
+			<id>groups public</id>
+			<url>http://10.10.10.161:32091/nexus/content/groups/public</url>
+		</repository>
+		<repository>
+			<id>repository thirdparty</id>
+			<url>http://10.10.10.161:32091/nexus/content/repositories/thirdparty/</url>
+		</repository>
+		<repository>
+			<id>kdm</id>
+			<url>http://192.168.0.168__:8081/nexus/content/groups/public</url>
+		</repository>
+
+	</repositories>
+-->
+  <build>
+    <plugins>
+    	<plugin>
+    		<groupId>org.apache.maven.plugins</groupId>
+    		<artifactId>maven-compiler-plugin</artifactId>
+    		<version>2.3.2</version>
+    		<configuration>
+    			<encoding>UTF-8</encoding>
+    			<source>1.8</source>
+    			<target>1.8</target>
+    			<fork>true</fork>
+                <!--
+      	        <meminitial>1024m</meminitial>
+      	        <maxmem>2024m</maxmem>
+                -->
+    		</configuration>
+    	</plugin>
+    	<plugin>
+      	  <groupId>org.apache.maven.plugins</groupId>
+      	  <artifactId>maven-resources-plugin</artifactId>
+      	  <version>2.5</version>
+       	 <configuration>
+       	   <encoding>UTF-8</encoding>
+       	 </configuration>
+   	   </plugin>
+    </plugins>
+  </build>
+    <properties>
+        <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.test.skip>true</maven.test.skip>
+        <aspectj.version>1.9.4</aspectj.version>
+        <java.version>1.8</java.version>
+        <roo.version>1.2.3.RELEASE</roo.version>
+		<slf4j.version>1.7.25</slf4j.version>
+<!--		<spring.version>3.2.2.RELEASE</spring.version>-->
+		<spring.version>4.3.23.RELEASE</spring.version>
+        <!-- Per modificare la versione di axis bisogna rimuovere la dipendenza
+        ad axis2-1.5.6.1 dentro commons/axis2-base -->
+		<axis2.version>1.6.2</axis2.version>
+        <axiom.version>1.2.13</axiom.version>
+        <commons-io.version>2.4</commons-io.version>
+        <commons-codec.version>1.6</commons-codec.version>
+        <commons-httpclient.version>3.1</commons-httpclient.version>
+        <guava.version>17.0</guava.version>
+	</properties>
+  	<dependencies>
+  		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>2.17.0</version>
+		</dependency>
+
+  		<dependency>
+  			<groupId>junit</groupId>
+  			<artifactId>junit</artifactId>
+  			<version>4.10</version>
+  			<scope>test</scope>
+  		</dependency>
+  	</dependencies>
+
+	<distributionManagement>
+		<repository>
+			<id>NexusCloud</id>
+			<url>https://nexusk.filippetti.it/repository/maven-releases/</url>
+			<uniqueVersion>false</uniqueVersion>
+		</repository>
+		<snapshotRepository>
+			<id>NexusCloud</id>
+			<url>https://nexusk.filippetti.it/repository/maven-snapshots/</url>
+			<uniqueVersion>false</uniqueVersion>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<repositories>
+		<repository>
+			<id>NexusCloud</id>
+			<url>https://nexusk.filippetti.it/repository/maven-releases/</url>
+		</repository>
+		<repository>
+			<id>NexusCloud162</id>
+			<url>https://nexusk.filippetti.it/repository/KDM162/</url>
+		</repository>
+		<repository>
+			<id>NexusCloud168</id>
+			<url>https://nexusk.filippetti.it/repository/KDM168/</url>
+		</repository>
+	</repositories>
+</project>

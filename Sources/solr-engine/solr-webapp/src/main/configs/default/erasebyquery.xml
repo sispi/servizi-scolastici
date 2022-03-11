@@ -1,0 +1,62 @@
+<dataConfig>
+
+    <propertyWriter dateFormat="yyyy-MM-dd'T'HH:mm:ss'Z'" type0="SimplePropertiesWriter" type="ZKPropertiesWriter" directory="data" filename="deletebyquery-stats.properties" />
+
+
+    <script><![CDATA[
+
+                var logger = org.slf4j.LoggerFactory.getLogger(org.apache.solr.handler.dataimport.DataImportHandler);
+
+                function f1(row,context)
+                {
+                    var id = row.get("id");
+
+                    var content_versions = row.get("content_versions");
+
+                    if (content_versions != null && content_versions.length>0)
+                    {
+                        var version_id = content_versions[content_versions.length-1];
+
+                        try
+                        {
+                            var provider = Packages.it.kdm.solr.core.Schema.getRepository(null,version_id);
+
+                            provider.delete(version_id);
+
+                        }
+                        catch(e)
+                        {
+                            logger.error( "[SKIPPED] error deleting document msg:{}" , e, row  );
+
+                            row.clear();
+                            row.put("$skipDoc" , true );
+
+                            return row;
+                        }
+                    }
+
+                    row.clear();
+                    row.put("$deleteDocById" , id );
+
+                    return row;
+
+                }
+
+
+        ]]></script>
+
+    <document>
+
+        <entity name="deletebyquery"
+                query="${dataimporter.request.q}"
+                processor="SolrEntityProcessor"
+                onError="abort"
+                fl="id,division,modified_on,content_versions,content_id,location,enabled"
+                url="http://localhost:${jetty.port}/solr/${solr.core.collection}"
+                transformer="script:f1"
+                qt="/realselect" />
+
+    </document>
+
+
+</dataConfig>

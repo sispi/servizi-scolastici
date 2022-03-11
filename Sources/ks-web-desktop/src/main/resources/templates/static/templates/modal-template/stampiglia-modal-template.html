@@ -1,0 +1,60 @@
+<modal :show="show" @close="close">
+    <div slot="header" class="col-md-12">
+        <div class="modalTitle col-sm-12">{{messages["viewProfile.stampigliatura"] || "Stampigliatura"}}</div>
+    </div>
+    <div slot="body">
+        
+        <span style="font-size: 14px;">
+            <template v-if="documento.NUM_PG">
+            <span style="margin-left: 30px;">
+                <input type="hidden" v-model="tipoStampigliatura" value="protocollo">
+            </span>
+            </template>
+            <template v-if="documento.NUM_REGISTRAZ">
+            <span style="margin-left: 30px;">
+                <input type="hidden" v-model="tipoStampigliatura" value="registrazione">
+            </span>
+            </template>
+            <template v-if="(documento.NUM_PG)&&(documento.N_REGISTRAZ)">
+            <span>
+                <input id="prot-stamp" class="form-check-input" type="radio" v-model="tipoStampigliatura" value="protocollo"> Protocollo
+            </span>
+            <span style="margin-left: 30px;">
+                <input id="reg-stamp" class="form-check-input" type="radio" v-model="tipoStampigliatura" value="registrazione"> Registrazione
+            </span>
+            <span style="margin-left: 30px;">
+                <input id="prot-reg-stamp" class="form-check-input" type="radio" v-model="tipoStampigliatura" value="entrambi"> Entrambi
+            </span>
+            <hr>
+            </template>
+        </span>
+
+        <div class="form-group row">
+            <div class="col-md-6">
+                <label style="font-size: 14px;margin-left: 10px;">
+                    <input  type="checkbox" v-model="allPages"> {{messages["viewProfile.allPages"] || "Applica a tutte le pagine"}}
+                </label>
+            </div>
+            <div class="col-md-6" >
+                <label class="labelNew">{{messages["viewProfile.posizione"] || "Posizione"}}</label>
+                <select class="form-control" v-model="posizione">
+                    <option v-for="pos in splitText(stampigliaturaPosizione)" :key="pos" :value="pos">{{pos}}</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label style="font-size: 14px;margin-left: 10px;">
+                    <input id="add-annesso-stamp" type="checkbox" v-model="aggiungiAnnesso"> {{messages["viewProfile.aggiungiAnnesso"] || "Aggiungi Annesso"}}
+                </label>
+            </div>
+        </div>
+        <div class="col-md-12 footer-modal">
+            <div class="col-md-3 float-left">
+                <button type="submit" class="btn btn-default btn-block modal-btn-annulla" @click="$emit('close')">{{messages["viewProfile.chiudi"] || "Chiudi"}}</button>
+            </div>
+            <div class="col-md-3 float-right">
+                <button type="submit" class="btn btn-primary btn-block modal-btn-conferma" @click="confermaStampigliatura()">{{messages["viewProfile.conferma"] || "Conferma"}}</button>
+            </div>
+        </div>
+    </div>
+
+</modal>

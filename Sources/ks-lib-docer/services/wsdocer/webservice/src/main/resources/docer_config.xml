@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	
+	<entry key="provider">it.kdm.docer.providers.solr6.Provider</entry>
+	<!-- <entry key="provider">it.kdm.docer.edocs.EDocsProvider</entry>  -->
+	<entry key="DISK_BUFFER_THRESHOLD">3000000</entry>
+	<entry key="DISK_BUFFER_DIRECTORY">/opt/docer/tmp</entry>
+    <entry key="PRIMARYSEARCH_MAX_RESULTS">1000</entry>
+    <entry key="CONFIG_DIR">configuration.xml</entry>
+</properties>

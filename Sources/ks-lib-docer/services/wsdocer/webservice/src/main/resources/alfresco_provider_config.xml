@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<!-- endpoint installazione alfresco -->
+	<entry key="ALFRESCO_END_POINT_ADDRESS">http://192.168.0.25:8081/alfresco/api</entry>
+
+	<!-- timeout in millisecondi -->
+	<entry key="ALFRESCO_TIMEOUT_MILLIS">60000</entry>
+
+	<!-- l'offset da aggiungere al docnumber assegnato da Alfresco -->
+	<!-- deve essere impostato a -1 per lanciare i thread in migrazione per la fascicolazione -->
+	<!-- nei WSDocer deve essere correttamente valorizzato alla fine della migrazione con l'ultimo db-id di ALFRESCO -->
+	<entry key="MIGRATION_DOCNUM_OFFSET">0</entry>
+	
+	
+	<!-- threads di fascicolazione -->
+	<entry key="POOL_THREADS">25</entry>
+	<!-- abilitazione orderby -->
+	<entry key="ORDERBY_ENABLED">false</entry>	
+	<!-- formato field per orderby PREFIX o QNAME-->
+	<entry key="ORDERBY_ALFRESCO_FIELD_TYPE">PREFIX</entry>
+	<!-- ordinamento della ricerca delle anagrafiche -->
+	<entry key="ORDERBY_SEARCH_ANAGRAFICHE">ENTE:COD_ENTE=ASC,DES_ENTE=DESC;AOO:COD_ENTE=ASC,COD_AOO=ASC;TITOLARIO:COD_ENTE=ASC,COD_AOO=ASC,CLASSIFICA=ASC;FASCICOLO:ANNO_FASCICOLO=DESC,PROGR_FASCICOLO=ASC</entry>
+		
+	<!-- CONTENT -->
+    <entry key="#CONTENT_SIZE">{http://www.alfresco.org/model/content/1.0}content.size;SV</entry> 
+	
+	
+	<!-- utente admin che sara' owner degli spazi creati -->
+	<entry key="ADMIN_USERID">admin</entry>
+
+	<!-- la mappatura deve essere 1 a 1 altrimenti non possiamo fare reverse 
+		mapping -->
+
+	<!-- le key della mappatura cominciano per # -->
+	<entry key="#STATO_ARCHIVISTICO">{http://www.docarea.it/model/content/1.0}statoArchivistico;SV</entry>
+
+	<!-- <entry key="#TYPIST_ID">{http://www.alfresco.org/model/content/1.0}creator;SV</entry> 
+		<entry key="#AUTHOR_ID">{http://www.alfresco.org/model/content/1.0}author;SV</entry> -->
+
+	<entry key="#DOCNAME">{http://www.docarea.it/model/content/1.0}docname;SV</entry>
+	<entry key="#ABSTRACT">{http://www.docarea.it/model/content/1.0}abstract;SV</entry>
+	<entry key="#ANNO_PG">{http://www.docarea.it/model/content/1.0}annoPg;SV</entry>
+	<entry key="#NUM_PG">{http://www.docarea.it/model/content/1.0}numPg;SV</entry>
+	<entry key="#OGGETTO_PG">{http://www.docarea.it/model/content/1.0}oggettoPg;SV</entry>
+	<entry key="#REGISTRO_PG">{http://www.docarea.it/model/content/1.0}registroPg;SV;uppercase</entry>
+	<entry key="#DATA_PG">{http://www.docarea.it/model/content/1.0}dataPg;SV</entry>
+	<entry key="#STATO_PANTAREI">{http://www.docarea.it/model/content/1.0}statoPantarei;SV</entry>
+	<entry key="#TYPE_ID">{http://www.docarea.it/model/content/1.0}typeId;SV</entry>
+	<entry key="#DOCNUM">{http://www.docarea.it/model/content/1.0}docnum;SV</entry>
+	<entry key="#SCHEMA_ID">{http://www.docarea.it/model/content/1.0}schemaId;SV</entry>
+	<entry key="#COD_ENTE">{http://www.docarea.it/model/content/1.0}codEnte;SV;uppercase</entry>
+	<entry key="#COD_AOO">{http://www.docarea.it/model/content/1.0}codAoo;SV;uppercase</entry>
+	<entry key="#COD_AREA">{http://www.docarea.it/model/content/1.0}codArea;SV;uppercase</entry>
+	<entry key="#COD_TITOLARIO">{http://www.docarea.it/model/content/1.0}codTitolario;SV;uppercase</entry>
+	<entry key="#ANNO_FASCICOLO">{http://www.docarea.it/model/content/1.0}annoFascicolo;SV</entry>
+	<entry key="#NUM_FASCICOLO">{http://www.docarea.it/model/content/1.0}numFascicolo;SV;uppercase</entry>
+	<entry key="#PROGR_FASCICOLO">{http://www.docarea.it/model/content/1.0}progressivoFascicolo;SV;uppercase</entry>
+	<entry key="#CLASSIFICA">{http://www.docarea.it/model/content/1.0}classifica;SV;uppercase</entry>
+	<entry key="#CREATION_DATE">{http://www.docarea.it/model/content/1.0}dataCreazione;SV</entry>
+	<entry key="#ENABLED">{http://www.docarea.it/model/content/1.0}enabled;SV</entry>
+	<entry key="#DES_ENTE">{http://www.docarea.it/model/content/1.0}desEnte;SV</entry>
+	<entry key="#DES_AOO">{http://www.docarea.it/model/content/1.0}desAoo;SV</entry>
+	<entry key="#DES_TITOLARIO">{http://www.docarea.it/model/content/1.0}desTitolario;SV</entry>
+	<entry key="#DES_FASCICOLO">{http://www.docarea.it/model/content/1.0}desFascicolo;SV</entry>
+	<entry key="#DES_AREA">{http://www.docarea.it/model/content/1.0}desArea;SV</entry>
+	<entry key="#PARENT_CLASSIFICA">{http://www.docarea.it/model/content/1.0}parentClassifica;SV;uppercase</entry>
+	<entry key="#PARENT_PROGR_FASCICOLO">{http://www.docarea.it/model/content/1.0}parentProgressivoFascicolo;SV;uppercase</entry>
+	<entry key="#TIPO_COMPONENTE">{http://www.docarea.it/model/content/1.0}tipoComponente;SV</entry>
+	<entry key="#DOCNUM_PRINC">{http://www.docarea.it/model/content/1.0}docnumPrinc;SV</entry>
+
+	<entry key="#FASC_SECONDARI">{http://www.docarea.it/model/content/1.0}fascicoliSecondari;MV;uppercase</entry>
+
+	<entry key="#USA_D_CO_CER">{http://www.docarea.it/model/content/1.0}usaDCoCer;SV</entry>
+	<entry key="#D_CO_CER">{http://www.docarea.it/model/content/1.0}dCoCer;SV</entry>
+	<entry key="#T_D_CONTR_CER">{http://www.docarea.it/model/content/1.0}tipoDataContrCer;SV</entry>
+	<entry key="#STATO_CONSERV">{http://www.docarea.it/model/content/1.0}statoConserv;SV</entry>
+	<entry key="#FORZA_CONSERV">{http://www.docarea.it/model/content/1.0}forzaConserv;SV</entry>
+	<entry key="#FORZA_ACCETTAZ">{http://www.docarea.it/model/content/1.0}forzaAccettaz;SV</entry>
+	<entry key="#FORZA_COLL">{http://www.docarea.it/model/content/1.0}forzaColl;SV</entry>
+
+	<entry key="#T_CONSERV">{http://www.docarea.it/model/content/1.0}tConserv;SV</entry>
+	<entry key="#FLAG_CONSERV">{http://www.docarea.it/model/content/1.0}flagConserv;SV</entry>
+	<entry key="#APP_VERSANTE">{http://www.docarea.it/model/content/1.0}appVersante;SV</entry>
+	<entry key="#DOC_URL">{http://www.docarea.it/model/content/1.0}docURL;SV</entry>
+	<entry key="#ARCHIVE_TYPE">{http://www.docarea.it/model/content/1.0}archiveType;SV</entry>
+
+
+	<entry key="#N_REGISTRAZ">{http://www.docarea.it/model/content/1.0}numRegistraz;SV</entry>
+	<entry key="#D_REGISTRAZ">{http://www.docarea.it/model/content/1.0}dRegistraz;SV</entry>
+	<entry key="#A_REGISTRAZ">{http://www.docarea.it/model/content/1.0}annoRegistraz;SV</entry>
+	<entry key="#O_REGISTRAZ">{http://www.docarea.it/model/content/1.0}oggettoRegistraz;SV</entry>
+	<entry key="#ID_REGISTRO">{http://www.docarea.it/model/content/1.0}idRegistro;SV</entry>
+
+
+	<entry key="#DATA_BU">{http://www.docarea.it/model/content/1.0}dataBU;SV</entry>
+	<entry key="#ANNATA_BU">{http://www.docarea.it/model/content/1.0}annataBU;SV</entry>
+	<entry key="#PARTE_BU">{http://www.docarea.it/model/content/1.0}parteBU;SV</entry>
+	<entry key="#MS_T_REGISTRAZ">{http://www.docarea.it/model/content/1.0}msTRegistraz;SV</entry>
+	<entry key="#NUMERAZIONE_BU">{http://www.docarea.it/model/content/1.0}numerazioneBU;SV</entry>
+	<entry key="#NUMERO_BU">{http://www.docarea.it/model/content/1.0}numeroBU;SV</entry>
+
+
+	<entry key="#CUSTOM_ENTE_1">{http://www.docarea.it/model/content/1.0}customEnte1;SV</entry>
+	<entry key="#CUSTOM_AOO_1">{http://www.docarea.it/model/content/1.0}customAOO1;SV</entry>
+	<entry key="#CUSTOM_TITOLARIO_1">{http://www.docarea.it/model/content/1.0}customTitolario1;SV</entry>
+	<entry key="#CUSTOM_FASCICOLO_1">{http://www.docarea.it/model/content/1.0}customFascicolo1;SV</entry>
+	<entry key="#CUSTOM_AREA_1">{http://www.docarea.it/model/content/1.0}customArea1;SV</entry>
+
+	<entry key="#REGISTRO_PUB">{http://www.docarea.it/model/content/1.0}registroPub;SV</entry>
+	<entry key="#NUMERO_PUB">{http://www.docarea.it/model/content/1.0}numeroPub;SV</entry>
+	<entry key="#ANNO_PUB">{http://www.docarea.it/model/content/1.0}annoPub;SV</entry>
+	<entry key="#OGGETTO_PUB">{http://www.docarea.it/model/content/1.0}oggettoPub;SV</entry>
+	<entry key="#DATA_INIZIO_PUB">{http://www.docarea.it/model/content/1.0}dataInizioPub;SV</entry>
+	<entry key="#DATA_FINE_PUB">{http://www.docarea.it/model/content/1.0}dataFinePub;SV</entry>
+	<entry key="#PUBBLICATO">{http://www.docarea.it/model/content/1.0}pubblicato;SV</entry>
+
+	<entry key="#CUSTOM_DOCUMENT_1">{http://www.docarea.it/model/content/1.0}CUSTOM_DOCUMENT_1;SV</entry>
+	<entry key="#CUSTOM_ENTE_1">{http://www.docarea.it/model/content/1.0}CUSTOM_ENTE_1;SV</entry>
+	<entry key="#CUSTOM_AOO_1">{http://www.docarea.it/model/content/1.0}CUSTOM_AOO_1;SV</entry>
+	<entry key="#CUSTOM_TITOLARIO_1">{http://www.docarea.it/model/content/1.0}CUSTOM_TITOLARIO_1;SV</entry>
+	<entry key="#CUSTOM_FASCICOLO_1">{http://www.docarea.it/model/content/1.0}CUSTOM_FASCICOLO_1;SV</entry>
+	<entry key="#FIELD1">{http://www.docarea.it/model/content/1.0}FIELD1;SV</entry>
+	<entry key="#FIELD2">{http://www.docarea.it/model/content/1.0}FIELD2;SV</entry>
+
+	<entry key="#CUSTOM_FIELD_STRING">{http://www.docarea.it/model/content/1.0}custom_field_string;SV</entry>
+	<entry key="#CUSTOM_FIELD_INT">{http://www.docarea.it/model/content/1.0}custom_field_int;SV</entry>
+	<entry key="#CUSTOM_FIELD_DATETIME">{http://www.docarea.it/model/content/1.0}custom_field_datetime;SV</entry>
+	<entry key="#CUSTOM_FIELD_BOOLEAN">{http://www.docarea.it/model/content/1.0}custom_field_boolean;SV</entry>
+	<entry key="#CUSTOM_FIELD_DECIMAL">{http://www.docarea.it/model/content/1.0}custom_field_decimal;SV</entry>
+
+	<entry key="#STATO_BUSINESS">{http://www.docarea.it/model/content/1.0}statoBusiness;SV</entry>
+
+	<entry key="#MITTENTI">{http://www.docarea.it/model/content/1.0}mittenti;SV</entry>
+	<entry key="#DESTINATARI">{http://www.docarea.it/model/content/1.0}destinatari;SV</entry>
+	<entry key="#TIPO_PROTOCOLLAZIONE">{http://www.docarea.it/model/content/1.0}tipoProtocollazione;SV</entry>
+	<entry key="#TIPO_FIRMA">{http://www.docarea.it/model/content/1.0}tipoFirma;SV</entry>
+	<entry key="#FIRMATARIO">{http://www.docarea.it/model/content/1.0}firmatario;SV</entry>
+	<entry key="#VISTO">{http://www.docarea.it/model/content/1.0}visto;SV</entry>
+	
+	<entry key="#COD_CLIENTE">{http://www.docarea.it/model/content/1.0}codCliente;SV;uppercase</entry>
+	<entry key="#DES_CLIENTE">{http://www.docarea.it/model/content/1.0}desCliente;SV</entry>
+
+	<entry key="#COD_FORNITORE">{http://www.docarea.it/model/content/1.0}codFornitore;SV;uppercase</entry>
+	<entry key="#DES_FORNITORE">{http://www.docarea.it/model/content/1.0}desFornitore;SV</entry>
+
+	<entry key="#DOCNUM_RECORD">{http://www.docarea.it/model/content/1.0}docnumRecord;SV</entry>
+	<entry key="#UD_VERSION">{http://www.docarea.it/model/content/1.0}udVersion;SV</entry>
+
+	<entry key="#DOC_HASH">{http://www.docarea.it/model/content/1.0}docHash;SV</entry>
+
+	<entry key="#DATA_APERTURA">{http://www.docarea.it/model/content/1.0}dataAperturaFascicolo;SV</entry>
+	<entry key="#DATA_CHIUSURA">{http://www.docarea.it/model/content/1.0}dataChiusuraFascicolo;SV</entry>
+	<entry key="#CF_PERSONA">{http://www.docarea.it/model/content/1.0}cfPersona;SV</entry>
+    <entry key="#CODICE_FISCALE">{http://www.docarea.it/model/content/1.0}codiceFiscale;SV</entry>
+    <entry key="#CF_AZIENDA">{http://www.docarea.it/model/content/1.0}cfAzienda;SV</entry>
+	<entry key="#ID_PROC">{http://www.docarea.it/model/content/1.0}idProc;SV</entry>
+	<entry key="#ID_IMMOBILE">{http://www.docarea.it/model/content/1.0}idImmobile;SV</entry>
+
+	<!-- nuovi metadati di base di protocollo -->
+	<entry key="#NUM_PG_MITTENTE">{http://www.docarea.it/model/content/1.0}numPgMittente;SV</entry>
+	<entry key="#DATA_PG_MITTENTE">{http://www.docarea.it/model/content/1.0}dataPgMittente;SV</entry>
+	<entry key="#COD_ENTE_MITTENTE">{http://www.docarea.it/model/content/1.0}codEnteMittente;SV</entry>
+	<entry key="#COD_AOO_MITTENTE">{http://www.docarea.it/model/content/1.0}codAooMittente;SV</entry>
+	<entry key="#CLASSIFICA_MITTENTE">{http://www.docarea.it/model/content/1.0}classificaMittente;SV</entry>
+	<entry key="#FASCICOLO_MITTENTE">{http://www.docarea.it/model/content/1.0}fascicoloMittente;SV</entry>
+	<entry key="#ANNULLATO_PG">{http://www.docarea.it/model/content/1.0}annullatoPg;SV</entry>
+	<entry key="#D_ANNULL_PG">{http://www.docarea.it/model/content/1.0}dAnnullPg;SV</entry>
+	<entry key="#M_ANNULL_PG">{http://www.docarea.it/model/content/1.0}mAnnullPg;SV</entry>
+	<entry key="#P_ANNULL_PG">{http://www.docarea.it/model/content/1.0}pAnnullPg;SV</entry>
+	
+	<!-- nuovi metadati di base di registrazione -->
+	<entry key="#ANNULL_REGISTRAZ">{http://www.docarea.it/model/content/1.0}annullRegistraz;SV</entry>
+	<entry key="#D_ANNULL_REGISTRAZ">{http://www.docarea.it/model/content/1.0}dAnnullRegistraz;SV</entry>
+	<entry key="#M_ANNULL_REGISTRAZ">{http://www.docarea.it/model/content/1.0}mAnnullRegistraz;SV</entry>
+	<entry key="#P_ANNULL_REGISTRAZ">{http://www.docarea.it/model/content/1.0}pAnnullRegistraz;SV</entry>
+	
+	<!-- FOLDERS -->
+	<entry key="#FOLDER_ID">{http://www.docarea.it/model/content/1.0}folderId;SV</entry>
+	<entry key="#FOLDER_NAME">{http://www.docarea.it/model/content/1.0}folderName;SV</entry>
+	<entry key="#PARENT_FOLDER_ID">{http://www.docarea.it/model/content/1.0}parentFolderId;SV</entry>
+	<entry key="#FOLDER_OWNER">{http://www.docarea.it/model/content/1.0}folderOwner;SV</entry>
+	<entry key="#DES_FOLDER">{http://www.docarea.it/model/content/1.0}desFolder;SV</entry>
+
+	<entry key="#ACL_CHANGED">{http://www.docarea.it/model/content/1.0}aclChanged;SV</entry>
+	<entry key="#ACL_EXPLICIT">{http://www.docarea.it/model/content/1.0}aclExplicit;SV</entry>
+	
+	<!-- tutti i custom item risiedono sotto ENTE/AOO. Tutti i custom item hanno 
+		implicito ENABLED La sequenza e' BL_TYPE=ALF_TYPE,COD,DES (case sensitive) -->
+	<entry key="CUSTOM_ITEM_1">AREA=areatematica,COD_AREA,DES_AREA</entry>
+	<entry key="CUSTOM_ITEM_2">AREA_TEMATICA=areatematica,COD_AREA,DES_AREA</entry>
+	<entry key="CUSTOM_ITEM_3">CLIENTE=cliente,COD_CLIENTE,DES_CLIENTE</entry>
+	<entry key="CUSTOM_ITEM_4">FORNITORE=fornitore,COD_FONITORE,DES_FORNITORE</entry>
+
+	<!-- formato dei nomi dei gruppi AOO -->
+	<entry key="AOO_GROUPID_FORMAT">{codAoo}</entry>
+
+	<entry key="AOO_ADMINS_GROUPID_PREFIX">ADMINS_AOO_</entry>
+	<entry key="ENTE_ADMINS_GROUPID_PREFIX">ADMINS_ENTE_</entry>
+
+	<entry key="SYS_ADMINS_GROUPID">SYS_ADMINS</entry>
+
+	<entry key="DOCUMENTO_EREDITA_ACL_FASCICOLO">false</entry>
+
+	<!-- Type BL = Type ALF -->
+	<entry key="DOCUMENT_TYPE_MAPPING">DOCUMENTO=documento;FATTURA=documento;</entry>
+
+	<entry key="LIBRARY_MAPPING">default=docarea;docarea=ENTE1,ENTEX,ENTE2;libraryx=ENTE_TEST</entry>
+	<!-- indica se il documento eredita le ACL della folder pubblica in cui 
+		e' inserito -->
+	<entry key="DOCUMENTO_EREDITA_ACL_FOLDER_PUBBLICA">true</entry>
+
+</properties>

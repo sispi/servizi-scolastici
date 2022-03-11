@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>The HTML5 Herald</title>
+	<meta name="description" content="The HTML5 Herald">
+	<meta name="author" content="SitePoint">
+	<link rel="stylesheet" href="css/styles.css?v=1.0">
+</head>
+<body>
+	<h1 style="width:100%;text-align:center;">Filippetti S.p.A - Contrassegno Elettronico</h1>
+	<img alt="${qrCode1}: width=${qrCode1w}, height=${qrCode1h}" style="width:${qrCode1w}px;height:${qrCode1h}px;" src="data:image/gif;base64,${qrCode1}">
+
+	<table style="width:100%;">
+		<colgroup>
+		  <col style="width:35%;">
+		</colgroup>
+		<tr>
+			<td style="text-align:right;"><b>TIPO CONTRASSEGNO</b></td>
+			<td>QRCODE</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;"><b>IMPRONTA DOC</b></td>
+			<td>${content_hash}</td>
+		</tr>
+		<tr>
+			<td style="text-align:center;" colspan="2"><b>Credenziali di Accesso per la Verifica del Contrassegno Elettronico</b></td>
+		</tr>
+		<tr>
+			<td style="text-align:right;"><b>URL</b></td>
+			<td>${keysuiteQr.REGISTRO_GIORNALIERO.url}</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;"><b>IDENTIFICATIVO</b></td>
+			<td>${usrid}</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;"><b>PASSWORD</b></td>
+			<td>${psw}</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;"><b>DATA SCADENZA</b></td>
+			<td>${date_exp}</td>
+		</tr>
+	</table>
+	<br><br>
+	<br><br>
+	<p>Ai sensi degli articoli 23-bis e 23-ter del d.lgs. 82/2005 e s.m.i., si attesta che il presente documento, estratto in automatico dal sistema di Protocollo Informatico, è conforme al documento elettronico originale, firmato digitalmente e registrato nel sistema del protocollo di A.Di.S.U. Umbria.</p>
+	<p><b>Scansiona il codice a lato per verificare il documento</b>
+		<img alt="${qrCode2}: width=${qrCode2w}, height=${qrCode2h}" style="width:${qrCode2w}px;height:${qrCode2h}px;" src="data:image/gif;base64,${qrCode2}">
+	</p>
+	<script src="js/scripts.js"></script>
+</body>
+</html>

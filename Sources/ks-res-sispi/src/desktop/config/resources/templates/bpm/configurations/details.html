@@ -1,0 +1,257 @@
+<head>
+    <title>configuration #${configuration.id} - ${configuration.deployment.processId}</title>
+</head>
+
+<body>
+
+<link rel="stylesheet" href="/static/js/components/renderer.css?no-cache"  >
+<script type="text/javascript" src="/static/js/components/renderer.js?no-cache" ></script>
+
+
+<script @server-model="configuration" id="configuration" src="/bpm/v1/configurations/{id}?fetch=*" type="application/json" ></script>
+
+<script id="config" type="x-template"
+        src="/bpm/v1/configurations/{id}/forms/configure/views"
+        @body="{}" @ignore-notfound="true"
+        @server-model="config" >
+    Al processo non è associata una form di configurazione
+
+</script>
+
+<script src="/bpm/v1/configurations/${query.id}/forms/configure/script" ></script>
+
+<div id="app" class="container-fluid" >
+    <div class="row">
+
+        <h2 style="margin-right: 10px;">{{configuration.deployment.processId}}</h2>
+
+        <div class="col-2">
+            <button style="color:#000!important" class="btn btn-link btn-warning text-white" v-on:click="save()">update</button>
+            <button style="color:#fff!important" class="btn btn-link btn-danger text-white" v-on:click="delete1()">delete</button>
+        </div>
+
+        <div class="col-2">
+            <button style="color:#fff!important" class="btn btn-link btn-info text-white" v-on:click="toggleActivate()">{{configuration.active?'deactivate':'activate'}}</button>
+        </div>
+
+        <div class="col-2">
+            <input  type="checkbox" v-model="configuration.active" disabled > active
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-8">
+            <div class="row">
+                <h5>&nbsp;</h5>
+            </div>
+            <div class="row">
+
+                <div class="col-3">
+                    <div class="form-group">
+                        <label>profile</label>
+                        <input disabled v-model="configuration.profile" class="form-control disabled" type="text" />
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="form-group">
+                        <label>category</label>
+                        <input v-model="configuration.category" class="form-control" type="text" />
+                    </div>
+                </div>
+
+                <div class="col-3">
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" v-model="configuration.runnable" >
+                            <label class="form-check-label">runnable</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" v-model="configuration.searchable" >
+                            <label class="form-check-label">searchable</label>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-4">
+            <div class="row">
+                <h5 class="col-12">RetentionPolicy</h5>
+            </div>
+            <div class="row">
+                <div class="col-4">
+                    <div class="form-group">
+                        <label>days</label>
+                        <input v-model="configuration.retentionPolicy.days" class="form-control" type="number" />
+                    </div>
+                </div>
+                <div class="col-4">
+                    <input type="checkbox" v-model="configuration.retentionPolicy.clean" > clean
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
+    <h5>permissions</h5>
+
+    <div class="row">
+        <div class="form-group col-2">
+            <label>View</label>
+            <select2 :value="configuration.permissions.View" v-on:changed="configuration.permissions.View=$event.ids" class="form-control" url="/docer/v1/solr/select?fq=type:(user group)&wt=json&fl=sid,text:name&q=name:..." multiple="true"></select2>
+        </div>
+        <div class="form-group col-2">
+            <label>Chat</label>
+            <select2 :value="configuration.permissions.Chat" v-on:changed="configuration.permissions.Chat=$event.ids" class="form-control" url="/docer/v1/solr/select?fq=type:(user group)&wt=json&fl=sid,text:name&q=name:..." multiple="true"></select2>
+        </div>
+        <div class="form-group col-2">
+            <label>Start</label>
+            <select2 :value="configuration.permissions.Start" v-on:changed="configuration.permissions.Start=$event.ids" class="form-control" url="/docer/v1/solr/select?fq=type:(user group)&wt=json&fl=sid,text:name&q=name:..." multiple="true"></select2>
+        </div>
+        <div class="form-group col-2">
+            <label>Abort</label>
+            <select2 :value="configuration.permissions.Abort" v-on:changed="configuration.permissions.Abort=$event.ids" class="form-control" url="/docer/v1/solr/select?fq=type:(user group)&wt=json&fl=sid,text:name&q=name:..." multiple="true"></select2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="form-group col-2">
+            <label>Configure</label>
+            <select2 :value="configuration.permissions.Configure" v-on:changed="configuration.permissions.Configure=$event.ids" class="form-control" url="/docer/v1/solr/select?fq=type:(user group)&wt=json&fl=sid,text:name&q=name:..." multiple="true"></select2>
+        </div>
+        <div class="form-group col-2">
+            <label>Clone</label>
+            <select2 :value="configuration.permissions.Clone" v-on:changed="configuration.permissions.Clone=$event.ids" class="form-control" url="/docer/v1/solr/select?fq=type:(user group)&wt=json&fl=sid,text:name&q=name:..." multiple="true"></select2>
+        </div>
+        <div class="form-group col-2">
+            <label>Retry</label>
+            <select2 :value="configuration.permissions.Retry" v-on:changed="configuration.permissions.Retry=$event.ids" class="form-control" url="/docer/v1/solr/select?fq=type:(user group)&wt=json&fl=sid,text:name&q=name:..." multiple="true"></select2>
+        </div>
+    </div>
+
+    <h5>defaultInput
+
+    <div class="form-check form-check-inline">
+        <input :disabled="!hasForm" v-model="config" class="form-check-input" type="radio" name="inlineRadioOptions" value="json">
+        <label class="form-check-label">json</label>
+    </div>
+    <div class="form-check form-check-inline">
+        <input :disabled="!hasForm" v-model="config" class="form-check-input" type="radio" name="inlineRadioOptions" value="form">
+        <label class="form-check-label">form</label>
+    </div>
+    </h5>
+
+    <div v-if="config=='json'" class="row" >
+        <div class="col-12">
+            <editor id="config-editor" rows="10" max="20" v-model="configuration.defaultInput" ></editor>
+        </div>
+    </div>
+
+    <div v-if="config=='form'" id="config-form" class="row">
+        <div class="col-12">
+
+        [#if config?has_content ]
+            [#if (config!'')?contains('form-renderer-vue') ]
+            <ks-form disabled="false" form-id="config-form"  ref="managed" v-model="configuration.defaultInput" template="#config" ></ks-form>
+            [#else]
+            <fieldset>
+                ${config}
+            </fieldset>
+            [/#if]
+        [/#if]
+        </div>
+    </div>
+
+    <hr/>
+
+    <br/>
+    <div class="row col-12">
+        <h5>assets</h5>
+        <report-table :model="assets" ></report-table>
+    </div>
+
+</div>
+
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: function() {
+            var configuration = data("configuration");
+
+            var list = Object.entries(configuration.assets).map( x => {x[1].file = x[0]; return x[1]} );
+            var assets = reportdata(list);
+            assets.params["column.file.href"] = "/bpm/v1/configurations/"+configuration.id+"/asset-content?name={file}"
+
+            var idx = template("#config").indexOf("Al processo non è associata una form di configurazione");
+
+            return {
+                configuration: configuration,
+                assets: assets,
+                hasForm: (idx==-1),
+                config: (idx==-1) ? "form" : "json"
+            }
+        },
+        methods: {
+            delete1: function() {
+                var self = this;
+                confirm("sei sicuro?", function () {
+                    BpmClientApi.configurations.delete(self.configuration.id, ()=>{alert('eliminata')});
+                });
+            },
+            toggleActivate: function() {
+                BpmClientApi.configurations.activate(
+                    this.configuration.id,
+                    {
+                        "activate": !this.configuration.active,
+                        "deactivatePreviousVersions": false
+                    },
+                    ()=>{location.refresh()}
+                );
+
+                //POST("/bpm/v1/configurations/"+this.configuration.id+"/actions/activate", , ()=> {location.reload()});
+            },
+
+            save: function() {
+                /*var payload = cloneObject(this.configuration);
+
+                delete payload.id;
+                delete payload.active;
+                delete payload.profile;
+                delete payload.deployment;
+                delete payload.authorizations;
+                delete payload.assets;*/
+
+                var defaultInput;
+
+                if (this.config == 'form' && $("#config-form form").attr("action")=="complete"){
+                    defaultInput = $.extend(true, app.configuration.defaultInput, $("#config-form form").toMap());
+                } else {
+                    defaultInput = this.configuration.defaultInput;
+                }
+
+                var payload = {
+                    runnable: this.configuration.runnable,
+                    searchable: this.configuration.searchable,
+                    category: this.configuration.category,
+                    retentionPolicy: {
+                        days: this.configuration.retentionPolicy.days,
+                        clean: this.configuration.retentionPolicy.clean
+                    },
+                    defaultInput: defaultInput,
+                    permissions: this.configuration.permissions
+                };
+                console.log(payload);
+                BpmClientApi.configurations.put(this.configuration.id,payload, ()=>{location.refresh()});
+            }
+        }
+    });
+
+</script>
+</body>
+

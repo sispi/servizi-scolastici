@@ -1,0 +1,29 @@
+#**
+ *  Called for each matching document but then
+ *  calls one of product_doc, join_doc or richtext_doc
+ *  depending on which fields the doc has
+ *#
+
+#set($docId = $doc.getFieldValue('id'))
+
+<div class="result-document">
+
+
+#if($doc.getFieldValue('type'))
+    #parse("engine.vm")
+	
+  ## Has a "name" field ?
+  #elseif($doc.getFieldValue('name'))
+    #parse("product_doc.vm")
+
+  ## Has a "compName_s" field ?
+  #elseif($doc.getFieldValue('compName_s'))
+    #parse("join_doc.vm")
+
+  ## Fallback to richtext_doc
+  #else
+    #parse("richtext_doc.vm")
+
+  #end
+
+</div>

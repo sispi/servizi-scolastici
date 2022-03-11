@@ -1,0 +1,44 @@
+<Segnatura xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="input-validation.xsd">
+    <Intestazione>
+        <Oggetto>string</Oggetto>
+        <Flusso>
+            <ModalitaInvio>string</ModalitaInvio>
+            <TipoRichiesta>string</TipoRichiesta>
+            <ForzaInvio>3</ForzaInvio>
+        </Flusso>
+        <Destinatari>
+            <Destinatario>
+                <PersonaGiuridica id="denominazione" tipo="tipo-test">
+                    <Denominazione>denominazione</Denominazione>
+
+                    <!--opzionale-->
+                    <IndirizzoTelematico>asdf@docer.it</IndirizzoTelematico>
+
+                </PersonaGiuridica>
+            </Destinatario>
+            <Destinatario>
+                <Persona id="codicefiscale">
+
+                    <!--opzionale-->
+                    <IndirizzoTelematico>pf@docer.it</IndirizzoTelematico>
+
+                    <!--opzionale-->
+                    <CodiceFiscale>codicefiscale</CodiceFiscale>
+
+                </Persona>
+            </Destinatario>
+        </Destinatari>
+    </Intestazione>
+    <Documenti>
+        <Documento uri="string" id="100">
+            <Metadati>
+            </Metadati>
+            <Acl>
+            </Acl>
+        </Documento>
+        <Allegati/>
+        <Annessi/>
+        <Annotazioni/>
+    </Documenti>
+</Segnatura>

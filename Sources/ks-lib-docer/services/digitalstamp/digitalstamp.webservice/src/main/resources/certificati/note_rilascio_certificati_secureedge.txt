@@ -1,0 +1,55 @@
+Gentile cliente/sviluppatore, il presente avviso le viene inviato in quanto
+Lei ci risulta essere responsabile di un'applicazione che comunica con
+l'appliance Paper e-Sign (piattaforma Timbro Digitale di Secure Edge)
+dimostrativo che risponde all'indirizzo pes.secure-edge.com
+
+Si prega di leggerlo con attenzione.
+
+Il certificato di mutua autenticazione ("certificato server") presentato
+dall'appliance quando comunica con il protocollo HTTPS, quindi verso i
+client che generano i timbri digitali, scadrà in data 29 marzo 2014.
+Inoltre, il certificato della CA "Secure Edge Root CA" ("certificato vecchia
+CA") che ha emesso il certificato di cui sopra scadrà a sua volta in data 10
+gennaio 2013.
+
+In base alle specifiche riconosciute a livello internazionale, la scadenza
+che fa testo è quella del 29 marzo 2014 in quanto quella della CA emittente
+non deve essere presa in considerazione, anche se antecedente.
+Considerato però che non possiamo fare affidamento sul rispetto di tali
+specifiche da parte di tutti i produttori di software, Secure Edge intende
+cambiare il "certificato server" su tutti gli appliance Paper e-Sign entro
+dicembre 2012 (possibilmente prima) concordando di volta in volta la data
+dell'aggiornamento con gli sviluppatori interessati e i responsabili presso
+i clienti finali.
+Il primo appliance ad essere aggiornato sarà l'appliance dimostrativo
+pes.secure-edge.com, il giorno martedì 27 marzo o il successivo.
+
+Le applicazioni che comunicano con l'appliance per generare timbri digitali
+e/o documenti e/o semplici firme digitali dovranno quindi saper riconoscere
+il nuovo certificato server e accettarlo. L'ideale sarebbe che tali
+applicazioni possano accettare sia il vecchio che il nuovo, per evitare
+qualunque problema di compatibilità: alcune applicazioni sono utilizzate
+presso diversi clienti e quindi, in futuro, potrebbero dover accedere sia ad
+appliance con il vecchio certificato che ad appliance che presentano il
+nuovo.
+
+Il nuovo certificato server è emesso, ovviamente, da una nuova Certification
+Authority ("Secure Edge CA 2012"), come pure sono emessi (già da un qualche
+tempo) da questa nuova CA i certificati di autenticazione per i client e per
+i possessori di smart card che vengono comunemente forniti ai nostri clienti
+e partner.
+
+Per quanto riguarda, viceversa, il certificato presentato dai client
+dell'appliance demo (attualmente "PeS demo client"), passare a uno emesso
+dalla nuova CA non implica difficoltà tecniche: si può continuare ad usare
+il vecchio "PeS demo client" oppure, per chi lo desiderasse, possiamo
+fornirne uno emesso dalla CA 2012 ma abbiamo bisogno di sapere quali
+configurazioni dell'appliance demo sono coinvolte per ri-assegnarle.
+
+I nuovi certificati di chiave pubblica della CA e del web server sono in
+allegato, in formato crt e in formato JKS per chi utilizza Java. Il file
+"full.jks" contiene sia il certificato della nuova CA che quello
+dell'appliance.
+
+Il personale di Secure Edge rimane a disposizione per qualsiasi chiarimento.
+Cordialmente, attendiamo riscontro

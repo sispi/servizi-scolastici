@@ -1,0 +1,12 @@
+{
+  "wizard": false,  
+  "header": null,
+  "footer": null,
+  "toolbar": {
+    "position": "bottom",
+    "buttons": []
+  },
+  "tabs": [],
+  "sections": {},
+  "script": null
+}

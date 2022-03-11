@@ -1,0 +1,2 @@
+# Modificare versione anche nel batch.docerlib
+1.2-SNAPSHOT

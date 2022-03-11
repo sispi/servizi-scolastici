@@ -1,0 +1,5 @@
+<add>
+    <doc>
+        <field name="test-file">verifyCreate.json</field>
+    </doc>
+</add>

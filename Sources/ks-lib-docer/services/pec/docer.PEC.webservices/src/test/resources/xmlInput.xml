@@ -1,0 +1,179 @@
+<Segnatura xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+
+	<!-- obbligatorio -->
+	<Intestazione>
+
+		<!-- obbligatorio -->
+		<Oggetto>Richiesta xxxxxxxx</Oggetto>
+
+		<!-- obbligatorio -->
+		<Flusso>
+
+			<!-- obbligatorio può avere i seguenti valori:
+				D= docer
+				S= standard
+				 -->
+			<ModalitaInvio>S</ModalitaInvio>
+
+			<!-- obbligatorio può avere i seguenti valori:
+				C= Con inoltro degli allegati
+				S= Senza inoltro degli allegati
+				 -->
+			<TipoRichiesta>C</TipoRichiesta>
+
+			<!-- se 1 forza l'invio anche per docs non firmati -->
+			<ForzaInvio>0</ForzaInvio>
+
+		</Flusso>
+
+		<Destinatari>
+			<Destinatario>
+
+				<Amministrazione>
+					
+					<!--obbligatorio -->
+					<Denominazione>Aaaaa</Denominazione>
+					
+					<!--obbligatorio -->
+					<CodiceAmministrazione>AAA</CodiceAmministrazione>
+
+					<!-- Facoltativo , attributo tipo : smtp|uri|NMTOKEN-->
+					<IndirizzoTelematico tipo="smtp">
+						proto.prova3@actaliscertymail.it
+					</IndirizzoTelematico>
+
+					<!-- Se SI è forzato l'indirizzo specificato , altrimenti si usa il dato IPA -->
+					<ForzaIndirizzoTelematico>1</ForzaIndirizzoTelematico>
+
+					
+					
+					<UnitaOrganizzativa  tipo="temporanea" >
+						<Denominazione>UO</Denominazione>
+						<Identificativo>UO</Identificativo>
+					</UnitaOrganizzativa>
+
+				</Amministrazione>
+
+				<AOO>
+				<!--obbligatorio -->
+					<Denominazione>Bbbb</Denominazione>
+
+					<!--obbligatorio -->
+					<CodiceAOO>BBB</CodiceAOO>
+					
+					
+					
+					<!-- Se SI è forzato l'indirizzo specificato , altrimenti si usa il dato IPA -->
+					<ForzaIndirizzoTelematico>1</ForzaIndirizzoTelematico>
+					
+					
+
+				</AOO>
+
+			</Destinatario>
+
+			<Destinatario>
+				<Persona id="RSSMRC66M11Z999Z" >
+
+					<!--obbligatorio -->
+					<Nome>Marco</Nome>
+
+					<!--obbligatorio -->
+					<Cognome>Rossi</Cognome>
+
+					<!-- facoltativo -->
+					<Titolo></Titolo>
+					
+					
+					
+					<!-- Obbligatorio , attributo tipo : smtp|uri|NMTOKEN-->
+					<IndirizzoTelematico tipo="smtp">proto.prova3@actaliscertymail.it</IndirizzoTelematico>
+
+				</Persona>
+
+			</Destinatario>
+
+			<Destinatario>
+
+				<!-- obbligatorio attributo ID e TipoIdentificazione = CodiceFiscalePG|CodiceFiscalePGE -->
+				<PersonaGiuridica tipo="CodiceFiscalePG" id="1111111111" >
+
+					<!--obbligatorio-->
+					<Denominazione>AAA SpA</Denominazione>
+
+					<!-- Facoltativo , attributo tipo : smtp|uri|NMTOKEN-->
+					<IndirizzoTelematico tipo="smtp">
+						proto.prova3@actaliscertymail.it
+					</IndirizzoTelematico>
+
+					<!-- Se SI è forzato l'indirizzo specificato , altrimenti si usa il dato IPA -->
+					<ForzaIndirizzoTelematico>1</ForzaIndirizzoTelematico>
+					
+				</PersonaGiuridica>
+			</Destinatario>
+		</Destinatari>
+	</Intestazione>
+	<Documenti>
+		<Documento uri="file://.../richiesta.doc" id="7555"> <!--nodo stesso e gli attributi nome ed id sono obbligatori -->
+			<Metadati>
+				<Parametro nome="DOCNAME" valore="RICHIESTA"/>
+				<Parametro nome="DOCNUM" valore="7555"/>
+			</Metadati>
+			<Acl>
+				<Parametro nome="gruppo1" valore="1"/> <!--	2: Read Only Access
+										1: Normal Access
+										0: Full Access -->
+									 
+				<Parametro nome="gruppo2" valore="0"/>
+			</Acl>
+		</Documento>
+		<Allegati> <!-- il nodo non è obbligatorio e contiene un numero indefinito di nodi Documento-->
+			<Documento uri="file://.../allegato1.doc" id="7556"> <!--nodo stesso e gli attributi nome ed id sono obbligatori -->
+				<Metadati>
+					<Parametro nome="DOCNAME" valore="ALLEGATO 1"/>
+					<Parametro nome="DOCNUM" valore="7556"/>
+				</Metadati>
+				<Acl>
+					<Parametro nome="gruppo1" valore="1"/> <!--	2: Read Only Access
+											1: Normal Access
+											0: Full Access -->
+
+					<Parametro nome="gruppo2" valore="0"/>
+				</Acl>
+			</Documento>
+		</Allegati>
+		<Annessi>
+			<!-- il nodo non è obbligatorio e contiene un numero indefinito di nodi Documento-->
+			<Documento uri="file://.../annesso1.doc" id="7557"> <!--nodo stesso e gli attributi nome ed id sono obbligatori -->
+				<Metadati>
+					<Parametro nome="DOCNAME" valore="ANNESSO 1"/>
+					<Parametro nome="DOCNUM" valore="7557"/>
+				</Metadati>
+				<Acl>
+					<Parametro nome="gruppo1" valore="1"/> <!--	2: Read Only Access
+											1: Normal Access
+											0: Full Access -->
+
+					<Parametro nome="gruppo2" valore="0"/>
+				</Acl>
+			</Documento>
+		</Annessi>
+		<Annotazioni>
+			<!-- il nodo non è obbligatorio e contiene un numero indefinito di nodi Documento-->
+			<!-- il nodo non è obbligatorio e contiene un numero indefinito di nodi Documento-->
+			<Documento uri="file://.../annotazione1.doc" id="7558"> <!--nodo stesso e gli attributi nome ed id sono obbligatori -->
+				<Metadati>
+					<Parametro nome="DOCNAME" valore="ANNOTAZIONE 1"/>
+					<Parametro nome="DOCNUM" valore="7558"/>
+				</Metadati>
+				<Acl>
+					<Parametro nome="gruppo1" valore="1"/> <!--	2: Read Only Access
+											1: Normal Access
+											0: Full Access -->
+
+					<Parametro nome="gruppo2" valore="0"/>
+				</Acl>
+			</Documento>
+		</Annotazioni>
+	</Documenti>
+</Segnatura>

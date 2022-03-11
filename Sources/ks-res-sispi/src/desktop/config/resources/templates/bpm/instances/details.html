@@ -1,0 +1,446 @@
+<head>
+    <title>dettaglio istanza #${instance.id} - ${(instance.businessName)!''}</title>
+    <title href="${instance.root?then('','/~instance?id='+instance.rootInstance.id)}" >dettaglio istanza #${(instance.rootInstance.id)!0} - ${(instance.rootInstance.businessName)!''}</title>
+</head>
+
+<body>
+
+<link rel="stylesheet" href="/static/js/components/renderer.css?no-cache"  >
+<script type="text/javascript" src="/static/js/components/renderer.js?no-cache" ></script>
+
+
+[#-- <script type="application/json" id="messages-model" @server-model="messages" src="/messages?filter=bpm.**"></script> --]
+
+<script @server @server-model="instance" id="model-instance" src="/bpm/v1/instances/{id}?fetch=configuration,rootInstance,treeInstances,input,output,${query.inspector???then('variableValues','variableValues?publicOnly')},nodes(context,event),treeTasks(assignments,instance)" type="application/json" ></script>
+<!-- eventuale fix per username dei cittadini
+<script @server @server-model="instance" src="/bpm/v1/instances/{id}?fetch=configuration,rootInstance,treeInstances,input,output,${query.inspector???then('variableValues','variableValues?publicOnly')},nodes(context,event),treeTasks(assignments,instance)" type="application/json" ></script>
+<script id="model-instance" @server type="javascript">
+    instance.creatorUserId = Java.type("it.kdm.orchestratore.session.ActorsCache").getInstance().getUser(instance.creatorUserId).otherFields().get("PREFERRED_USERNAME") || instance.creatorUserId;
+    instance;
+</script>
+-->
+<script @server-model="corr" @ignore-notfound="true" id="model-corr" src="/bpm/v1/instances/{corr:0}?fetch=configuration(deployment),rootInstance,parentInstance,nodes(context,event)" type="application/json" >
+    null
+</script>
+
+
+<script @ignore @server @server-model="variables" type="javascript" >
+    variables = {};
+    for( key in instance.variableValues ){
+        v = instance.variableValues[key];
+        if (key=="__ckValue"){
+            v = null;
+        }
+
+        variables[key] = v;
+    }
+    variables['$inputs'] = instance.input;
+    variables;
+</script>
+
+<script id="ftlInfo" type="x-template"
+        src="/bpm/v1/instances/{id:0}/forms/info/views"
+        @ignore-notfound="true"
+        @body="{}"
+        @server-model="ftlInfo" ></script>
+
+<div id="app" class="container-fluid" >
+    <div>
+        <div v-if="userInfo.username=='admin'" class="">
+            <button class="btn btn-sm btn-danger" v-on:click="abort()">Abortire</button>
+            <button class="btn btn-sm btn-info" v-on:click="bookmark()">Segnalibro</button>
+            <a class="btn btn-sm btn-outline-primary" onclick="openUrl('/bpm/instances/chat?id=${query.id}','@modal-xl')" >Chat</a>
+            <button class="btn btn-sm btn-outline-primary" type="button" v-on:click="$refs.history.show()" >Storia</button>
+            <a class="btn btn-sm btn-outline-primary" href="/~preview?id=${instance.id?c}">Anteprima</a>
+        </div>
+        <br/>
+        <h4>{{desc(instance)}}</h4>
+        <small style="vertical-align: super;">
+            {{instance.name}}{{instance.version}}
+            # {{instance.id}} <!--(${utils.getMessage('bpm.instance.state.'+instance.status,''+instance.status)})--> ({{statusDesc(instance.status)}})
+        </small>
+
+        <div class="row">
+            <div v-if="!instance.root" class="col-2">
+                <b>Root</b>
+                <br/><a :href="'/~instance?id='+rootInstance.id">{{rootInstance.businessName}}</a>
+            </div>
+            <div v-if="!instance.root && parentInstance!=null && parentInstance.id!=rootInstance.id" class="col-2">
+                <b>Parent</b>
+                <br/><a :href="'/~instance?id='+parentInstance.id">{{parentInstance.businessName}}</a>
+            </div>
+            <div class="col-2">
+                <b>Inizio</b>
+                <div>{{date(moment(details.startTs))}}</div>
+            </div>
+            <div class="col-2">
+                <b>Creatore istanza</b>
+                <div>{{details.creatorUserId}}</div>
+            </div>
+            <div class="col-2">
+                <b>Ultima attività</b>
+                <div>{{date(moment(details.lastActivityTs))}}</div>
+            </div>
+            <div v-if="details.endTs" class="col-2">
+                <b>Fine</b>
+                <div>{{date(moment(details.endTs))}}</div>
+            </div>
+        </div>
+
+        [#if ((ftlInfo!"")?has_content) ]
+        <div id="info-form" >
+            [#if (ftlInfo!'')?contains('form-renderer-vue') ]
+            <ks-form disabled="true" form-id="info-form"  ref="managed" :model="variables" template="#ftlInfo" ></ks-form>
+            [#else]
+            <fieldset>
+                ${ftlInfo}
+            </fieldset>
+            [/#if]
+        </div>
+        [/#if]
+
+        <br/><h5>Attività aperte ({{treeTasks.data.length}})</h5>
+        <report-table v-if="treeTasks.data.length>0" :model="treeTasks" ></report-table>
+        <br/><h5>Attività concluse ({{treeTasksCompleted.data.length}})</h5>
+        <report-table v-if="treeTasksCompleted.data.length>0" :model="treeTasksCompleted" ></report-table>
+        <br/>
+        <template v-if="userInfo.username=='admin'">
+            <h5>callActivity ({{callNodes.data.length}})</h5>
+            <report-table v-if="callNodes.data.length>0" :model="callNodes" ></report-table>
+            <br/><h5>Partecipanti ({{partNodes.data.length}})</h5>
+            <report-table v-if="partNodes.data.length>0" :model="partNodes" ></report-table>
+            <br/><h5>Nodi attivi ({{activeNodes.data.length}})</h5>
+            <report-table v-if="activeNodes.data.length>0" :model="activeNodes" ></report-table>
+        </template>
+        <simplemodal buttons="" ref="history" id="history" title="Storia" size="xl">
+            <report-table :model="nodes" ></report-table>
+        </simplemodal>
+        <br/>
+        <template v-if="userInfo.username=='admin'">
+            <h5>Variabili</h5>
+            <div class="row">
+                <div class="col-4">
+                    <select style="height:30px" class="form-control" v-model="selected" >
+                        <option value="">-</option>
+                        <option  v-for="(value,key) in variables" :value="key">
+                            {{key}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-4">
+                    <button :disabled='selected==""' v-on:click="modify()" class="btn btn-info btn-sm pull-right">Modifica variabile</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <textarea style="font-size: xx-small" rows="10" id="newvalue" v-show='selected!=""' class="form-control" >{{
+                        JSON.stringify(variables[selected],null,4)
+                        }}</textarea>
+                </div>
+            </div>
+        </template>
+    </div>
+</div>
+
+
+
+<script>
+
+    var app = new Vue({
+        el: "#app",
+        data: function() {
+            var self = this;
+            var instance = data("model-instance");
+            //HUMAN TASKS
+            var tasksAll = instance.treeTasks; //tutte le istanze
+            var tasksOpen = [];
+            for(i=0;i<tasksAll.length;i++) {
+                if(tasksAll[i].status!='Completed'){
+                    tasksOpen.push(tasksAll[i]); //istanze aperte
+                }
+            }
+            //HUMAN TASKS APERTI
+            var treeTasks = reportdata(tasksOpen);
+            treeTasks.params["column.id.href"] = "/~task?id={id}";
+            treeTasks.params["column.name.href"] = "/~task?id={id}";
+            //treeTasks.params["column.name.target"] = "@modal-xl";  disabilitato popup
+            //treeTasks.params["column.name.target"] = "#main";
+            treeTasks.params["column.description.span"] = 100;
+            //treeTasks.params["column.description.label"] = " ";
+            treeTasks.params["column.instanceName.href"] = "/~instance?id={instanceId}";
+            treeTasks.params["column.name.label"] = "Nome";
+            treeTasks.params["column.instanceName.label"] = "Istanza";
+            treeTasks.params["column.subject.label"] = "Soggetto";
+            treeTasks.params["column.status.label"] = "Stato";
+            treeTasks.params["column.startTs.label"] = "Inizio";
+            treeTasks.params["column.endTs.label"] = "Fine";
+            treeTasks.params["column.potentialOwners.label"] = "Assegnazione";
+            treeTasks.params["column.actualOwner.label"] = "In carico";
+            treeTasks.params["column.description.label"] = "Descrizione";
+            treeTasks.columns ="id,name,instanceName,subject,status,startTs,endTs,potentialOwners,actualOwner,description".split(",");
+            for ( x in treeTasks.data ){
+                var task = treeTasks.data[x];
+                var assignments = task.assignments;
+                var instanceOwner = task.instance;
+                delete task.assignments;
+                delete task.instance;
+
+                task.instanceName = instanceOwner.businessName;
+                task.instanceId = instanceOwner.id;
+                task.potentialOwners = (assignments.potentialOwners||[]).join();
+                task.actualOwner = assignments.actualOwner;
+                task.taskStakeholders = (assignments.taskStakeholders||[]).join();
+                task.startTs = moment(task.startTs).format('DD-MM-YYYY HH:mm:ss');
+                task.endTs = moment(task.endTs).format('DD-MM-YYYY HH:mm:ss');
+            }
+
+            var tasksCompleted = [];
+            for(i=0;i<tasksAll.length;i++) {
+                if(tasksAll[i].status=='Completed'){
+                    tasksCompleted.push(tasksAll[i]); //istanze completate
+                }
+            }
+            //HUMAN TASKS COMPLETATI
+            var treeTasksCompleted = reportdata(tasksCompleted);
+            treeTasksCompleted.params["column.id.href"] = "/~task?id={id}";
+            treeTasksCompleted.params["column.name.href"] = "/~task?id={id}";
+            //treeTasksCompleted.params["column.name.target"] = "@modal-xl";  disabilitato popup
+            //treeTasksCompleted.params["column.name.target"] = "#main";
+            treeTasksCompleted.params["column.description.span"] = 100;
+            //treeTasksCompleted.params["column.description.label"] = " ";
+            treeTasksCompleted.params["column.instanceName.href"] = "/~instance?id={instanceId}";
+            treeTasksCompleted.params["column.name.label"] = "Nome";
+            treeTasksCompleted.params["column.instanceName.label"] = "Istanza";
+            treeTasksCompleted.params["column.subject.label"] = "Soggetto";
+            treeTasksCompleted.params["column.status.label"] = "Stato";
+            treeTasksCompleted.params["column.startTs.label"] = "Inizio";
+            treeTasksCompleted.params["column.endTs.label"] = "Fine";
+            treeTasksCompleted.params["column.potentialOwners.label"] = "Assegnazione";
+            treeTasksCompleted.params["column.actualOwner.label"] = "In carico";
+            treeTasksCompleted.params["column.description.label"] = "Descrizione";
+            treeTasksCompleted.columns ="id,name,instanceName,subject,status,startTs,endTs,potentialOwners,actualOwner,description".split(",");
+            for ( x in treeTasksCompleted.data ){
+                var task = treeTasksCompleted.data[x];
+                var assignments = task.assignments;
+                var instanceOwner = task.instance;
+                delete task.assignments;
+                delete task.instance;
+
+                task.instanceName = instanceOwner.businessName;
+                task.instanceId = instanceOwner.id;
+                task.potentialOwners = (assignments.potentialOwners||[]).join();
+                task.actualOwner = assignments.actualOwner;
+                task.taskStakeholders = (assignments.taskStakeholders||[]).join();
+                task.startTs = moment(task.startTs).format('DD-MM-YYYY HH:mm:ss');
+                task.endTs = moment(task.endTs).format('DD-MM-YYYY HH:mm:ss');
+            }
+
+
+            //NODI
+            var nodes = reportdata([]);
+            nodes.params["column.nodeId.label"] = "Id nodo";
+            nodes.params["column.participant.label"] = "Partecipanti";
+            nodes.params["column.nodeName.label"] = "Nome nodo";
+            nodes.params["column.nodeType.label"] = "Tipo nodo";
+            nodes.params["column.enterTs.label"] = "Inizio";
+            nodes.params["column.exitTs.label"] = "Fine";
+            nodes.columns = "id,nodeId,subprocess,callActivity,participant,nodeName,nodeType,enterTs,exitTs".split(",");
+            nodes.params["column.callActivity.href"] = "/~instance?id={callActivity}";
+            nodes.params["column.participant.href"] = "/~instance?id={participantId}";
+            nodes.params["column.nodeId.href"] = "/~node?instance=${instance.id?c}&node={id}";
+            nodes.params["column.enterTs.format"] = function(value) {
+                return moment(value).format('DD-MM-YYYY HH:mm:ss');
+            };
+            nodes.params["column.exitTs.format"] = function(value) {
+                return moment(value).format('DD-MM-YYYY HH:mm:ss');
+            };
+            //CALL ACTIVITY
+            var callNodes = reportdata(instance.treeInstances);
+            callNodes.params["column.status.label"] = "Stato";
+            callNodes.params["column.startTs.label"] = "Inizio";
+            callNodes.params["column.lastActivityTs.label"] = "Ultima attività";
+            callNodes.columns = "id,businessName,processId,status,startTs,lastActivityTs".split(",");
+            callNodes.params["column.businessName.href"] = "/~instance?id={id}";
+            callNodes.params["column.id.href"] = "/~instance?id={id}";
+            callNodes.params["column.businessName.format"] = function(value,ctx) {
+                return self.desc(ctx);
+            };
+            callNodes.params["column.status.format"] = function(value) {
+                var descrizione = "";
+                if(value=='1'){
+                    descrizione = "Attiva";
+                }
+                if(value=='2'){
+                    descrizione = "Completata";
+                }
+                if(value=='3'){
+                    descrizione = "Cancellata";
+                }
+                return descrizione;
+            };
+            callNodes.params["column.startTs.format"] = function(value) {
+                return moment(value).format('DD-MM-YYYY HH:mm:ss');
+            };
+            callNodes.params["column.lastActivityTs.format"] = function(value) {
+                return moment(value).format('DD-MM-YYYY HH:mm:ss');
+            };
+
+            //PARTECIPANTS
+            var participant = data('model-corr');
+            var participants = [];
+            if (participant){
+                participants.push(participant);
+            }
+            var partNodes = reportdata(participants);
+            partNodes.params["column.status.label"] = "Stato";
+            partNodes.params["column.startTs.label"] = "Inizio";
+            partNodes.params["column.lastActivityTs.label"] = "Ultima attività";
+            partNodes.columns = "id,businessName,processId,status,startTs,lastActivityTs".split(",");
+            partNodes.params["column.businessName.href"] = "/~instance?id={id}";
+            partNodes.params["column.id.href"] = "/~instance?id={id}";
+            partNodes.params["column.businessName.format"] = function(value,ctx) {
+                return self.desc(ctx);
+            };
+            partNodes.params["column.startTs.format"] = function(value) {
+                return moment(value).format('DD-MM-YYYY HH:mm:ss');
+            };
+            partNodes.params["column.lastActivityTs.format"] = function(value) {
+                return moment(value).format('DD-MM-YYYY HH:mm:ss');
+            };
+            //NODI ATTIVI
+            var activeNodes = reportdata([]);
+            activeNodes.params["column.nodeId.label"] = "Id nodo";
+            activeNodes.params["column.nodeName.label"] = "Nome nodo";
+            activeNodes.params["column.nodeType.label"] = "Tipo nodo";
+            activeNodes.params["column.enterTs.label"] = "Inizio";
+            activeNodes.params["column.action.label"] = "Azione";
+            activeNodes.columns = "id,nodeId,nodeName,nodeType,enterTs,action".split(",");
+            activeNodes.params["column.action.href"] = "javascript:app.signals(\"{action}\")";
+            activeNodes.params["column.action.href.label"] = "<i class='fas fa-satellite-dish'></i>&nbsp;invia evento";
+            activeNodes.params["column.nodeId.href"] = "/~node?instance=${instance.id?c}&node={id}";
+            activeNodes.params["column.enterTs.format"] = function(value) {
+                return moment(value).format('DD-MM-YYYY HH:mm:ss');
+            };
+
+            var chatMessages = null;
+            for ( x in instance.nodes ){
+                //var type = instance.nodes[x].nodeType;
+                var node = instance.nodes[x];
+                if (node.nodeType=="ForEachNode")
+                    continue;
+                var event = node.event;
+                if (node.nodeType == 'CompositeContextNode'){
+                    continue;
+                }
+                if (event){
+                    var info = event.nodeType;
+                    if (event.type!="none")
+                        info += "-" + event.type;
+                    if (event.id){
+                        info += " ["+event.id+"]";
+                        node.action = event.id;
+                    }
+                    node.nodeType = info;
+                    if (event.type=="message" && participant){
+                        node.participant = self.desc(participant);
+                        node.participantId = participant.id;
+                    }
+                } else {
+                    node.action = "";
+                }
+                if (node.context){
+                    if (node.context.instanceId==0)
+                        node.subprocess = "";
+                    else
+                        node.subprocess = node.nodeId.split("_")[0]+":"+node.context.instanceId;
+                }
+
+                node.callActivity = node.subprocessInstanceId;
+
+                nodes.data.push(node);
+
+                if (!instance.nodes[x].exitTs){
+                    activeNodes.data.push(node);
+                }
+            }
+
+            return {
+                selected : "",
+                edited : "",
+                instance: instance,
+                details: instance,
+                rootInstance: instance.rootInstance,
+                parentInstance: instance.rootInstance,
+                input: instance.variableValues,
+                variables: instance.variableValues,
+                nodes: nodes,
+                partNodes: partNodes,
+                activeNodes: activeNodes,
+                treeTasks: treeTasks,
+                treeTasksCompleted: treeTasksCompleted,
+                callNodes: callNodes,
+                chatMessages: chatMessages
+            }
+        },
+        methods: {
+            desc: function(instance) {
+                var desc = instance.businessName;
+                if (instance.nodes && instance.nodes[0] && instance.nodes[0].event && instance.nodes[0].event.id ){
+                    desc += " ("+(instance.nodes[0].event.lane||instance.nodes[0].event.id)+")";
+                } else if (instance.root) {
+                    desc += " (root)";
+                }
+                return desc;
+            },
+            modify: function () {
+                var payload = $("#newvalue").val();// this.variables[this.selected];
+
+                BpmClientApi.instances.updateVariable(this.instance.id,this.selected,payload,()=>{location.refresh()});
+                //PUT("/bpm/v1/instances/${instance.id}/variables/"+this.selected+"/value",JSON.stringify(this.variables[this.selected]),() => location.reload() );
+            },
+            bookmark: function() {
+                BpmClientApi.instances.createBookmark(this.instance.id,{},()=>{location.refresh()});
+                //POST("/bpm/v1/instances/${instance.id}/bookmarks",{});
+            },
+            abort: function() {
+                var instance = this.details;
+                confirm("sei sicuro?", function() {
+                    BpmClientApi.instances.abort(instance.id,{},()=>{location.refresh()});
+                    //POST("/bpm/v1/instances/${instance.id}/actions/abort",{}, () => {location.reload()} );
+                } )
+            },
+            signals: function(action) {
+                if (!action){
+                    alert("non ci sono eventi da inviare a questo nodo");
+                    return;
+                }
+
+                prompt(action, function(response) {
+                    var evt = response.title;
+                    var payload = JSON.parse(response.value||"null");
+                    BpmClientApi.events.signalEvent(evt,payload,()=>{location.refresh()});
+                })
+            },
+            date: function(date) {
+                return moment(date).format('DD-MM-YYYY HH:mm:ss');
+            },
+            statusDesc: function (value) {
+                var descrizione = "";
+                if(value=='1'){
+                    descrizione = "Attiva";
+                }
+                if(value=='2'){
+                    descrizione = "Completata";
+                }
+                if(value=='3'){
+                    descrizione = "Cancellata";
+                }
+                return descrizione;
+            }
+
+        }
+    });
+
+</script>
+</body>
+

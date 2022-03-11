@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<batchData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../../main/resources/batchData.xsd">
+
+	<callerApplication>docer-siir</callerApplication>
+
+	<mapping>
+		<documentType>TYPE_ID</documentType>
+		<callerApplication>APP_VERSANTE</callerApplication>
+		<tipoConservazione>T_CONSERV</tipoConservazione>
+		<forzaCollegamento>FORZA_COLL</forzaCollegamento>
+		<forzaAccettazione>FORZA_ACCETTAZ</forzaAccettazione>
+		<forzaConservazione>FORZA_CONSERV</forzaConservazione>
+	</mapping>
+
+    <search>
+        <description>TEST</description>
+        <documentType>default</documentType>
+        <tipoConservazione>SOSTITUTIVA</tipoConservazione>
+        <criterias>
+            <criteria name="COD_ENTE">
+                <value>ENTEPROVA</value>
+            </criteria>
+            <criteria name="COD_AOO">
+                <value>AOOPROVA</value>
+            </criteria>
+            <criteria name="STATO_CONSERV">
+                <value>1</value>
+            </criteria>
+        </criterias>
+
+        <identifierColumnNames>
+            <column>TYPE_ID</column>
+            <column>DOCNUM</column>
+        </identifierColumnNames>
+
+		<documentColumnNames>
+            <!-- Colonne usate per il mapping -->
+			<column>TYPE_ID</column>
+            <column>APP_VERSANTE</column>
+            <column>T_CONSERV</column>
+            <column>FORZA_COLL</column>
+            <column>FORZA_ACCETTAZ</column>
+            <column>FORZA_CONSERV</column>
+            <!-- Colonne di base comuni a tutti i TYPE_ID -->
+            <column>DOCNAME</column>
+            <column>DOCNUM</column>
+            <column>COD_ENTE</column>
+            <column>COD_AOO</column>
+            <column>NUM_PG</column>
+            <column>ANNO_PG</column>
+            <column>PROGR_FASCICOLO</column>
+            <column>ANNO_FASCICOLO</column>
+            <column>CLASSIFICA</column>
+            <column>FASC_SECONDARI</column>
+            <column>OGGETTO_PG</column>
+            <column>CREATION_DATE</column>
+            <column>USA_D_CO_CER</column>
+            <column>D_CO_CER</column>
+            <column>T_D_CONTR_CER</column>
+		</documentColumnNames>
+
+		<attachmentColumnNames>
+			<column>DOCNUM</column>
+            <column>DOCNAME</column>
+		</attachmentColumnNames>
+    </search>
+    
+	<search>
+        <description>DPG/DIB</description>
+
+        <documentType>default</documentType>
+		<tipoConservazione>SOSTITUTIVA</tipoConservazione>
+
+		<criterias>
+            <criteria name="COD_ENTE">
+                <value>EMR</value>
+            </criteria>
+            <criteria name="COD_AOO">
+                <value>AOO_EMR</value>
+                <value>AOO_IB</value>
+            </criteria>
+			<criteria name="STATO_ARCHIVISTICO">
+				<value>2</value>
+				<value>3</value>
+				<value>4</value>
+				<value>5</value>
+			</criteria>
+			<criteria name="STATO_CONSERV">
+				<value>1</value>
+			</criteria>
+            <criteria name="TIPO_COMPONENTE">
+                <value>PRINCIPALE</value>
+            </criteria>
+            <!-- Atti del Dirigente -->
+            <criteria name="TYPE_ID">
+                <value>DPG</value>
+                <value>DIB</value>
+            </criteria>
+		</criterias>
+
+        <identifierColumnNames>
+            <column>TYPE_ID</column>
+            <column>DOCNUM</column>
+        </identifierColumnNames>
+
+		<documentColumnNames>
+            <!-- Colonne usate per il mapping -->
+			<column>TYPE_ID</column>
+            <column>APP_VERSANTE</column>
+            <column>T_CONSERV</column>
+            <column>FORZA_COLL</column>
+            <column>FORZA_ACCETTAZ</column>
+            <column>FORZA_CONSERV</column>
+            <!-- Colonne di base comuni a tutti i TYPE_ID -->
+            <column>DOCNAME</column>
+            <column>DOCNUM</column>
+            <column>COD_ENTE</column>
+            <column>COD_AOO</column>
+            <column>NUM_PG</column>
+            <column>ANNO_PG</column>
+            <column>PROGR_FASCICOLO</column>
+            <column>ANNO_FASCICOLO</column>
+            <column>CLASSIFICA</column>
+            <column>FASC_SECONDARI</column>
+            <column>OGGETTO_PG</column>
+            <column>CREATION_DATE</column>
+            <column>USA_D_CO_CER</column>
+            <column>D_CO_CER</column>
+            <column>T_D_CONTR_CER</column>
+            <!-- Metadati specifici -->
+            <column>MS_T_REGISTRAZ</column>
+            <column>MS_N_ADOZIONE_AM</column>
+            <column>MS_D_ADOZIONE_AM</column>
+            <column>MS_L_ADOZIONE_AM</column>
+            <column>MS_FIRMATARIO</column>
+            <column>MS_STRUTT_ADOTT</column>
+            <column>MS_EPUB_BUR_AM</column>
+            <column>MS_DPUB_BUR_AM</column>
+            <column>MS_EPUB_SUBUR_AM</column>
+            <column>MS_DPUB_SUBUR_AM</column>
+            <column>MS_PROTREVATT_AM</column>
+            <column>MS_D_REVOCA_AM</column>
+		</documentColumnNames>
+
+		<attachmentColumnNames>
+			<column>DOCNUM</column>
+            <column>DOCNAME</column>
+		</attachmentColumnNames>
+
+	</search>
+    
+    <search>
+        <description>BURERT</description>
+
+        <documentType>default</documentType>
+        <tipoConservazione>SOSTITUTIVA</tipoConservazione>
+
+        <criterias>
+            <criteria name="COD_ENTE">
+                <value>EMR</value>
+            </criteria>
+            <criteria name="COD_AOO">
+                <value>AOO_EMR</value>
+            </criteria>
+            <criteria name="STATO_ARCHIVISTICO">
+                <value>2</value>
+                <value>3</value>
+                <value>4</value>
+                <value>5</value>
+            </criteria>
+            <criteria name="STATO_CONSERV">
+                <value>1</value>
+            </criteria>
+            <criteria name="TIPO_COMPONENTE">
+                <value>PRINCIPALE</value>
+            </criteria>
+            <!-- Bollettino Ufficiale -->
+            <criteria name="TYPE_ID">
+                <value>BURERT</value>
+            </criteria>
+        </criterias>
+
+        <identifierColumnNames>
+            <column>TYPE_ID</column>
+            <column>DOCNUM</column>
+        </identifierColumnNames>
+
+        <documentColumnNames>
+            <!-- Colonne usate per il mapping -->
+            <column>TYPE_ID</column>
+            <column>APP_VERSANTE</column>
+            <column>T_CONSERV</column>
+            <column>FORZA_COLL</column>
+            <column>FORZA_ACCETTAZ</column>
+            <column>FORZA_CONSERV</column>
+            <!-- Colonne di base comuni a tutti i TYPE_ID -->
+            <column>DOCNAME</column>
+            <column>DOCNUM</column>
+            <column>COD_ENTE</column>
+            <column>COD_AOO</column>
+            <column>NUM_PG</column>
+            <column>ANNO_PG</column>
+            <column>PROGR_FASCICOLO</column>
+            <column>ANNO_FASCICOLO</column>
+            <column>CLASSIFICA</column>
+            <column>FASC_SECONDARI</column>
+            <column>OGGETTO_PG</column>
+            <column>CREATION_DATE</column>
+            <column>USA_D_CO_CER</column>
+            <column>D_CO_CER</column>
+            <column>T_D_CONTR_CER</column>
+            <!-- Metadati specifici -->
+            <column>ANNATA_BU</column>
+            <column>DATA_BU</column>
+            <column>NUMERAZIONE_BU</column>
+            <column>NUMERO_BU</column>
+            <column>PARTE_BU</column>
+        </documentColumnNames>
+
+        <attachmentColumnNames>
+            <column>DOCNUM</column>
+            <column>DOCNAME</column>
+        </attachmentColumnNames>
+
+    </search>
+    
+    <search>
+
+        <description>NP</description>
+
+        <documentType>default</documentType>
+        <tipoConservazione>SOSTITUTIVA</tipoConservazione>
+
+        <criterias>
+            <criteria name="COD_ENTE">
+                <value>EMR</value>
+            </criteria>
+            <criteria name="COD_AOO">
+                <value>AOO_EMR</value>
+                <value>AOO_IB</value>                
+            </criteria>
+            <criteria name="STATO_ARCHIVISTICO">
+                <value>2</value>
+                <value>3</value>
+                <value>4</value>
+                <value>5</value>
+            </criteria>
+            <criteria name="STATO_CONSERV">
+                <value>1</value>
+            </criteria>
+            <criteria name="TIPO_COMPONENTE">
+                <value>PRINCIPALE</value>
+            </criteria>
+            <!-- Non protocollato -->
+            <criteria name="TYPE_ID">
+                <value>NP</value>
+            </criteria>
+        </criterias>
+
+        <identifierColumnNames>
+            <column>TYPE_ID</column>
+            <column>DOCNUM</column>
+        </identifierColumnNames>
+
+        <documentColumnNames>
+            <!-- Colonne usate per il mapping -->
+            <column>TYPE_ID</column>
+            <column>APP_VERSANTE</column>
+            <column>T_CONSERV</column>
+            <column>FORZA_COLL</column>
+            <column>FORZA_ACCETTAZ</column>
+            <column>FORZA_CONSERV</column>
+            <!-- Colonne di base comuni a tutti i TYPE_ID -->
+            <column>DOCNAME</column>
+            <column>DOCNUM</column>
+            <column>COD_ENTE</column>
+            <column>COD_AOO</column>
+            <column>NUM_PG</column>
+            <column>ANNO_PG</column>
+            <column>PROGR_FASCICOLO</column>
+            <column>ANNO_FASCICOLO</column>
+            <column>CLASSIFICA</column>
+            <column>FASC_SECONDARI</column>
+            <column>OGGETTO_PG</column>
+            <column>CREATION_DATE</column>
+            <column>USA_D_CO_CER</column>
+            <column>D_CO_CER</column>
+            <column>T_D_CONTR_CER</column>
+            <!-- Metadati specifici -->
+            <column>MS_T_REGISTRAZ</column>
+        </documentColumnNames>
+
+        <attachmentColumnNames>
+            <column>DOCNUM</column>
+            <column>DOCNAME</column>
+        </attachmentColumnNames>
+
+    </search>
+    
+    <search>
+
+        <description>BURERTSS</description>
+
+        <documentType>default</documentType>
+        <tipoConservazione>SOSTITUTIVA</tipoConservazione>
+
+        <criterias>
+            <criteria name="COD_ENTE">
+                <value>EMR</value>
+            </criteria>
+            <criteria name="COD_AOO">
+                <value>AOO_EMR</value>
+            </criteria>
+            <criteria name="STATO_ARCHIVISTICO">
+                <value>2</value>
+                <value>3</value>
+                <value>4</value>
+                <value>5</value>
+            </criteria>
+            <criteria name="STATO_CONSERV">
+                <value>1</value>
+            </criteria>
+            <criteria name="TIPO_COMPONENTE">
+                <value>PRINCIPALE</value>
+            </criteria>
+            <!-- Supplemento Speciale del Bollettino Ufficiale -->
+            <criteria name="TYPE_ID">
+                <value>BURERTSS</value>
+            </criteria>
+        </criterias>
+
+        <identifierColumnNames>
+            <column>TYPE_ID</column>
+            <column>DOCNUM</column>
+        </identifierColumnNames>
+
+        <documentColumnNames>
+            <!-- Colonne usate per il mapping -->
+            <column>TYPE_ID</column>
+            <column>APP_VERSANTE</column>
+            <column>T_CONSERV</column>
+            <column>FORZA_COLL</column>
+            <column>FORZA_ACCETTAZ</column>
+            <column>FORZA_CONSERV</column>
+            <!-- Colonne di base comuni a tutti i TYPE_ID -->
+            <column>DOCNAME</column>
+            <column>DOCNUM</column>
+            <column>COD_ENTE</column>
+            <column>COD_AOO</column>
+            <column>NUM_PG</column>
+            <column>ANNO_PG</column>
+            <column>PROGR_FASCICOLO</column>
+            <column>ANNO_FASCICOLO</column>
+            <column>CLASSIFICA</column>
+            <column>FASC_SECONDARI</column>
+            <column>OGGETTO_PG</column>
+            <column>CREATION_DATE</column>
+            <column>USA_D_CO_CER</column>
+            <column>D_CO_CER</column>
+            <column>T_D_CONTR_CER</column>
+            <!-- Metadati specifici -->
+            <column>ANNATA_SSBU</column>
+            <column>DATA_SSBU</column>
+            <column>NUMERAZIONE_SSBU</column>
+            <column>NUMERO_SSBU</column>
+        </documentColumnNames>
+
+        <attachmentColumnNames>
+            <column>DOCNUM</column>
+            <column>DOCNAME</column>
+        </attachmentColumnNames>
+
+    </search>
+    
+    <search>
+        <description>DURC</description>
+
+        <documentType>default</documentType>
+        <tipoConservazione>SOSTITUTIVA</tipoConservazione>
+
+        <criterias>
+            <criteria name="COD_ENTE">
+                <value>EMR</value>
+            </criteria>
+            <criteria name="COD_AOO">
+                <value>AOO_EMR</value>
+            </criteria>
+            <criteria name="STATO_ARCHIVISTICO">
+                <value>2</value>
+                <value>3</value>
+                <value>4</value>
+                <value>5</value>
+            </criteria>
+            <criteria name="STATO_CONSERV">
+                <value>1</value>
+            </criteria>
+            <criteria name="TIPO_COMPONENTE">
+                <value>PRINCIPALE</value>
+            </criteria>
+            <!-- Durc -->
+            <criteria name="TYPE_ID">
+                <value>DURC</value>
+            </criteria>
+        </criterias>
+
+        <identifierColumnNames>
+            <column>TYPE_ID</column>
+            <column>DOCNUM</column>
+        </identifierColumnNames>
+
+        <documentColumnNames>
+            <!-- Colonne usate per il mapping -->
+            <column>TYPE_ID</column>
+            <column>APP_VERSANTE</column>
+            <column>T_CONSERV</column>
+            <column>FORZA_COLL</column>
+            <column>FORZA_ACCETTAZ</column>
+            <column>FORZA_CONSERV</column>
+            <!-- Colonne di base comuni a tutti i TYPE_ID -->
+            <column>DOCNAME</column>
+            <column>DOCNUM</column>
+            <column>COD_ENTE</column>
+            <column>COD_AOO</column>
+            <column>NUM_PG</column>
+            <column>ANNO_PG</column>
+            <column>OGGETTO_PG</column>
+            <column>PROGR_FASCICOLO</column>
+            <column>ANNO_FASCICOLO</column>
+            <column>CLASSIFICA</column>
+            <column>FASC_SECONDARI</column>
+            <column>CREATION_DATE</column>
+            <column>USA_D_CO_CER</column>
+            <column>D_CO_CER</column>
+            <column>T_D_CONTR_CER</column>
+            <!-- Metadati specifici -->
+            <column>MS_T_REGISTRAZ</column>
+
+        </documentColumnNames>
+
+        <attachmentColumnNames>
+            <column>DOCNUM</column>
+            <column>DOCNAME</column>
+        </attachmentColumnNames>
+
+    </search>
+
+</batchData>
+

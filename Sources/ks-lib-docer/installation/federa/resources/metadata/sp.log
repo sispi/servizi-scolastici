@@ -1,0 +1,28 @@
+2014-12-18 17:36:10,658 DEBUG [it.cefriel.icar.inf3.web.filters.AuthenticationFilter] init() - start
+2014-12-18 17:36:12,222 DEBUG [it.cefriel.icar.inf3.web.filters.AuthenticationFilter] init() - end
+2014-12-18 17:36:20,358 DEBUG [it.cefriel.icar.inf3.web.filters.AuthenticationFilter] doFilter() - start
+2014-12-18 17:36:22,113 WARN  [it.cefriel.icar.inf3.saml2.wrapper.opensaml2.OpenSAML2Wrapper] No AttributeConsumingServiceIndex found to put into the AuthenticationRequest
+2014-12-18 17:36:22,137 INFO  [it.cefriel.icar.inf3.web.filters.AuthenticationFilter] doFilter() - AuthnRequest generated:
+<?xml version="1.0" encoding="UTF-8"?>
+<saml2p:AuthnRequest
+    AssertionConsumerServiceURL="http://localhost:8080/webappname/AssertionConsumerService"
+    Destination="https://federatest.lepida.it/gw/SSOProxy/SAML2"
+    ForceAuthn="false" ID="s2f94852c64c478e2af1fc2d75905788b2778092"
+    IsPassive="false" IssueInstant="2014-12-18T16:36:22.115Z"
+    ProtocolBinding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+    Version="2.0" xmlns:saml2p="urn:oasis:names:tc:SAML:2.0:protocol">
+    <saml2:Issuer xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">http://localhost:8080/webappname/metadata</saml2:Issuer>
+    <saml2p:NameIDPolicy AllowCreate="false" Format="urn:oasis:names:tc:SAML:1.1:nameid-format:unspecified"/>
+    <saml2p:RequestedAuthnContext Comparison="exact">
+        <saml2:AuthnContextClassRef xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">urn:oasis:names:tc:SAML:2.0:ac:classes:PasswordProtectedTransport</saml2:AuthnContextClassRef>
+        <saml2:AuthnContextClassRef xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">urn:oasis:names:tc:SAML:2.0:ac:classes:SecureRemotePassword</saml2:AuthnContextClassRef>
+        <saml2:AuthnContextClassRef xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion">urn:oasis:names:tc:SAML:2.0:ac:classes:Smartcard</saml2:AuthnContextClassRef>
+    </saml2p:RequestedAuthnContext>
+    <saml2p:Scoping ProxyCount="2">
+        <saml2p:RequesterID>http://localhost:8080/webappname/metadata</saml2p:RequesterID>
+    </saml2p:Scoping>
+</saml2p:AuthnRequest>
+
+2014-12-18 17:36:22,171 INFO  [it.cefriel.icar.inf3.web.filters.AuthenticationFilter] doFilter() - Redirecting to: https://federatest.lepida.it/gw/SSOProxy/SAML2?SAMLRequest=zVTLbtswELz3KwTerQfrh0xYDlwbQQ2kjWEpPfRGU6uYgESqXCp2%2Fr6U%2FIiDNg7aS3td7s4OZ4ac3Oyr0nsCg1KrhER%2BSDxQQudSPSbkIbvtxeRm%2BmGCvCppzWaN3ao1%2FGgArTdDBGPd3FwrbCowKZgnKeBhfZeQrbU1C4JSC15uNVoWh3EY7GDD61rxCoK3pom3cOBScdsxanHQARWQg%2BHWHfkl1DLnvrTB4y5I0%2FuV0fvnIJ19uaPEu9VGQEczIQUv0eEtFwlBWoz78YCKYV%2F0RzFQXkSFoPloMA4Hozje0NEoDscOYIkrjiif4GUesYGlQsuVTQgNo34vor0ozqIh%2BzhklPpRNPhOPMfDaqHLT1Id5GuMYpqjRNbeGJkVrGXJqB%2ByzaEJ2ecsW%2FVW92lGvG8nG2hrgzNGITsIfx2rPi4m04NPrGNsLhGuA%2FCTF2T6rm8VWJ5zyyfB5a7pKSFfXc9ysdKlFM%2FerCz1bm7A%2BXZW0xlUcfs2n8iPuorMe0XXyhqFNQhZSMhJcF50TCHkndkuRBb21pvrquZGYqsi7LmwZ00u2%2Balu%2FEair9S6GqbYKLFduU2RTtt8jYVIBzPzHB3EW3sSbnfMfpXbFMQjYE1VI7sifl%2FybPixgr%2BHrngWkjOEUqFrt0b9LoPZK6b7nmTXxJmlos%2Ffhavp8%2FF48aXwuWHOv0J&RelayState=s2f94852c64c478e2af1fc2d75905788b2778092&SigAlg=http%3A%2F%2Fwww.w3.org%2F2000%2F09%2Fxmldsig%23rsa-sha1&Signature=Sx6T0ULx0kozA5fhof6ZkqzEzcKxUBfSyzXqhgOYmuwrCC6WM6Y3HT%2Fpsy%2F3f3HDAGnU%2FaBvZRZWg45MEVjrYbswIMhh4j%2BnZAyTtp3REP9AOwbqYgnsm2PrHpwfB5%2BwNXdCzr3bHcaPYyzE7NIxENJ4C6GXmlKkri39KiCy1Sg%3D&language=it
+2014-12-18 17:43:34,543 DEBUG [it.cefriel.icar.inf3.web.filters.AuthenticationFilter] init() - start
+2014-12-18 17:43:35,736 DEBUG [it.cefriel.icar.inf3.web.filters.AuthenticationFilter] init() - end

@@ -1,0 +1,226 @@
+<html @view="master.ftl">
+<head @ignore>
+    <base href="file:///C:/Users/daniele.damiani/Desktop/vuetest/">
+    <title>Search Document</title>
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="vendor/jquery-3.5.1.min.js"></script>
+    <script src="vendor/jquery-migrate-3.3.0.min.js"></script>
+    <script>
+        axios.interceptors.request.use(function(config) {
+            config.headers.KS_AUTH_GROUP = "admin|ANM|ANM_AOO|SYS_ADMINS|admins";
+            return config;
+        });
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,700&display=swap" rel="stylesheet"><!-- Google Font Roboto-->
+    <link rel="stylesheet" href="bootstrap-4.3.1-dist/css/bootstrap.min.css"><!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/base-style.css"><!-- css presonalizzato -->
+    <link rel="stylesheet" href="vendor/fontawesome/all.min.css"><!-- icone -->
+    <script src="vendor/moment.js"></script><!-- moment -->
+    <script src="vendor/vue-scrollto.js"></script><!-- scrollto -->
+    <script src="vendor/popper-1.14.7.min.js"></script>
+    <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/modal-style.css">
+</head>
+
+<body class="body">
+
+<script type="application/json" id="messages-model" @server src="/messages?filter=viewProfile.**,viewNavList.**,label.**,listaAnagrafiche.**,searchDocument.**,common.**"></script>
+
+<link rel="stylesheet" href="/static/css/doc-style.css">
+
+<div id="resultSearch" v-cloak>
+
+    <br>
+
+    <label class="labelNew">{{messages["searchDocument.tipoDocumento"] || "Tipo documento"}}</label>
+    <select @change="typeIdChange()" class="form-control" v-model="selectedTypeId">
+        <option v-for="(tipo, key) in typeId" :value="key">{{key}}</option>
+    </select>
+
+    <br>
+    <div class="card">
+            <!-- default -->
+            <span class="page-type"><i class="bi bi-three-dots-vertical mainColor"></i>{{messages["searchDocument.cerca"] || "Cerca"}} </span>
+            <div class="${query.type}"><!-- IMPORTANTE NON ELIMINARE CLASSE -->
+                <div class="space-1h"></div>
+                <div class="card-body">
+
+                    [#include ( "documenti/ftl/COMMON-SEARCH.ftl") ignore_missing=true /]
+
+                    <div class="space-2h"></div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="labelNew">{{messages["searchDocument.tipoComponente"] || "Tipo componente"}}</label>
+                            <hr>
+                            <span style="margin-left: 10px;" class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="principale" value="PRINCIPALE" v-model="checkedType">
+                                <label style="font-size: 14px;" class="form-check-label" for="principale">{{messages["searchDocument.principale"] || "Principale"}}</label>
+                            </span>
+                            <span style="margin-left: 10px;" class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="allegato" value="ALLEGATO" v-model="checkedType">
+                                <label style="font-size: 14px;" class="form-check-label" for="allegato">{{messages["searchDocument.allegato"] || "Allegato"}}</label>
+                            </span>
+                            <span style="margin-left: 10px;" class="form-check form-check-inline">
+                                <input class="form-check-input" type="checkbox" id="annesso" value="ANNESSO" v-model="checkedType">
+                                <label style="font-size: 14px;" class="form-check-label" for="annesso">{{messages["searchDocument.annesso"] || "Annesso"}}</label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            [#include ("documenti/ftl/"+ (query.type!"") +"-SEARCH.ftl") ignore_missing=true /]
+        
+    </div>    
+
+    <div class="space-1h"></div>
+    <div class="row">
+        <div class="col-md-10">
+        </div>
+        <div class="col-md-2">
+            <button @click="search()" class="btn btn-default btn-block"><i class="bi bi-search mainColor"></i> {{messages["listaAnagrafiche.cerca"] || "Cerca"}}
+            </button>
+        </div>
+    </div>        
+
+    </div>
+
+
+</div><!-- chiusura resultSearch-->
+
+
+
+<script >
+    
+    //abilito tooltip
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+
+    //metodi globali
+    Vue.mixin({
+        methods: {
+            moment: function(date) {
+                return moment(date);
+            },
+            date: function(date) {
+                return moment(date).format('DD/MM/YYYY HH:mm:ss');
+            },
+            
+        },
+    })
+
+    
+    var app = new Vue({
+        el: '#resultSearch',
+        data: function() {
+            return {
+                messages: JSON.parse($("#messages-model").text()),
+                typeId:[],
+                selectedTypeId: '${query.type}',
+                paramSearch:[],
+                checkedType: ["PRINCIPALE","ALLEGATO","ANNESSO"], //imposto le 3 checkbox selezionate
+            }
+        },
+        created() {
+            axios.get("/docer/v1/documenti/tipologie")
+                    .then(response => {
+                        this.typeId = response.data;
+                    })
+                    .catch(error => {
+                        showError(error.response.data);
+                    });
+        },
+        methods: {
+            search: function(){
+                //gestione checkedType per bug quando dalla lista risultati torno alla pagina di ricerca
+                this.checkedType=[];
+                if($('#principale').is(':checked')){
+                    this.checkedType.push("PRINCIPALE");
+                }
+                if($('#allegato').is(':checked')){
+                    this.checkedType.push("ALLEGATO");
+                }
+                if($('#annesso').is(':checked')){
+                    this.checkedType.push("ANNESSO");
+                }
+                //fine gestione checkedType
+
+                if(this.checkedType.length>0){
+                    var selected_tipo = this.checkedType.toString(); 
+                    var tipo = "&TIPO_COMPONENTE=("+selected_tipo.replaceAll(","," ")+")&"; 
+                }else{
+                    var tipo = "&";
+                }
+                
+                var body = {}
+                //parte dinamica in base alla tipologia
+                $('.${query.type} .nameToBuildPayload').each(function() {
+                    body[$(this).attr('name')]= $(this).val(); //mappa    
+                });
+
+                //rimuovo attributi vuoti nel body
+                for (var propName in body) {
+                    if ( (body[propName] == "") || (body[propName] == null) ) {
+                        delete body[propName];
+                    }else{
+                        body[propName] = body[propName]+"*";
+                    }
+                }
+                
+                var mappaDate = [];
+                //gestione date creato dal al
+                if(this.paramSearch.creatoDal && !this.paramSearch.creatoAl){
+                    mappaDate.push("created_on=%5B"+moment(this.paramSearch.creatoDal).toISOString()+" TO *%5D");
+                }
+                if(!this.paramSearch.creatoDal && this.paramSearch.creatoAl){
+                    mappaDate.push("created_on=%5B* TO "+moment(this.paramSearch.creatoAl).toISOString()+"%5D");
+                }
+                if(this.paramSearch.creatoDal && this.paramSearch.creatoAl){
+                    mappaDate.push("created_on=%5B"+moment(this.paramSearch.creatoDal).toISOString()+" TO "+moment(this.paramSearch.creatoAl).toISOString()+"%5D");
+                }
+                //gestione date modificato dal al
+                if(this.paramSearch.modificatoDal && !this.paramSearch.modificatoAl){
+                    mappaDate.push("modified_on=%5B"+moment(this.paramSearch.modificatoDal).toISOString()+" TO *%5D");
+                }
+                if(!this.paramSearch.modificatoDal && this.paramSearch.modificatoAl){
+                    mappaDate.push("modified_on=%5B* TO "+moment(this.paramSearch.modificatoAl,).toISOString()+"%5D");
+                }
+                if(this.paramSearch.modificatoDal && this.paramSearch.modificatoAl){
+                    mappaDate.push("modified_on=%5B"+moment(this.paramSearch.modificatoDal,).toISOString()+" TO "+moment(this.paramSearch.modificatoAl,).toISOString()+"%5D");
+                }
+                
+                var stringaDate = mappaDate.toString();
+                if(stringaDate!=""){
+                    stringaDate = "&"+stringaDate;
+                }
+                
+                const searchParams = new URLSearchParams(body);
+                var searchUrl = searchParams.toString();
+
+                if( this.paramSearch.creatoDal || this.paramSearch.creatoAl ){
+                    var sort = "created_on";
+                }else{
+                    var sort = "modified_on";
+                }
+
+                if(searchUrl){
+                    window.location.href = "/documenti/listaRisultati?fq=TYPE_ID:${query.type}"+tipo+searchUrl+"&sort="+sort+"%20desc"+stringaDate;
+                }else{
+                    window.location.href = "/documenti/listaRisultati?fq=TYPE_ID:${query.type}"+tipo+"sort="+sort+"%20desc"+stringaDate;
+                }
+            },
+        	typeIdChange: function() {
+        		window.location.href = "/documenti/searchDocument?type="+this.selectedTypeId;
+        	},
+
+        }
+    });
+    
+
+</script>
+
+</body>
+
+</html>

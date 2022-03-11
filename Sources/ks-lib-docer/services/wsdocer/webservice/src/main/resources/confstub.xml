@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<saml2:Assertion xmlns:saml2="urn:oasis:names:tc:SAML:2.0:assertion" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                 Version="2.0">
+    <ds:Signature xmlns:ds="http://www.w3.org/2000/09/xmldsig#">
+        <ds:SignedInfo>
+            <ds:CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+            <ds:SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+            <ds:Reference URI="">
+                <ds:Transforms>
+                    <ds:Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+                    <ds:Transform Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#">
+                        <ec:InclusiveNamespaces xmlns:ec="http://www.w3.org/2001/10/xml-exc-c14n#" PrefixList="xs"/>
+                    </ds:Transform>
+                </ds:Transforms>
+                <ds:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                <ds:DigestValue/>
+            </ds:Reference>
+        </ds:SignedInfo>
+        <ds:SignatureValue/>
+        <ds:KeyInfo>
+            <ds:KeyValue>
+                <ds:RSAKeyValue>
+                    <ds:Modulus>rEWxlE4ODGjA7DWoJ603iGtP4pdHYBBphjz67NEPBKJsm/wX8L4nEvmKR4/yOc3NpdeYs4eenlRJ
+                        lMdb9ZYKlJS6wPOZgr01LUOW1vQ+q/qyqSD5IOJUY71bEjAZqerA700wsQ0WNwUqt+u2O+V5enOQ
+                        JqURSP9TroX7WfL3ZWwzDWx/ZlpG+ogR68zYpo/2jlVMfy2+iFulL3WkhjTDE7P6Y5OcBg00DEGg
+                        CSCHg+hCNQHNIDj6u39p613Q6ChcnAjEb1h3ngUtfRu0N0fu2CR9cFfijpT/TmO05TOhXLmZhJb8
+                        8csSWkdOTwpiGu3q/4VRyxldOPSTVBv26r2sHw==
+                    </ds:Modulus>
+                    <ds:Exponent>AQAB</ds:Exponent>
+                </ds:RSAKeyValue>
+            </ds:KeyValue>
+        </ds:KeyInfo>
+    </ds:Signature>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="clientId">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">xforms
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="userid">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">
+                GGLSMN78B27H501I
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="authenticationMethod">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">password
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="federaUserDomain">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">mio.it
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="provinciaNascita">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">RM
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="userid">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">
+                GGLSMN78B27H501I@mio.it
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="statoNascita">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">ITALIA
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="lastname">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">gigli
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="emailAddress">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">
+                simone.gigli@kdm.it
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="trustLevel">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">Basso
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="firstname">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">simone
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="userAlias">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">simone
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="cognome">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">gigli
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="sesso">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">M
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="emailAddressPersonale">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">
+                simone.gigli@kdm.it
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="dataNascita">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">
+                27/02/1978
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="cellulare">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">
+                3207411639
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="qualifiedUserAlias">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">
+                simone@mio.it
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="policyLevel">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">Basso
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="nome">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">simone
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="CodiceFiscale">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">
+                GGLSMN78B27H501I
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="luogoNascita">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">ROMA
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="authenticatingAuthority">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">prova 2
+                sedi
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+    <saml2:AttributeStatement>
+        <saml2:Attribute Name="codiceEnte">
+            <saml2:AttributeValue xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xs:string">ENTEPROVA
+            </saml2:AttributeValue>
+        </saml2:Attribute>
+    </saml2:AttributeStatement>
+</saml2:Assertion>

@@ -1,0 +1,53 @@
+
+
+#main .breadcrumb {
+    display: none !important;
+}
+#side-bar-bg{
+    display: none !important;
+}
+#k-side-bar{
+    display: none !important;
+}
+#body{
+    /*margin-top: 100px;*/
+}
+
+#body nav {
+	display:none
+}
+
+.glyphicon{
+    top:0px!important;
+    line-height: unset!important;
+}
+#btn_accedi{
+    width: 100%;
+}
+#executeLogin{
+    background-color:#eee;
+    padding:25px;
+    border-radius: 20px;
+}
+.btn-primary {
+    color: #fff;
+    background-color: #0767B4 !important;
+    border-color: #0767B4 !important;
+}
+#logo_login{
+    text-align:center;
+}
+#logo_login img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    background-color: #0767B4;
+    opacity: 0.7;
+    margin-bottom:-25px
+}
+#login_header{
+    text-align:center;
+    border-bottom: 2px solid #fff;
+    margin-bottom: 15px;
+    padding: 10px;
+}

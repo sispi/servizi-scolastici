@@ -1,0 +1,46 @@
+.logoGF{
+    text-align: center;
+    border-top: 1px solid #e5e5e5;
+    position: fixed;
+    height: 40px;
+    background-color: #f8f9fa;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    padding-top: 3px;
+}
+.textLogoGF{
+    font-size: 14px;
+    color: #666;
+    margin-left: -5px;
+    margin-right: -5px;
+}
+.table {
+    border: 1px solid #dee2e6;
+}
+.my-body-settings {
+    margin: 15px !important;
+}
+a {
+    color: #006db6;
+}
+#app{
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.title{
+    color: #006db6;
+    font-weight: normal;
+}
+#app h2{
+    color: #006db6;
+    font-weight: normal;
+    text-transform: capitalize;
+}
+#demo{
+    padding-left: 0px;
+}
+
+#body .navbar{
+    border-bottom: 1px solid #dfdfdf;
+}

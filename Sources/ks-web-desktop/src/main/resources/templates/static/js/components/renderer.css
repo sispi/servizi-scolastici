@@ -1,0 +1,276 @@
+[v-cloak] {
+    display: none;
+}
+
+.disabled {
+    cursor: not-allowed;
+}
+
+.no-alerts #alert-panel {
+    display:none !important;
+}
+
+.no-alerts .feedback {
+    display: none !important;
+}
+
+.wizard .nav-link {
+    border: 0px;
+    opacity: .65;
+}
+
+.nav-link .visited.invalid {
+    border: 0px;
+    opacity: .65;
+    color: #c72736 !important;
+}
+
+.nav-link .visited.invalid:before {
+    content: "\f622" !important;
+}
+
+.wizard .nav-link.active {
+    opacity: 1;
+    color: #495057;
+    font-weight: 800;
+    background-color: unset;
+}
+
+.form-header {
+    background-color: #eeeedd;
+    font-size: 1.5rem;
+    line-height: 2;
+    font-weight: 500;
+    padding: 0.5rem;
+    width:100%;
+    display: block;
+}
+
+.form-footer {
+    background-color: #dddddd;
+    font-size: 1.2rem;
+    line-height: 1.2;
+    padding: 0.5rem;
+    width:100%;
+    display: block;
+}
+
+.tab-pane.unsticky {
+    min-height: 30vh;
+    border-bottom: 1px solid #dee2e6
+}
+
+.tab-pane.sticky {
+    order: -1;
+    display: block!important;
+    opacity: 1!important;
+}
+
+.tab-pane.sticky.footer {
+    order: 1;
+}
+
+.header-line {
+    font-size: 1.25rem;
+    font-weight: 500;
+    line-height: 1.2;
+    padding-bottom: 0.5rem ;
+}
+
+.tab-header {
+    background-color: #eeccee;
+}
+
+.section-header {
+    background-color: #eeeedd;
+}
+
+.section-body {
+}
+
+.section-item {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.section-row {
+    background-color: #f8f8f8;
+}
+
+.section-row.alternate {
+    background-color: #eeffee;
+}
+
+.section-row.alternate.even {
+    background-color: #eeeeff;
+}
+
+.sticky .section-row {
+    background-color: unset;
+}
+
+.toolbar .section-row {
+    gap: 4px;
+    padding-left: 15px;
+}
+
+.toolbar .section-item {
+    width: 100%;
+}
+
+.toolbar.section-body {
+    width: 100%;
+}
+
+.section-row.btn-group {
+    gap: 0px;
+}
+
+.section-row.btn-group {
+    margin-right: 15px;
+}
+
+.invalid-feedback {
+    display: block;
+}
+
+.feedback {
+    /*min-height: 1.5rem;*/
+}
+
+.table .feedback, .table .form-group {
+    min-height: 0rem;
+    margin: 0px;
+}
+
+/*.table .form-control {
+    height: calc(1.5em);
+    margin-top: 3px;
+    margin-bottom: 3px;
+}*/
+
+.section-item .form-control {
+    margin-top: 3px;
+    margin-bottom: 3px;
+}
+
+/*.ctrl-select * {
+    z-index: 100000000;
+}*/
+
+.select2-results * {
+    z-index: 1000000000;
+}
+
+.section-item label {
+    margin-bottom: 0.1rem;
+}
+
+.ctrl-select label {
+    margin-bottom: 0.6rem;
+}
+
+.table label {
+    display: none;
+}
+
+.form-group {
+    margin-bottom: 0.3rem;
+}
+
+.ctrl-hidden {
+    display:none
+}
+
+.ctrl-header {
+    background-color: #eeeeee;
+    width:100%;
+}
+
+.ctrl-checkbox-group .form-check, .ctrl-radio-group .form-check {
+    display: inline-block;
+}
+
+.ctrl-checkbox-group .form-check-group-label, .ctrl-radio-group .form-check-group-label {
+    margin-bottom: 1px;
+}
+
+.ctrl-checkbox-group .form-check input,.ctrl-radio-group .form-check input {
+    margin-top: .4rem;
+}
+
+.ctrl-checkbox-group .form-check , .ctrl-radio-group .form-check{
+    margin-right: .4rem;
+}
+
+button.prevnext {
+    padding:0px;
+}
+
+.prevnext i {
+    font-size: large;
+    padding:0px;
+    margin:0px;
+    font-weight: 500;
+}
+
+.vhidden {
+    visibility: hidden;
+    width: 0px;
+    height: 0px;
+    padding: 0;
+    margin: -2px;
+    border: 0;
+    display: block;
+}
+
+.ctrl-select {
+    line-height: 1.3;
+    font-size: 0.9rem;
+}
+
+.ctrl-select .select2-selection--single
+{
+    /*height: 32px !important;*/
+    height: calc(1.5em + .75rem + 5px) !important;
+
+}
+
+.ctrl-select .select2-selection--multiple
+{
+    /*min-height: 32px !important;*/
+    height: calc(1.5em + .75rem + 5px) !important;
+}
+
+.ctrl-select .select2-selection__choice {
+
+    height: calc(1.5em + .75rem - 3px) !important;
+
+    margin-top: 8px !important;
+    background-color: #89cae4 !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 42%;
+    /*padding-bottom: 4px !important;*/
+    padding-top:4px !important;
+}
+
+.ctrl-select .select2-selection__rendered {
+    margin-bottom: -3px !important;
+    margin-top: -5px !important;
+
+}
+
+.ctrl-select .select2-selection--multiple .select2-selection__rendered {
+    padding-left: 2px !important;
+}
+
+.ctrl-select .select2-selection__choice__remove{
+    color: red !important;
+}
+
+.ctrl-button button.form-control  {
+    min-height: 25px;
+    padding: 0px 5px 2px 5px;
+}

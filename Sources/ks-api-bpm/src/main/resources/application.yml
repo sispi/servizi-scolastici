@@ -1,0 +1,80 @@
+server:
+    port: 8083
+
+spring:
+    datasource:
+        url: jdbc:mysql://localhost:3306/bpm?serverTimezone=UTC&rewriteBatchedStatements=true
+        username: username
+        password: password
+        driver-class-name: com.mysql.cj.jdbc.MysqlXADataSource
+    jpa:
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.MySQL57InnoDBDialect
+    jta:
+        log-dir: /opt/ks6/ks-api-bpm/tx/log       
+
+
+quartz:
+    datasource:
+        url: jdbc:mysql://localhost:3306/bpm?serverTimezone=UTC
+        username: username
+        password: password
+        driver-class-name: com.mysql.cj.jdbc.Driver
+
+email:
+    smtp:
+        defaultFrom: email@example.com
+        sources:
+            - from: email@example.com
+              personal: personal
+              host: smtp.host
+              port: 587
+              authentication: true
+              username: username
+              password: password
+              protocol: smtp
+              tls: true
+
+jms:
+    brokerUrl: vm://embedded-broker?broker.persistent=false
+    brokerUser:
+    brokerPassword:            
+
+env:
+    systemProperties:
+        - name: docer.url
+          value: http://localhost:8080
+        - name: tempfiles.upload
+          value: /opt/ks6/ks-api-docer/tmp/files/upload      
+          
+rpc:
+    docerActionService: 
+        url: http://localhost:8089
+
+form:
+    service:
+        url: http://localhost:8086/form-manager
+    
+application:    
+    backoffice:
+        baseUrl: http://ks-backoffice:8082
+    document:
+        baseUrl: http://localhost:8080/files/upload
+        basePath: /opt/ks6/ks-api-docer/tmp/files/upload      
+    datastore:
+        jdbc:
+            datasources:
+                -   name: local
+                    platform: MySQL5
+                    schema: bpm 
+                -   name: sispi    
+                    platform: Oracle10
+                    schema: username
+                    url: jdbc:oracle:thin:@localhost:1521/sid
+                    username: username
+                    password: password
+                    driverClassName: oracle.jdbc.driver.OracleDriver                    
+
+loader.path: /opt/ks6/ks-api-bpm/libs
+

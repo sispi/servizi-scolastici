@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<p:rer-import-docer xmlns:p="http://www.regione.emilia-romagna.it/rer-import/docer/"
+                    xmlns:p1="http://www.regione.emilia-romagna.it/rer-import/"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://www.regione.emilia-romagna.it/rer-import/docer/ ../../xsd/rer-import-docer.xsd ">
+	  <importHeader>
+		    <id-fonte>EMR1</id-fonte>
+		    <id-flusso>F20131007110532514</id-flusso>
+		    <timestamp-flusso>2013-10-07T11:05:32</timestamp-flusso>
+	  </importHeader>
+	  <importBody>
+      <notification>
+	        <saveOrUpdate>
+		          <record uid="FAS-b4cc2aaf-bfb0-47ca-8999-f38833691a58">
+			            <commonFields>
+				              <creation-timestamp>2013-10-07T11:05:32</creation-timestamp>
+				              <last-update-timestamp>2013-10-07T11:05:32</last-update-timestamp>
+				              <codice-ente>EMR</codice-ente>
+				              <latitudine>0.0</latitudine>
+				              <longitudine>0.0</longitudine>
+				              <descrizione>fascicolo 1/2013/1.1</descrizione>
+                  <keywords>
+                     <keyword>2013</keyword>
+                  </keywords>
+			               <relazioni>
+                     <relazione autorizzazione="true" tipoId="codiceFiscale" tipoRelazione="titolare">BSNLCU74A01H501M</relazione>
+                  </relazioni>
+               </commonFields>
+			            <EntitaDocumentale>
+				              <Fascicolo>
+				                 <numero>1.1</numero>
+                     <classifica>1</classifica>
+                     <anno>2013</anno>
+                     <progressivo>1.1</progressivo>
+                     <areaOrganizzativaOmogenea>
+                        <codice>AOO_EMR</codice>
+                        <denominazione>des AOO_EMR</denominazione>
+                     </areaOrganizzativaOmogenea>
+                     <stato statoAttivo="true">valido</stato>
+                  </Fascicolo>
+			            </EntitaDocumentale>
+		          </record>
+	        </saveOrUpdate>
+      </notification>
+      <notification>
+			      <saveOrUpdate>
+				        <record uid="DOC-3716">
+					          <commonFields>
+					             <creation-timestamp>2013-10-07T11:05:32</creation-timestamp>
+                  <last-update-timestamp>2013-10-07T11:05:32</last-update-timestamp>
+                  <codice-ente>EMR</codice-ente>
+                  <descrizione>test protocollazione 2</descrizione>
+                  <relazioni>
+                     <relazione autorizzazione="true" tipoId="codiceFiscale" tipoRelazione="titolare">BSNLCU74A01H501M</relazione>
+                  </relazioni>
+               </commonFields>
+					          <EntitaDocumentale>
+						            <Documento>
+							              <numero>3716</numero>
+							              <classifica>1</classifica>
+							              <tipologiaDocumentaria>
+								                <codice>DOCUMENTO</codice>
+								                <denominazione>Documento</denominazione>
+							              </tipologiaDocumentaria>
+							              <idFascicolo>FAS-b4cc2aaf-bfb0-47ca-8999-f38833691a58</idFascicolo>
+							              <stato statoAttivo="true">valido</stato>
+							              <registrazioni>
+                        <registrazione protocollo="true">
+	                          <numero>1000</numero>
+	                          <registro>PG</registro>
+	                          <data>2013-10-01</data>
+	                          <anno>2013</anno>	
+                        </registrazione>
+                     </registrazioni>
+						               <allegati>
+                        <allegato documentoPrincipale="true">
+											                <nomeFile>test2.txt</nomeFile>
+											                <descrizione>test protocollazione 2</descrizione>
+											                <url>DOC-3716</url>
+										              </allegato>
+                     </allegati>
+                     <custom_fields>
+                        <custom_field>
+									                  <key>docname</key>
+									                  <value>test2.txt</value>
+								                </custom_field>
+                     </custom_fields>
+                  </Documento>
+					          </EntitaDocumentale>
+				        </record>
+			      </saveOrUpdate>
+		    </notification>
+   </importBody>
+</p:rer-import-docer>

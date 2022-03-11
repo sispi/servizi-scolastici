@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!DOCTYPE beans PUBLIC '-//SPRING//DTD BEAN 2.0//EN' 'http://www.springframework.org/dtd/spring-beans-2.0.dtd'>
+
+<beans>
+  
+   <bean id="webscript.it.kdm.search.getdocuments.post" 
+           class="it.kdm.alfresco.webscripts.GetDocumentsWebScript"
+           parent="webscript">
+        <property name="nodeService" ref="NodeService"/>
+        <property name="searchService" ref="SearchService"/>
+        <property name="permissionService" ref="PermissionService"/>
+        <property name="authorityService" ref="authorityService"/>
+         <property name="namespaceService" ref="NamespaceService"/>
+  </bean>
+  
+  <bean id="webscript.it.kdm.admin.runas.post" 
+      class="it.kdm.alfresco.webscripts.RunasWebScript"
+      parent="webscript">
+      <property name="authorityService" ref="AuthorityService"/>      
+      <property name="searchService" ref="SearchService"/>
+       <property name="nodeService" ref="NodeService"/>
+       <property name="personService" ref="PersonService"/>
+       <property name="permissionService" ref="PermissionService"/>      
+      <property name="namespaceService" ref="NamespaceService"/>     
+       <property name="ownableService" ref="OwnableService"/>
+</bean>
+
+ 
+  
+
+</beans>

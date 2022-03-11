@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:element name="batchData">
+    	<xs:complexType>
+    		<xs:sequence>
+    			<xs:element name="callerApplication" type="xs:string" />
+    			<xs:element name="mapping" type="mappingTypeStrict" minOccurs="1"/>
+    			<xs:element name="search" type="searchType" maxOccurs="unbounded" />
+    		</xs:sequence>
+    	</xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="mappingTypeStrict">
+    	<xs:sequence>
+    		<xs:element name="documentType" type="xs:string" />
+    		<xs:element name="callerApplication" type="xs:string" />
+    		<xs:element name="tipoConservazione" type="xs:string" />
+    		<xs:element name="forzaCollegamento" type="xs:string" />
+    		<xs:element name="forzaAccettazione" type="xs:string" />
+    		<xs:element name="forzaConservazione" type="xs:string" />
+    		<xs:element name="dataRegistrazione" type="xs:string" minOccurs="0" />
+    	</xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="mappingTypeLoose">
+    	<xs:sequence>
+    		<xs:element name="documentType" type="xs:string" minOccurs="0"/>
+    		<xs:element name="callerApplication" type="xs:string" minOccurs="0" />
+    		<xs:element name="tipoConservazione" type="xs:string" minOccurs="0" />
+    		<xs:element name="forzaCollegamento" type="xs:string" minOccurs="0" />
+    		<xs:element name="forzaAccettazione" type="xs:string" minOccurs="0" />
+    		<xs:element name="forzaConservazione" type="xs:string" minOccurs="0" />
+    		<xs:element name="dataRegistrazione" type="xs:string" minOccurs="0" />
+    	</xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="searchType">
+    	<xs:sequence>
+            <xs:element name="description" type="xs:string" minOccurs="1" maxOccurs="1" />
+    		<xs:element name="documentType" type="xs:string" />
+    		<xs:element name="tipoConservazione">
+    			<xs:simpleType>
+    				<xs:restriction base="xs:NMTOKEN">
+    					<xs:enumeration value="SOSTITUTIVA" />
+    					<xs:enumeration value="FISCALE" />
+    				</xs:restriction>
+    			</xs:simpleType>
+    		</xs:element>
+    		<xs:element name="mapping" type="mappingTypeLoose" minOccurs="0" />
+    		<xs:element name="criterias" type="criteriasType" />
+			<xs:element name="identifierColumnNames" type="columnNamesType" />
+    		<xs:element name="documentColumnNames" type="columnNamesType" />
+    		<xs:element name="attachmentColumnNames" type="columnNamesType" />
+    	</xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="criteriasType">
+    	<xs:sequence>
+    		<xs:element name="criteria" type="criteriaType" maxOccurs="unbounded" minOccurs="1"></xs:element>
+    	</xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="criteriaType">
+    	<xs:sequence>
+    		<xs:element name="value" type="xs:string" maxOccurs="unbounded" />
+    	</xs:sequence>
+    	<xs:attribute name="name" type="xs:string" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="columnNamesType">
+    	<xs:sequence>
+    		<xs:element name="column" maxOccurs="unbounded" />
+    	</xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

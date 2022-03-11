@@ -1,0 +1,11 @@
+<jboss-deployment-structure xmlns="urn:jboss:deployment-structure:1.1">
+	
+	<ear-subdeployments-isolated>true</ear-subdeployments-isolated>
+	
+	<deployment>
+		<exclusions>
+			<module name="javaee.api" />
+		</exclusions>
+	</deployment>
+	
+</jboss-deployment-structure>

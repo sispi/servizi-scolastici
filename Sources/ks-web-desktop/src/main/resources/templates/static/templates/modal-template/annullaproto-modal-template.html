@@ -1,0 +1,27 @@
+<modal :show="show" @close="close">
+    <div slot="header" class="col-md-12">
+        <div class="modalTitle col-sm-12">{{messages["viewProfile.annullaProtocollo"] || "Annulla Protocollo"}}</div>
+    </div>
+    <div slot="body">
+        <div class="form-group">
+            <label class="labelNew">*{{messages["viewProfile.motivoAnnullamento"] || "Motivazione"}}</label>
+            <textarea id="motivoAnnullamento" class="form-control" rows="3" v-model="documento.M_ANNULL_PG"></textarea>
+        </div>
+        <div class="form-group">
+            <label class="labelNew">*{{messages["viewProfile.riferimento"] || "Riferimento"}}</label>
+            <textarea id="riferimentoAnnullamento" class="form-control" rows="3" v-model="documento.P_ANNULL_PG"></textarea>
+        </div>
+
+        <div style="display: none;" id="errMsg-annullaReg" class="alert alert-danger div-alert-warning"></div>
+        <div class="col-md-12 footer-modal">
+            <div class="col-md-3 float-left">
+                <button type="submit" class="btn btn-default btn-block modal-btn-annulla" @click="$emit('close')">{{messages["viewProfile.chiudi"] || "Chiudi"}}</button>
+            </div>
+            <div class="col-md-3 float-right">
+                <button type="submit" class="btn btn-primary btn-block modal-btn-conferma" @click="confermaAnnullaProtocollo()">{{messages["viewProfile.conferma"] || "Conferma"}}</button>
+            </div>
+        </div>
+
+    </div>
+    
+</modal>

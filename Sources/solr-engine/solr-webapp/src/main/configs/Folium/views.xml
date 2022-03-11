@@ -1,0 +1,97 @@
+<!--
+  Licensed to the Apache Software Foundation (ASF) under one or more
+  contributor license agreements.  See the NOTICE file distributed with
+  this work for additional information regarding copyright ownership.
+  The ASF licenses this file to You under the Apache License, Version 2.0
+  (the "License"); you may not use this file except in compliance with
+  the License.  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+  -->
+
+<dataConfig>
+    <propertyWriter dateFormat="yyyy-MM-dd'T'HH:mm:ss'Z'" type0="SimplePropertiesWriter" type="ZKPropertiesWriter" directory="data" filename="viewimport.properties" />
+
+
+    <dataSource name="views" type="JdbcDataSource" driver="com.mysql.jdbc.Driver" url="jdbc:mysql://${dataimporter.request.server}/FOLIUM45" user="root" password="pippo"/>
+
+    <document>
+        <entity dataSource="views" name="item" rows="500" pk="id" query="
+            select 0 id, 'location' type,  null GROUP_ID, null PARENT_GROUP_ID, null DES_ENTE, null DES_AOO,  null V_PROFILO_ID, null DOCNUM_PRINC, null DOCNUM, null PATH, null TYPE_ID, null COD_ENTE, null COD_AOO, null DOCNAME, null ABSTRACT, null CREATION_DATE, null APP_VERSANTE, null DOC_HASH, null TIPO_COMPONENTE, null UPDATE_DATE, null AUTHOR_ID, null TYPIST_ID, null REGISTRO, null NUM_PG, null DATA_PG, null TIPO_FIRMA, null OGGETTO, null ANNULLATO, null DATA_ANNUL, null MOTIVO_ANNULL, null PROV_ANNULL, null ANNO, null TIPO_PROTOCOLLAZIONE, null NUM_PG_MITTENTE, null DATA_PG_MITTENTE, null CLASSIFICA, null FASCICOLAZIONE
+
+            union
+
+            select 0 id , 'group' type, 'everyone' GROUP_ID, 'TEST_AOO_MG' PARENT_GROUP_ID, null DES_ENTE, null DES_AOO, null V_PROFILO_ID, null DOCNUM_PRINC, null DOCNUM, null PATH, null TYPE_ID, null COD_ENTE, null COD_AOO, null DOCNAME, null ABSTRACT, null CREATION_DATE, null APP_VERSANTE, null DOC_HASH, null TIPO_COMPONENTE, null UPDATE_DATE, null AUTHOR_ID, null TYPIST_ID, null REGISTRO, null NUM_PG, null DATA_PG, null TIPO_FIRMA, null OGGETTO, null ANNULLATO, null DATA_ANNUL, null MOTIVO_ANNULL, null PROV_ANNULL, null ANNO, null TIPO_PROTOCOLLAZIONE, null NUM_PG_MITTENTE, null DATA_PG_MITTENTE, null CLASSIFICA, null FASCICOLAZIONE
+
+            union
+
+            select 0 id , 'group' type, 'sys_admins' GROUP_ID, 'TEST_AOO_MG' PARENT_GROUP_ID, null DES_ENTE, null DES_AOO, null V_PROFILO_ID, null DOCNUM_PRINC, null DOCNUM, null PATH, null TYPE_ID, null COD_ENTE, null COD_AOO, null DOCNAME, null ABSTRACT, null CREATION_DATE, null APP_VERSANTE, null DOC_HASH, null TIPO_COMPONENTE, null UPDATE_DATE, null AUTHOR_ID, null TYPIST_ID, null REGISTRO, null NUM_PG, null DATA_PG, null TIPO_FIRMA, null OGGETTO, null ANNULLATO, null DATA_ANNUL, null MOTIVO_ANNULL, null PROV_ANNULL, null ANNO, null TIPO_PROTOCOLLAZIONE, null NUM_PG_MITTENTE, null DATA_PG_MITTENTE, null CLASSIFICA, null FASCICOLAZIONE
+
+            union
+
+            select 0 id, 'ente' type, null GROUP_ID, null PARENT_GROUP_ID, 'Ente Demo' DES_ENTE, null DES_AOO, null V_PROFILO_ID, null DOCNUM_PRINC, null DOCNUM, null PATH, null TYPE_ID, 'demo1' COD_ENTE, null COD_AOO, null DOCNAME, null ABSTRACT, null CREATION_DATE, null APP_VERSANTE, null DOC_HASH, null TIPO_COMPONENTE, null UPDATE_DATE, null AUTHOR_ID, null TYPIST_ID, null REGISTRO, null NUM_PG, null DATA_PG, null TIPO_FIRMA, null OGGETTO, null ANNULLATO, null DATA_ANNUL, null MOTIVO_ANNULL, null PROV_ANNULL, null ANNO, null TIPO_PROTOCOLLAZIONE, null NUM_PG_MITTENTE, null DATA_PG_MITTENTE, null CLASSIFICA, null FASCICOLAZIONE
+
+            union
+
+            select idV_AOO id, 'aoo' type, null GROUP_ID, null PARENT_GROUP_ID, null DES_ENTE, DESCRIZIONE DES_AOO, null V_PROFILO_ID, null DOCNUM_PRINC, null DOCNUM, null PATH, null TYPE_ID, 'demo1' COD_ENTE, CODICE COD_AOO, null DOCNAME, null ABSTRACT, null CREATION_DATE, null APP_VERSANTE, null DOC_HASH, null TIPO_COMPONENTE, null UPDATE_DATE, null AUTHOR_ID, null TYPIST_ID, null REGISTRO, null NUM_PG, null DATA_PG, null TIPO_FIRMA, null OGGETTO, null ANNULLATO, null DATA_ANNUL, null MOTIVO_ANNULL, null PROV_ANNULL, null ANNO, null TIPO_PROTOCOLLAZIONE, null NUM_PG_MITTENTE, null DATA_PG_MITTENTE, null CLASSIFICA, null FASCICOLAZIONE
+
+            from V_AOO
+
+            union
+
+            select V_PROFILO_ID id, 'documento' type, null GROUP_ID, null PARENT_GROUP_ID, null DES_ENTE, null DES_AOO, V_PROFILO.*
+
+            from V_PROFILO"
+
+                transformer="LogTransformer" logTemplate="The row is ${item}" logLevel="info">
+
+
+            <entity name="profile_acls" query="
+                select concat( V_PERMESSI.TIPO,  '_', V_PERMESSI.IDENTIFICATIVO, ':', V_PERMESSI.DIRITTO ) __ACL_EXPLICIT__
+                from V_PERMESSI
+                where V_PERMESSI.DOCNUM='${item.DOCNUM}'" transformer="LogTransformer" logTemplate="The row is ${item}" logLevel="info" >
+            </entity>
+
+            <entity name="profile_mittenti" query="
+                select CONCAT(corr.MOTIVO, '|$|', corr.TIPO , '|$|', COALESCE(corr.CODICE, ''), '|$|', COALESCE(corr.DESCRIZIONE, ''), '|$|', COALESCE(corr.ENTE, ''), '|$|', COALESCE(corr.AOO, ''), '|$|', COALESCE(corr.INDIRIZZO,'') , '|$|',COALESCE(corr.EMAIL,''), '|$|', COALESCE(corr.MEZZO,'') ) __MITTENTI__, 'mittenti' AS __CORR_TYPE__
+                from V_CORRISPONDENTI as corr
+                inner join V_PROFILO as prof ON corr.IDPROFILO = prof.DOCNUM_PRINC
+                where corr.IDPROFILO='${item.DOCNUM_PRINC}' AND ((corr.MOTIVO='CORRISPONDENTE' AND prof.TIPO_PROTOCOLLAZIONE='E') OR  (corr.MOTIVO='COMPETENTE' AND prof.TIPO_PROTOCOLLAZIONE IN ('I','U')))
+                " transformer="LogTransformer" logTemplate="The row is ${item}" logLevel="info" >
+            </entity>
+
+            <entity name="profile_destinatari" query="
+                SELECT CONCAT(corr.MOTIVO, '|$|', corr.TIPO , '|$|', COALESCE(corr.CODICE, ''), '|$|', COALESCE(corr.DESCRIZIONE, ''), '|$|', COALESCE(corr.ENTE, ''), '|$|', COALESCE(corr.AOO, ''), '|$|', COALESCE(corr.INDIRIZZO,'') , '|$|',COALESCE(corr.EMAIL,''), '|$|', COALESCE(corr.MEZZO,'') ) __DESTINATARI__, 'destinatari' AS __CORR_TYPE__
+                from V_CORRISPONDENTI as corr
+                inner join V_PROFILO as prof ON corr.IDPROFILO=prof.DOCNUM_PRINC
+                where corr.IDPROFILO='${item.DOCNUM_PRINC}' AND ((corr.MOTIVO='CORRISPONDENTE' AND prof.TIPO_PROTOCOLLAZIONE IN ('I','U')) OR ( corr.MOTIVO='COMPETENTE' AND prof.TIPO_PROTOCOLLAZIONE='E'))" transformer="LogTransformer" logTemplate="The row is ${item}" logLevel="info" >
+            </entity>
+
+            <entity name="profile_firmatari" query="
+                select CONCAT(corr.MOTIVO, '|$|', corr.TIPO , '|$|', COALESCE(corr.CODICE, ''), '|$|', COALESCE(corr.DESCRIZIONE, ''), '|$|', COALESCE(corr.ENTE, ''), '|$|', COALESCE(corr.AOO, ''), '|$|', COALESCE(corr.INDIRIZZO,'') , '|$|',COALESCE(corr.EMAIL,''), '|$|', COALESCE(corr.MEZZO,'') ) __FIRMATARI__,'firmatari' AS __CORR_TYPE__
+                from V_CORRISPONDENTI as corr
+                inner join V_PROFILO as prof ON corr.IDPROFILO = prof.DOCNUM_PRINC
+                where corr.IDPROFILO='${item.DOCNUM_PRINC}' AND corr.MOTIVO='FIRMATARIO' AND corr.tipo='F'"
+                    transformer="LogTransformer" logTemplate="The row is ${item}" logLevel="info" >
+            </entity>
+
+            <entity name="profile_assegnatari" query="
+                    select CONCAT( COALESCE(corr.CODICE, ''), '@' , 'group', ':', COALESCE(corr.MEZZO, '') ) ASSEGNATARI
+                    from V_CORRISPONDENTI as corr
+                    inner join V_PROFILO as prof ON corr.IDPROFILO = prof.DOCNUM_PRINC
+                    where corr.IDPROFILO='${item.DOCNUM_PRINC}' AND corr.MOTIVO='ASSEGNATARIO' AND corr.TIPO IN ('F','U')" transformer="LogTransformer" logTemplate="The row is ${item}" logLevel="info" >
+            </entity>
+
+        </entity>
+
+    </document>
+</dataConfig>
+
+

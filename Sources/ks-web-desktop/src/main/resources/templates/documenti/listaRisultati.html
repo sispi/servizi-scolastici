@@ -1,0 +1,585 @@
+<html @view="master.ftl" >
+<head @ignore>
+    <base href="file:///C:/Users/daniele.damiani/Desktop/vuetest/" >
+    <title>${query.title!'lista Risultati'}</title>
+    <!--<title href="#">Indietro</title>-->
+    <script src="js/vue.js"></script>
+    <script src="js/axios.min.js"></script>
+    <script src="vendor/jquery-3.5.1.min.js"></script>
+    <script src="vendor/jquery-migrate-3.3.0.min.js"></script>
+    <script>
+        axios.interceptors.request.use(function (config) {
+            config.headers.KS_AUTH_GROUP =  "admin|ANM|ANM_AOO|SYS_ADMINS|admins";
+            return config;
+        });
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/base-style.css">
+    <link rel="stylesheet" href="vendor/fontawesome/all.min.css">
+    <script src="vendor/moment.js"></script>
+    <script src="vendor/vue-scrollto.js"></script>
+    <script src="vendor/popper-1.14.7.min.js"></script>
+    <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="css/modal-style.css">
+    <!-- import paginazione -->
+    <script src="/static/js/common.js"></script>
+    <script src="/static/js/components/reports.js"></script>
+
+</head>
+
+<body class="body" >
+
+<script type="application/json" @server id="allegati-model" src="/docer/v1/report?qt=select&output.type=bean&..."></script>
+<script type="application/json" id="messages-model" @server src="/messages?filter=viewProfile.**,label.**,common.**"></script>
+
+<link rel="stylesheet" href="/static/css/doc-style.css">
+
+<div style="margin-top: 10px;" id="resultList" v-cloak>
+
+    <template v-if="listaAllegati.length>0">
+        <h6 style="padding-top: 4px;text-transform: uppercase;">{{messages["viewProfile.ultimiModificati"] || "Ultimi Modificati"}}</h6>
+        <div class="card">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th style="width: 30%">
+                        <a class="order blk" :href="changeQs('orderBy',model.sortSpecs['name'],'pageNumber')">
+                            {{messages["viewProfile.titolo"] || "Titolo"}} <i class="bi bi-arrow-down-up mainColor"></i>
+                        </a>
+                    </th>
+                    <th style="width: 13%; text-align: center;">
+                        <a class="order blk" :href="changeQs('orderBy',model.sortSpecs['TYPE_ID'],'pageNumber')">
+                            {{messages["viewProfile.tipoDocumento"] || "Tipo documento"}} <i class="bi bi-arrow-down-up mainColor"></i>
+                        </a>
+                    </th>
+                    <th style="width: 13%; text-align: center;">
+                        <a class="order blk" :href="changeQs('orderBy',model.sortSpecs['TIPO_COMPONENTE'],'pageNumber')">
+                            {{messages["viewProfile.tipoComponente"] || "Tipo componente"}} <i class="bi bi-arrow-down-up mainColor"></i>
+                        </a>
+                    </th>
+                    <th style="width: 10%; text-align: center;">
+                        <a class="order blk" :href="changeQs('orderBy',model.sortSpecs['CREATOR'],'pageNumber')">
+                            {{messages["viewProfile.autore"] || "Autore"}} <i class="bi bi-arrow-down-up mainColor"></i>
+                        </a>
+                    </th>
+                    <th style="width: 12%; text-align: center;">
+                        <a class="order blk" :href="changeQs('orderBy',model.sortSpecs['CREATED'],'pageNumber')">
+                            {{messages["viewProfile.creatoIl"] || "Creato il"}} <i class="bi bi-arrow-down-up mainColor"></i>
+                        </a>
+                    </th>
+                    <th style="width: 12%; text-align: center;">
+                        <a class="order blk" :href="changeQs('orderBy',model.sortSpecs['MODIFIED'],'pageNumber')">
+                            {{messages["viewProfile.modificatoIl"] || "Modificato il"}} <i class="bi bi-arrow-down-up mainColor"></i>
+                        </a>
+                    </th>
+                    <th style="width: 10%; text-align: center;"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(doc,i) in listaAllegati" :key="i">
+                    <td>
+                        [#include ("documenti/ftl/ICON-DOC.ftl") ignore_missing=true /]
+                        <a style="margin-left: 6px;" :href="'/~documento?DOCNUM=' + listaAllegati[i].DOCNUM"><strong>{{ doc.DOCNAME }} ({{ doc.DOCNUM }})</strong></a>
+                        <div class="list-detail">
+                            [#include ("documenti/ftl/INFO-LIST.ftl") ignore_missing=true /]
+                            <template v-if="doc.FASCICOLO_ID">
+                                <div class="space-h"></div>
+                                <div class="url-link">
+                                    {{messages["viewProfile.fascicolo"] || "Fascicolo"}}:
+                                    <a style="font-style: italic;" :href="'/documenti/viewNaviList?entity=fascicoli&sid=' + listaAllegati[i].FASCICOLO_ID">{{ doc.FASCICOLO_ID }}</a>
+                                </div>
+                            </template>
+                        </div>
+                    </td>
+                    <td style="text-align: center;">
+                        {{ doc.TYPE_ID }}
+                    </td>
+                    <td style="text-align: center;">
+                        {{ doc.TIPO_COMPONENTE }}
+                    </td>
+                    <td style="text-align: center;">
+                        {{ doc.CREATOR }}
+                    </td>
+                    <td style="text-align: center;">
+                        {{date(doc.CREATED)}}
+                    </td>
+                    <td style="text-align: center;">
+                        {{date(doc.MODIFIED)}}
+                    </td>
+                    <td style="text-align: center;">
+                        <button @click="downloadFileFromList(listaAllegati[i].DOCNUM)" type="button" class="btn-alpha" data-toggle="tooltip" data-placement="top" :title=" messages['viewProfile.scarica']||'Scarica' " ><i class="bi bi-download "></i></button>
+                        <button @click="openPreview(listaAllegati[i].DOCNUM, 1, listaAllegati[i].DOCNAME, listaAllegati[i].url)" type="button" class="btn-alpha" data-toggle="tooltip" data-placement="top" :title=" messages['viewProfile.apri']||'Apri' "><i class="bi bi-box-arrow-in-up-right "></i></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </template>
+    <template v-else>
+        <div class="noElementTable">
+            <span>{{messages["viewProfile.nessunElementoPresente"] || "Nessun elemento presente"}}</span>
+        </div>
+    </template>
+
+    <pager style="text-align: center" :tot-page="model.totPage" :page-number="model.pageNumber"></pager>
+
+    <div style="display: none" id="modalPreview" class="modal-mask">
+        <div class="modal-container preview">
+            <div style="padding: 10px;" class="modal-header col-md-12">
+                <button id="prevPreview" @click="openPreviewPrev( $('#idDocumentoPreview').val(), $('#pagDocumentoPreview').val(), null, $('#urlDocumentoPreview').val() )" class="btn btn-default">
+                    <i class="bi bi-arrow-left-circle mainColor"></i>
+                </button>
+                <p class="infoPages">Pag. <span id="paginaDocumento"></span> <span id="pagineTotali"></span></p>
+                <button id="nextPreview" @click="openPreviewNext( $('#idDocumentoPreview').val(), $('#pagDocumentoPreview').val(), null, $('#urlDocumentoPreview').val() )" class="btn btn-default">
+                    <i class="bi bi-arrow-right-circle mainColor"></i>
+                </button>
+                <div style="margin-left: 10px; margin-right: 10px;" class="btn-group" role="group" aria-label="Basic example">
+                    <button id="zoom100Preview" @click="zoom100Preview()" class="btn btn-activeGrey">
+                        <i class="bi bi-search mainColor"></i>
+                    </button>
+                    <button id="zoom150Preview" @click="zoom150Preview()" class="btn btn-default">
+                        <i class="bi bi-zoom-in mainColor"></i>
+                    </button>
+                    <button id="zoom200Preview" @click="zoom200Preview()" class="btn btn-default">
+                        <i class="bi bi-zoom-in mainColor"></i>
+                    </button>
+                </div>
+                <button id="btn-downloadPreview" type="submit" class="btn btn-default" @click="downloadPreviewModal()" title="Scarica"><i class="bi bi-download mainColor"></i>
+                    <div id="zoom"></div>
+                    <div id="idDocumentoPreview"></div>
+                    <div id="nameDocumentoPreview"></div>
+                    <div id="urlDocumentoPreview"></div>
+                    <div id="pagDocumentoPreview"></div>
+                </button>
+                <button style="display: none;" id="btn-switchPdf" @click="switchPdf($('#urlDocumentoPreview').val(), $('#idDocumentoPreview').val() )" class="btn btn-default" title="Anteprima Pdf">
+                    <i class="bi bi-file-richtext mainColor"></i>
+                </button>
+                <button type="submit" class="btn btn-default modal-btn" @click="closePreviewModal()">{{messages["viewProfile.chiudi"] || "Chiudi"}}</button>
+            </div>
+            <div style="display: none" class="slidecontainer">
+                <input type="range" min="1" max="100" value="1" class="slider" id="pagesSlide" @mouseup="openPreview($('#idDocumentoPreview').val(), null, $('#nameDocumentoPreview').val(), $('#urlDocumentoPreview').val())">
+            </div>
+            <div style="display: none; z-index: 1" class="fa fa-spinner fa-pulse fa-3x fa-fw" id="spinner"></div>
+            <div style="zoom: 65%; padding-top:0px; overflow: auto;" class="modal-body modalPreviewContent">
+
+            </div>
+        </div>
+    </div>
+
+    <div style="display: none;" id="modalPreviewPdf" class="modal-mask">
+        <div class="modal-container">
+            <div style="padding: 10px 0px;" class="modal-header col-md-12">
+                <div class="col-md-9">
+
+                </div>
+
+                <div class="col-md-1">
+                    <button style="display: none;" id="btn-switchHtml" @click="openPreview( $('#idDocumentoPreview').val(), null, $('#nameDocumentoPreview').val(), $('#urlDocumentoPreview').val())" class="btn btn-default" title="Anteprima Html">
+                        <i class="bi bi-file-code mainColor"></i>
+                    </button>
+                </div>
+                <div class="col-md-2">
+                    <button id="close-preview" type="submit" class="btn btn-default btn-block modal-btn" @click="closePreviewPdfModal()">{{messages["viewProfile.chiudi"] || "Chiudi"}}
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body modalPreviewPdfContent">
+                <embed class="windowPdf"
+                       src=""
+                       type="application/pdf"
+                       frameBorder="0"
+                       scrolling="auto"
+                       height="625px"
+                       width="600px"
+                ></embed>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal anteprima mancante -->
+    <div style="margin-top:64px;" class="modal fade" id="anteprimaModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true" data-backdrop="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="fas fa-exclamation-triangle mainColor allertaAnteprima"></div>
+                    <div class="modal-body msgModalTxt" id="anteprimaModalTxt"></div>
+                    <input type="hidden" id="docN">
+                </div>
+                <row>
+                    <button data-dismiss="modal" style="margin: 10px;" class="btn btn-default col-md-3">Annulla</button>
+                    <button id="btn-scaricaFile" style="margin: 10px;" class="btn btn-primary col-md-3 float-right">Scarica file</button>
+                </row>
+            </div>
+        </div>
+    </div>
+
+</div><!-- chiusura resultList-->
+
+<!-- Modal success -->
+<div style="margin-top:64px;" class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-body msgModal">
+                <div class="modal-body msgModalTxt" id="messageModalTxt"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    //metodi globali
+    Vue.mixin({
+        methods: {
+            bytesToSize: function (bytes) {
+                var sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
+                if (bytes == 0) return '0 Byte';
+                var i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
+                return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
+            },
+            moment: function(date) {
+                return moment(date);
+            },
+            date: function(date) {
+                return moment(date).format('DD/MM/YYYY HH:mm:ss');
+            },
+            estensione: function(text) {
+                if (text) {
+                    return text.substr(text.length - 3);
+                }
+            },
+            descrizione: function(text) {
+                return ("Descrizone ") + ("(") + text + (")");
+            },
+
+            //inizio anteprima file
+            mouseLeave: function() {
+                this.openPreview();
+            },
+            ifIsPdf: function (text) {
+                if (text.substring(text.toLowerCase().lastIndexOf(".")+1)=="pdf"){
+                    $("#btn-switchPdf").show();
+                    $("#btn-switchHtml").show();
+                } else {
+                    $("#btn-switchPdf").hide();
+                    $("#btn-switchHtml").hide();
+                }
+            },
+            switchPdf: function(url, docnum) {
+                $("#modalPreview" ).hide();
+                $(".modalPreviewContent").empty();
+                $("#pagesSlide").val("1");
+                $("#paginaDocumento").text("1");
+                this.zoom100Preview();
+                if(docnum){
+                    if(!url){
+                        url = $("#urlDocumentoPreview").val();
+                    }
+                    var host= url.substr(0, url.indexOf('documenti'));
+                    var urlToConvert = host+"documenti/"+docnum+"/file";
+                    var url_doc = encodeURIComponent(urlToConvert);
+                    axios.get("/docer/v1/firma/print?urls="+url_doc)
+                        .then(response => {
+                            if(response.status==200){
+                                var url = response.data[0];
+                                // l'url per l'anteprima deve essere in questo formato
+                                //"/docer/v1/files/upload$aoo_test,admin@ea7fc7a4-06b8-4c9d-b6d9-8594b102b5e5$file_signed.pdf?inline=true&ct=application/pdf";
+                                this.openPdfPreview(url);
+                                this.close();
+                            }
+                        })
+                        .catch(error => {
+                            if(error.response){
+                                showError(error.response.data);
+                            }
+                        });
+                } else {
+                    this.openPdfPreview(url);
+                }
+            },
+            openPdfPreview: function(url){
+                //var url = decodeURIComponent(url);
+                var urlNoHost = url.split('files')[1];
+                var urlToDownload = "/docer/v1/files"+urlNoHost+"?inline=true&ct=application/pdf";
+                $('embed').replaceWith($('embed').clone().attr('src',urlToDownload+"#zoom=50"));
+                $("#modalPreviewPdf").show();
+            },
+            openPreviewPrev: function(docnum, pag, docname, url) {
+                if(pag!=1){
+                    pag--;
+                }
+                this.openPreview(docnum, pag, docname, url);
+            },
+            openPreviewNext: function(docnum, pag, docname, url) {
+                pag++;
+                this.openPreview(docnum, pag, docname, url);
+            },
+            openPreview: function(docnum, pag, docname, url) {
+                if(docname){
+                    if(typeof nomeStampigliato !== 'undefined'){
+                        docname=nomeStampigliato;
+                    }
+                    this.ifIsPdf(docname); //se pdf abilito tasto switch anteprima pdf
+                }
+
+                $("#spinner").show();
+                $('.modalPreviewContent').css({"background-color": "#dedede"});
+                if(pag){
+                    var numPage = pag;
+                    $("#pagesSlide").val(pag);
+                } else {
+                    var numPage = $("#pagesSlide").val();
+                }
+                var params = {
+                    //paperWidth: '8.27',
+                    //paperHeight: '11.69',
+                    //marginTop: '0',
+                    //marginBottom: '0',
+                    //marginLeft: '0',
+                    //marginRight: '0',
+                    //landscape: 'true',
+                    //scale: '0.75',
+                    pageRanges: numPage,
+                    ft: 'html',
+                }
+                var data = new URLSearchParams(params).toString();
+                if ($("#modalPreview").is(':visible')) { //se la modale è aperta aggiungo #nopanel per non far partire il refres pagina
+                    data+= "#nopanel";
+                }
+
+                if(docnum){
+                    var converti = "/bl/v1/convert?docnum="+docnum+"&"+data;
+                    var fromUrl = "";
+                }else{
+                    if(!url){
+                        url =  $("#urlDocumentoPreview").val();
+                    }
+                    var converti = "/bl/v1/convert?url="+url+"&"+data;
+                }
+
+                axios.post(converti)
+                    .then(response => {
+                        $("#spinner").hide();
+                        $('.modalPreviewContent').css({"background-color": "#fff"});
+
+                        if( $("#modalPreviewPdf").is(':visible') ) {
+                            $("#modalPreviewPdf").hide();
+                        }
+
+                        if(response.status==200) {
+                            if(response.data.status==200){
+                                $("#nextPreview").removeAttr("disabled");
+                                var totalPages = response.data.file.totalPages ? response.data.file.totalPages : "1";
+                                $("#pagesSlide").attr({
+                                    "max" : totalPages,
+                                    "min" : 1
+                                });
+
+                                $("#paginaDocumento").val(numPage).html(numPage);
+                                $("#pagineTotali").text("di " +totalPages);
+                                if (totalPages!=1){
+                                    $(".slidecontainer, #pagineTotali").show();
+                                } else {
+                                    $(".slidecontainer, #pagineTotali").hide();
+                                }
+                                if(numPage!=1 && numPage==totalPages){
+                                    $("#nextPreview").attr("disabled", true);
+                                }
+
+                                console.log(response.data.file);
+                                var absoluteUri = response.data.file.uri;
+                                var relativeUri = "/docer/v1/"+absoluteUri.replace(/^(?:\/\/|[^/]+)*\//, '');
+
+                                const config = { responseType: 'stream' };
+                                axios.get(relativeUri+"#nopanel", config)
+                                    .then(response => {
+                                        if(response.status==200){
+                                            if ( !$("#modalPreview").is(':visible') ){
+                                                $("#modalPreview").show();
+                                            }
+                                            $(".modalPreviewContent").empty();
+                                            $(".modalPreviewContent").append(response.data);
+                                            if($('#zoom').val() == 100){
+                                                this.zoom100Preview();
+                                            }
+                                            if($('#zoom').val() == 150){
+                                                this.zoom150Preview();
+                                            }
+                                            if($('#zoom').val() == 200){
+                                                this.zoom200Preview();
+                                            }
+                                            $("#idDocumentoPreview").val(docnum);
+                                            $("#nameDocumentoPreview").val(docname);
+                                            //se non ho il docnum (doc stampigliato non annesso) non lo posso scaricare dall'anteprima
+                                            if ($("#idDocumentoPreview").val()!=""){
+                                                $("#btn-downloadPreview").show();
+                                            } else {
+                                                $("#btn-downloadPreview").hide();
+                                            }
+
+                                            $("#urlDocumentoPreview").val(url);
+                                            $("#pagDocumentoPreview").val(numPage);
+
+                                            if (numPage==1){
+                                                $("#prevPreview").attr("disabled", true);
+                                            } else {
+                                                $("#prevPreview").removeAttr("disabled");
+                                            }
+                                            //se conversione html non crea div page_0, disabilito tasto nextPage
+                                            if( $("#page_0").length === 0 ){
+                                                $("#nextPreview").attr("disabled", true);
+                                            } else {
+                                                $("#nextPreview").removeAttr("disabled");
+                                            }
+                                        }
+                                    })
+                                    .catch(error => {
+                                        alert("<b>"+response.data.status + "</b>: " + response.data.message);
+                                    });
+                            } else {
+                                console.log(response.data.status + " " + response.data.message);
+                                if( !$("#modalPreview").is(':visible') ){ //apro finestra anteprima solo se la finestra anteprima non è aperta
+                                    openAnteprimaModal("Anteprima non disponibile",docnum);
+                                } else {
+                                    $("#nextPreview").attr("disabled", true); //disabilito tasto pag+
+                                }
+                            }
+                        } else {
+                            if( !$("#modalPreview").is(':visible') ) { //apro finestra anteprima solo se la finestra anteprima non è aperta
+                                openAnteprimaModal("Anteprima non disponibile",docnum);
+                            } else {
+                                alert("<b>"+response.data.status + "</b>: " + response.data.message);
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        if(typeof response !== "undefined"){
+                            alert("<b>"+response.data.status + "</b>: " + response.data.message);
+                        }else{
+                            alert("Servizio temporanemente non disponibile \n" + "<b>"+error.name + "</b>: " + error.message);
+                        }
+                    });
+            },
+            zoom100Preview: function() {
+                $('#zoom100Preview').removeClass("btn-default").addClass("btn-activeGrey");
+                $('#zoom150Preview, #zoom200Preview').removeClass("btn-activeGrey").addClass("btn-default");
+                $('.page').css({"zoom": "98%", "-moz-transform": "scale(0.9)", "-moz-transform-origin": "top center"}).removeClass("pageZoom150").removeClass("pageZoom200").addClass("pageZoom100");
+                $('#zoom').val("100");
+            },
+            zoom150Preview: function() {
+                $('#zoom150Preview').removeClass("btn-default").addClass("btn-activeGrey");
+                $('#zoom100Preview, #zoom200Preview').removeClass("btn-activeGrey").addClass("btn-default");
+                $('.page').css({"zoom": "130%", "-moz-transform": "scale(1.3)", "-moz-transform-origin": "top center"}).removeClass("pageZoom100").removeClass("pageZoom200").addClass("pageZoom150");
+                $('#zoom').val("150");
+            },
+            zoom200Preview: function() {
+                $('#zoom200Preview').removeClass("btn-default").addClass("btn-activeGrey");
+                $('#zoom100Preview, #zoom150Preview').removeClass("btn-activeGrey").addClass("btn-default");
+                $('.page').css({"zoom": "180%", "-moz-transform": "scale(1.8)", "-moz-transform-origin": "top center"}).removeClass("pageZoom100").removeClass("pageZoom150").addClass("pageZoom200");
+                $('#zoom').val("200");
+            },
+            closePreviewModal: function() {
+                $("#modalPreview" ).hide();
+                $(".modalPreviewContent").empty();
+                $("#pagesSlide").val("1");
+                $("#paginaDocumento").text("1");
+                this.zoom100Preview();
+
+                if ($("#id-reload").val()=="reload"){
+                    openMessageModal("Stampigliato creato con successo!");
+                }
+            },
+            closePreviewPdfModal: function() {
+                $( "#modalPreviewPdf" ).hide();
+
+                if ($("#id-reload").val()=="reload"){
+                    openMessageModal("Stampigliato creato con successo!");
+                }
+            },
+            downloadPreviewModal: function() {
+                var IdToDownload = $('#idDocumentoPreview').val();
+                window.location.href = "/docer/v1/documenti/"+IdToDownload+"/file";
+            },
+            //fine anteprima file
+        },
+        filters: {
+            verso: function(text) { //verso protocollazione
+                if (text == "U") {
+                    text = "Uscita"
+                }
+                if (text == "E") {
+                    text = "Entrata"
+                }
+                if (text == "I") {
+                    text = "Interna"
+                }
+                return text;
+            },
+            wrapText: function(text) { //br body email
+                let a = text.split('\n');
+                let str = '';
+                for (let x = 0; x < a.length; x++) {
+                    str += a[x];
+                    if (x % 2 == 0) {
+                        if (x < a.length - 1)
+                            str += '<br>';
+                    } else {
+                        str += '</br>';
+                    }
+                }
+                return str
+            },
+
+        }
+    })
+
+
+    var app = new Vue({
+        el: '#resultList',
+        data: function() {
+            model = JSON.parse($("#allegati-model").text());
+
+            return {
+                messages: JSON.parse($("#messages-model").text()),
+                model : model,
+                listaAllegati: model.data,
+                pageTitle: "${query.fq!''}"
+            }
+        },
+        methods: {
+            downloadFileFromList: function(docnum) {
+                window.location.href = "/docer/v1/documenti/"+docnum+"/file";
+            },
+        }
+    });
+
+    function openMessageModal(message){
+        $("#messageModal").modal('show');
+        $('#messageModalTxt').text(message);
+        setTimeout(function(){
+            $("#messageModal").modal('hide');
+            $('#messageModalTxt').text("");
+            window.location.reload();
+        },2000);
+    }
+
+    //abilito tooltip
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+
+    var slider = document.getElementById("pagesSlide");
+    var output = document.getElementById("paginaDocumento");
+    output.innerHTML = slider.value;
+
+    slider.oninput = function() {
+        output.innerHTML = this.value;
+    }
+
+
+</script>
+
+</body>
+</html>
+

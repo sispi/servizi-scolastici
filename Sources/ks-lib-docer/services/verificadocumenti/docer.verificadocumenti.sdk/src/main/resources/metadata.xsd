@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+			elementFormDefault="qualified">
+	<xsd:element name="verifiche">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="verifica" type="EnumVerifiche" 
+						 minOccurs="1" maxOccurs="unbounded"/>
+				<xsd:element name="debug" type="xsd:boolean" nillable="true"
+							 minOccurs="0" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:simpleType name="EnumVerifiche">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="FIRMA" />
+			<xsd:enumeration value="FORMATO" />
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

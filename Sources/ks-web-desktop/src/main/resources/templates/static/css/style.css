@@ -1,0 +1,357 @@
+@CHARSET "UTF-8";
+
+.ellipsis {
+    display: inline-block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#nav-header {
+    z-index: 200000 !important;
+}
+
+@media (min-width: 768px) {
+	#nav-header {
+		height: 86px;
+	}
+}
+
+
+#nav-header #logo {
+    height: 60px;
+    width: auto;
+    margin-left: 0px;
+    margin-top: 0px;
+}
+
+#brand {
+    position:absolute;
+    right:5px;
+}
+
+#brand, #brand a, #searchbox input {
+    font-size: xx-small;
+}
+
+#nav-footer {
+    height: 45px;
+}
+
+#nav-footer img {
+    height: 35px;
+}
+
+#side-bar {
+    width: 12vw;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin-top:90px;
+    margin-bottom:45px;
+}
+
+#side-bar-bg {
+    background-color: rgba(156, 196, 255, 0.08);
+    height: 100vh;
+    min-height:100%;
+    width: 12vw;
+    position: fixed;
+    top: 0px;
+    z-index:-1;
+}
+
+#side-bar .nav-link, #side-bar i   {
+    display: inline-block;
+    font-size: smaller;
+}
+
+
+
+.menu-ops {
+    float: right;
+    display: inline-block;
+    font-size: x-small;
+    padding-top: 2px;
+}
+
+body {
+	font-size: small;
+}
+
+#body {
+    background-color: white;
+    margin-top: 86px;
+    margin-left: 12vw;
+	margin-bottom: 25px;
+    padding: 5px;
+}
+
+#userinfo {
+    position: absolute;
+    font-size: smaller;
+    right: 4px;
+    bottom: -4px;
+}
+
+#userinfo a {
+    font-size: smaller;
+}
+
+#archiveTree {
+    overflow:auto;
+    font-size: smaller;
+    padding: 4px;
+    max-height: unset !important;
+}
+
+/***************************/
+/*scrollbar treeview*/
+
+#archiveTree {
+    max-height: 400px;
+    overflow-y: auto; /* non scroll, altrimenti la scrollbar compare anche quando non � necessaria */
+}
+
+
+
+.refresh-btn {
+    position:absolute;
+    right:0px;
+    padding: 0px;
+    margin: 2px;
+    z-index: 100000;
+}
+
+
+
+.menu-item .btn {
+    text-align:left;
+}
+
+#menu .menu-item {
+}
+
+#menu .menu-title {
+    padding-left: 2px;
+    padding-top:5px;
+    font-size:medium;
+}
+
+#menu * {
+    padding:0px;
+    font-size: small;
+    line-height:14px !important;
+}
+
+#main .breadcrumb {
+	display: flex !important;
+}
+
+.menu-badge {
+	position: absolute !important;
+	top: unset !important;
+	left: 0px !important;
+	padding:0px !important;
+	min-width:14px !important;
+	font-size: xx-small !important;
+}
+
+
+
+
+
+
+
+
+/* SOVRASCRIVE jqtree.css (foglio di stile del plugin treeview) */
+
+.jqtree-toggler {
+    color: blue !important;
+    background-color: rgba(156, 196, 255, 0.08);
+    /* padding: 3px 0px 0px 0px; */
+    margin-right: 0px !important;
+    margin-top: 4px;
+    /* font-size: 10px; */
+    font-family: 'UrbsDisplay-Regular'!important;
+}
+
+.jqtree-title {
+    background: unset !important;
+    border: unset !important;
+}
+
+.jqtree-title:hover {
+    color: blue !important;
+}
+
+ul.jqtree-tree li.jqtree-selected > .jqtree-element, ul.jqtree-tree li.jqtree-selected > .jqtree-element:hover {
+    background: none;
+    font-weight: bold;
+}
+
+ul.jqtree-tree .jqtree-toggler {
+}
+
+/*	icone cartelle chiuse-aperte copiate da .glyphicon-folder-open e -close	*/
+ul.jqtree-tree li.jqtree-folder .jqtree-title:before {
+    font-family: 'Glyphicons Halflings';
+    font-size: 80%;
+    content: "\e118";
+    color: #ccc;
+    padding-right: 5px;
+}
+
+ul.jqtree-tree li.jqtree-folder .jqtree-toggler + .jqtree-title:before {
+    content: "\e118";
+    color: #EBBF0F;
+}
+
+ul.jqtree-tree li.jqtree-folder .jqtree-toggler.jqtree-closed + .jqtree-title:before {
+    content: "\e117";
+    color: #EBBF0F;
+}
+
+.jqtree-tree {
+    font-size: 85%;
+}
+
+.jqtree_common {
+    position: relative;
+}
+
+.jqtree-title {
+    position: relative;
+    display: inline-block;
+    width: inherit;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    padding: 0 3px;
+    margin-left: 18px;
+    margin-right: 0px; 
+    border-radius: 2px;
+    background: #fff;
+    z-index: 0;
+    border: 2px solid #fff;
+}
+
+/*.jqtree-title:hover, .jqtree-title:focus {
+    
+    background: #02918D;
+    color: #fff !important;
+    text-shadow: none !important;
+    -moz-text-shadow: none !important;
+    -webkit-text-shadow: none !important;
+}*/
+
+@font-face {
+    font-family: 'customks';
+    src: url('../fonts/customks.eot');
+    src: url('../fonts/customks.eot?#iefix') format('embedded-opentype'),
+    url('../fonts/customks.ttf') format('truetype'),
+    url('../fonts/customks.woff') format('woff'),
+    url('../fonts/customks.svg#customks') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="fticon-"], [class*="fticon-"], [class^="userGroup-"], [class*="userGroup-"] {
+    font-family: 'customks';
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/*[class^="fticon-"]:before,
+[class*="fticon-"]:before,
+[class^="userGroup-"]:before,
+[class*="userGroup-"]:before        {content: "\e668"}  icona tipologia generica; viene sovrascritta dalle classi che seguono. */
+
+.fticon-tree:before{
+    font-family: customks !important;
+    font-size: 175% !important;
+    vertical-align: sub;
+    color: #EBBF0F !important;
+    content: "\e668";
+}
+
+.fticon-aoo:before {
+    content: "\e60d" !important;
+}
+
+.fticon-root-servizi:before {
+    content: "\e630" !important;
+}
+
+.fticon-titolario:before {
+    content: "\e616" !important;
+}
+
+.fticon-mandato:before,
+.fticon-incarico:before {
+    content: "\e664" !important;
+}
+
+.fticon-sotto-mandato:before,
+.fticon-sotto-incarico:before {
+    content: "\e663" !important;
+}
+
+.fticon-autore_mandato:before,
+.fticon-AUTORE_MANDATO:before {
+    content: "\e666" !important;
+}
+
+.fticon-documenti_per_autore_mandato:before,
+.fticon-DOCUMENTO_PER_AUTORE_MANDATO:before {
+    content: "\e666" !important;
+}
+
+.fticon-documenti_mandato:before,
+.fticon-DOCUMENTI_MANDATO:before {
+    content: "\e665" !important;
+}
+
+.fticon-principale:before {
+    content: "\e65f" !important;
+}
+
+.fticon-fascicolo:before {
+    content: "\e667" !important;
+}
+
+.fticon-folder:before {
+    content: "\e668" !important;
+}
+
+.fticon-root:before {
+    content: "\e621" !important;
+}
+
+.fticon-file:before {
+    content: "\e609" !important;
+}
+
+.secureblock {
+    display: none;
+    pointer-events: none;
+    opacity: .65;
+}
+
+.visible {
+    display: unset!important;
+    visibility: visible!important;
+}
+
+.mnotfound{
+    border: 2px red dashed
+}
+
+

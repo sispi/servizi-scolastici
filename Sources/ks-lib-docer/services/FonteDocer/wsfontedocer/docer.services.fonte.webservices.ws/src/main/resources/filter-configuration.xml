@@ -1,0 +1,4 @@
+<configuration>
+	<remote-authorization-epr>http://localhost:8080/docersystem/services/AuthorizationService</remote-authorization-epr>
+	<remote-authentication-epr>http://localhost:8080/docersystem/services/AuthenticationService</remote-authentication-epr>
+</configuration>

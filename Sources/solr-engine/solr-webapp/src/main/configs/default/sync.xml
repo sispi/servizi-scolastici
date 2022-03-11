@@ -1,0 +1,21 @@
+<dataConfig>
+
+  <propertyWriter dateFormat="yyyy-MM-dd'T'HH:mm:ss'Z'" type0="SimplePropertiesWriter" type="ZKPropertiesWriter" directory="data" filename="sync.properties" />
+
+  <document>
+  
+
+  	<entity name="crawl" processor="SolrEntityProcessor" qt="/crawlselect" 
+  			
+  			url="http://localhost:${jetty.port}/solr/${solr.core.collection}"
+  			query="${dataimporter.request.q}"
+  			fq="${dataimporter.request.fq}"
+			fl="${dataimporter.request.fl}" 
+  			rows="${dataimporter.request.rows}"  
+  			
+  	/>
+   
+  </document>
+
+  
+</dataConfig>

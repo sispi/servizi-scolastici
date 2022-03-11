@@ -1,0 +1,43 @@
+<head>
+    <title>configurations</title>
+</head>
+
+<body>
+<script @server id="model-configurations" src="/bpm/v1/configurations?fetch={fetch:\*}&orderBy={orderBy}&pageNumber={pageNumber}&pageSize={pageSize:10}&runnableOnly={runnableOnly:false}" type="application/json" ></script>
+
+<div id="app" class="container-fluid" >
+    <h2>{{model.title}}</h2>
+    <!--<report-buttons style="float:right" :model="model"></report-buttons>-->
+    <results-stats style="float:right;padding-right:5px" :tot-results="model.totResults" :elapsed="model.elapsed" ></results-stats>
+    <!--<facets :model="model" page-field="pageNumber"></facets>-->
+    <report-table :model="model" ></report-table>
+    <pager style="text-align: center"  :tot-page="model.totPage" :page-number="model.pageNumber" ></pager>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: function() {
+            var model = reportdata("model-configurations");
+
+            for( x in model.data ){
+                var row = model.data[x];
+                row.processId = row.deployment.processId;
+            }
+
+            model.columns = "id,category,processId,crea".split(',');
+
+            model.params["column.id.href"] = "/bpm/configurations/details?id={id}";
+
+            model.params["column.crea.href"] = "/~newInstance?configuration={id}&processId={processId}";
+            model.params["column.crea.label"] = " ";
+            model.params["column.crea.href.label"] = "<i class='fas fa-plus-circle'></i>&nbsp;nuova istanza";
+
+            return {
+                model:model
+            }
+        }
+    });
+</script>
+</body>
+

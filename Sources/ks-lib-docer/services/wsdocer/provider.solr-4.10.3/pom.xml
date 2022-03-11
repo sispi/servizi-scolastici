@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>docer.services.wsdocer</artifactId>
+        <groupId>it.kdm.docer</groupId>
+        <version>Docer-2.4.6.1</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>docer.services.wsdocer.provider.solr-4.10.3</artifactId>
+    <dependencies>
+        <dependency>
+            <groupId>it.kdm.docer</groupId>
+            <artifactId>docer.services.wsdocer.sdk</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>it.kdm</groupId>
+            <artifactId>utils</artifactId>
+            <version>1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>it.kdm.docer</groupId>
+            <artifactId>it.kdm.solr.components.common</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+        <!--<dependency>
+            <groupId>it.kdm.docer</groupId>
+            <artifactId>docer.tools.sso-kdm-kit.backend-kit</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>-->
+        <dependency>
+            <groupId>it.kdm.docer</groupId>
+            <artifactId>commons-sso</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>it.kdm.docer</groupId>
+            <artifactId>docer.commons.services</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>it.emilia_romagna.regione.security_mvn</groupId>
+            <artifactId>security-cli</artifactId>
+            <version>0.0.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>joda-time</groupId>
+                    <artifactId>joda-time</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+
+
+</project>

@@ -1,0 +1,90 @@
+Il pacchetto di installazione DocER.zip contiene:
+- alfresco/				cartella contenente le customizzazioni di alfresco e le 
+						relative istruzioni
+- orbeon/ 				cartella contenente le customizzazioni di orbeon relative DocER
+- additional-files/		cartella contenente file addizionali 
+- docersystem.war		Servizi di Sistema di DocER
+- WSDocer.war			Documentale DocER			
+- xforms.war			Servizio di gestione dei servizi di frontend
+- DocAreaWS.war			Documentale DocArea Mime
+- WSDocarea2Dime.war	Documentale DocArea Dime
+
+L'installazione richiede che esista un tomcat con orbeon gia' installato. 
+Nella cartella additional-files sono presenti le distribuzioni di tomcat e orbeon
+consigliate, ma il presente documento non copre le modalita' di installazione.
+
+Tutti i pacchetti, ad eccezione di xforms.war, possono essere installati su altre
+istanze di tomcat, ma cio e' sconsigliato in quanto i ritardi di rete 
+potrebbero influenzare negativamente le prestazioni del sistema.
+
+La procedura di installazione e' la seguente:
+
+- copiare il contenuto della cartella orbeon nella webapp preesistente di orbeon, 
+  sovrascrivendo tutti i file
+  nel file {ORBEON_WEBAPP}/WEB-INF/resouces/apps/xforms-docer/docer-caller.xpl
+  ci sono due url che puntano alla webapp xforms. Aggiornarli in base all'ambiente
+  corrente.
+  
+- copiare tutti i war nella cartella webapps di tomcat e assicurarsi che tomcat
+  sia avviato e pronto per eseguire il deploy.
+  
+Tutti i war installati contengono file di configurazione che necessitano di 
+modifiche in base ai parametri dell'ambiente corrente.
+
+WSDocarea2Dime:
+- WEB-INF/classes/config.xml -> Configurazione del provider e delle cartelle dei temporanei
+- WEB-INF/server-config.wsdd -> Configurazione di axis, in particolare la gestione della cache 
+								degli attachments
+
+DocAreaWS:
+- WEB-INF/classes/config.xml -> Configurazione del provider e delle cartelle dei temporanei
+- WEB-INF/conf/axis2.xml -> Configurazione di axis, in particolare la gestione della cache 
+							degli attachments
+- WEB-INF/classes/filter.properties -> Switch per abilitare il filtro  di retrocompatibilita'
+									   con i vecchi client DocArea non standard
+- WEB-INF/web.xml -> Il filtro DumpFilter, che logga le richieste in entrata ed in
+				     uscita, presenta il parametro "active" per abilitare il tracciamento.
+				     E' da utilizzare solo per il debug, in produzione deve essere
+				     impostato a false. 
+
+WSDocer:
+- WEB-INF/classes/docer_config.xml -> Configurazione del provider e delle cartelle dei temporanei
+- WEB-INF/conf/axis2.xml -> Configurazione di axis, in particolare la gestione della cache 
+							degli attachments
+
+docersystem:
+- WEB-INF/classes/tracer.properties -> Se accendere o spengere il tracing delle richieste
+- WEB-INF/classes/authproviders.xml -> Endpoint per l'autenticazione standard e di federa.
+								       L'autenticazione standard punta generalmente verso WSDocer
+
+xforms:
+- WEB-INF/classes/docer_frontend.properties -> remote.addr: endpoint verso WSDocer
+										    -> core.addr: endpoint verso il servizio di 
+										    			  autenticazione di docersystem
+										    -> timeout
+										    -> attachments.dir: cartella dei file temporanei
+										    
+										    
+I servizi soap (WSDocarea2Dime, DocAreaWS e WSDocer) possono utilizzare come backend sia alfresco
+che eDocs. Una volta selezionato il backend nei file di configurazione appena menzionati, in base
+alla scelta fatta andranno eseguite configurazioni aggiuntive come illustrato di seguito:
+
+Alfresco:
+Ogni webservice contiene un file di configurazione:
+- WEB-INF/classes/alfresco_provider_config.xml
+tale file contiene l'endpoint di alfresco che deve essere impostato correttamente.
+
+Inoltre vanno eseguite numerose configurazioni su alfresco, come documentato nei README presenti
+nella cartella alfresco/ del pacchetto di installazione.
+
+eDocs:
+I file necessari per eDocs sono presenti nella cartella additional-files/ del pacchetto di installazione.
+Le Jacob dll devono essere copiate su un folder raggiungibile dal classloader della 
+jvm (windows\system32). 
+Inoltre il jar di jacob deve essere inserito nello shared classloader di tomcat. La procedura e' 
+la seguente:
+- Creare la cartella shared\lib nella cartella principale di tomcat e copiarci il jacob.jar.
+- Modificare il file conf\catalina.properties aggiungendo la riga seguente alla voce shared.loader: 
+	${catalina.base}/shared/classes,${catalina.base}/shared/lib/*.jar.
+  La riga finale dopo l'aggiunta effettuata dovra' apparire come la seguente:
+	shared.loader=${catalina.base}/shared/classes,${catalina.base}/shared/lib/*.jar

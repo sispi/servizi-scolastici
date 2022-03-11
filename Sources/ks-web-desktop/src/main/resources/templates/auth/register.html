@@ -1,0 +1,52 @@
+<link rel="stylesheet" href="/static/css/login.css?no-cache" >
+
+<div id="registration" class="offset-md-3 col-md-6 col-sm-8 offset-sm-2">
+    <div id="logo_login"><img id="logo" src="/static/images/logo_login_1.png" alt="logo_login"></div>
+    <form id="executeLogin" action="/auth/register" method="POST">
+        <h2 id="login_header" >Registrazione Utente</h2>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text glyphicon glyphicon-user" id="username_label"></span></span>
+            </div>
+            <input name="username" type="text" class="form-control" placeholder="nome utente" />
+        </div>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text glyphicon glyphicon-lock" ></span>
+            </div>
+            <input name="password" type="password" class="form-control" placeholder="Password" />
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text glyphicon glyphicon-lock" ></span>
+            </div>
+            <input name="password2" type="password" class="form-control" placeholder="Password" />
+        </div>
+        [#assign aoos = utils.actorsCache.getAOO() /]
+        <div class="input-group mb-3" style="${ ( (aoos?size)<2)?string('visibility:hidden;height:0px','') }" >
+            <div class="input-group-prepend">
+                <span class="input-group-text glyphicon glyphicon-bookmark" id="aoo_label_label"></span>
+            </div>
+            <select name="aoo" class='form-control' >
+            [#list aoos as item]
+                <option value="${item.groupId}">${item.groupName}</option>
+            [/#list]
+            </select>
+        </div>
+
+        <div class="form-group">
+
+            <div style="color:red">
+                ${utils.request.getParameter('message')!"&nbsp;"}
+            </div>
+
+            <button id="btn_registra" type='submit' class='btn btn-primary' ><span class="fa fa-key"></span>&nbsp;Registra</button>
+        </div>
+    </form>
+
+</div>
+
+
+

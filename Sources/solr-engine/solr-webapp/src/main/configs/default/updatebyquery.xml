@@ -1,0 +1,90 @@
+<dataConfig>
+
+  <propertyWriter dateFormat="yyyy-MM-dd'T'HH:mm:ss'Z'" type0="SimplePropertiesWriter" type="ZKPropertiesWriter" directory="data" filename="updatebyquery.properties" />
+  
+
+ 
+  <script><![CDATA[
+                
+                function update(row,context)     
+                {
+					//var field = context.resolve("dataimporter.request.field");
+
+					var params = context.getRequestParameters() ;
+
+					var stamp = context.resolve("dataimporter.request.stamp") || Math.abs(params.hashCode());
+
+					row.put("ubq_stamp","_"+stamp);
+
+					var keys = row.keySet().toArray();
+
+					for( var i=0; i< keys.length ; i++ )
+					{
+						this[keys[i]] = row.get(keys[i]);
+					}
+						
+					var keys = params.keySet().toArray();
+
+					for ( var i=0; i< keys.length ; i++ )
+					{
+						var param = keys[i];
+						
+						if ( param.indexOf("set.")==0)
+						{
+							var field = param.substring(4);
+							var expr = params.get(param);
+							var val = eval(String(expr));
+							row.put( field, val );
+						}
+						else if (param.indexOf("add.")==0)
+						{
+							var field = param.substring(4);
+							var val = params.get(param);
+							row.put( field, { "add" : val } );
+						}
+						else if (param.indexOf("remove.")==0)
+						{
+							var field = param.substring(7);
+							var val = params.get(param);
+							row.put( field, { "remove" : val } );
+						}
+						else if (param.indexOf("removeregex.")==0)
+						{
+							var field = param.substring(12);
+							var val = params.get(param);
+							row.put( field, { "removeregex" : val } );
+						}
+						else if (param.indexOf("removeacl.")==0)
+						{
+							var field = param.substring(10);
+							var val = params.get(param);
+							row.put( field, { "removeacl" : val } );
+						}
+						else if (param.indexOf("inc.")==0)
+						{
+							var field = param.substring(4);
+							var val = params.get(param);
+							row.put( field, { "inc" : java.lang.Integer.parseInt(val.toString() ) } );
+						}
+					}
+
+					return row;
+                }
+            
+        ]]></script>
+
+  <document>
+  
+  <entity name="UPDATE" processor="SolrEntityProcessor" transformer="script:update" qt="/adminselect" 
+  			
+  			fl="${dataimporter.request.fl}" 
+  			url="http://localhost:${jetty.port}/solr/${solr.core.collection}"
+  			rows="500"  
+  			fq="-ubq_stamp:&quot;_${dataimporter.request.stamp}&quot;" 
+  			query="${dataimporter.request.q}"/>
+   
+ 
+  </document>
+
+  
+</dataConfig>

@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ConstraintsParameters Name="Policy personalizzata" xmlns="http://dss.esig.europa.eu/validation/policy">
+    <Description>Validate electronic signatures and indicates whether they are Advanced electronic Signatures (AdES), AdES supported by a Qualified Certificate (AdES/QC) or a
+		Qualified electronic Signature (QES). All certificates and their related chains supporting the signatures are validated against the EU Member State Trusted Lists (this includes
+		signer's certificate and certificates used to validate certificate validity status services - CRLs, OCSP, and time-stamps).</Description>
+    <SignatureConstraints>
+        <AcceptablePolicies Level="IGNORE">
+            <Id>NO_POLICY</Id>
+            <Id>ANY_POLICY</Id>
+        </AcceptablePolicies>
+        <AcceptableFormats Level="IGNORE">
+            <Id>*</Id>
+        </AcceptableFormats>
+        <BasicSignatureConstraints>
+            <ReferenceDataExistence Level="IGNORE"/>
+            <ReferenceDataIntact Level="IGNORE"/>
+            <SignatureIntact Level="IGNORE"/>
+            <SignatureValid Level="IGNORE"/>
+            <ProspectiveCertificateChain Level="IGNORE"/>
+            <SigningCertificate>
+                <Recognition Level="IGNORE"/>
+                <Signature Level="IGNORE"/>
+                <NotExpired Level="IGNORE"/>
+                <RevocationDataAvailable Level="IGNORE"/>
+                <RevocationDataNextUpdatePresent Level="WARN"/>
+                <RevocationDataFreshness Level="WARN"/>
+                <KeyUsage Level="WARN">
+                    <Id>nonRepudiation</Id>
+                </KeyUsage>
+                <NotRevoked Level="IGNORE"/>
+                <NotOnHold Level="IGNORE"/>
+                <Cryptographic Level="IGNORE">
+                    <AcceptableEncryptionAlgo>
+                        <Algo>RSA</Algo>
+                        <Algo>DSA</Algo>
+                        <Algo>ECDSA</Algo>
+                    </AcceptableEncryptionAlgo>
+                    <MiniPublicKeySize>
+                        <Algo Size="128">DSA</Algo>
+                        <Algo Size="1024">RSA</Algo>
+                        <Algo Size="192">ECDSA</Algo>
+                    </MiniPublicKeySize>
+                    <AcceptableDigestAlgo>
+                        <Algo>SHA1</Algo>
+                        <Algo>SHA224</Algo>
+                        <Algo>SHA256</Algo>
+                        <Algo>SHA384</Algo>
+                        <Algo>SHA512</Algo>
+                        <Algo>RIPEMD160</Algo>
+                    </AcceptableDigestAlgo>
+                </Cryptographic>
+            </SigningCertificate>
+            <CACertificate>
+                <Signature Level="IGNORE"/>
+                <NotExpired Level="IGNORE"/>
+                <RevocationDataAvailable Level="IGNORE"/>
+                <RevocationDataNextUpdatePresent Level="IGNORE"/>
+                <RevocationDataFreshness Level="IGNORE"/>
+                <NotRevoked Level="IGNORE"/>
+                <NotOnHold Level="IGNORE"/>
+                <Cryptographic Level="IGNORE">
+                    <AcceptableEncryptionAlgo>
+                        <Algo>RSA</Algo>
+                        <Algo>DSA</Algo>
+                        <Algo>ECDSA</Algo>
+                    </AcceptableEncryptionAlgo>
+                    <MiniPublicKeySize>
+                        <Algo Size="128">DSA</Algo>
+                        <Algo Size="1024">RSA</Algo>
+                        <Algo Size="192">ECDSA</Algo>
+                    </MiniPublicKeySize>
+                    <AcceptableDigestAlgo>
+                        <Algo>SHA1</Algo>
+                        <Algo>SHA224</Algo>
+                        <Algo>SHA256</Algo>
+                        <Algo>SHA384</Algo>
+                        <Algo>SHA512</Algo>
+                        <Algo>RIPEMD160</Algo>
+                    </AcceptableDigestAlgo>
+                </Cryptographic>
+            </CACertificate>
+            <Cryptographic Level="IGNORE">
+                <AcceptableEncryptionAlgo>
+                    <Algo>RSA</Algo>
+                    <Algo>DSA</Algo>
+                    <Algo>ECDSA</Algo>
+                </AcceptableEncryptionAlgo>
+                <MiniPublicKeySize>
+                    <Algo Size="128">DSA</Algo>
+                    <Algo Size="1024">RSA</Algo>
+                    <Algo Size="192">ECDSA</Algo>
+                </MiniPublicKeySize>
+                <AcceptableDigestAlgo>
+                    <Algo>SHA1</Algo>
+                    <Algo>SHA224</Algo>
+                    <Algo>SHA256</Algo>
+                    <Algo>SHA384</Algo>
+                    <Algo>SHA512</Algo>
+                    <Algo>RIPEMD160</Algo>
+                </AcceptableDigestAlgo>
+            </Cryptographic>
+        </BasicSignatureConstraints>
+        <SignedAttributes>
+            <SigningCertificatePresent Level="IGNORE"/>
+            <SigningCertificateSigned Level="IGNORE"/>
+            <CertDigestPresent Level="IGNORE"/>
+            <CertDigestMatch Level="IGNORE"/>
+            <IssuerSerialMatch Level="IGNORE"/>
+            <SigningTime Level="IGNORE"/>
+            <ContentType/>
+            <ContentHints/>
+            <ContentIdentifier/>
+        </SignedAttributes>
+    </SignatureConstraints>
+    <CounterSignatureConstraints>
+        <SignedAttributes>
+            <ContentType/>
+            <ContentHints/>
+            <ContentIdentifier/>
+        </SignedAttributes>
+    </CounterSignatureConstraints>
+    <Timestamp>
+        <TimestampDelay Unit="DAYS" Value="0"/>
+        <MessageImprintDataFound Level="IGNORE"/>
+        <MessageImprintDataIntact Level="IGNORE"/>
+        <RevocationTimeAgainstBestSignatureTime Level="IGNORE"/>
+        <BestSignatureTimeBeforeIssuanceDateOfSigningCertificate Level="IGNORE"/>
+        <SigningCertificateValidityAtBestSignatureTime Level="IGNORE"/>
+        <AlgorithmReliableAtBestSignatureTime Level="IGNORE"/>
+        <Coherence Level="WARN"/>
+        <BasicSignatureConstraints>
+            <ReferenceDataExistence Level="IGNORE"/>
+            <ReferenceDataIntact Level="IGNORE"/>
+            <SignatureIntact Level="IGNORE"/>
+            <ProspectiveCertificateChain Level="WARN"/>
+            <SigningCertificate>
+                <Recognition Level="IGNORE"/>
+                <Signature Level="IGNORE"/>
+                <NotExpired Level="IGNORE"/>
+                <RevocationDataAvailable Level="IGNORE"/>
+                <RevocationDataNextUpdatePresent Level="WARN"/>
+                <RevocationDataFreshness Level="WARN"/>
+                <NotRevoked Level="IGNORE"/>
+                <NotOnHold Level="IGNORE"/>
+                <Cryptographic Level="IGNORE">
+                    <AcceptableEncryptionAlgo>
+                        <Algo>RSA</Algo>
+                        <Algo>DSA</Algo>
+                        <Algo>ECDSA</Algo>
+                    </AcceptableEncryptionAlgo>
+                    <MiniPublicKeySize>
+                        <Algo Size="128">DSA</Algo>
+                        <Algo Size="1024">RSA</Algo>
+                        <Algo Size="192">ECDSA</Algo>
+                    </MiniPublicKeySize>
+                    <AcceptableDigestAlgo>
+                        <Algo>SHA1</Algo>
+                        <Algo>SHA224</Algo>
+                        <Algo>SHA256</Algo>
+                        <Algo>SHA384</Algo>
+                        <Algo>SHA512</Algo>
+                        <Algo>RIPEMD160</Algo>
+                    </AcceptableDigestAlgo>
+                </Cryptographic>
+            </SigningCertificate>
+            <CACertificate>
+                <Signature Level="IGNORE"/>
+                <NotExpired Level="IGNORE"/>
+                <RevocationDataAvailable Level="WARN"/>
+                <RevocationDataNextUpdatePresent Level="WARN"/>
+                <RevocationDataFreshness Level="WARN"/>
+                <NotRevoked Level="FAIL"/>
+                <NotOnHold Level="FAIL"/>
+                <Cryptographic Level="IGNORE">
+                    <AcceptableEncryptionAlgo>
+                        <Algo>RSA</Algo>
+                        <Algo>DSA</Algo>
+                        <Algo>ECDSA</Algo>
+                    </AcceptableEncryptionAlgo>
+                    <MiniPublicKeySize>
+                        <Algo Size="128">DSA</Algo>
+                        <Algo Size="1024">RSA</Algo>
+                        <Algo Size="192">ECDSA</Algo>
+                    </MiniPublicKeySize>
+                    <AcceptableDigestAlgo>
+                        <Algo>SHA1</Algo>
+                        <Algo>SHA224</Algo>
+                        <Algo>SHA256</Algo>
+                        <Algo>SHA384</Algo>
+                        <Algo>SHA512</Algo>
+                        <Algo>RIPEMD160</Algo>
+                    </AcceptableDigestAlgo>
+                </Cryptographic>
+            </CACertificate>
+            <Cryptographic Level="IGNORE">
+                <AcceptableEncryptionAlgo>
+                    <Algo>RSA</Algo>
+                    <Algo>DSA</Algo>
+                    <Algo>ECDSA</Algo>
+                </AcceptableEncryptionAlgo>
+                <MiniPublicKeySize>
+                    <Algo Size="128">DSA</Algo>
+                    <Algo Size="1024">RSA</Algo>
+                    <Algo Size="192">ECDSA</Algo>
+                </MiniPublicKeySize>
+                <AcceptableDigestAlgo>
+                    <Algo>SHA1</Algo>
+                    <Algo>SHA224</Algo>
+                    <Algo>SHA256</Algo>
+                    <Algo>SHA384</Algo>
+                    <Algo>SHA512</Algo>
+                    <Algo>RIPEMD160</Algo>
+                </AcceptableDigestAlgo>
+            </Cryptographic>
+        </BasicSignatureConstraints>
+    </Timestamp>
+    <Revocation>
+        <RevocationFreshness Unit="DAYS" Value="0"/>
+        <BasicSignatureConstraints>
+            <ReferenceDataExistence Level="IGNORE"/>
+            <ReferenceDataIntact Level="IGNORE"/>
+            <SignatureIntact Level="IGNORE"/>
+            <ProspectiveCertificateChain Level="WARN"/>
+            <SigningCertificate>
+                <Recognition Level="IGNORE"/>
+                <Signature Level="IGNORE"/>
+                <NotExpired Level="IGNORE"/>
+                <RevocationDataAvailable Level="IGNORE"/>
+                <RevocationDataNextUpdatePresent Level="WARN"/>
+                <RevocationDataFreshness Level="WARN"/>
+                <NotRevoked Level="FAIL"/>
+                <NotOnHold Level="FAIL"/>
+                <Cryptographic Level="IGNORE">
+                    <AcceptableEncryptionAlgo>
+                        <Algo>RSA</Algo>
+                        <Algo>DSA</Algo>
+                        <Algo>ECDSA</Algo>
+                    </AcceptableEncryptionAlgo>
+                    <MiniPublicKeySize>
+                        <Algo Size="128">DSA</Algo>
+                        <Algo Size="1024">RSA</Algo>
+                        <Algo Size="192">ECDSA</Algo>
+                    </MiniPublicKeySize>
+                    <AcceptableDigestAlgo>
+                        <Algo>SHA1</Algo>
+                        <Algo>SHA224</Algo>
+                        <Algo>SHA256</Algo>
+                        <Algo>SHA384</Algo>
+                        <Algo>SHA512</Algo>
+                        <Algo>RIPEMD160</Algo>
+                    </AcceptableDigestAlgo>
+                </Cryptographic>
+            </SigningCertificate>
+            <CACertificate>
+                <Signature Level="IGNORE"/>
+                <NotExpired Level="IGNORE"/>
+                <RevocationDataAvailable Level="WARN"/>
+                <RevocationDataNextUpdatePresent Level="WARN"/>
+                <RevocationDataFreshness Level="WARN"/>
+                <NotRevoked Level="IGNORE"/>
+                <NotOnHold Level="IGNORE"/>
+                <Cryptographic Level="IGNORE">
+                    <AcceptableEncryptionAlgo>
+                        <Algo>RSA</Algo>
+                        <Algo>DSA</Algo>
+                        <Algo>ECDSA</Algo>
+                    </AcceptableEncryptionAlgo>
+                    <MiniPublicKeySize>
+                        <Algo Size="128">DSA</Algo>
+                        <Algo Size="1024">RSA</Algo>
+                        <Algo Size="192">ECDSA</Algo>
+                    </MiniPublicKeySize>
+                    <AcceptableDigestAlgo>
+                        <Algo>SHA1</Algo>
+                        <Algo>SHA224</Algo>
+                        <Algo>SHA256</Algo>
+                        <Algo>SHA384</Algo>
+                        <Algo>SHA512</Algo>
+                        <Algo>RIPEMD160</Algo>
+                    </AcceptableDigestAlgo>
+                </Cryptographic>
+            </CACertificate>
+            <Cryptographic Level="IGNORE">
+                <AcceptableEncryptionAlgo>
+                    <Algo>RSA</Algo>
+                    <Algo>DSA</Algo>
+                    <Algo>ECDSA</Algo>
+                </AcceptableEncryptionAlgo>
+                <MiniPublicKeySize>
+                    <Algo Size="128">DSA</Algo>
+                    <Algo Size="1024">RSA</Algo>
+                    <Algo Size="192">ECDSA</Algo>
+                </MiniPublicKeySize>
+                <AcceptableDigestAlgo>
+                    <Algo>SHA1</Algo>
+                    <Algo>SHA224</Algo>
+                    <Algo>SHA256</Algo>
+                    <Algo>SHA384</Algo>
+                    <Algo>SHA512</Algo>
+                    <Algo>RIPEMD160</Algo>
+                </AcceptableDigestAlgo>
+            </Cryptographic>
+        </BasicSignatureConstraints>
+    </Revocation>
+</ConstraintsParameters>

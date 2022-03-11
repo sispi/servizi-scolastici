@@ -1,0 +1,7 @@
+Per far funzionare Federa in DocER bisogna abilitarlo dentor Orbeon, dentro
+xform, configurare i truststore ssl ed abilitare il cross context.
+
+-- ORBEON --
+
+Cercare dentro web.xml la sezione "REAL FEDERA".
+Scommentare i 3 filter-mapping presenti nella sezione

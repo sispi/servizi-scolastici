@@ -1,0 +1,263 @@
+#body {
+    margin: 0px 0vw 0vw 0vw!important;
+    /*background: #F6F6F6;*/
+    font-family: Raleway,sans-serif;
+    line-height: 26px;
+    color: #5f5f5f;
+}
+.it-header-slim-wrapper{
+    background: #CC0038;
+    height: 70px;
+    padding: 10px;
+}
+.it-header-center-wrapper{
+    height: 100px;
+    background:  #fff;
+    padding-top: 0px;
+}
+.btn-primary {
+    background-color: #CC0038 !important;
+    border-color: #bf0034 !important;
+}
+.btn-primary:visited {
+    background-color: #bf0034 !important;
+    border-color: #bf0034 !important;
+}
+.btn-primary:hover, .btn-primary:active {
+    background-color: #e80040 !important;
+    border-color: #bf0034 !important;
+}
+.it-header-navbar-wrapper{
+    background: #efefef;
+}
+.menu-txt{
+    color:  #004393;
+}
+.menu-search{
+    color:  #9d9d9d;
+}
+.color-accent{
+    color:  #CC0038;
+}
+.navbar .navbar-collapsable .navbar-nav li a.nav-link{
+    color: #06c;
+}
+
+.it-footer-main{
+    background: #004393;
+}
+.h2, h2{
+    font-size: 2.0rem;
+}
+.btn-alpha{
+    border: none;
+    background: transparent;
+}
+
+.blu-accent{
+    color: #004393;
+}
+.blu-accent:hover{
+    color: #005ece;
+}
+
+.red-accent{
+    color: #cc0038;
+}
+
+.card{
+    background: aliceblue;
+    border-radius: 5px;
+}
+.card:after {
+    margin-top: 0px;
+}
+/*label step attuale*/
+.it-timeline-wrapper .it-pin-wrapper.it-now .pin-text {
+    color: #fff;
+    background: #cc0038;
+}
+.it-timeline-wrapper .it-pin-wrapper.it-now .pin-text span:after {
+    background: #cc0038;
+}
+/*pallino step attuale*/
+.it-timeline-wrapper .it-pin-wrapper.it-now .pin-icon {
+    background: #cc0038;
+}
+
+/*label step completato*/
+.it-timeline-wrapper .it-pin-wrapper.it-evidence .pin-text {
+    color: #fff;
+    background: #008758;
+}
+.it-timeline-wrapper .col-12:nth-child(odd) .it-pin-wrapper.it-evidence .pin-text span:after {
+    border-color: transparent transparent transparent #008758;
+    background: #008758;
+}
+.it-timeline-wrapper .it-pin-wrapper.it-evidence .pin-text span:after{
+    background: #008758;
+}
+/*pallino step completato*/
+.it-timeline-wrapper .it-pin-wrapper.it-evidence .pin-icon {
+    background: #008758;
+}
+
+/*label step futuri*/
+.it-timeline-wrapper .it-pin-wrapper .pin-text {
+    color: #435a70;
+    background: #DAE1E5;
+}
+.it-timeline-wrapper .it-pin-wrapper .pin-text span:after{
+    background: #DAE1E5;
+}
+/*pallino step futuri*/
+.it-timeline-wrapper .it-pin-wrapper .pin-icon {
+    background: #DAE1E5;
+}
+/*barra verticale*/
+.it-timeline-wrapper .row:after {
+    background: #DAE1E5;
+}
+.it-timeline-wrapper .it-pin-wrapper {
+    top: -5px;
+}
+
+.taskToDo{
+    text-align: center;
+    background-color: #cc003838;
+    color: #940000;
+    z-index: 1;
+    border-radius: 5px;
+    min-height: 60px;
+    padding-top: 16px;
+    margin-bottom: 25px;
+}
+.it-timeline-wrapper .row {
+    padding-top: 10px;
+}
+.btn-taskToDo{
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    font-size: 16px;
+    margin-left: 20px;
+    border: 1px solid #cc0038;
+    padding: 5px 10px;
+    border-radius: 4px;
+    background: #cc0038;
+}
+.btn-taskToDo:hover{
+    color: #fff;
+    background: #e2003e;
+    text-decoration: none;
+}
+/*
+input:required {
+    border-bottom: 1px solid green;
+}*/
+input:required:invalid {
+    border-bottom: 1px solid #CC0038;
+}
+
+
+
+
+/* timeline */
+.circle {
+    padding: 8px 16px;
+    border-radius: 50%;
+    background-color: #bcc9d0;
+    color: #fff;
+    max-height: 50px;
+    z-index: 2;
+}
+.how-it-works.row .col-2 {
+    align-self: stretch;
+}
+.how-it-works.row .col-2::after {
+    content: "";
+    position: absolute;
+    border-left: 3px solid #bcc9d0;
+    z-index: 1;
+}
+.how-it-works.row .col-2.bottom::after {
+    height: 100%;
+    left: 50%;
+    top: 0%;
+}
+.how-it-works.row .col-2.full::after {
+    height: 100%;
+    left: calc(50% - 3px);
+}
+.how-it-works.row .col-2.top::after {
+    height: 50%;
+    left: 50%;
+    top: 0;
+}
+
+.how-it-works-last.row .col-2 {
+    align-self: stretch;
+}
+.how-it-works-last.row .col-2::after {
+    content: "";
+    position: absolute;
+    border-left: 3px solid #bcc9d0;
+    z-index: 1;
+}
+.how-it-works-last.row .col-2.bottom::after {
+    height: 50%;
+    left: 50%;
+    top: 0%;
+}
+.how-it-works-last.row .col-2.full::after {
+    height: 50%;
+    left: calc(50% - 3px);
+    top: 0%;
+}
+.how-it-works-last.row .col-2.top::after {
+    height: 50%;
+    left: 50%;
+    top: 0;
+}
+
+.timeline div {
+    padding: 0;
+    height: 40px;
+}
+.timeline hr {
+    border-top: 3px solid #bcc9d0;
+    margin: 0;
+    top: 17px;
+    position: relative;
+}
+.timeline .col-2 {
+    display: flex;
+    overflow: hidden;
+}
+.timeline .corner {
+    border: 3px solid #bcc9d0;
+    width: 100%;
+    position: relative;
+    border-radius: 15px;
+}
+.timeline .top-right {
+    left: 50%;
+    top: -50%;
+}
+.timeline .left-bottom {
+    left: -50%;
+    top: calc(50% - 3px);
+}
+.timeline .top-left {
+    left: -50%;
+    top: -50%;
+}
+.timeline .right-bottom {
+    left: 50%;
+    top: calc(50% - 3px);
+}
+/* fine timeline */
+
+.alert-danger {
+    background-color: #ffecec!important;
+}

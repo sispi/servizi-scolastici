@@ -1,0 +1,153 @@
+<script @server-model="title" type="javascript">
+    var qs = ($.request.queryString || '');
+    qs = qs.replace(/^\\s*\/+|\/+\\s*$/,'').replace("&inspector","");
+    if (!qs)
+        title = "&nbsp;";
+    else
+        title = qs.substring(qs.lastIndexOf("/")+1);
+
+    title;
+</script>
+
+<script @server-model="titles" type="javascript">
+    var qs = ($.request.queryString || '');
+    var base = $.request.getServletPath()+"?";
+    qs = qs.trim().replace(/^\/*|\/*$/,'');
+    titles = new java.util.LinkedHashMap();
+    titles.put('resources','resources');
+    if (qs){
+        parts = qs.split("/");
+
+        path = "";
+        for( idx=0; idx<parts.length-1 ; idx++ ){
+            path += "/" + parts[idx];
+            titles[base+path] = parts[idx];
+        }
+    }
+    titles;
+</script>
+
+[#assign qs = $.request.queryString!'' /]
+
+<body @help0="/~help/pages" @help="/~gdoc/document-viewer?id=1BTuazRXIBLMar37x6M9V55It75bdWF-AY_uwUeOnnTw" >
+<script id="rsx" @server-model="rsx" @ignore-notfound="true" type="text/plain" src="${$.request.queryString!''}"></script>
+
+[#assign ext = qs[ qs?last_index_of('.')+1 ..] /]
+
+[#if utils.getProperty("mimetype."+ext)?? ]
+
+<div id="app">
+
+    <div class="row">
+        <div class="col-4">
+            lang:<b>${ext}</b>
+        </div>
+        <div class="col-4">
+            <button v-if="location.search.indexOf(':classpath')==-1" v-on:click="save2()" class="btn btn-warning btn-sm">Save</button>
+            <button v-if2="location.search.indexOf(':classpath')>0" v-on:click="saveTo()" class="btn btn-warning btn-sm">Save To</button>
+            <button v-if="location.search.indexOf(':classpath')==-1" v-on:click="delete2()" class="btn btn-danger btn-sm">Delete</button>
+            [#if (($.request.getHeader('referer')!'')?length>0) ]
+            <button v-on:click="back2()" class="btn btn-info btn-sm">Back</button>
+            [/#if]
+        </div>
+    </div>
+
+    <hr/>
+
+    <div class="row">
+        <div class="col-12">
+            <editor ref="editor" lang="${ext}" rows="20" v-model="content" ></editor>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+    var app = new Vue({
+        el: "#app",
+        data: function() {
+            return {
+                content: template("rsx")
+            }
+        },
+        methods: {
+
+            back2: function(url){
+                location.href = '${($.request.getHeader("referer"))!''}';
+            },
+
+            saveTo: function() {
+                var content = this.content; // this.$refs.editor.content;
+
+                var url = location.search.substring(1).replace(":classpath",":resources");
+
+                prompt({title:'path di destinazione',value:url},(response)=>{
+                    ClientApi.post(response.value, content,
+                        () => {
+                            console.log("ok");
+                            location.href = location.pathname + "?" + response.value;
+                        },
+                        (error) => {
+                            showError(error);
+                        });
+                })
+            },
+
+            save2: function() {
+                var content = this.content; //this.$refs.editor.content;
+
+                var url = location.search.substring(1);
+
+                ClientApi.post(url, content,
+                    () => {
+                        console.log("ok");
+                    },
+                    (error) => {
+                        showError(error);
+                    });
+
+
+            },
+            delete2: function() {
+                confirm( 'sei sicuro?', () =>{
+                    var url = location.search.substring(1);
+
+                    ClientApi.delete(url,
+                        () => {
+                            location.refresh();
+                        },
+                        (error) => {
+                            showError(error);
+                        }
+                    );
+                });
+            }
+        }
+
+    });
+
+
+</script>
+
+[#else]
+[#if qs?length==0]
+[#assign l = $.resources.getResources('') /]
+[#list l as item]
+<div class="row">
+    <div class="col-4"><a href="${$.request.getServletPath()}?${(qs+'/'+item)}">${item}</a></div>
+</div>
+[/#list]
+[#else]
+[#assign l = $.fromJson(rsx)!false /]
+[#list l as item]
+<div class="row">
+    <div class="col-4"><a href="${$.request.getServletPath()}?${(qs+'/'+item)?replace('//','/')}">${item}</a></div>
+</div>
+[/#list]
+[/#if]
+[/#if]
+
+
+
+</body>

@@ -1,0 +1,13 @@
+kind: RoleBinding
+metadata:
+    name: ${deployment.id}
+    labels:
+        application: ${deployment.id}
+subjects:
+    - kind: ServiceAccount
+      name: ${deployment.id}
+roleRef:
+    kind: ClusterRole
+    name: edit
+    apiGroup: rbac.authorization.k8s.io
+

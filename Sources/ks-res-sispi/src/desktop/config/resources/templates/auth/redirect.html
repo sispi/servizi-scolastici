@@ -1,0 +1,9 @@
+<script @server>
+    var requestURL = encodeURI(request.getParameter("requestURL") || "/");
+    var sso = request.getParameter("sso");
+
+    if (sso != null)
+        response.sendRedirect( "/auth/redirect?requestURL=" + requestURL );
+    else
+        response.sendRedirect( encodeURI(requestURL) );
+</script>

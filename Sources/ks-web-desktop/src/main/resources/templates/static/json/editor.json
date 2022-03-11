@@ -1,0 +1,539 @@
+{
+    "header" : "{{type}}",
+    "tabs": [
+      {
+        "id" : "checkbox",
+        "sticky": true,
+        "sections": [
+          {
+            "header" : { "title" :  "formato" },
+            "input" : "",
+            "elements": [
+              {
+                "label": "label",
+                "type": "text",
+                "input": "label",
+                "required": true,
+                "width" : 4
+              },
+              {
+                "label": "show",
+                "type": "textarea",
+                "input": "show",
+                "width" : 3,
+                "height" : 2
+              },
+              {
+                "label": "margin",
+                "type": "number",
+                "input": "margin",
+                "width" : 1,
+                "min" : 0,
+                "max" : 4
+              },
+              {
+                "label": "width",
+                "type": "number",
+                "input": "width",
+                "width" : 2,
+                "min" : 1,
+                "max" : 12
+              },
+              {
+                "label": "height",
+                "type": "number",
+                "input": "height",
+                "width" : 1,
+                "min" : 1,
+                "max" : 4
+              },
+              {
+                "label": "break",
+                "type": "checkbox",
+                "input": "break_",
+                "width" : 1
+              },
+              {
+                "label": "description",
+                "type": "text",
+                "input": "description",
+                "required": true,
+                "width" : 4
+              },
+              {
+                "label": "class",
+                "type": "text",
+                "input": "class_",
+                "width" : 4
+              },
+              {
+                "label": "style",
+                "type": "text",
+                "input": "style",
+                "width" : 4
+              }
+
+            ]
+          },
+          {
+            "header" : { "title" :  "binding" },
+            "show" : "true",
+            "input" : "",
+            "elements": [
+              {
+                "label": "input",
+                "type": "select",
+                "tags": true,
+                "values" : "context.getInputs(type,this)",
+                "chars": 0,
+                "input": "input",
+                "width": 2
+              },
+              {
+                "label": "output",
+                "type": "select",
+                "tags": true,
+                "values" : "context.getOutputs(type,this)",
+                "chars": 0,
+                "input": "output",
+                "width": 2
+              },
+              {
+                "label": "disabled",
+                "type": "textarea",
+                "input": "disabled",
+                "width": 2,
+                "height" : 2
+              },
+              {
+                "label": "valid",
+                "type": "textarea",
+                "input": "valid_",
+                "width" : 3,
+                "height" : 2
+              },
+              {
+                "label": "invalid feedback",
+                "type": "text",
+                "input": "invalidFeedback_",
+                "width": 2
+              },
+              {
+                "label": "required",
+                "type": "checkbox",
+                "input": "required",
+                "width" : 1
+              }
+            ]
+          },
+          {
+            "header" : { "title" :  "text" },
+            "show" : "type=='text'",
+            "input" : "",
+            "elements": [
+              {
+                "label" : "subtype",
+                "type" : "radio-group",
+                "input": "subtype",
+                "values" : ["text","email","password"],
+                "chars" : 0,
+                "width" : 2,
+                "height" : 3
+              },
+              {
+                "label": "placeholder",
+                "type": "text",
+                "input": "placeholder",
+                "width": 3
+              },
+              {
+                "label": "regex",
+                "type": "text",
+                "input": "regex",
+                "width": 3
+              },
+              {
+                "label": "min",
+                "type": "number",
+                "input": "min",
+                "width": 2
+              },
+              {
+                "label": "max",
+                "type": "number",
+                "input": "max",
+                "width": 2
+              }
+            ]
+          },
+          {
+            "header" : { "title" :  "date" },
+            "show" : "type=='date'",
+            "input" : "",
+            "elements": [
+              {
+                "label" : "subtype",
+                "type" : "radio-group",
+                "input": "subtype",
+                "values" : ["date","time","date-time"],
+                "chars" : 0,
+                "width" : 2,
+                "height" : 3
+              },
+              {
+                "label": "placeholder",
+                "type": "text",
+                "input": "placeholder",
+                "width": 2
+              },
+              {
+                "label": "min",
+                "type": "date",
+                "show": "subtype=='date'",
+                "subtype" : "date",
+                "input": "min",
+                "width": 2
+              },
+              {
+                "label": "max",
+                "type": "date",
+                "show": "subtype=='date'",
+                "subtype" : "date",
+                "input": "max",
+                "width": 2
+              },
+              {
+                "label": "min",
+                "type": "date",
+                "show": "subtype=='date-time'",
+                "subtype" : "date-time",
+                "input": "min",
+                "width": 2
+              },
+              {
+                "label": "max",
+                "type": "date",
+                "show": "subtype=='date-time'",
+                "subtype" : "date-time",
+                "input": "max",
+                "width": 2
+              },
+              {
+                "label": "min",
+                "type": "date",
+                "show": "subtype=='time'",
+                "subtype" : "time",
+                "input": "min",
+                "width": 2
+              },
+              {
+                "label": "max",
+                "type": "date",
+                "show": "subtype=='time'",
+                "subtype" : "time",
+                "input": "max",
+                "width": 2
+              },
+              {
+                "label": "offset",
+                "type": "radio-group",
+                "input": "offset",
+                "show": "subtype=='date'",
+                "values": ["start","end"],
+                "width": 2,
+                "height" : 2
+              }
+            ]
+          },
+          {
+            "header" : { "title" :  "number" },
+            "show" : "type=='number'",
+            "input" : "",
+            "elements": [
+              {
+                "label": "placeholder",
+                "type": "text",
+                "input": "placeholder",
+                "width": 3
+              },
+              {
+                "label": "regex",
+                "type": "number",
+                "input": "step",
+                "width": 2
+              },
+              {
+                "label": "min",
+                "type": "number",
+                "input": "min",
+                "width": 2
+              },
+              {
+                "label": "max",
+                "type": "number",
+                "input": "max",
+                "width": 2
+              }
+            ]
+          },
+          {
+            "show" : "type=='header'",
+            "header" : { "title" :  "header" },
+            "input" : "",
+            "elements": [
+              {
+                "label" : "markup",
+                "type" : "textarea",
+                "subtype" : "html",
+                "input" : "value",
+                "height" : 2,
+                "width" : 10
+              },
+              {
+                "label" : "subtype",
+                "type" : "radio-group",
+                "input": "subtype",
+                "values" : ["h1","h2","h3","h4","h5","h6"],
+                "chars" : 0,
+                "width" : 2,
+                "height" : 2
+              }
+            ]
+          },
+          {
+            "show" : "type=='html'",
+            "header" : { "title" :  "html" },
+            "input" : "",
+            "elements": [
+              {
+                "label" : "markup",
+                "type" : "textarea",
+                "input" : "value",
+                "height" : 4,
+                "width" : 12
+              }
+            ]
+          },
+          {
+            "show" : "type=='checkbox-group' || type=='radio-group'",
+            "header" : { "title" :  "{{type}}" },
+            "input" : "",
+            "elements": [
+              {
+                "label" : "source",
+                "type" : "radio-group",
+                "input" : "source",
+                "height" : 1,
+                "width" : 4,
+                "values" : ["values","url"]
+              }
+            ]
+          },
+          {
+            "show" : "type=='select'",
+            "header" : { "title" :  "select" },
+            "input" : "",
+            "elements": [
+              {
+                "label" : "source",
+                "type" : "radio-group",
+                "input" : "source",
+                "height" : 1,
+                "width" : 2,
+                "values" : ["values","url"]
+              },
+              {
+                "label" : "mode",
+                "type" : "radio-group",
+                "input": "mode",
+                "values" : ["single","multiple"],
+                "chars" : 0,
+                "width" : 3,
+                "height" : 1
+              },
+              {
+                "label": "tags",
+                "type": "checkbox",
+                "input": "tags",
+                "width": 1
+              },
+              {
+                "label": "chars",
+                "type": "number",
+                "input": "chars",
+                "width": 2
+              },
+              {
+                "label": "min",
+                "type": "number",
+                "input": "min",
+                "width": 2
+              },
+              {
+                "label": "max",
+                "type": "number",
+                "input": "max",
+                "width": 2
+              }
+            ]
+          },
+          {
+            "show" : "type=='file'",
+            "header" : { "title" :  "file" },
+            "input" : "",
+            "elements": [
+              {
+                "label" : "url",
+                "input" : "url",
+                "type" : "textarea",
+                "width" : 6,
+                "height" : 2
+              },
+              {
+                "label" : "processor",
+                "input" : "processor",
+                "type" : "textarea",
+                "subtype" : "javascript",
+                "width" : 6,
+                "height" : 2
+              },
+              {
+                "label": "size",
+                "type": "number",
+                "input": "size",
+                "width": 2
+              },
+              {
+                "label": "min",
+                "type": "number",
+                "input": "min",
+                "width": 2
+              },
+              {
+                "label": "max",
+                "type": "number",
+                "input": "max",
+                "width": 2
+              },
+              {
+                "label" : "extensions",
+                "type" : "select",
+                "input" : "extensions",
+                "tags" : true,
+                "subtype" : "multiple",
+                "width" : 3
+              },
+              {
+                "label" : "placeholder",
+                "type" : "text",
+                "input" : "placeholder",
+                "width" : 3
+              }
+            ]
+          },
+          {
+            "show" : "type=='resource'",
+            "header" : { "title" :  "resource" },
+            "input" : "",
+            "elements" : [
+              {
+                "label" : "source (tag id)",
+                "input" : "source",
+                "type" : "textarea",
+                "width" : 6,
+                "height" : 2
+              },
+              {
+                "label" : "content-type",
+                "input" : "contentType",
+                "type" : "select",
+                "chars" : 0,
+                "tags" : true,
+                "values" : ["applicaton/json","x-template"],
+                "width" : 6,
+                "height" : 2
+              }
+
+            ]
+          },
+          {
+            "show" : "type=='button'",
+            "header" : { "title" :  "button" },
+            "input" : "",
+            "elements": [
+              {
+                "label" : "validation url",
+                "input" : "validationUrl",
+                "type" : "textarea",
+                "width" : 3,
+                "height" : 2
+              },
+              {
+                "label" : "action url",
+                "input" : "actionUrl",
+                "type" : "textarea",
+                "width" : 2,
+                "height" : 2
+              },
+              {
+                "label" : "handler",
+                "input" : "handler",
+                "type" : "textarea",
+                "subtype" : "javascript",
+                "width" : 6,
+                "height" : 2
+              }
+            ]
+          },
+          {
+            "header" : {
+              "title" : "<span class='row'><span class='col-1'>id</span><span class='col-1'>text</span></span>"
+            },
+            "class" : "table",
+            "show" : "source=='values' ",
+            "type" : "repeatable",
+            "input" : "values",
+            "repeatable": {
+              "addLabel": "Add",
+              "min": "2",
+              "max": "20"
+            },
+            "elements" : [
+              {
+                "input" : "$item.id",
+                "type" : "text",
+                "width" : 1
+              },
+              {
+                "input" : "$item.text",
+                "type" : "text",
+                "width" : 3
+              }
+            ]
+          },
+          {
+            "header" : {
+              "title" : "<span class='row'><span class='col-6'>url</span><span class='col-6'>processor</span></span>"
+            },
+            "class" : "table",
+            "show" : "source=='url' || type=='resource'",
+            "elements" : [
+              {
+                "input" : "url",
+                "type" : "textarea",
+                "width" : 6,
+                "height" : 2
+              },
+              {
+                "input" : "processor",
+                "type" : "textarea",
+                "subtype" : "javascript",
+                "width" : 6,
+                "height" : 2
+              }
+            ]
+          }
+        ]
+      }
+    ]
+}

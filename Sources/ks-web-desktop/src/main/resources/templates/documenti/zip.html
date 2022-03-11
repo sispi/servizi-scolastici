@@ -1,0 +1,7 @@
+<script @server-model="body" >
+
+    var name = (request.getParameter("filename") || "file")+".zip";
+    response.setHeader("Content-Disposition", org.springframework.http.ContentDisposition.builder("attachment").filename(name).build() );
+
+    Java.type("keysuite.desktop.DesktopUtils").zip(request.getParameterValues("url"));
+</script>

@@ -1,0 +1,262 @@
+<head>
+    <title>notifications</title>
+</head>
+
+<style>
+    #body{
+        font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+    }
+</style>
+
+<body>
+<script @server id="data-model" src="/bpm/v1/notifications?rootOnly={rootOnly}&searchableOnly={searchableOnly}&activeOnly={activeOnly:false}&fetch=*&orderBy={orderBy:notifyTs:desc}&pageSize=10&pageNumber={pageNumber}&tags=${((query.errorOnly!'')=='true')?then('error','')}&tags={processId}" type="application/json" ></script>
+
+<script @server id="model-configurations" src="/bpm/v1/configurations" type="application/json" ></script>
+
+<div id="app" class="container-fluid" >
+    <h2>{{model.title}}</h2>
+    <button class="btn btn-primary col-md-2" type="button" v-on:click="$refs.sendnew.show()">notify</button>
+    <br/><br/>
+
+    <div class="row">
+        <div class="col-12">
+            <facets class="col-12" :model="model" page-field="pageNumber"></facets>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Orinamento risultati: {{orderBy}}
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <template v-if="orderBy=='notifyTs:asc'">
+                    <a v-model="orderBy" class="dropdown-item" @click="orderBy = 'desc', changeOrder($event)">Notify ts desc</a>
+                    <a v-model="orderBy" class="dropdown-item" @click="orderBy = 'desc', changeOrderExpire($event)">Expire ts desc</a>
+                </template>
+                <template v-if="orderBy=='notifyTs:desc'">
+                    <a v-model="orderBy" class="dropdown-item" @click="orderBy = 'asc', changeOrder($event)">Notify ts asc</a>
+                    <a v-model="orderBy" class="dropdown-item" @click="orderBy = 'desc', changeOrderExpire($event)">Expire ts desc</a>
+                </template>
+                <template v-if="orderBy=='expireTs:asc'">
+                    <a v-model="orderBy" class="dropdown-item" @click="orderBy = 'desc', changeOrder($event)">Notify ts desc</a>
+                    <a v-model="orderBy" class="dropdown-item" @click="orderBy = 'desc', changeOrderExpire($event)">Expire ts desc</a>
+                </template>
+                <template v-if="orderBy=='expireTs:desc'">
+                    <a v-model="orderBy" class="dropdown-item" @click="orderBy = 'desc', changeOrder($event)">Notify ts desc</a>
+                    <a v-model="orderBy" class="dropdown-item" @click="orderBy = 'asc', changeOrderExpire($event)">Expire ts asc</a>
+                </template>
+            </div>
+        </div>
+        <div class="col-4" style="margin-top: 5px;">
+            <input type="checkbox" v-model="activeOnly" @change="changeActive($event)"> only active &emsp;
+            <input type="checkbox" v-model="errorOnly" @change="changeError($event)"> in error
+        </div>
+    </div>
+
+    <!--<report-buttons style="float:right" :model="model"></report-buttons>-->
+    <results-stats style="float:right;padding-right:5px" :tot-results="model.totResults" :elapsed="model.elapsed" ></results-stats>
+    <!--<facets :model="model" page-field="pageNumber"></facets>-->
+    <report-table :model="model" rowfield="body" ></report-table>
+    <pager style="text-align: center"  :tot-page="model.totPage" :page-number="model.pageNumber" ></pager>
+    <br/>
+
+    <simplemodal ref="sendnew" id="sendnew" button-class="btn btn-secondary" title="new notification" buttons="ok|close" ref="modal" size="lg" v-on:ok="send($event)" >
+        <div class="form-group">
+            <label>recipients</label>
+            <select2 :value="notification.toRecipients" v-on:changed="notification.toRecipients=$event.ids" class="form-control" url="/docer/v1/solr/select?database=false&sort=name%20asc&fq=type:(user%20group)&wt=json&fl=sid,text:name&q=name:%24%7Bterm%7D%20OR%20USER_ID:%24%7Bterm%7D%20OR%20FULL_NAME:*/%24%7Bterm%7D&term=..." multiple="true"></select2>
+        </div>
+        <!--<div class="form-group">
+            <select2 id="options" class="form-control" minimum-input-length="0" close-on-select="false" multiple="true">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select2>
+        </div>-->
+        <div class="form-group">
+            <label>subject</label>
+            <input v-model="notification.subject" class="form-control" type="text" />
+        </div>
+
+        <div class="form-group">
+            <label>body</label>
+            <editor id="ace_body" style="height: auto" rows="4" class="form-control"
+                    hide-gutter="true"
+                    :content="notification.body" v-on:change-content="value=>notification.body=value" />
+        </div>
+
+        <div class="form-check">
+            <input v-model="notification.email" class="form-check-input" type="checkbox" >
+            <label class="form-check-label" >email</label>
+        </div>
+
+        <!--<div class="form-group">
+            <label>email</label>
+            <input v-model="notification.email" class="form-control" type="checkbox" >
+        </div>-->
+
+        <div class="form-group">
+            <label>tags</label>
+            <select2 :value="notification.tags" v-on:changed="notification.tags=$event.ids" class="form-control" tags="true" multiple="true"></select2>
+        </div>
+    </simplemodal>
+
+</div>
+
+<script>
+
+    var app = new Vue({
+        el: "#app",
+        data: function() {
+
+            var rootOnly = ${query.rootOnly!'false'};
+            var searchableOnly = ${query.searchableOnly!'false'};
+            var errorOnly = ${query.errorOnly!'false'};
+            var ordinamento = '${query.orderBy!'notifyTs:desc'}';
+            var model = bpmdata("data-model");
+            var configurations = bpmdata("model-configurations");
+
+            var processIds = {};
+
+            for (x in configurations.data ){
+
+                var conf = configurations.data[x];
+                if (rootOnly && !conf.runnable)
+                    continue;
+                if (searchableOnly && !conf.searchable)
+                    continue;
+
+                //processIds[conf.deployment.processId] = null;
+                processIds[("processId:")+conf.deployment.processId] = null;
+                //processIds[conf.deployment.processId+" ("+conf.deployment.id+")"] = null;
+            }
+
+            //Created, Ready, Reserved, InProgress, Suspended, Completed, Failed, Error, Exited, Obsolete
+
+            model.counts = {
+                processId : processIds
+            }
+
+            model.combos = {processId:false};
+
+            /*var processId = new URLSearchParams(location.search).get("processId");
+
+            if (processId){
+                model.counts.businessState = {
+                    A : null,
+                    B : null,
+                    C : null
+                }
+                model.facets = ["businessState"];
+            }*/
+
+            for (x in model.data){
+                var instance = model.data[x];
+                if (instance.rootInstance)
+                    instance.rootInstanceId = instance.rootInstance.id;
+            }
+
+            model.columns = "subject,priority,tags,notifyTs,expireTs,recipients,attachments,mark,body".split(',');
+            //model.params["column.elimina.href"] = "javascript:delBookmark('{id}')";
+            //model.params["column.elimina.href.label"] = "elimina";
+
+            //model.params["column.recipients.html"] = "{.userDisplayName}";
+
+            model.params["column.recipients.format"] = function(value) {
+                var res = value.userDisplayName;
+                if (res!=value.userId)
+                    res+=" ("+value.userId+")";
+                if (value.readTs)
+                    res += "&nbsp;<i class='fa fa-check'></i>";
+                return res;
+            };
+            model.params["column.recipients.separator"] = "<br/>";
+            model.params["column.tags.span"] = 100;
+            model.params["column.body.span"] = 100;
+
+            model.params["column.body.format"] = function(value,rowidx) {
+                var contenuto = value;
+                var id = rowidx.id;
+                if(contenuto!=""){
+                    return '<button style="margin: 2px 0px;padding: 1px 10px;" class="btn btn-link dropdown-toggle" data-toggle="collapse" data-target="#demo'+id+'">Dettaglio</button><div id="demo'+id+'" className="collapse" class="collapse">'+contenuto+'</div>';
+                }else{
+                    return contenuto;
+                }
+            };
+            model.params["column.priority.format"] = function(value) {
+                if (value)
+                    return "<i class='fa fa-check'></i>";
+                else
+                    return "<i class='fa fa-ban'></i>";
+            };
+            model.params["column.tags.format"] = function(value) {
+                return value;
+            };
+            model.params["column.expireTs.format"] = model.params["column.readTs.format"] = model.params["column.notifyTs.format"] =
+                function(value){
+                    if (value)
+                        return moment(String(value)).format('DD/MM/YYYY HH:mm');
+                    else
+                        return "";
+                };
+            model.params["column.attachments.format"] = function(value) { return value.name };
+            model.params["column.attachments.href"] = "/bpm/v1/notifications/{id}/attachment-content?name={.name}";
+
+            var self = this;
+            model.params["column.mark.href"] = function(value,ctx,rowidx) {
+                self.markAsRead(ctx.id);
+            };
+
+            model.params["column.mark.href.label"] = "<i title='segna come letto' class='fas fa-check'></i>";
+
+            return {
+                notification: {
+                    "subject": "",
+                    "toRecipients": [],
+                    "email": false,
+                    "body": "",
+                    "tags": []
+                },
+                activeOnly: ${query.activeOnly!'false'},
+                rootOnly: rootOnly,
+                searchableOnly: searchableOnly,
+                errorOnly: errorOnly,
+                pageNumber: ${query.pageNumber!'1'},
+                orderBy: ordinamento,
+                model: model,
+            }
+        },
+        methods : {
+            markAsRead: function(id) {
+                BpmClientApi.notifications.markNotificationAsRead(id,()=>{location.refresh()});
+            },
+            changeActive: function($event) {
+                openPage(changeQs("activeOnly",this.activeOnly));
+            },
+            changeError: function($event) {
+                openPage(changeQs("errorOnly",this.errorOnly));
+            },
+            changeOrder: function($event) {
+                openPage(changeQs("orderBy","notifyTs:"+this.orderBy));
+            },
+            changeOrderExpire: function($event) {
+                openPage(changeQs("orderBy","expireTs:"+this.orderBy));
+            },
+            sendnew: function() {
+                /*if (this.modal)
+                    this.modal.show();
+                else
+                    this.modal = new Vue(modalConf);*/
+                this.$refs.modal.show();
+            },
+            send: function() {
+                if (!this.notification.body)
+                    delete this.notification.body;
+                BpmClientApi.notifications.post(this.notification ,()=>{location.reload()} );
+            },
+
+        }
+    });
+
+</script>
+</body>
+

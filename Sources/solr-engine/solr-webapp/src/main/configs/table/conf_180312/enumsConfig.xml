@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<enumsConfig>
+  
+   <enum name="docFlags">
+     <value>profile</value>
+     <value>content</value>
+     <value>clean</value>
+	 <value>xhtml</value>
+	 <value>server_error</value>
+	 <value>notexists</value>
+	 <value>cache</value> 
+	 <value>synced</value>
+     <value>shared</value>
+   </enum>
+ 
+</enumsConfig>

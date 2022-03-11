@@ -1,0 +1,116 @@
+<script type="text/javascript" src="/static/vendor/qrcode/qrcode.js"></script>
+<script type="text/javascript" src="/static/vendor/qrcode/qrcode_SJIS.js"></script>
+<script type="text/javascript" src="/static/js/components/qrcode-component.js"></script>
+
+<style>
+
+    @page {
+        size: 80mm 50mm;
+    }
+
+    #img img , #img svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    #qrcode {
+        width: 444px;
+        font-size: 16px
+    }
+
+    @media print {
+        #qrcode {
+            width: 100%;
+            font-size: 10mm
+        }
+    }
+
+</style>
+
+
+<div id="qrcode" class="row m-0" >
+
+    <span class="col-6">
+        <qrcode @error="message=arguments[0]" id="img" :text="text"
+                :type-number="typeNumber"
+                :correction-level="correctionLevel"
+                :mb="mb"
+                :mode="mode"
+                :render="render"
+        />
+    </span>
+    <span class="col-6">
+        RIGA<br/>
+        RIGA<br/>
+        RIGA<br/>
+        RIGA<br/>
+        RIGA<br/>
+        RIGA<br/>
+        RIGA<br/>
+        RIGA<br/>
+    </span>
+
+    <div class="d-print-none row">
+
+        <span class="col-12 form-group">text<textarea class="form-control" rows="4" v-model="text" /></span>
+
+        <span class="col-3 form-group">typeNumber<input class="form-control" min="1" max="40" type="number" v-model="typeNumber" /></span>
+
+        <span class="col-3 form-group">correctionLevel
+            <select class="form-control" v-model="correctionLevel" >
+                <option value="L">L</option>
+                <option value="M">M</option>
+                <option value="Q">Q</option>
+                <option value="H">H</option>
+            </select>
+        </span>
+
+        <span class="col-3 form-group">mode
+            <select class="form-control" v-model="mode" >
+                <option value="Byte">Byte</option>
+                <option value="Numeric">Numeric</option>
+                <option value="Alphanumeric">Alphanumeric</option>
+                <option value="Kanji">Kanji</option>
+            </select>
+        </span>
+
+        <span class="col-3 form-group">render
+            <select class="form-control" v-model="render" >
+                <option value="image">image</option>
+                <option value="svg">svg</option>
+            </select>
+        </span>
+
+        <br>
+
+        <span class="col-12">{{message}}</span>
+
+        <br/>
+
+        <span class="col-12 pull-right">
+            <button class="btn btn-sm btn-info" onclick="print()" >stampa</button>
+        </span>
+
+
+    </div>
+
+</div>
+
+<script>
+
+    var qr = new Vue({
+        el: "#qrcode",
+        data: {
+            text : "test",
+            typeNumber : 4, /* 1-40 , default 4 */
+            correctionLevel : 'M', /* L(7%) M (15% - default) Q (25%) H (30%) */
+            mb : null, /* UTF-8 (default) o SJIS */
+            mode : 'Byte', /* Byte (default) Numeric, Alphanumeric o Kanji */
+            render : 'image' /* image (default) table o svg */,
+            message : null
+        }
+    });
+
+</script>
+
+

@@ -1,0 +1,1360 @@
+<html @view="master.ftl" >
+<head @ignore>
+  <base href="file:///C:/Users/daniele.damiani/Desktop/vuetest/" >
+  <title>Protocollo</title>
+  <script src="js/vue.js"></script>
+  <script src="js/axios.min.js"></script>
+  <script src="vendor/jquery-3.5.1.min.js"></script>
+  <script src="vendor/jquery-migrate-3.3.0.min.js"></script>
+  <script>
+    axios.interceptors.request.use(function (config) {
+      config.headers.KS_AUTH_GROUP =  "admin|ANM|ANM_AOO|SYS_ADMINS|admins";
+      return config;
+    });
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,500;0,700;1,400;1,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="bootstrap-4.3.1-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/base-style.css">
+  <link rel="stylesheet" href="vendor/fontawesome/all.min.css">
+  <script src="vendor/moment.js"></script>
+  <script src="vendor/vue-scrollto.js"></script>
+  <script src="vendor/popper-1.14.7.min.js"></script>
+  <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="css/modal-style.css">
+</head>
+
+<body class="body" >
+<script type="text/javascript" src="/static/vendor/qrcode/qrcode.js"></script>
+<script type="text/javascript" src="/static/vendor/qrcode/qrcode_SJIS.js"></script>
+<script type="text/javascript" src="/static/js/components/qrcode-component.js"></script>
+
+<script type="x-template" id="modal-template" @server src="/static/templates/modal-template/modal-template.html"></script>
+<script type="x-template" id="firma-modal-template" @server src="/static/templates/modal-template/firma-modal-template.html"></script>
+<script type="x-template" id="pec-modal-template" @server src="/static/templates/modal-template/pec-modal-template.html"></script>
+<script type="application/json" id="documento-model" @ftl-model="documento" @server src="/docer/v1/documenti/{DOCNUM}"></script>
+<script type="application/json" id="allegati-model" @server src="/docer/v1/documenti/{DOCNUM}/related"></script>
+<script type="application/json" id="messages-model" @server src="/messages?filter=viewProfile.**,label.**,common.**"></script>
+
+<link rel="stylesheet" href="/static/protocollo/css/protocollo.css">
+<link rel="stylesheet" href="/static/protocollo/css/plugin.css" >
+<link rel="stylesheet" href="/static/protocollo/css/jquery-ui.css" >
+<link rel="stylesheet" href="/static/protocollo/css/displayEditProtocollo.css" />
+<link rel="stylesheet" href="/static/protocollo/css/bootstrap-multiselect.css" />
+
+<script type="application/json" id="pec-model" >
+    {
+    }
+</script>
+
+<div style="visibility:hidden; position:fixed; top:55px;" id="qrcode" class="row col-md-12" >
+  <span class="col-md-4"></span>
+  <span class="col-md-2">
+        <qrcode @error="message=arguments[0]" id="img" :text="text"
+                :type-number="typeNumber"
+                :correction-level="correctionLevel"
+                :mb="mb"
+                :mode="mode"
+                :render="render"
+        />
+    </span>
+  <span class="col-md-3">
+          <textarea id="txt-qr" class="form-control" rows="5" v-model="text" />
+    </span>
+  <span class="col-md-3"></span>
+</div>
+
+
+<div style="margin: 10px;" id="protocolloPage">
+  <form action='complete' method='POST' enctype='multipart/form-data' id='protoForm'>
+    <div>
+      <template v-if="documento.NUM_PG">
+        <div class="row form-group" id="infoProtocollazione">
+            <span class="col-md-8 textInfoProtocollazione">Documento Protocollato in data <b>{{dateNoTime(documento.DATA_PG)}}</b> - Numero Protocollo <b>{{documento.NUM_PG}}</b>
+            </span>
+          <button onclick="print()" id="creaEtichetta" type="button" class="btn btn-primary col-md-4" style="display: none;"><i class="bi bi-upc-scan"></i>&nbsp;Etichetta di protocollo</button>
+        </div>
+      </template>
+
+      <div class="btn-group btn-group-justified w100 mrg-bottom" role="group" aria-label="...">
+        <div class="btn-group w100" role="group">
+          <button id="entrata" type="button" class="btn btn-primary" data-toggle="modal" data-target="#versoDocumento">Entrata</button>
+        </div>
+        <div class="btn-group w100" role="group">
+          <button id="interna" type="button" class="btn btn-default" data-toggle="modal" data-target="#versoDocumento">Interna</button>
+        </div>
+        <div class="btn-group w100" role="group">
+          <button id="uscita" type="button" class="btn btn-default right-radius" data-toggle="modal" data-target="#versoDocumento">Uscita</button>
+        </div>
+        <input type="hidden" id="versoDocumento-id" name="protocollo.versoDocumento" value="">
+      </div>
+
+      <div class="form-group row">
+        <div id="registroEmergenza" class="checkbox col-md-10">
+          <label><input type="checkbox" id="checkbox1" name="protocollo.registroEmergenza" value="true" class="">Registro di emergenza</label>
+        </div>
+        <div class="col-md-2">
+          <button @click="showFirmaModal = true" class="btn btn-block btn-light"><i style="color: #0275d8;" class="bi bi-vector-pen" :disabled="documento.permissions.indexOf('read')==-1"></i> Verifica Firma</button>
+          <firma-modal :show="showFirmaModal" @close="showFirmaModal = false"></firma-modal>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="row col-md-12" style="display: none" id="registroEmergenzaContent">
+          <div class="col-md-4">
+            <label class="control-label bold">*Data di protocollazione</label>
+            <div class="input-group">
+              <input type="date" class="form-control mrg" id="data_pg_emergenza-id" name="protocollo.data_pg_emergenza">
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="control-label bold">*Ora di protocollazione</label>
+            <div class="input-group">
+              <input style="margin-top: 5px;" type="time" class="form-control" id="ora_pg_emergenza-id" name="protocollo.ora_pg_emergenza" step="2" >
+            </div>
+          </div>
+          <div class="col-md-4">
+            <label class="control-label bold">*Numero</label>
+            <div class="input-group">
+              <input type="text" class="form-control mrg" id="num_pg_emergenza-id" name="protocollo.num_pg_emergenza" value="">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="bold">*Oggetto</label>
+        <textarea class="col-md-12 form-control" id="oggetto-id" name="protocollo.oggetto"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="bold">Note</label>
+        <textarea class="col-md-12 form-control" id="note-id" name="protocollo.note"></textarea>
+      </div>
+
+      <div class="row form-group">
+        <div class="col-md-3">
+          <label class="control-label bold">*Data</label>
+          <div class="input-group">
+            <input type="date" class="form-control" id="data_proto-id" name="protocollo.data_proto" disabled>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <label class="control-label bold">*Ora</label>
+          <input type="time" class="form-control" id="ora_proto-id" name="protocollo.ora_proto" step="2" disabled>
+        </div>
+        <div style="display: none">
+          <select id="riservatezza-id" class="form-control" name="protocollo.riservatezza">
+            <option value="0">Riservato</option>
+            <option value="4">Non Riservato</option>
+            <option value="1" selected>Ufficio</option>
+            <option value="2">Pubblico</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="control-label bold">*Classifica</label>
+          <div class="input-group">
+            <input type="text" id="classificaAutocomplete" class="form-control">
+            <input type="hidden" id="classificaAutocomplete-id" name="protocollo.classificaId">
+            <input type="hidden" id="classificaAutocomplete-descrizione" name="protocollo.classificaDescrizione">
+          </div>
+          <p id="selection"></p>
+        </div>
+      </div>
+
+      <div id="rubricaIpa" class="panel panel-default box-mitt-dest">
+        <div class="panel-heading">
+          <div id="rubricaIpaTitle" class="col-md-12"><b>*Mittente</b></div>
+          <hr class="no-top">
+          <div class="panel-title row no-margin">
+            <div class="col-md-3">
+              <div class="form-check">
+                <input name="gruppo1" type="radio" id="radio1" value="rub" checked>
+                <label class="bold" for="radio1">Rubrica</label>
+                <span>
+                  <button id="btnAddContacts" type="button" class="btn btn-primary sml-button" data-toggle="modal" data-target="#rubrica">Nuovo</button>
+                </span>
+              </div>
+              <div class="form-check">
+                <input name="gruppo1" type="radio" id="radio2" value="ipa">
+                <label class="bold" for="radio2">IPA</label>
+              </div>
+            </div>
+            <div id="rubrica-input" class="col-md-7">
+              <input type="text" id="rubricaAutocomplete" placeholder="" class="form-control">
+              <input type="hidden" id="rubricaAutocomplete-id" name="protocollo.rubrica">
+            </div>
+            <div id="ipa-input" class="col-md-7" display="none">
+              <input type="text" id="ipaAutocomplete" placeholder="Amministrazione, AOO o Ufficio" class="form-control">
+              <input type="hidden" id="ipaAutocomplete-id" name="protocollo.ipa">
+            </div>
+            <div class="col-md-2">
+              <button id="btnSelectContacts" type="button" class="btn btn-primary btn-block" disabled="disabled">Seleziona</button>
+            </div>
+            <div class="row col-md-12">
+              <div class="col-md-5"></div>
+              <div class="col-md-2">
+                <button @click="pecDoc()" @click.prevent="showPecModal = true" style="display: none;" id="mailDest" class="btn btn-block btn-light"><i style="color: #0275d8" class="bi bi-envelope-fill"></i> Mail inviate</button>
+                <pec-modal :show="showPecModal" :pec="pecDocumento" @close="showPecModal = false"></pec-modal>
+              </div>
+              <div class="col-md-5"></div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body lista-iparubrica">
+          <div id="rubricaIpaNoElement" class="text-center">Non ci sono elementi nella lista</div>
+          <div class="panel panel-default" id="rubricaIpaSelezionato" style="display:none;">
+            <ul id="rubricaIpaUl" class="list-group">
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="protocolloMittente" class="panel panel-default box-proto-mitt" style="display:none;">
+        <div class="panel-heading">
+          <div id="protocolloMittenteTitle" class="col-md-12"><b>Protocollo Mittente</b>
+            <button id="btnAddProtocolloMittente" type="button" class="btn btn-primary sml-button" data-toggle="modal" data-target="#protocolloMittenteModal">Aggiungi</button>
+          </div>
+        </div>
+        <div class="panel-body lista-iparubrica">
+          <div id="protocolloMittenteNoElement" class="text-center">Non ci sono elementi nella lista</div>
+          <div class="panel panel-default" id="protocolloMittenteSelezionato" style="display:none;">
+            <ul id="protocolloMittenteUl" class="list-group">
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div id="mittente" class="panel panel-default box-mitt-dest pd-bottom">
+        <div class="panel-heading">
+          <div class="col-md-12"><b>*Mittente</b></div>
+          <hr class="no-top">
+          <div class="panel-title row no-margin">
+            <div class="col-md-4">
+              <input type="text" id="mittentiAutocomplete" placeholder="Unita' Organizzativa" class="form-control">
+              <input type="hidden" id="mittentiAutocomplete-id" name="protocollo.mittente">
+            </div>
+            <div class="col-md-4">
+              <input type="text" id="mittentiPersonaAutocomplete" placeholder="Utente" class="form-control" disabled="disabled">
+              <input type="hidden" id="mittentiPersonaAutocomplete-id" name="protocollo.mittenteUtente">
+            </div>
+            <div class="col-md-4">
+              <select class="form-control" name="protocollo.mittenteEmail" id="selectEmailUser">
+                <option value=""></option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="destinatario" class="panel panel-default box-mitt-dest">
+        <div class="panel-heading">
+          <div class="col-md-12"><b>*Destinatari</b></div>
+          <hr class="no-top">
+          <div class="panel-title row no-margin">
+            <div class="col-md-6">
+              <input type="text" id="destinatariAutocomplete" placeholder="Unita' Organizzativa" class="form-control">
+              <input type="hidden" id="destinatariAutocomplete-id" name="protocollo.destinatario">
+            </div>
+            <div class='col-md-4'>
+              <select class="form-control" name="protocollo.destinatariUtenti" id="destinatariPersone-id" multiple="multiple">
+              </select>
+            </div>
+            <div class="col-md-2">
+              <button id="btnSelectDestinatario" type="button" class="btn btn-primary btn-block" disabled="disabled">Seleziona</button>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body lista-iparubrica">
+          <div id="destinatariNoElement" class="text-center">Non ci sono elementi nella lista</div>
+          <div class="panel panel-default" id="destinatariSelezionato" style="display:none;">
+            <ul class="list-group">
+              <li class="list-group-item row-fluid clearfix competenteHeader">
+                <div class="row">
+                  <div class="row col-md-11">
+                    <div class="col-md-9">
+                    </div>
+                    <div class="col-md-2 competente">
+                      Competente
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                  </div>
+                </div>
+              </li>
+            </ul>
+            <ul id="destinatariUl" class="list-group">
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="separatore"></div>
+
+      <button @click="goToDocument()" type="button" class="btn btn-default mw-150">Indietro</button>
+      <button @click="classifica()" type="button" id="salvaDati" class="btn btn-primary mw-150" :disabled="documento.permissions.indexOf('write')==-1">Salva</button>
+      <template v-if="documento.permissions.indexOf('protocolla')!=-1">
+        <button @click="classifica('protocolla')" type="button" id="protocolla" class="btn btn-warning mw-150" :disabled="documento.permissions.indexOf('write')==-1">Protocolla</button>
+        <button style="display: none;" type="button" id="aggiornaProtocollo" class="btn btn-warning mw-150" :disabled="documento.permissions.indexOf('write')==-1">Aggiorna Protocollo</button>
+        <button style="display: none;" type="button" id="annullaProtocollo" class="btn btn-danger mw-150" data-toggle="modal" data-target="#annullaProto" :disabled="documento.permissions.indexOf('write')==-1">Annulla Protocollo</button>
+      </template>
+      <template v-else>
+        <button @click="inoltraProtocollo()" type="button" id="inoltraProtocollo" class="btn btn-warning mw-150" :disabled="documento.permissions.indexOf('read')==-1">Inoltra a Protocollo</button>  
+      </template>
+      <button style="display: none;" type="button" id="inviaMailProtocollo" class="btn btn-primary mw-150" data-toggle="modal" data-target="#inviaMailModal" :disabled="documento.permissions.indexOf('write')==-1">Invia Mail</button>
+      <br><br>
+      <div id="warningNearSubmit" class="bs-example warning" style="display:none;">
+        <div class="alert alert-danger div-alert-warning"></div>
+      </div>
+
+    </div>
+  </form>
+
+  <!-- Modal verso-->
+  <div class="modal fade" id="versoDocumento" tabindex="-1" role="dialog" aria-labelledby="versoDocumentoLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="versoDocumentoLabel"></h4>
+        </div>
+        <div class="modal-body">
+          <div class="alert alert-warning">
+            <span>Cambiando il verso del documento si perderanno gli elementi inseriti per il verso attuale. Cambiare verso del documento?</span>
+          </div>
+        </div>
+        <div class="col-md-12 footer-modal pd-left-right">
+          <div class="col-md-3 float-left">
+            <button id="modalAnnullaVerso" type="submit" class="btn btn-default btn-block modal-btn-annulla" data-dismiss="modal">Annulla</button>
+          </div>
+          <div class="col-md-3 float-right">
+            <button id="modalOkVerso" type="submit" class="btn btn-primary btn-block modal-btn-conferma" data-dismiss="modal">Conferma</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- fine Modal verso-->
+
+  <!-- Modal annullaProtocollo-->
+  <div class="modal fade" id="annullaProto" tabindex="-1" role="dialog" aria-labelledby="annullaProtoLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 style="float: left;" class="modal-title" id="annullaProtoLabel">Conferma annullamento</h4>
+        </div>
+        <div class="modal-body">
+          <div class="col-xs-12">
+            <p style="margin-bottom:0rem;">*Motivo annullamento</p>
+            <textarea class="col-xs-12 form-control" id="motivoAnnullamento"></textarea>
+          </div>
+          <div class="col-xs-12">
+            <p style="margin-bottom:0rem;margin-top: 1rem;">*Riferimento</p>
+            <textarea class="col-xs-12 form-control" id="riferimentoAnnullamento"></textarea>
+          </div>
+          <div class="row">&nbsp;</div>
+        </div>
+        <div class="col-md-12 footer-modal pd-left-right">
+          <div class="col-md-3 float-left">
+            <button id="modalAnnullaAnnullamento" type="submit" class="btn btn-default btn-block modal-btn-annulla" data-dismiss="modal">Annulla</button>
+          </div>
+          <div class="col-md-3 float-right">
+            <button @click="annullaProtocollo()" id="modalOkAnnullamento" type="submit" class="btn btn-primary btn-block modal-btn-conferma" data-dismiss="modal" disabled>Conferma</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- fine Modal annullaProtocollo-->
+
+  <!-- Modal save-->
+  <div class="modal fade" id="successSave" tabindex="-1" role="dialog" aria-labelledby="successSaveLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="successSaveLabel"></h4>
+        </div>
+        <div class="modal-body">
+          <div id="alertModalMessage" class="alert">
+            <span class="modalMessage"></span>
+          </div>
+        </div>
+        <div class="col-md-12 footer-modal pd-left-right">
+          <div class="col-md-3 float-left">
+          </div>
+          <div class="col-md-3 float-right">
+            <button id="modalOkSave" type="submit" class="btn btn-primary btn-block modal-btn-conferma" data-dismiss="modal">Conferma</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- fine Modal save-->
+
+  <!-- Modal annullamento parziale-->
+  <div class="modal fade" id="alertAggiornaModal" tabindex="-1" role="dialog" aria-labelledby="alertAggiornaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="alertAggiornaModalLabel">Richiesta conferma</h4>
+        </div>
+        <div class="modal-body">
+          <div id="alertAggiornaModalMessage" class="alert">
+            <span class="aggiornaModalMessage"></span>
+          </div>
+        </div>
+        <div class="col-md-12 footer-modal pd-left-right">
+          <div class="col-md-3 float-left">
+            <button id="modalNoAggiorna" type="submit" class="btn btn-default btn-block modal-btn-annulla" data-dismiss="modal">Annulla</button>
+          </div>
+          <div class="col-md-3 float-right">
+            <button @click="classifica('aggiorna')" id="modalOkAggiorna" type="submit" class="btn btn-primary btn-block modal-btn-conferma" data-dismiss="modal">Conferma</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- fine Modal annullamento parziale-->
+
+  <!-- Modal protocollo mittente-->
+  <div class="modal fade" id="protocolloMittenteModal" tabindex="-1" role="dialog" aria-labelledby="protocolloMittenteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div id="modal-numPg" class="form-group">
+            <label>*Num PG</label>
+            <input id="modal-numPg-input" type="text" class="form-control col-md-12">
+          </div>
+          <div id="modal-dataPg" class="form-group">
+            <label>*Data Pg</label>
+            <input id="modal-dataPg-input" type="date" class="form-control col-md-12">
+          </div>
+          <div id="modal-classificaPg" class="form-group">
+            <label>Classifica</label>
+            <input id="modal-classificaPg-input" type="text" class="form-control col-md-12">
+          </div>
+          <div id="modal-fascicoloPg" class="form-group">
+            <label>Fascicolo</label>
+            <input id="modal-fascicoloPg-input" type="text" class="form-control col-md-12">
+          </div>
+          <input type="hidden" id="modal-progressivoPm-input">
+        </div>
+        <br>
+        <div class="col-md-12 footer-modal pd-left-right">
+          <div class="col-md-3 float-left">
+            <button id="btnAnnullaPg" type="submit" class="btn btn-default btn-block modal-btn-annulla" data-dismiss="modal">Annulla</button>
+          </div>
+          <div class="col-md-3 float-right">
+            <button id="btnSelezionaPg" type="submit" class="btn btn-primary btn-block modal-btn-conferma" disabled>Seleziona</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- fine Modal protocollo mittente-->
+
+  <!-- Modal rubrica-->
+  <div class="modal fade" id="rubrica" tabindex="-1" role="dialog" aria-labelledby="rubricaLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div class="btn-group btn-group-justified w100" role="group" aria-label="...">
+            <div class="btn-group w100" role="group">
+              <button id="btnContactsPF" type="button" class="btn btn-primary">Persona Fisica</button>
+            </div>
+            <div class="btn-group w100" role="group">
+              <button id="btnContactsPG" type="button" class="btn btn-default">Persona Giuridica</button>
+            </div>
+            <div class="btn-group w100" role="group">
+              <button id="btnContactsPA" type="button" class="btn btn-default">Pubblica Amministrazione</button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-body">
+          <div id="warningNearModal" class="bs-example warning" style="display:none;">
+            <div class="alert alert-danger div-alert-warning"></div>
+          </div>
+          <div id="successNearModal" class="bs-example success" style="display:none;">
+            <div class="alert alert-success div-alert-success"></div>
+          </div>
+          <div style="display:none;" id="modal-amministrazione" class="form-group">
+            <label id="label-amministrazione-input">*Amministrazione</label>
+            <input id="modal-amministrazione-input" type="text" class="form-control col-md-12 ammCheck">
+          </div>
+          <div style="display:none;" id="modal-aooUfficio" class="form-group">
+            <label id="label-aooUfficio-input">*Ufficio</label>
+            <input id="modal-aooUfficio-input" type="text" class="form-control col-md-12 aooCheck">
+          </div>
+          <div id="modal-denominazione" class="form-group">
+            <label id="label-denominazione-input">*Denominazione</label>
+            <input id="modal-denominazione-input" type="text" class="form-control col-md-12 denomCheck">
+          </div>
+          <div style="display:none;" id="modal-piva" class="form-group">
+            <label id="label-piva-input">Partita IVA</label><label><input type="checkbox" id="pivaStraniera"> Straniera</label>
+            <input id="modal-piva-input" type="text" class="form-control col-md-12 pivaCheck">
+          </div>
+          <div id="modal-cf" class="form-group">
+            <label id="label-cf-input">Codice Fiscale</label>
+            <input id="modal-cf-input" type="text" onkeyup="this.value = this.value.toUpperCase();" class="form-control col-md-12 cfCheck">
+          </div>
+          <div id="modal-indirizzoPostale" class="form-group">
+            <label id="label-indirizzoPostale-input">Indirizzo Postale</label>
+            <input id="modal-indirizzoPostale-input" type="text" class="form-control col-md-12 indirizzoPostaleCheck">
+          </div>
+          <div id="modal-pec" class="form-group">
+            <label id="label-pec-input">Indirizzo PEC</label>
+            <input id="modal-pec-input" type="text" class="form-control col-md-12 emailCheck">
+          </div>
+          <div id="modal-peo" class="form-group">
+            <label id="label-peo-input">Indirizzo PEO</label>
+            <input id="modal-peo-input" type="text" class="form-control col-md-12 emailCheck">
+          </div>
+          <div id="modal-fax" class="form-group">
+            <label id="label-fax-input">FAX</label>
+            <input id="modal-fax-input" type="number" class="form-control col-md-12">
+          </div>
+          <input type="hidden" id="modal-tipologia-input" name="protocollo.tipologia">
+          <input type="hidden" id="modal-progressivo-input">
+          <input type="hidden" id="modal-codice-input">
+          <input type="hidden" id="modal-riferimentoMezzo-input" value="-- mezzo --">
+        </div>
+        <br>
+        <div class="col-md-12 footer-modal pd-left-right">
+          <div class="col-md-3 float-left">
+            <button id="btnAnnullaRubrica" type="submit" class="btn btn-default btn-block modal-btn-annulla" data-dismiss="modal">Annulla</button>
+          </div>
+          <div class="col-md-3 float-right">
+            <button @click="salvaRubrica()" id="btnSalvaRubrica" type="submit" class="btn btn-primary btn-block modal-btn-conferma" :disabled="documento.permissions.indexOf('write')==-1">Salva in Rubrica</button>
+          </div>
+          <div class="col-md-3 float-right">
+            <button id="btnSelezionaRubrica" type="submit" class="btn btn-primary btn-block modal-btn-conferma" :disabled="documento.permissions.indexOf('write')==-1">Seleziona</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- fine Modal rubrica-->
+
+  <!-- Modal invia mail-->
+  <!--<form id="inviaMail">-->
+  <div class="modal fade" id="inviaMailModal" tabindex="-1" role="dialog" aria-labelledby="inviaMailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 style="text-align: center;" class="modal-title">Invio Mail Protocollo</h4>
+        </div>
+        <div class="modal-body">
+          <div id="alertModalMessageMail" class="alert-danger" style="display:none;">
+            <div class="alert alert-danger div-alert-warning modalMessageMail"></div>
+          </div>
+          <div id="modal-mailMittente" class="form-group">
+            <label>*Mail mittente</label>
+            <select name="mailMittente" class="form-control" id="selectEmailUserMittente" required="">
+              <option value="">-- Seleziona mail --</option>
+            </select>
+          </div>
+          <div id="modal-mailDestinatari" class="form-group">
+            <label>*Mail destinatari <span style="font-style: italic; color: #999;"> (separati da virgola)</span></label>
+            <input type="email" name="mailDestinatari" id="modal-mailDestinatari-input" class="form-control col-md-12" multiple>
+          </div>
+          <div id="modal-oggettoPec" class="form-group">
+            <label>*Oggetto PEC</label>
+            <input name="oggetto_pec" id="modal-oggettoPec-input" type="text" class="form-control col-md-12">
+          </div>
+          <div id="modal-testoPec" class="form-group">
+            <label>*Testo Mail</label>
+            <textarea name="body_pec" rows="4" class="col-md-12 form-control" id="modal-testoPec-input"></textarea>
+          </div>
+          <div class="col-xs-12 checkbox">
+            <label><input name="body_pec_listAttach" type="checkbox" id="checkbox-allegati" value="true"> Allegati</label>
+          </div>
+          <input id="modal-docnum-input" name="docNumPrincipale" type="hidden" >
+          <input type="hidden" name="PID" value="InvioPecProtocollo1.0"/>
+          <input type="hidden" name="PROCESS_NAME" value="InvioPecProtocollo"/>
+          <input id="modal-codente-input" type="hidden" name="ENTE"/>
+          <input id="modal-codaoo-input" type="hidden" name="AOO"/>
+        </div>
+        <br>
+        <div class="col-md-12 footer-modal pd-left-right">
+          <div class="col-md-3 float-left">
+            <button id="btnAnnullaInvioMail" type="submit" class="btn btn-default btn-block modal-btn-annulla" data-dismiss="modal">Annulla</button>
+          </div>
+          <div class="col-md-3 float-right">
+            <button @click="inviaMail()" id="btnInviaMail" type="submit" class="btn btn-primary btn-block modal-btn-conferma">Invia</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--</form>-->
+
+
+  <div style="display: none" id="modalSign" class="modal-mask">
+    <div class="modal-container">
+      <div class="modal-header col-md-12">
+        <div class="modalTitle col-sm-12">Report Firme</div>
+      </div>
+      <div class="modal-body modalSignContent">
+
+      </div>
+      <div class="footer-modal col-md-12 ">
+        <div class="col-md-3 float-left" style="margin-left: 18px;">
+          <button type="submit" class="btn btn-default btn-block modal-btn-annulla" @click="closeFirmaModal()">Chiudi</button>
+        </div>
+        <div class="col-md-3 float-right" style="margin-right: 18px;">
+          <button type="submit" class="btn btn-primary btn-block modal-btn-conferma" @click="downloadFirmaModal()"><i class="fas fa-file-download"></i> Report Firme</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal success -->
+  <div style="margin-top:64px;" class="modal fade" id="messageModal" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true" data-backdrop="false">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-body msgModal">
+          <div class="modal-body msgModalTxt" id="messageModalTxt"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- lista IPA -->
+  <li id="ipaTemplate" class="list-group-item row-fluid clearfix hidden left-color">
+    <div class="row">
+      <div class="row col-md-8">
+        <div class="col-md-6">
+          <span style="color:blue" class="list-group-item-heading rubricaIpaSelezionatoResult"></span>
+          <input class="rubricaIpaSelezionatoResultInput itemId" type="hidden">
+          <br>
+          <span style="font-size: 12px; color: #848484; margin-left: 18px;" class="list-group-item-text rubricaIpaSelezionatoResultName"></span>
+          <input class="rubricaIpaSelezionatoResultNameInput" type="hidden">
+          <!--
+          <br>
+          <span style="color: #888888; font-style: italic; font-size: 12px; margin-left: 16px;" class="list-group-item-heading rubricaIpaSelezionatoResultIndirizzoPostale"></span>
+          -->
+        </div>
+        <div class="col-md-6">
+          <span style="font-size: 12px;" class="list-group-item-text rubricaIpaSelezionatoResultPec"></span>
+          <input class="rubricaIpaSelezionatoResultPecInput" type="hidden">
+          <br>
+          <span style="font-size: 12px;" class="list-group-item-text rubricaIpaSelezionatoResultPeo"></span>
+          <input class="rubricaIpaSelezionatoResultPeoInput" type="hidden">
+        </div>
+      </div>
+      <div style="margin-left: 7px;" class="row col-md-4">
+        <div class="col-md-9">
+          <select style="font-size: 13px;" class="form-control rubricaIpaSelezionatoResultOption">
+            <option value="-- mezzo --">-- mezzo --</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-danger rubricaIpaSelezionatoResultRemove"><i class="glyphicon glyphicon-remove"></i></button>
+        </div>
+      </div>
+      <input class="rubricaIpaSelezionatoResultIndirizzoPostaleInput" type="hidden">
+      <input class="rubricaIpaSelezionatoResultIdInput" type="hidden">
+      <input class="rubricaIpaSelezionatoResultTipologiaInput" type="hidden">
+      <input class="rubricaIpaSelezionatoResultDenominazioneInput" type="hidden">
+      <input class="rubricaIpaSelezionatoResultFaxInput" type="hidden">
+    </div>
+  </li>
+
+  <!-- lista protocollo Mittente -->
+  <li id="protocolloMittenteTemplate" class="list-group-item row-fluid clearfix hidden left-color">
+    <div class="row">
+      <div style="margin-top: 8px;" class="col-md-7">
+        <span style="color:blue" class="list-group-item-heading protocolloMittenteSelezionatoResult"></span>
+        <input class="protocolloMittenteSelezionatoResultInput" type="hidden">
+        <span class="list-group-item-text protocolloMittenteSelezionatoResultData"></span>
+        <input class="protocolloMittenteSelezionatoResultDataInput" type="hidden">
+      </div>
+      <div class="col-md-2">
+        <span class="list-group-item-text protocolloMittenteSelezionatoResultName"></span>
+        <input class="protocolloMittenteSelezionatoResultNameInput" type="hidden">
+      </div>
+      <div class="col-md-2">
+        <input class="protocolloMittenteSelezionatoResultIdInput" type="hidden">
+        <input class="protocolloMittenteSelezionatoResultClassificaInput" type="hidden">
+        <input class="protocolloMittenteSelezionatoResultFascicoloInput" type="hidden">
+      </div>
+      <div class="col-md-1">
+        <button class="btn btn-danger protocolloMittenteSelezionatoResultRemove"><i class="glyphicon glyphicon-remove"></i></button>
+      </div>
+    </div>
+  </li>
+
+  <!-- lista destinatari -->
+  <li id="destinatariTemplate" class="list-group-item row-fluid clearfix hidden left-color">
+    <div class="row">
+      <div class="row col-md-11">
+        <div class="col-md-9">
+          <span style="color:blue" class="list-group-item-heading destinatariSelezionatoResult"></span>
+          <input class="destinatariSelezionatoResultInput itemId" type="hidden">
+        </div>
+        <div class="col-md-2 checkCompetente">
+          <input class="destinatariSelezionatoResultRadioInput" type="checkbox">
+        </div>
+        <div class="col-md-12">
+          <span class="list-group-item-text destinatariSelezionatoResultName"></span>
+          <input class="destinatariSelezionatoResultNameInput" type="hidden">
+        </div>
+        <input class="destinatariSelezionatoResultIdInput" type="hidden">
+      </div>
+      <div class="col-md-1">
+        <button class="btn btn-danger destinatariSelezionatoResultRemove"><i class="glyphicon glyphicon-remove"></i></button>
+      </div>
+    </div>
+  </li>
+</div>
+
+<script>
+  var documento = data("documento-model");
+
+
+
+  Vue.mixin({
+        methods: {
+            moment: function(date) {
+                return moment(date);
+            },
+            date: function(date) {
+                return moment(date).format('DD/MM/YYYY HH:mm:ss');
+            },
+            dateNoTime: function(date) {
+                return moment(date).format('DD/MM/YYYY');
+            },
+            statoMail: function(text) {
+              switch (text) {
+                case "1":
+                  text = "In Entrata";
+                  break;
+                case "2":
+                  text = "Archiviata";
+                  break;
+                case "3":
+                  text = "Scartata";
+                  break;
+                case "4":
+                  text = "In Uscita";
+                  break;
+                case "5":
+                  text = "Consegnata";
+                  break;
+                case "6":
+                  text = "Accettata";
+                  break;
+                case "7":
+                  text = "In Errore";
+                  break;
+                case "8":
+                  text = "Conferma";
+                  break;
+                default:
+                  text = "";
+              }
+                return text;
+            },
+            limitText30: function(text) {
+                if(text.length > 30)
+                    text = text.substring(0,30) + '...';
+                return text
+            },
+        }
+    })
+  
+
+  //modale
+  Vue.component('Modal', {
+    template: template('modal-template'),
+    props: ['show'],
+    data: function() {
+      return {
+        messages: data("messages-model"),
+      };
+    },
+    methods: {
+      close: function() {
+        this.$emit('close');
+      }
+    },
+    mounted: function() {
+      document.addEventListener("keydown", (e) => {
+        if (this.show && e.keyCode == 27) {
+          this.close();
+        }
+      });
+    }
+  });
+
+  Vue.component('FirmaModal', {
+    template: template('firma-modal-template'),
+    props: ['show'],
+    data: function () {
+      return {
+        documento: data("documento-model"),
+        messages: data("messages-model"),
+        allegati: data("allegati-model"),
+        dataVerifica: "",
+        checkUd: false,
+      };
+    },
+    methods: {
+      close: function () {
+        this.$emit('close');
+      },
+      checkSign: function() {
+
+        $(".modalSignContent").empty();
+        this.$emit('close');
+        var data = "";
+        if(this.dataVerifica){
+          data = "&verificationDate="+this.dataVerifica;
+        }
+        var urlAllegati = [];
+        if(this.checkUd==true){
+          for( var i = 0; i < this.allegati.length; i++){
+            if(this.allegati[i].TIPO_COMPONENTE!='ANNESSO'){
+              urlAllegati.push(this.allegati[i].url);
+            }
+          }
+        }else{
+          urlAllegati.push(this.allegati[0].url);
+        }
+        var urls = urlAllegati.toString().replaceAll(",","&urls=");
+        axios.get("/docer/v1/firma/report?urls="+urls+data)
+                .then(response => {
+                  $("#modalSign").show();
+                  $(".modalSignContent").append(response.data);
+                })
+                .catch(error => {
+                  if (error.response.data.code=="E000"){
+                    alert("Documento non firmato");
+                  } else {
+                    showError(error.response.data);
+                  }
+                });
+      }
+    }
+  });
+
+  Vue.component('PecModal', {
+      template: template('pec-modal-template'),
+      props: ['show','pec'],
+      data: function() {
+          return {
+              messages: data("messages-model"),
+          };
+      },
+      methods: {
+          close: function() {
+              this.$emit('close');
+          }
+      }
+  });
+
+  new Vue({
+    el: '#protocolloPage',
+    data: function() {
+      return {
+        documento: documento,
+        messages: JSON.parse($("#messages-model").text()),
+        showFirmaModal: false,
+        showPecModal: false,
+        pecDocumento:[],
+      }
+    },
+    methods: {
+      pecDoc: function() {
+        // query finale con filtri originale
+        // axios.get("/docer/v1/solr/select?q=MAIL_STATE:(4%205%206%207)&fq=TIPO_COMPONENTE:ANNESSO&fq=TYPE_ID:MAIL&fq=DOCNUM:"+this.documento.DOCNUM+"&sort=created_on%20asc")
+          
+          //query senza filtri 
+          //axios.get("/docer/v1/solr/select?fq=TYPE_ID:MAIL")
+            axios.get("/docer/v1/solr/select?fq=TYPE_ID:MAIL&fq=DOCNUM:"+this.documento.DOCNUM+"&sort=created_on%20asc")
+              .then(response => {
+                  this.pecDocumento = response.data.data;
+                  this.showPecModal = true
+              })
+              .catch(error => {
+                  showError(error.response.data);
+              });
+      },
+      goToDocument: function() {
+        window.location.href = "/documenti/viewProfile?DOCNUM=" + this.documento.DOCNUM;
+      },
+      classifica: function(text) {
+        if ($('#classificaAutocomplete-id').val()) {
+          var formData = new FormData();
+          formData.append('docnum', this.documento.DOCNUM);
+          formData.append('classifica', $('#classificaAutocomplete-id').val() );
+          //formData.append('secondarie', "");
+
+          axios.post("/docer/v1/documenti/"+this.documento.DOCNUM+"/classifica", formData)
+                  .then(response => {
+                    if(response.status==200){
+                      this.salvaDatiProtocollo(text);
+                      /*if(protocolla){
+                        this.salvaDatiProtocollo('protocolla');
+                      }else{
+                        this.salvaDatiProtocollo();
+                      }*/
+                    }
+                  }).catch(error => {
+            showError(error.response.data);
+          });
+        } else {
+          this.salvaDatiProtocollo(text);
+        }
+      },
+      salvaDatiProtocollo: function (text) {
+
+        if( $("#versoDocumento-id").val()=="E" ) {
+          //mittente
+          if(listaMittentiSelezionati.length>0){
+            //parse della lista per il salvataggio
+            listaMittentiSelezionatiParse = [];
+            for(i=0;i<listaMittentiSelezionati.length;i++) {
+              listaMittentiSelezionatiParse.push(parseItemListaMittenti(listaMittentiSelezionati[i]));
+            }
+            var mittente = listaMittentiSelezionatiParse[0];
+            if(mittente.mezzo=="-- mezzo --"){
+              alert("Selezionare un mezzo di trasmissione per il Mittente");
+              return false;
+            }
+          } else {
+            var mittente = null;
+          }
+          //destinatari
+          if(listaDestinatariSelezionati.length>0){
+            var destinatari = listaDestinatariSelezionati;
+          } else {
+            var destinatari = null;
+          }
+        }
+
+        if( $("#versoDocumento-id").val()=="I" ) {
+          //mittente
+          if(listaMittenteSelezionato[0].codiceUO){
+            var mittente = listaMittenteSelezionato[0];
+          } else {
+            var mittente = null;
+          }
+          //destinatari
+          if(listaDestinatariSelezionati.length>0){
+            var destinatari = listaDestinatariSelezionati;
+          } else {
+            var destinatari = null;
+          }
+        }
+
+        if( $("#versoDocumento-id").val()=="U" ) {
+          //mittente
+          if(listaMittenteSelezionato[0].codiceUO){
+            var mittente = listaMittenteSelezionato[0];
+          } else {
+            var mittente = null;
+          }
+          //destinatari
+          if(listaMittentiSelezionati.length>0){
+            //parse della lista per il salvataggio
+            listaMittentiSelezionatiParse = [];
+            for(i=0;i<listaMittentiSelezionati.length;i++) {
+              listaMittentiSelezionatiParse.push(parseItemListaMittenti(listaMittentiSelezionati[i]));
+              if(listaMittentiSelezionatiParse[i].mezzo=="-- mezzo --"){
+                alert("Selezionare un mezzo di trasmissione per ogni Destinatario");
+                return false;
+              }
+            }
+            var destinatari = listaMittentiSelezionatiParse;
+          } else {
+            var destinatari = null;
+          }
+          if(mittente && destinatari){
+            for(i=0;i<destinatari.length;i++) {
+              if(destinatari[i].mezzo=="PEC" && !mittente.indirizzoTelematico) {
+                alert("Selezionare una PEC per il Mittente");
+                return false;
+              }
+            }
+          }
+        }
+
+
+        var docerClient = new DocerClient();
+
+        if(text=="aggiorna"){
+          var payload = {
+            OGGETTO_PROTOCOLLAZIONE: $("#oggetto-id").val(),
+            ABSTRACT: $("#note-id").val(),
+            TIPO_PROTOCOLLAZIONE: $("#versoDocumento-id").val(),
+            DATA_PG_EMERGENZA: getIsoDate($("#data_pg_emergenza-id").val(), $("#ora_pg_emergenza-id").val()),
+            NUM_PG_EMERGENZA: $("#num_pg_emergenza-id").val(),
+            // se protocollo in Entrata e il mittente è una IPA abilito il box protocolloMittente per poter aggiungere eventuali metadati relativi l'IPA
+            NUM_PG_MITTENTE: $(".protocolloMittenteSelezionatoResultInput").val(),
+            DATA_PG_MITTENTE: $(".protocolloMittenteSelezionatoResultDataInput").val(),
+            CLASSIFICA_MITTENTE: $(".protocolloMittenteSelezionatoResultClassificaInput").val(),
+            FASCICOLO_MITTENTE: $(".protocolloMittenteSelezionatoResultFascicoloInput").val()
+          }
+        }else{
+          var payload = {
+            OGGETTO_PROTOCOLLAZIONE: $("#oggetto-id").val(),
+            ABSTRACT: $("#note-id").val(),
+            TIPO_PROTOCOLLAZIONE: $("#versoDocumento-id").val(),
+            mittente: mittente,
+            destinatari: destinatari,
+            DATA_PG_EMERGENZA: getIsoDate($("#data_pg_emergenza-id").val(), $("#ora_pg_emergenza-id").val()),
+            NUM_PG_EMERGENZA: $("#num_pg_emergenza-id").val(),
+            // se protocollo in Entrata e il mittente è una IPA abilito il box protocolloMittente per poter aggiungere eventuali metadati relativi l'IPA
+            NUM_PG_MITTENTE: $(".protocolloMittenteSelezionatoResultInput").val(),
+            DATA_PG_MITTENTE: $(".protocolloMittenteSelezionatoResultDataInput").val(),
+            CLASSIFICA_MITTENTE: $(".protocolloMittenteSelezionatoResultClassificaInput").val(),
+            FASCICOLO_MITTENTE: $(".protocolloMittenteSelezionatoResultFascicoloInput").val()
+          }
+        }
+
+        var path = this.documento.DOCNUM;
+        docerClient.documenti.update(path, payload, (data)=>{
+          if(text=="protocolla"){
+            if( $('#classificaAutocomplete-id').val() && $('#oggetto-id').val() && mittente && destinatari ) {
+              this.protocolla();
+            } else {
+              alert("Campi obbligatori * mancanti");
+            }
+          } else if (text=="aggiorna"){
+            if( $('#classificaAutocomplete-id').val() && $('#oggetto-id').val() && mittente && destinatari ) {
+              var corrispondenti = [];
+              corrispondenti.push(mittente);
+              for( var i = 0; i < destinatari.length; i++){
+                corrispondenti.push(destinatari[i]);
+              }
+              oggetto = $("#oggetto-id").val();
+                axios.post("/docer/v1/documenti/"+this.documento.DOCNUM+"/protocolla?oggetto="+oggetto, corrispondenti)
+                        .then(response => {
+                          if(response.status==200){
+                            openMessageModal("Protocollo Aggiornato con successo!");
+                          }
+                        }).catch(error => {
+                  showError(error.response.data);
+              });
+            } else {
+              alert("Campi obbligatori * mancanti");
+            }
+          }
+          else{
+            openMessageModal("Dati protocollo salvati con successo!");
+          }
+        });
+      },
+      protocolla: function() {
+        oggetto = $("#oggetto-id").val();
+        axios.post("/docer/v1/documenti/"+this.documento.DOCNUM+"/protocolla?oggetto="+oggetto)
+                .then(response => {
+                  if(response.status==200){
+                    openMessageModal("Documento Protocollato con successo!");
+                  }
+                }).catch(error => {
+          showError(error.response.data);
+        });
+      },
+      annullaProtocollo: function() {
+        var motivoAnnullamento = $('#motivoAnnullamento').val();
+        var riferimentoAnnullamento = $('#riferimentoAnnullamento').val();
+
+        axios.post("/docer/v1/documenti/"+this.documento.DOCNUM+"/annullaProtocollazione?motivazione="+motivoAnnullamento+"&riferimento="+riferimentoAnnullamento)
+                .then(response => {
+                  if(response.status==200){
+                    openMessageModal("Avviato procedimento di annullamento protocollo!");
+                    //this.goToDocument();
+                  }
+                }).catch(error => {
+          showError(error.response.data);
+        });
+      },
+      inoltraProtocollo: function() {
+        //nome flusso da lanciare: Base_InoltroAProtocollo1.0
+        /* ABILITARE QUANDO PRESENTE IL FLUSSO DI INOLTRO A PROTOCOLLO E AGGIUNGERE ${utils.getProperty("bpm.inoltraProtocollo","inoltraProtocollo1.0")}
+        var payload = {
+            processId: inoltraProtocollo,
+            input: {
+                "docnum" : this.documento.DOCNUM
+            }
+        }
+        axios.post("/bpm/v1/instances", payload)
+            .then(response => {
+                if(response.status==201){
+                    this.close();
+                    openMessageModal("Flusso di Inoltro al Protocollo avviato con successo!");
+                }
+            }).catch(error => {
+                showError(error.response.data);
+            });
+        this.close();
+        */
+      },
+      inviaMail: function() {
+        $('#alertModalMessageMail').hide();
+        $(".div-alert-warning > p").remove();
+
+        var prosegui="si";
+        if ( $('#selectEmailUserMittente').val()=="" || $('#modal-oggettoPec-input').val()=="" || $('#modal-testoPec-input').val()=="" || $('#modal-mailDestinatari-input').val()=="" ) {
+          prosegui="no";
+        }
+        if ($('#modal-mailDestinatari-input').val()!=""){
+          var $regexMultimail=/^(\s?[^\s,]+@[^\s,]+\.[^\s,]+\s?,)*(\s?[^\s,]+@[^\s,]+\.[^\s,]+)$/;
+          var esitoEmail = true;
+          if ($('#modal-mailDestinatari-input').val() && !$('#modal-mailDestinatari-input').val().match($regexMultimail)) {
+            esitoEmail = false;
+            prosegui="no";
+          }
+        }
+        if(prosegui=="no"){
+          $('#alertModalMessageMail').show();
+          $('.modalMessageMail').html("Tutti i campi sono obbligatori");
+          if(esitoEmail == false){
+            $('.modalMessageMail').append("<br>Formato Mail non corretto");
+          }
+        } else {
+          var mailMittente = $('#selectEmailUserMittente').val()
+          var mailDestinatari = $('#modal-mailDestinatari-input').val().replace(/\s/g,'');
+          var oggetto_pec = $('#modal-oggettoPec-input').val();
+          var body_pec = $('#modal-testoPec-input').val();
+          var body_pec_listAttach = $('#checkbox-allegati').val();
+
+          alert( "oggetto_pec: " + oggetto_pec + " <br>" +
+                  "body_pec: " + body_pec + " <br>" +
+                  "body_pec_listAttach: " + body_pec_listAttach + " <br>" +
+                  "docNumPrincipale: " + this.documento.DOCNUM + " <br>" +
+                  "mailMittente: " + mailMittente + " <br>" +
+                  "mailDestinatari: " + mailDestinatari);
+
+          //nome flusso InvioPecProtocollo1.0
+          //ABILITARE QUANDO PRESENTE IL FLUSSO DI INOLTRO A PROTOCOLLO E AGGIUNGERE ${utils.getProperty("bpm.invioPecProtocollo","invioPecProtocollo1.0")}
+          /*
+          var payload = {
+              processId: inoltraProtocollo,
+              input: {
+                  "oggetto_pec" : oggetto_pec,
+                  "body_pec" : body_pec,
+                  "body_pec_listAttach" : body_pec_listAttach,
+                  "docNumPrincipale" : this.documento.DOCNUM,
+                  "mailMittente" : mailMittente,
+                  "mailDestinatari" : mailDestinatari
+              }
+          }
+          axios.post("/bpm/v1/instances", payload)
+              .then(response => {
+                  if(response.status==201){
+                      this.close();
+                      openMessageModal("Mail inviata con successo!");
+                  }
+              }).catch(error => {
+                  showError(error.response.data);
+              });
+          this.close();
+          */
+
+        }
+      },
+      downloadFirmaModal: function() {
+        /*
+        var url = this.documento.url;
+        var newURL = url.replace (/^[a-z]{4,5}\:\/{2}[a-z]{1,}\:[0-9]{1,4}.(.*)/, '$1');
+        var urlToDownload = "/docer/v1/"+newURL;
+        */
+        window.location = "/docer/v1/firma/pdfReport?url="+this.documento.url;
+        $( "#modalSign" ).fadeOut(500);
+      },
+      dateNoTime: function(date) {
+        return moment(date).format('DD/MM/YYYY');
+      },
+      salvaRubrica: function() {
+
+        $('#warningNearModal').hide();
+        $(".div-alert-warning > p").remove();
+        var errore = false;
+
+        if (!checkRequiredInput()){
+          errore = true;
+        }
+        if (!checkCf()){
+          errore = true;
+        }
+        if (!checkPiva()){
+          errore = true;
+        }
+        if (!checkEmail()){
+          errore = true;
+        }
+        if (!errore) {
+          if($("#modal-tipologia-input").val()=="Persona"){
+            var body = {
+              DES_RUBRICA : $("#modal-denominazione-input").val()?$("#modal-denominazione-input").val():"__NULL__",
+              CODICE_FISCALE : $("#modal-cf-input").val()?$("#modal-cf-input").val():"__NULL__",
+              INDIRIZZO_PEC : $("#modal-pec-input").val()?$("#modal-pec-input").val():"__NULL__",
+              INDIRIZZO_PEO : $("#modal-peo-input").val()?$("#modal-peo-input").val():"__NULL__",
+              INDIRIZZO_POSTALE : $("#modal-indirizzoPostale-input").val()?$("#modal-indirizzoPostale-input").val():"__NULL__",
+              FAX : $("#modal-fax-input").val()?$("#modal-fax-input").val():"__NULL__",
+              TIPO_RUBRICA : $("#modal-tipologia-input").val(),
+            };
+          }
+          if($("#modal-tipologia-input").val()=="PersonaGiuridica"){
+            var body = {
+              DES_RUBRICA : $("#modal-denominazione-input").val()?$("#modal-denominazione-input").val():"__NULL__",
+              PARTITA_IVA : $("#modal-piva-input").val()?$("#modal-piva-input").val():"__NULL__",
+              INDIRIZZO_PEC : $("#modal-pec-input").val()?$("#modal-pec-input").val():"__NULL__",
+              INDIRIZZO_POSTALE : $("#modal-indirizzoPostale-input").val()?$("#modal-indirizzoPostale-input").val():"__NULL__",
+              TIPO_RUBRICA : $("#modal-tipologia-input").val(),
+            };
+          }
+          if($("#modal-tipologia-input").val()=="Amministrazione"){
+            var body = {
+              DES_RUBRICA : $("#modal-amministrazione-input").val()?$("#modal-amministrazione-input").val():"__NULL__",
+              AOO_UFFICIO : $("#modal-aooUfficio-input").val()?$("#modal-aooUfficio-input").val():"__NULL__",
+              INDIRIZZO_PEC : $("#modal-pec-input").val()?$("#modal-pec-input").val():"__NULL__",
+              INDIRIZZO_POSTALE : $("#modal-indirizzoPostale-input").val()?$("#modal-indirizzoPostale-input").val():"__NULL__",
+              TIPO_RUBRICA : $("#modal-tipologia-input").val(),
+            };
+          }
+
+          var COD_RUBRICA = $("#modal-codice-input").val();
+          if(COD_RUBRICA){
+            axios.patch("/docer/v1/anagrafiche/RUBRICA/"+COD_RUBRICA, body) //per la modifica response.status è 200
+                    .then(response => {
+                      if(response.status==200){
+                        $('#successNearModal, .div-alert-success').show();
+                        $('.div-alert-success').append('<p>Dati aggiornati con successo!</p>').delay(2000).fadeOut();
+                        setTimeout(function(){
+                          $("#btnSelezionaRubrica").trigger("click");
+                          $('.div-alert-success p').html("");
+                        },2000);
+                      }
+                    }).catch(error => {
+              showError(error.response.data);
+            });
+
+          } else {
+            axios.post("/docer/v1/anagrafiche/RUBRICA", body)
+                    .then(response => {
+                      if(response.status==201){
+                        $('#successNearModal, .div-alert-success').show();
+                        $('.div-alert-success').append('<p>Dati salvati con successo!</p>').delay(2000).fadeOut();
+                        setTimeout(function(){
+                          $("#btnSelezionaRubrica").trigger("click");
+                          $('.div-alert-success p').html("");
+                        },2000);
+                      }
+                    }).catch(error => {
+              showError(error.response.data);
+            });
+          }
+        } else {
+          $('#warningNearModal').show();
+        }
+      },
+
+    }
+  });
+
+
+
+  var currentCodiceAOO = '${$.userInfo.aoo.cod}';
+  var currentDenominazioneAOO = '${$.userInfo.aoo.desc}';
+  var currentCodiceAmm = '${$.userInfo.ente.cod}';
+  var currentDenominazioneAmm = '${$.userInfo.ente.desc}';
+  var utenteLoggato = '${$.userInfo.username}';
+  var etichettaQrcode = '${utils.getProperty("etichetta.qrcode","")}';
+  //var inoltraProtocollo = '${utils.getProperty("bpm.inoltraProtocollo","inoltraProtocollo1.0")}';
+  //var invioPecProtocollo = '${utils.getProperty("bpm.invioPecProtocollo","invioPecProtocollo1.0")}';
+
+  var docnumVerifica = documento.DOCNUM;
+  var codAooVerifica = documento.COD_AOO;
+  var dataOra = documento.CREATED;
+  var dataDocumento = documento.DATA_DOCUMENTO;
+  var tipoFirma = documento.TIPO_FIRMA;
+  var riservatezza = documento.RISERVATEZZA;
+  var classifica = documento.CLASSIFICA;
+  var numPg = documento.NUM_PG;
+  var dataPg = documento.DATA_PG;
+  var numPgEmergenza_DOC = documento.NUM_PG_EMERGENZA;
+  var dataPgEmergenza_DOC = documento.DATA_PG_EMERGENZA;
+  var tipoProtocollazione_DOC = documento.TIPO_PROTOCOLLAZIONE;
+  var numPgMittente_DOC = documento.NUM_PG_MITTENTE;
+  var dataPgMittente_DOC = documento.DATA_PG_MITTENTE;
+  var fascicoloMittente_DOC = documento.FASCICOLO_MITTENTE;
+  var classificaMittente_DOC = documento.CLASSIFICA_MITTENTE;
+  var archiveType = documento.ARCHIVE_TYPE;
+  var docname = documento.DOCNAME;
+  var statoArchivistico = documento.STATO_ARCHIVISTICO;
+  var hash = documento.FILE_HASH;
+  var content_type = documento.content_type;
+  var ragioneSocialeEnte = documento.propRagioneSocialeEnte;
+  var indirizzoENTE = documento.propIndirizzoCompletoEnte;
+  var urlRaccomandataOnline = documento.propurRESTService;
+  var note_DOC =  documento.ABSTRACT;
+  var oggettoProtocollazione_DOC = documento.OGGETTO_PG ? documento.OGGETTO_PG : documento.OGGETTO_PROTOCOLLAZIONE;
+  //var dataDocumento = documento.CREATED;
+
+
+  /*var listaMittentiRecuperati = [];
+  var singoloMittente = {};
+  */
+  /*var listaDestinatariRecuperati = [];
+  var singoloDestinatario = {};
+  */
+  var listaMittentiRecuperati = [documento.mittente];
+  var listaDestinatariRecuperati = documento.destinatari;
+
+
+  //Etichetta
+  var etichettaTxt = etichettaQrcode.replace(/(\{{[^}]+}})/g,function(match, contents, offset, input_string){return self.documento[match.substring(2,match.length-2)];})
+
+  //formatto la data
+  if ( etichettaTxt.match(/\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/)){
+      var dataIso = etichettaTxt.match(/\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z)/);
+      var dataFormattata = moment(dataIso[0]).format('DD/MM/YYYY');
+      etichettaTxt = etichettaTxt.replace(dataIso[0],dataFormattata);
+  }
+  //formatto il verso
+  var etichettaTxtTrim = etichettaTxt.trim();
+  if (etichettaTxtTrim.slice(-1) == "E"){
+    etichettaTxt = etichettaTxtTrim.substring(0, etichettaTxtTrim.length-1)+"Protocollato in Entrata";
+  }
+  if (etichettaTxtTrim.slice(-1) == "I"){
+    etichettaTxt = etichettaTxtTrim.substring(0, etichettaTxtTrim.length-1)+"Protocollazione Interna"; 
+  }
+  if (etichettaTxtTrim.slice(-1) == "U"){
+    etichettaTxt = etichettaTxtTrim.substring(0, etichettaTxtTrim.length-1)+"Protocollato in Uscita"; 
+  }
+  
+  var qr = new Vue({
+    el: "#qrcode",
+    data: {
+      text : etichettaTxt,
+      typeNumber : 14, /* 1-40 , default 4 */
+      correctionLevel : 'M', /* L(7%) M (15% - default) Q (25%) H (30%) */
+      mb : null, /* UTF-8 (default) o SJIS */
+      mode : 'Byte', /* Byte (default) Numeric, Alphanumeric o Kanji */
+      render : 'image' /* image (default) table o svg */,
+      message : null
+    }
+  });
+  //fine Etichetta
+
+  
+  function openMessageModal(message){
+    $("#messageModal").modal('show');
+    $('#messageModalTxt').text(message);
+    setTimeout(function(){
+      $("#messageModal").modal('hide');
+      $('#messageModalTxt').text("");
+      window.location.reload();
+    },2000);
+  }
+
+</script>
+<script type="text/javascript" src="/static/protocollo/js/wait.js"></script>
+<script type="text/javascript" src="/static/protocollo/js/protocollo.js"></script>
+<script type="text/javascript" src="/static/protocollo/js/jquery-ui-1.10.4.min.js"></script>
+<script type="text/javascript" src="/static/protocollo/js/bootstrap-multiselect.js"></script>
+
+</body>
+
+</html>
+

@@ -1,0 +1,74 @@
+main:
+  items:
+    - title: Home
+      url: /public/index
+    - title: Servizi
+      url: /public/services
+    - title: Contattaci
+      url: /public/contactUs
+      
+  bacheca:
+    - title: Lista attivita
+      url: /portal/features/activities
+      icon: fa fa-list
+    - title: Il tuo sportello
+      url: /portal/features/myPractices
+      icon: fa fa-file
+    - title: I tuoi pagamenti
+      url: /portal/features/myPayments
+      icon: fa fa-credit-card
+    - title: I tuoi documenti
+      url: /portal/features/myDocuments
+      icon: fa fa-file
+    - title: Preferiti
+      url: /portal/features/preferredProceedings
+      icon: fa fa-star
+    - title: Profilo
+      url: /portal/user/myProfile
+      icon: fa fa-user
+      
+backoffice:
+    - name: Home
+      url: /backOffice/home
+
+    - name: Portale
+      roles: [admins]
+      menuItems:
+        - title: Servizi
+          url: /backOffice/service/service
+        - title: Procedimenti
+          url: /backOffice/proceeding/proceeding
+        - title: Media
+          url: /backOffice/media/media
+        - title: Settings
+          url: /backOffice/settings/settings
+        - sep: true
+        - title: Canali di pagamento
+          url: /backOffice/channel/channel
+          roles: [admins]
+        
+    - name: Processi
+      roles: [admins]
+      menuItems:
+        - title: deployments
+          url: /bpm/deployments
+        - title: configurations
+          url: /bpm/configurations
+        - title: events
+          url: /bpm/events
+          
+    - name: Istanze  
+      roles: [admins]
+      menuItems:
+        - title: instances
+          url: /bpm/instances
+        - title: tasks
+          url: /bpm/tasks
+        - title: bookmarks
+          url: /bpm/bookmarks
+        - title: notifications
+          url: /bpm/notifications
+        
+        
+          
+          

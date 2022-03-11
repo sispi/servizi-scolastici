@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+
+	<!-- Alfresco -->
+    <entry key="PROVIDER_NAME">it.kdm.docer.providers.solr4.Provider</entry>
+         	 
+	<entry key="PRIMARY_SERACH_MAX_ROWS">10</entry>
+	<entry key="DISK_BUFFER_DIRECTORY">/tmp/</entry>
+	<entry key="DISK_BUFFER_THRESHOLD">3000000</entry>
+	
+	
+	
+	<!-- eDocs -->	    
+	<!-- 
+    <entry key="PROVIDER_NAME">it.kdm.docer.edocs.EDocsProvider</entry>
+         	 
+	<entry key="PRIMARY_SERACH_MAX_ROWS">10</entry>
+	<entry key="DISK_BUFFER_DIRECTORY">C:\WINDOWS\TEMP</entry>
+	<entry key="DISK_BUFFER_THRESHOLD">3000000</entry>
+	 -->
+	
+</properties>

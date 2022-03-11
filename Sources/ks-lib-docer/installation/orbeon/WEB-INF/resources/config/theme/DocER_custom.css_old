@@ -1,0 +1,623 @@
+/*
+KDM - Stile custom per doc/ER su Orbeon
+17-12-2010 - LOCALE
+*/ 
+
+
+
+/*
+ORBEON.CSS
+*/ 
+
+html {
+	padding-top: 0 !important;
+	margin-top: 0;
+	background: #000 url(docER-images/bg.jpg) top repeat-x;
+}
+body, input, select, button, table {
+	font-family: "Lucida Grande", "Lucida Sans Unicode", Verdana, Lucida, Helvetica, Arial, sans-serif !important;
+	font-size: 90%;
+}
+/*#main*/ body {
+	border-left: #000 1px solid;
+	border-right: #000 1px solid;
+	margin: 0 1% !important;
+	padding: 0 3px !important;
+	background: #fff;
+}
+
+#main {
+	padding-bottom: 3em;
+	border-bottom: 4px solid #E2E2E2 !important;
+}
+
+#banner {
+	background: transparent url(docER-images/header.gif) repeat-x !important;
+	height: 115px !important;
+	color: #fff;
+	padding: 0 3em
+}
+#banner a img {
+	/*	background: transparent url(docER-images/logo_bkg.png) top left no-repeat !important;
+*/	margin-top: 20px;
+	text-decoration: none !important;
+	border: none !important;
+ 	filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(...);
+}
+
+#cner-link {
+	float:right;
+	width: 155px;
+	margin-top: 20px;}
+	
+#cner-link a{
+	display:block;
+	width: 152px;
+	height: 60px;
+	padding-left:3000px;
+	background: transparent url(docER-images/logo_cner.gif) no-repeat;
+	}
+
+.tabs {
+	background: url(docER-images/tabs_bg.gif) repeat-x;
+	overflow: hidden;
+	height: 24px;
+	text-transform: none;
+	font-weight: normal;
+	color:#fff;
+	border-bottom: 4px solid #E2E2E2 !important;
+	margin-bottom: 2em;
+}
+.tabs a, #banner a {
+	color:#fff;
+	font-weight: bold;
+}
+.tabs form {
+	margin-top: -2px
+}
+.tab-selected, .tab-selected-left {
+	background-color: transparent !important;
+}
+.tab, .tab-selected {
+	border-right: 1px solid white;
+	border-left: 1px solid white;
+}
+
+/*
+	menu sinistra
+	*/ 
+	
+	#leftcontent * /*IE fix*/ {
+	margin: 0;
+	padding: 0;
+}
+#leftcontent /*td colonna sinistra*/ {
+	border: none !important;
+	padding-left: 10px !important;
+	background: #fff !important;
+	overflow: hidden;
+}
+#leftcontent h1 /*titolo menu*/ {
+	display: none;/*	font-size: 1.5em !important;
+	color: #666 !important;
+	margin-bottom: 1em !important;
+	margin-left: 12px !important;
+	line-height: 1.5em;
+*/
+}
+.tree-sections ul li, li.tree-section {
+}
+.tree-sections /*ul contenente tutti i menu*/ {
+	line-height: 1.5em !important;
+	width: 210px !important;
+}
+.tree-section:first-child {
+	display:none;
+}
+.tree-section  /*li titolo dei submenu*/ {
+	font-size: 1em;
+	font-weight: normal;
+	color: #000 !important;
+	display:block !important; /*IE fix*/
+	line-height: 20px !important;
+	padding: 0.3em !important;
+	background-color: #D0CFCF;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	position: relative;
+	z-index: 200;
+	left:11px;
+	width: 180px;
+}
+ul.tree-items {
+	display:block;
+	padding: 2em 10px 1em !important;
+	text-transform: none !important; /*IE fix*/
+	margin-bottom: 22px !important;
+	background: url(docER-images/bg_portlet.jpg) transparent no-repeat !important;
+	-moz-border-radius: 4px !important;
+	-webkit-border-radius: 4px !important;
+	border-radius: 4px !important;
+	position: relative !important;
+	margin-top: -1.7em !important;
+	font-size: 90%;
+}
+.tree-sections:last-child {
+	margin-bottom: 0 !important;
+}
+li.tree-items, li.tree-items-selected /*voce non selezionata submenu (contiene link)*/ {
+	display: block;
+	padding: 0.3em 1em !important;
+	border-bottom: 1px dashed #CCC
+}
+li.tree-items a {
+	color: #666 !important;
+}
+li.tree-items a, li.tree-items-selected /*li.tree-items = voce non selezionata submenu (contiene link)*/ {
+	display: block;
+	text-decoration: none !important;
+}
+li.tree-items:hover /*voce non selezionata submenu (contiene link)*/ {
+	background: url(docER-images/menu_bkg_li_hov.png) transparent repeat-x center !important;
+}
+li.tree-items-selected /*voce selezionata submenu (no link)*/ {
+	color: #666 !important;
+	background: url(docER-images/sprite.png) repeat-x 0 -1300px !important;
+}
+
+
+/* 
+footer
+*/
+
+.ops-version {
+	overflow: hidden;
+	text-align: right;
+	color: #fff;
+	background: url(docER-images/footer_grad.jpg) repeat-x center;
+	padding: 0.5em 1em;
+	margin-top: 0;
+}
+
+#piter-logo {
+	display:block; 
+	float: right;
+	width: 160px;
+	height: 50px;
+	background: url(docER-images/logo_piter.gif) no-repeat}
+
+#ermes-link {
+	display: block;
+	width: 195px;
+	height: 30px;
+	margin-top: 15px;
+	padding-left: 3000px;
+	background: url(docER-images/logo_rer_b.gif) no-repeat}
+
+/*
+	contenuto principale
+	*/ 
+	
+#doc, #doc2, #doc3, #doc4, .yui-t1, .yui-t2, .yui-t3, .yui-t4, .yui-t5, .yui-t6, .yui-t7 {
+	margin: auto;
+	min-width: 750px;
+	text-align: left;
+	width: auto !important;
+}
+#maincontent /*td contenuto centrale*/ {
+	border: none !important;
+}
+.maincontent /*div contenuto centrale*/ {
+	border: none !important;
+	padding: 0 !important;
+}
+.maintable1 /*tabella contenente h1 e benvenuto*/ {
+	width: 100%
+}
+.maincontent h1 /*titolo contenuto selezionato*/ {
+	width: auto !important;
+	border: none !important;
+	color:#49754A !important;
+	background-color: #fff;
+	font-size: 140%;
+	font-weight: normal;
+	margin-bottom: 5px !important;
+	padding-left: 1.5em !important;
+	padding-top: 0 !important;
+}
+.benvenuto { /*necessario per IE*/
+	display:block;
+	vertical-align:middle
+}
+a.logout {
+	display:inline-block;
+	margin: 5px !important;
+	padding: 1px 7px 1px 5px!important;
+	background: url(docER-images/sprite.png) repeat-x 0 0 !important;
+	border: 1px solid #d3d3d3 !important;
+}
+a:hover.logout {
+	background: url(docER-images/sprite.png) repeat-x 0 -1300px !important;
+	text-decoration: none !important;
+}
+#mainbody /*div del corpo del testo*/ {
+	border: none !important;
+	background: none !important;
+	overflow: hidden !important;
+	margin-top: 0 !important;
+	padding-top: 0em !important;
+	padding-left: 1.8em;
+}
+/*
+DATATABLE_002.CSS
+*/
+
+	.yui-skin-sam .yui-dt th {
+	background:#D8D8DA url(docER-images/sprite.png) repeat-x 0 0;
+}
+.yui-skin-sam th.yui-dt-asc, .yui-skin-sam th.yui-dt-desc {
+	background:url(docER-images/sprite.png) repeat-x 0 -100px;
+}
+.yui-dt-editor .yui-dt-button button {
+	background:url(docER-images/sprite.png) repeat-x 0 0;
+}
+.yui-dt-editor .yui-dt-button button.yui-dt-default {
+	background:url(docER-images/sprite.png) repeat-x 0 -1400px;
+}
+.yui-dt-editor .yui-dt-button button:hover {
+	background:url(docER-images/sprite.png) repeat-x 0 -1300px;
+}
+.yui-dt-editor .yui-dt-button button:active {
+	background:url(docER-images/sprite.png) repeat-x 0 -1700px;
+}
+.yui-skin-sam tr.yui-dt-odd {
+	background-color:#EFEFEF;
+}
+.yui-skin-sam tr.yui-dt-even td.yui-dt-asc, .yui-skin-sam tr.yui-dt-even td.yui-dt-desc {
+	background-color:#EFEFEF;
+}
+.yui-skin-sam .yui-dt-list tr.yui-dt-even td.yui-dt-asc, .yui-skin-sam .yui-dt-list tr.yui-dt-even td.yui-dt-desc {
+	background-color:#EFEFEF;
+}
+.yui-skin-sam .yui-dt-list tr.yui-dt-odd td.yui-dt-asc, .yui-skin-sam .yui-dt-list tr.yui-dt-odd td.yui-dt-desc {
+	background-color:#EFEFEF;
+}
+.yui-skin-sam tr.yui-dt-selected td, .yui-skin-sam tr.yui-dt-selected td.yui-dt-asc, .yui-skin-sam tr.yui-dt-selected td.yui-dt-desc {
+	background:#bfdaff url(docER-images/sprite.png) repeat-x left -1300px;
+	color:#000;
+}
+/*
+TABVIEW.CSS
+*/
+
+* .yui-nav {
+	font-size: 90%;
+}
+.yui-skin-sam .yui-navset .yui-nav, .yui-skin-sam .yui-navset .yui-navset-top .yui-nav {
+	border:none
+}
+/*sfondo contenitore tabella*/
+.yui-skin-sam .yui-navset .yui-nav a:hover, .yui-skin-sam .yui-navset .yui-nav a:focus {
+	background:#F0F0EF;
+	outline:0;
+}
+.yui-skin-sam .yui-navset .yui-nav .selected, .yui-skin-sam .yui-navset .yui-navset-top .yui-nav .selected {
+	margin: 0 0 -1px 5px;
+}
+.yui-skin-sam .yui-navset .yui-nav li, .yui-skin-sam .yui-navset .yui-navset-top .yui-nav li {
+	margin: 0 0.16em 0 0;
+	padding: 1px 0 0 10px;
+}
+.yui-skin-sam .yui-navset .yui-nav a, .yui-skin-sam .yui-navset .yui-navset-top .yui-nav a {
+	background:#fff;
+	border:solid #540000;
+	border-width:0 1px !important;
+	color:#000;
+	position:relative;
+	text-decoration:none;
+}
+.yui-content {
+	padding-top: 2em !important;
+	overflow: hidden !important;
+	padding-bottom: 3em !important;
+	background: #fff url(docER-images/yui_content_top_bg.jpg) repeat-x !important;
+}
+.yui-skin-sam .yui-navset .yui-nav .selected a, .yui-skin-sam .yui-navset .yui-nav .selected a:focus, .yui-skin-sam .yui-navset .yui-nav .selected a:hover {
+	background:#F0F0EF;
+	color:#000;
+}
+.yui-skin-sam .yui-navset .yui-nav a em, .yui-skin-sam .yui-navset .yui-navset-top .yui-nav a em {
+	display:inline-block;
+} /*IE fix*/
+.yui-skin-sam .yui-navset .yui-nav .selected a em, .yui-skin-sam .yui-navset .yui-nav .selected a, .yui-skin-sam .yui-navset .yui-nav .selected a em {
+	border-color: #540000
+}
+.yui-skin-sam .yui-navset .yui-nav a em, .yui-skin-sam .yui-navset .yui-navset-top .yui-nav a em {
+	border-color: #540000;
+	border-style: solid;
+	border-width: 1px 0 0;
+}
+.yui-skin-sam .yui-navset .yui-content, .yui-skin-sam .yui-navset .yui-navset-top .yui-content {
+	border: 1px solid #540000;
+}
+/*
+BUTTON.CSS
+*/	
+	.yui-skin-sam .yui-button {
+	border-width:1px 0;
+	border-style:solid;
+	border-color:#808080;
+	background:url(docER-images/sprite.png) repeat-x 0 0;
+	margin:auto .25em;
+}
+.yui-skin-sam .yui-split-button button, .yui-skin-sam .yui-menu-button button {
+	padding-right:20px;
+	background-position:right center;
+	background-repeat:no-repeat;
+}
+.yui-skin-sam .yui-button-focus {
+	border-color:#7D98B8;
+	background-position:0 -1300px;
+}
+.yui-skin-sam .yui-button-hover .yui-push-button-hover {
+	border-color:#7D98B8;
+	background-position:0 -1300px;
+}
+.yui-skin-sam .yui-button-active {
+	border-color:#7D98B8;
+	background-position:0 -1700px;
+}
+.yui-skin-sam .yui-split-button-activeoption {
+	border-color:#808080;
+	background-position:0 0;
+}
+.yui-skin-sam .yui-radio-button-checked, .yui-skin-sam .yui-checkbox-button-checked {
+	border-color:#304369;
+	background-position:0 -1400px;
+}
+.yui-skin-sam .yui-button-disabled {
+	border-color:#ccc;
+	background-position:0 -1500px;
+}
+/*
+ACCORDION.CSS
+*/
+
+.fr-accordion-lnf dt.a-m-t {
+	background: transparent url(docER-images/sprite.png) repeat-x scroll 0 -1500px;
+}
+.fr-accordion-lnf dt.a-m-t-hover {
+	background-position: 0 -1300px;
+}
+dd.a-m-d-expand {
+	background-color: #FFF;
+}
+/*
+?
+*/
+
+.xforms-textarea, .xforms-textarea textarea {
+	background-color: #FFF;
+	color: #666;
+}
+/*
+DATATABLE.CSS (indicato da Firebug)
+*/
+
+.yui-skin-sam tr.yui-dt-odd td.yui-dt-asc, .yui-skin-sam tr.yui-dt-odd td.yui-dt-desc {
+	background-color:#DFE0EC;
+}
+/*profilo pratica*/
+
+	.xbl-component {
+	margin-top:1em !important;
+}
+.xbl-component td {
+	vertical-align: top !important;
+}
+.fieldset-intestatario, .fieldset-note {
+	background-color: #fff;
+	height: 100% !important;
+	padding-top: 20px;
+}
+.fieldset-note {
+	margin-top: 2em !important;
+}
+.fieldset-note textarea {
+	margin-top: 10px !important;
+}
+.fieldset-intestatario table, .fieldset-note table {
+	height: 1% !important;
+}
+.fieldset-intestatario table td, .fieldset-note table td {
+	padding: 5px !important;
+	height: 1% !important;
+}
+fieldset {
+	margin: 10px !important;
+	padding: 10px !important;
+}
+fieldset table {
+	margin-top: 10px !important;
+}
+fieldset td {
+	padding: 5px !important;
+}
+fieldset legend {
+	color: #003399 !important;
+	text-transform: uppercase !important;
+	font-weight: bold !important;/*		padding-bottom: 20px !important;
+*/
+}
+.other-label {
+	margin-top: 8px;
+}
+/*	
+ICONE PULSANTI
+*/
+
+.button_prendi_in_carico button, .button_chiudi_pratica button, .button_stampa button, .button_modifica button, .button_salva button, .button_annulla button, .button_cambia_tipo button, .button_mostra_file button, .button_profilo button, .button_protocolla button, .button_elimina button, .button_invia_nuova button, .button_invia_comunicazione button, .button_file button, .button_mostra_profilo button, .button_allega button, .button_rispondi_comunicazione button {
+	padding-left: 20px !important;
+	padding-bottom: 2px !important;
+}
+.button_prendi_in_carico button {
+	background: url(docER-images/icone/prendi_in_carico.gif) no-repeat 3px 3px
+}
+.button_chiudi_pratica button {
+	background: url(docER-images/icone/chiudi_pratica.gif) no-repeat 3px 3px
+}
+.button_stampa button {
+	background: url(docER-images/icone/stampa.gif) no-repeat 3px 2px
+}
+.button_modifica button {
+	background: url(docER-images/icone/modifica.gif) no-repeat 3px 3px
+}
+.button_salva button {
+	background: url(docER-images/icone/salva.gif) no-repeat 3px 3px
+}
+.button_annulla button {
+	background: url(docER-images/icone/annulla.gif) no-repeat 3px 3px
+}
+.button_cambia_tipo button {
+	background: url(docER-images/icone/cambia_tipo.gif) no-repeat 3px 3px
+}
+.button_mostra_file button {
+	background: url(docER-images/icone/mostra_file.gif) no-repeat 3px 3px
+}
+.button_profilo button, .button_mostra_profilo button {
+	background: url(docER-images/icone/profilo.gif) no-repeat 3px 3px
+}
+.button_protocolla button {
+	background: url(docER-images/icone/protocolla.gif) no-repeat 3px 2px
+}
+.button_elimina button {
+	background: url(docER-images/icone/elimina.gif) no-repeat 3px 3px
+}
+.button_invia_nuova button { /*invia nuova comunicazione*/
+	background: url(docER-images/icone/invia_nuova.gif) no-repeat 3px 3px
+}
+.button_invia_comunicazione button {
+	background: url(docER-images/icone/invia.gif) no-repeat 3px 3px
+}
+.button_file button {
+	background: url(docER-images/icone/file.gif) no-repeat 3px 3px
+}
+.button_allega button {
+	background: url(docER-images/icone/allega.gif) no-repeat 3px 3px
+}
+.button_rispondi_comunicazione button {
+	background: url(docER-images/icone/rispondi.gif) no-repeat 3px 3px
+}
+.table-ricevute, .table-cronologia {
+	width: auto;
+	margin-left: 2em;
+	background-color: #f7f7f7;
+	border-collapse: collapse !important;
+}
+.table-ricevute td, .table-cronologia td {
+	border-bottom: solid #efefef !important;
+	border-bottom-width: 4px !important;
+	padding: 4px 20px !important;
+	background-color: transparent !important;
+}
+.table-ricevute thead tr, .table-cronologia thead tr {
+	background-color: #efefef !important;
+}
+
+/*LISTA DEGLI ALLEGATI*/
+.xforms-upload-filename {
+	display: inline-block !important;
+	width: 250px !important;
+	text-overflow:ellipsis !important;
+	overflow:hidden !important;
+	white-space:nowrap !important;
+}
+.xforms-upload-size {
+	display: inline-block !important;
+	width: 50px !important;
+	text-align: right !important;
+	white-space:nowrap !important;
+	vertical-align: top !important;
+}
+.xforms-upload-remove {
+	display: inline-block !important;
+	padding-left: 10px !important;
+	text-align: right !important;
+	vertical-align: top !important;
+}
+
+/*HOME AMMINISTRAZIONE DEL SISTEMA*/
+table.amministrazione {
+	width: 95%
+}
+.amministrazione td {
+	border: 1px solid #CCC;
+}
+.amministrazione td a img {
+	border: none;
+	margin-bottom:2px
+}
+.amministrazione td p {
+	background: none;
+	padding: 5px;
+	margin:0;
+	color: #666;
+}
+td.pulsante {
+	background: url(docER-images/amm_bkg.jpg) bottom center no-repeat;
+	width: 236px;
+	text-align: center;
+}
+
+button {
+background: #eaeaea;
+-moz-border-radius: 3px;
+-webkit-border-radius: 3px;
+border: 2px solid #ccc;
+margin-bottom: 2em;
+}
+
+button:hover {
+border-color: #999
+}
+
+.sxc-form-label {
+	color: #666;
+	font-size: 90%;
+	font-weight: normal !important;}
+	
+.sxc-form-label a{
+	text-decoration: none;
+	color: #990000;
+}
+	
+.sxc-form-field input, textarea {
+    width: 80%;
+}
+
+/*risultati ricerca*/
+
+.res-item {
+	padding: 10px;}
+
+.xforms-repeat-selected-item-1 {
+    background-color: #E6E6E6;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+/*	border: 1px solid #CADEC9;
+*/}
+
+.res-title {
+	font-weight: bold;
+}
+
+.res-abstract {
+	color:#666;
+}
+
+.res-info {
+	padding-top: 5px;}
+	
+* a {
+	color:#921115}

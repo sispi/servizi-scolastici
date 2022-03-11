@@ -1,0 +1,329 @@
+<head>
+    <title>Firma massiva</title>
+</head>
+
+<body>
+<script @ignore @server @server-model="tasks" src="/bpm/v1/tasks?expiration=${ ((query.expiration!'')=='in scadenza')?string('1d', ( (query.expiration!'')=='scadute')?string('-1s','') ) }&status={status:Ready,InProgress}&processId={processId}&assignedAs={assignedAs}&fetch=input,instance,rootInstance,assignments&orderBy=startTs:desc&pageSize=10&pageNumber={pageNumber}&subject=FIRMA" type="application/json" ></script>
+
+<script @server id="model-tasks" type="javascript">
+
+    for( x in tasks.data ){
+        tasks.data[x].assignments.actualOwner = $.format(tasks.data[x].assignments.actualOwner);
+        tasks.data[x].assignments.potentialOwners = $.format( tasks.data[x].assignments.potentialOwners );
+    }
+    tasks;
+</script>
+
+<script @server id="model-configurations" src="/bpm/v1/configurations" type="application/json" ></script>
+
+<style>
+    .facets {
+        width: 30%;
+        display: inline-block;
+        vertical-align: bottom;
+    }
+    .combos {
+        width: 69%;
+        display: inline-block;
+        vertical-align: bottom;
+    }
+    .combos .dropdown-menu {
+        width: 200px;
+    }
+    .combo {
+        min-width: 200px;
+    }
+</style>
+
+<div id="app" class="" >
+    <h2>{{model.title}}</h2>
+    <!--<report-buttons style="float:right" :model="model"></report-buttons>-->
+    <results-stats style="position:absolute;right:15px" :tot-results="model.totResults" :elapsed="model.elapsed" ></results-stats>
+
+    <facets class="col-12" :model="model" page-field="pageNumber"></facets>
+
+    <!--<facets :model="model" page-field="pageNumber"></facets>-->
+    <!--<report-table :model="model" ></report-table>-->
+
+    <table class="table table-striped table-sm">
+        <thead>
+            <td>Attività</td>
+            <td>Istanza</td>
+            <td>Status</td>
+            <td>Start</td>
+            <td>Expires</td>
+            <td>Pot</td>
+            <td>Actual</td>
+        </thead>
+
+        <tbody>
+
+        <template v-for="row in model.data" >
+            <tr>
+                <td>{{row.name}}</td>
+                <td>{{row.instance.businessName}}</td>
+                <td>{{row.status}}</td>
+                <td>{{row.startTs}}</td>
+                <td>{{row.expiresTs||''}}</td>
+                <td>{{row.potentialOwners.join()}}</td>
+                <td>{{row.actualOwner}}</td>
+            </tr>
+            <tr>
+                <td colspan="100">
+                    <div class="row"  v-for="doc in row.input.allegati">
+                        <span class="col-1 text-right"><input type="checkbox" @click="select(doc,row)" v-bind="docs.indexOf(doc)>=0" /></span>
+                        <span class="col-10"><a :href="'/docer/v1/documenti/'+doc.DOCNUM+'/file'" class="btn btn-link m-0 p-0" >{{doc.DOCNAME}}</a></span>
+                    </div>
+                </td>
+            </tr>
+        </template>
+
+        </tbody>
+
+    </table>
+
+    <div class="m-3">
+        documenti:<span v-for="(doc,idx) in docs"><span v-if="idx>0">,</span>{{doc.DOCNUM}}</span>
+        tasks:<span v-for="(task,idx) in tasks"><span v-if="idx>0">,</span>{{task.id}}</span>
+    </div>
+
+    <div class="m-3">
+
+        <button :disabled="tasks.length==0" @click="$refs.otpModal.show()" class="btn btn-lg btn-info">Firma</button>
+
+    </div>
+
+    <simplemodal id="otpModal" ref="otpModal">
+        <label style="width:50px" >alias</label><input type="text" v-model="args.alias" />
+        <br/><label style="width:50px">pin</label><input type="text" v-model="args.pin" />
+        <br/><label style="width:50px">otp</label><input :disabled="!sent" type="text" v-model="args.otp" />
+        <br/><label style="width:50px">tipo</label>
+        <select v-model = "args.tipo">
+            <option value="PADES">PADES</option>
+            <option value="XADES">XADES</option>
+            <option value="CADES">CADES</option>
+        </select>
+        <br/><button @click="requestOTP()" class="btn btn-lg btn-danger">Richiedi</button>
+        <button @click="applicafirma()" class="btn btn-lg btn-danger">Applica firma</button>
+        <span>{{modalMsg}}</span>
+    </simplemodal>
+
+    <simplemodal id="completeModal" ref="completeModal" title="Documenti firmati">
+
+        <span class="row" v-for="(task,idx) in tasks">
+            <span class="col-5">{{task.id}}</span>
+            <span class="col-1">
+                <i v-if="task.progress=='ok'" class="bi bi-check"></i>
+                <i v-if="task.progress!='ok' && task.progress!='start' && task.progress!=null" class="bi bi-exclamation-triangle"></i>
+
+            </span>
+            <span class="col-6">
+                <span class="row" v-for="(doc,idx) in task.selected">
+                    <a :href="doc.firmato" class="btn btn-link m-0 p-0" >{{doc.DOCNAME}}</a>
+                </span>
+            </span>
+        </span>
+
+        <span class="row">
+            <a @click="completeAll()" class="btn" ><i class="bi bi-collection-play"></i>&nbsp; completa i {{tasks.length}} task associati</a>
+        </span>
+
+        <span class="row col-12">
+            <div class="progress w-100">
+                <template v-for="(task,idx) in tasks" >
+                    <div style="border-right: 1px solid white" v-if="task.progress" :style="{width:''+100/tasks.length+'%'}" :class=" (task.progress == 'start') ? ['progress-bar-striped','progress-bar-animated'] : [ (task.progress == 'ok') ? 'bg-success' : 'bg-danger']" class="progress-bar" role="progressbar" :title="  (task.progress != 'ok' && task.progress != 'start') ? (task.progress+' '+task.id) : '' "  ></div>
+                </template>
+            </div>
+        </span>
+
+
+
+    </simplemodal>
+
+    <!--<pager style="text-align: center"  :tot-page="model.totPage" :page-number="model.pageNumber" ></pager>-->
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        methods: {
+           select : function(doc,task) {
+               var tIdx = this.tasks.indexOf(task);
+               var dIdx = this.docs.indexOf(doc);
+               if (dIdx>=0){
+                   this.docs.splice(dIdx, 1);
+                   var dIdx2 = this.tasks[tIdx].selected.indexOf(doc);
+                   this.tasks[tIdx].selected.splice(dIdx2, 1);
+                   this.docs.splice(dIdx,1);
+
+                   if (this.tasks[tIdx].selected.length==0)
+                       this.tasks.splice(tIdx,1);
+
+               } else {
+
+                   if (tIdx==-1){
+                       this.tasks.push(task);
+                       tIdx = this.tasks.indexOf(task);
+                   }
+                   this.tasks[tIdx].selected = this.tasks[tIdx].selected || [];
+                   this.tasks[tIdx].selected.push(doc);
+                   this.docs.push(doc);
+
+               }
+           },
+            requestOTP : function() {
+
+                console.log(this.args.alias, this.args.pin);
+                var self = this;
+                ClientApi.get("/docer/v1/firma/requestOTP", {alias:'',pin:''},
+                    () => { this.sent = true },
+                    function(err) {
+                        self.$refs.otpModal.hide();
+                        showError(err);
+                    }
+                );
+            },
+            completeAll : function() {
+               var self = this;
+               var idx = 0;
+
+               for( x in this.tasks) {
+
+                   var task = this.tasks[x];
+
+                   if (task.progress==null || task.progress=='error') {
+                       task.progress = 'start';
+
+                       if (Boolean(Math.round(Math.random()))) {
+                            task.progress = 'ok';
+                       } else {
+                            task.progress = 'error';
+                       }
+                       console.log(x,task.progress);
+                       self.$forceUpdate();
+                   }
+                }
+            },
+            applicafirma: function() {
+
+                var self = this;
+
+                var urls = [];
+                var docs = [];
+
+                for ( tIdx in this.tasks ){
+                    this.tasks[tIdx].progress = null;
+                    for( dIdx in this.tasks[tIdx].selected ){
+                        var doc = this.tasks[tIdx].selected[dIdx];
+                        docs.push(doc);
+                        urls.push(location.protocol+"//"+location.host+"/docer/v1/documenti/"+doc.DOCNUM+"/file");
+                    }
+                }
+
+                var qs = $.param({
+                    alias : this.args.alias,
+                    pin : this.args.pin,
+                    tipo : this.args.tipo,
+                    OTP : this.args.otp,
+                    urls  : urls
+                },true);
+
+                this.$forceUpdate();
+
+                ClientApi.post("/docer/v1/firma/firmaRemota?"+qs, null ,
+                    function(resp) {
+
+                        for ( x in resp ){
+                            docs[x].firmato = desktopUrl(resp[x]);
+                        }
+
+                        console.log(docs[x]);
+
+                        self.$refs.otpModal.hide();
+                        self.$refs.completeModal.show();
+
+
+                    },
+                    function(err) {
+                        self.$refs.otpModal.hide();
+                        showError(err);
+                    }
+                );
+            }
+
+        } ,
+        data: function() {
+            var model = bpmdata("model-tasks");
+            var configurations = bpmdata("model-configurations");
+
+            var processIds = {};
+
+            for (x in configurations.data ){
+                processIds[configurations.data[x].deployment.processId] = null;
+            }
+
+            //Created, Ready, Reserved, InProgress, Suspended, Completed, Failed, Error, Exited, Obsolete
+
+            model.counts = {
+                assignedAs : {
+                    ActualOwner : null,
+                    PotentialOwner : null,
+                    TaskStakeholder : null
+                },
+                status : {
+                    Ready : null,
+                    InProgress : null
+                },
+                expiration : {
+                    "in scadenza" : null,
+                    "scadute" : null
+                },
+                processId : processIds
+            }
+            model.combos = {processId:false,assignedAs:false,expiration:false};
+            model.facets = ["status"];
+
+            for( x in model.data){
+                var task = model.data[x];
+
+                if (task.rootInstance){
+                    task.instanceId = task.instance.id;
+                    task.instanceName = task.instance.businessName;
+                    task.rootInstanceId = task.rootInstance.id;
+                    task.rootInstanceName = task.rootInstance.businessName;
+                } else {
+                    task.rootInstanceId = task.instance.id;
+                    task.rootInstanceName = task.instance.businessName;
+                }
+                task.actualOwner = task.assignments.actualOwner;
+                task.potentialOwners = task.assignments.potentialOwners;
+            }
+
+            model.columns = "id,name,subject,instanceName,rootInstanceName,status,startTs,expireTs,endTs,potentialOwners,actualOwner".split(',');
+
+            model.params["column.name.href"] = "/~task?id={id}";
+            model.params["column.instanceName.href"] = "/~instance?id={instanceId}";
+            model.params["column.rootInstanceName.href"] = "/~instance?id={rootInstanceId}";
+
+            //model.columns.push("crea");
+            //model.params["column.crea.href"] = "home/bpm/instances?id={id}";
+            //model.params["column.crea.label"] = " ";
+
+            return {
+                model:model,
+                selection: [],
+                docs: [],
+                tasks: [],
+                args : {
+                    alias : "certificate",
+                    pin : "password",
+                    tipo : "PADES"
+                },
+                sent : false,
+                modalMsg : ''
+            }
+        }
+    });
+</script>
+</body>
+

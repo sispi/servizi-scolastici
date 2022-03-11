@@ -1,0 +1,22 @@
+<modal :show="show" @close="close">
+    <div slot="header" class="col-md-12">
+        <div class="modalTitle col-sm-12">{{messages["viewProfile.cambiaTipologia"] || "Cambia Tipologia"}}</div>
+    </div>
+    <div slot="body">
+        <div class="form-group" >
+            <label class="labelNew">{{messages["viewProfile.tipoDocumento"] || "Tipo documento"}}</label>
+            <select class="form-control" v-model="documento.TYPE_ID">
+                <option v-for="(tipo, key) in tipidoc" :value="key">{{key}}</option>
+            </select>
+        </div>
+        <div class="col-md-12 footer-modal">
+            <div class="col-md-3 float-left">
+                <button type="submit" class="btn btn-default btn-block modal-btn-annulla" @click="$emit('close')">{{messages["viewProfile.chiudi"] || "Chiudi"}}</button>
+            </div>
+            <div class="col-md-3 float-right">
+                <button type="submit" class="btn btn-primary btn-block modal-btn-conferma" @click="confermaCambiaTipologia()">{{messages["viewProfile.conferma"] || "Conferma"}}</button>
+            </div>
+        </div>
+    </div>
+    
+</modal>

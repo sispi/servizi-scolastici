@@ -1,0 +1,105 @@
+<modal :show="show" @close="close">
+    <div slot="header" class="col-md-12">
+        <div class="modalTitle col-sm-12">{{messages["viewNavList.diritti"] || "Diritti"}}</div>
+    </div>
+    <div slot="body">
+        
+        <div style="text-align: center;" class="alert alert-secondary" role="alert">
+            <span class="infoAcl">{{messages["viewProfile.dirittiAttuali"] || "Attualmente i tuoi diritti sono"}}: <span class="textAcl"> {{dirittiUser}}</span></span>
+        </div>
+
+        <template v-if="userOrGroup.length>0">
+        <div class="card">
+            <table style="background-color: #f9f9f9" class="table table-sm">
+                <thead>
+                <tr>
+                    <th colspan="3" style="text-align: center;background-color: #e2e3e5">{{messages["viewProfile.elencoDiritti"] || "Elenco diritti ereditati"}}</th>
+                </tr>
+                </thead>
+                <thead>
+                <tr>
+                    <th style="width: 40%;">{{messages["viewProfile.utenteGruppo"] || "Utente / Gruppo"}}</th>
+                    <th style="width: 20%; text-align: center;">{{messages["viewProfile.diritti"] || "Diritti"}}</th>
+                    <th style="width: 40%; text-align: center;">{{messages["viewProfile.ereditatoDa"] || "Ereditato da"}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="padding-left: 8px;">
+                            <ul class="aclTableFirst" v-for="(u,i) in userOrGroup" :key="i"><li>{{u}}</li></ul>
+                        </td>
+                        <td>
+                            <ul class="aclTable" v-for="(a,i) in aclUserOrGroup" :key="i"><li>{{aclIta(a)}}</li></ul>
+                        </td>
+                        <td>
+                            <ul class="aclTable" v-for="(f,i) in flascicoloOrDocument" :key="i">
+                                <li>
+                                    <template v-if="f.includes('/')">
+                                        <a :href="'/documenti/viewNaviList?entity=fascicoli&sid=' + decodeTxt(f)">Fascicolo {{decodeTxt(f)}}</a>
+                                    </template>
+                                    <template v-else>
+                                        <a :href="'/documenti/viewNaviList?entity=titolari&sid=' + decodeTxt(f)">Titolario {{decodeTxt(f)}}</a>
+                                    </template>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        </template>
+        <template v-else>
+            <div class="infoAclEreditati">Il documento non eredita diritti</span>
+        </template>
+    
+        <div class="space-1h"></div>
+        <div class="card">
+            <table style="background-color: #f9f9f9" class="table table-sm">
+                <thead>
+                <tr>
+                    <th style="width: 55%;">{{messages["viewProfile.utenteGruppo"] || "Utente / Gruppo"}}</th>
+                    <th style="width: 45%; text-align: center;">{{messages["viewProfile.diritti"] || "Diritti"}}</th>
+                </tr>
+                </thead>
+                <tbody>
+            </table>
+            <div class="space-1h"></div>
+            <div style="width: 100%">
+                <div style="float: left; width: 60%;">
+                    <div style="margin-bottom: 2px; margin-left: 10px" v-for="(fasc, index) in userAcl">
+                            <select2 :id="'test_'+index" :value="userAcl[index]" v-on:changed="userAcl[index]=$event.id" class="form-control" url="/docer/v1/solr/select?database=false&fq=type:(user group)&wt=json&fl=sid,text:name&q=name:..." multiple="false"></select2>
+                    </div>
+                </div>
+                <div style="float: left; width: 40%;margin-bottom: 2px;" v-for="(a, index) in dirittiAcl">
+                    <select style="height: 38px;float: left;width: 80%; margin-left: 1%" class="form-control" v-model="nuoveAcl[index]">
+                      <option v-for="option in options" v-bind:value="option.value">
+                        {{ option.text }}
+                      </option>
+                    </select>
+                    <button style="width: 15%;margin-left: 1%;height:38px;" @click="deleteUtente(index)" class="btn btn-danger"><i style="color: #fff;" class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="space-1h"></div>
+            <div class="col-md-12">
+                <button id="btn-addUser" @click="addUtente" class="btn btn-primary btn-100 col-md-2 float-left">{{messages["viewProfile.aggiungi"] || "Aggiungi"}}</button>
+            </div>
+            <div class="space-1h"></div>
+        </div>
+
+        <div class="space-1h"></div>
+        <div style="display: none;" id="errMsg-share" class="alert alert-danger div-alert-warning"></div>
+        <div style="display: none;" id="errMsg-acl" class="alert alert-danger div-alert-warning"></div>
+        
+        <div class="col-md-12 footer-modal">
+            <div class="col-md-3 float-left">
+                <button type="submit" class="btn btn-default btn-block modal-btn-annulla" @click="$emit('close')">{{messages["viewProfile.chiudi"] || "Chiudi"}}</button>
+            </div>
+            <div class="col-md-3 float-right">
+                <button type="submit" class="btn btn-primary btn-block modal-btn-conferma" @click="confermaDiritti()" :disabled="documento.permissions.indexOf('write')==-1">{{messages["viewProfile.conferma"] || "Conferma"}}</button>
+            </div>
+        </div>
+
+    </div>
+
+</modal>

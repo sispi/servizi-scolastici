@@ -1,0 +1,112 @@
+<html @view="master.ftl" @ftl="true" >
+	<body class="body" >
+		<title>user info</title>
+		<style>
+			#userInfo label {
+				font-weight: bolder;
+			}
+		</style>
+
+		<script>
+			var username = "${utils.getUserInfo().getUsername()}";
+			//username = "p.rossi";
+		</script>
+
+		<div id="userInfo" v-if="user" >
+			<form class="container-fluid">
+				<div class="form-group row">
+					<label for="username" class="col-sm-4 col-form-label">Username</label>
+					<div class="col-sm-8">
+						<input type="text" disabled readonly class="form-control-plaintext" id="username" v-model="user.USER_ID" >
+					</div>
+
+				</div>
+				<div class="form-group row">
+					<label for="fullname" class="col-sm-4 col-form-label">Fullname</label>
+					<div class="col-sm-8" >
+						<input type="text" v-bind:disabled="!edit" :class="edit? 'form-control-sm':'form-control-plaintext'" id="fullname" v-model="user.FULL_NAME" >
+					</div>
+				</div>
+				<div class="form-group row">
+					<label for="codiceFiscale" class="col-sm-4 col-form-label">Codice fiscale</label>
+					<div class="col-sm-8">
+						{{user.FISCAL_CODE}}
+					</div>
+				</div>
+				<div v-for="(value,key) in options" class="form-group row">
+					<label for="option1" style="white-space: nowrap" class="col-sm-4 col-form-label">{{labelize(key)}}</label>
+					<div class="col-sm-8">
+						<input type="text" v-bind:disabled="!edit" :class="edit? 'form-control-sm':'form-control-plaintext'" id="option1" v-model="options[key]" >
+					</div>
+				</div>
+
+				<button v-on:click="modifica" v-bind:disabled="edit" type="button" class="btn btn-link" >Modifica</button>
+				<button v-on:click="salva" v-bind:disabled="!edit" type="button" class="btn btn-link" >Salva</button>
+				<button v-on:click="annulla" v-bind:disabled="!edit" type="button" class="btn btn-link" >Annulla</button>
+			</form>
+		</div>
+
+		<script>
+			var app = new Vue({
+				el: "#userInfo",
+				data: {
+					user: null,
+					edit: false,
+					options: {
+						RIGHE : 10,
+						MENU : ""
+					},
+				},
+				mounted: function() {
+					this.load();
+				},
+
+				methods: {
+
+					labelize: function(val) {
+						return (val||"").labelize().capitalize();
+					},
+					load: function() {
+						var self = this;
+						axios.get("/docer/v1/utenti/" + username)
+								.then(function (response) {
+									self.user = response.data;
+
+									for ( k in self.options)
+										self.options[k] = self.user.options[k] || self.options[k];
+								})
+								.catch(function (err) {
+									console.log("error:" + err);
+								});
+					},
+					modifica: function() {
+						this.edit = true;
+					},
+					salva: function() {
+						var self = this;
+						axios.patch("/docer/v1/utenti/"+username+"/options" , this.options , {headers: {"accept":"application/json"} } )
+								.then(function(response){
+									self.user = response.data;
+
+									for ( k in self.options)
+										self.options[k] = self.user.options[k] || self.options[k];
+
+									self.edit = false;
+								})
+								.catch(function(err){
+									processError(err);
+								});
+					},
+					annulla: function() {
+						this.load();
+						this.edit = false;
+					}
+
+				}
+			});
+
+
+		</script>
+		
+	</body>
+</html>

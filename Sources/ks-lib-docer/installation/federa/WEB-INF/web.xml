@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
+
+    <!-- PARAMETRI DI CONTESTO GENERALE -->
+    <context-param>
+        <param-name>keystorePath</param-name>
+        <param-value>/resources/keystore/keystore.jks</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>keystoreAlias</param-name>
+        <param-value>signer</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>keystorePassword</param-name>
+        <param-value>password</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>truststorePath</param-name>
+        <param-value>/resources/keystore/truststore.jks</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>truststorePassword</param-name>
+        <param-value>password</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>trustCheckEnabled</param-name>
+        <param-value>false</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>configurationFile</param-name>
+        <param-value>sp-config.properties</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>showDetailInErrorPage</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>metadataConnectionTimeout</param-name>
+        <param-value>60000</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>metadataFile</param-name>
+        <param-value>/resources/metadata/metadata.xml</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>metadataFileEncoding</param-name>
+        <param-value>utf-8</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>entityURLPrefix</param-name>
+        <param-value>http://intranet.kdm.it:9097</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>icar.inf3.error.returnURL</param-name>
+        <param-value>http://intranet.kdm.it:9097/</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>language</param-name>
+        <param-value>it</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>enforceAssertionConditions</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <context-param>
+        <param-name>authorityRegistryMetadataProviderURL</param-name>
+        <param-value>https://federatest.lepida.it/ar/metadata</param-value>
+        <!-- federatest -->
+        <!-- <param-value>https://federa.lepida.it/ar/metadata</param-value> --> <!-- federa -->
+    </context-param>
+
+    <context-param>
+        <param-name>authorityRegistrySubjectNameQualifier</param-name>
+        <param-value>https://federatest.lepida.it/ar</param-value>
+        <!-- federatest -->
+        <!-- <param-value>https://federa.lepida.it/ar</param-value> --> <!-- federa -->
+    </context-param>
+
+    <context-param>
+        <param-name>identifyingAttribute</param-name>
+        <param-value>CodiceFiscale</param-value>
+    </context-param>
+
+    <!--<context-param>-->
+    <!--<param-name>proxyHost</param-name>-->
+    <!--<param-value></param-value>-->
+    <!--</context-param>-->
+    <!---->
+    <!--<context-param>-->
+    <!--<param-name>proxyPort</param-name>-->
+    <!--<param-value>-1</param-value>-->
+    <!--</context-param>-->
+    <!---->
+    <!--<context-param>-->
+    <!--<param-name>proxyUser</param-name>-->
+    <!--<param-value></param-value>-->
+    <!--</context-param>-->
+    <!---->
+    <!--<context-param>-->
+    <!--<param-name>proxyPassword</param-name>-->
+    <!--<param-value></param-value>-->
+    <!--</context-param>-->
+
+
+    <!-- REQUEST HANDLER -->
+    <filter>
+        <filter-name>INF-3 Authentication Filter</filter-name>
+        <filter-class>it.cefriel.icar.inf3.web.filters.AuthenticationFilter</filter-class>
+        <init-param>
+            <param-name>forwardBinding</param-name>
+            <param-value>HTTP-Redirect</param-value>
+        </init-param>
+        <init-param>
+            <param-name>returnBinding</param-name>
+            <param-value>HTTP-POST</param-value>
+        </init-param>
+        <init-param>
+            <param-name>localProxyMetadataProviderURL</param-name>
+            <param-value>https://federatest.lepida.it/gw/metadata</param-value>
+            <!-- federatest -->
+            <!-- <param-value>https://federa.lepida.it/gw/metadata</param-value> --> <!-- federa -->
+        </init-param>
+        <init-param>
+            <param-name>postAuthnRequestPage</param-name>
+            <param-value>/resources/PostAuthnRequest.jsp</param-value>
+            <!-- <param-value>/resources/PostAuthnRequest_debug.jsp</param-value> -->
+        </init-param>
+        <init-param>
+            <param-name>proxyCount</param-name>
+            <param-value>2</param-value>
+        </init-param>
+        <init-param>
+            <param-name>nameIDFormat</param-name>
+            <param-value>unspecified</param-value>
+        </init-param>
+    </filter>
+
+    <!-- ASSERTION CONSUMER SERVICE -->
+    <servlet>
+        <servlet-name>AssertionConsumerService</servlet-name>
+        <servlet-class>it.cefriel.icar.inf3.web.servlet.AssertionConsumerService</servlet-class>
+        <init-param>
+            <param-name>authnFailedPage</param-name>
+            <param-value>/resources/authnFailed.jsp</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>AssertionConsumerService</servlet-name>
+        <url-pattern>/AssertionConsumerService</url-pattern>
+    </servlet-mapping>
+
+
+    <!-- METADATA PROVIDER -->
+    <servlet>
+        <servlet-name>MetadataPublisherServlet</servlet-name>
+        <servlet-class>it.cefriel.icar.inf3.web.servlet.MetadataPublisherServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>MetadataPublisherServlet</servlet-name>
+        <url-pattern>/MetadataPublisherServlet</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>MetadataPublisherServlet</servlet-name>
+        <url-pattern>/metadata</url-pattern>
+    </servlet-mapping>
+
+
+    <!-- ERROR PAGES -->
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/resources/error.jsp</location>
+    </error-page>
+
+    <error-page>
+        <exception-type>java.lang.RuntimeException</exception-type>
+        <location>/resources/error.jsp</location>
+    </error-page>
+
+
+    <!-- SECURITY CONTRAINTS-->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Protected Resources</web-resource-name>
+            <url-pattern>/resources/*</url-pattern>
+            <http-method>GET</http-method>
+            <http-method>POST</http-method>
+        </web-resource-collection>
+        <auth-constraint/>
+    </security-constraint>
+
+    <!--FEDERA FIX-->
+    <filter>
+        <filter-name>Federa CrossSession SAVE Authentication</filter-name>
+        <filter-class>it.kdm.docer.commons.sso.filter.CrossSessionSaveFederaBeanAuthentication</filter-class>
+    </filter>
+
+    <!-- ************************************************************ -->
+    <!-- ********************* REAL  FEDERA ************************* -->
+
+    <!--INFO UTENTE FEDERA-->
+    <!--scommentare per abilitare le informazioni sull'utenza federa-->
+    <!--
+    <filter-mapping>
+        <filter-name>INF-3 Authentication Filter</filter-name>
+        <url-pattern>/federaInfo/*</url-pattern>
+    </filter-mapping>
+    -->
+
+    <!--XFORMS-->
+    <!--scommentare questa riga se si vuole abilitare l'autenticazione federa sul frontend-->
+    <!--
+    <filter-mapping>
+        <filter-name>INF-3 Authentication Filter</filter-name>
+        <url-pattern>/XForms</url-pattern>
+    </filter-mapping>
+    -->
+
+    <!--Questa fix è necessaria per il corretto funzionamento di federa su docer.-->
+    <!--Ricordarsi che se si attiva questa fix bisogna fare lo stesso su xforms.-->
+
+    <!--Ricordarsi inoltre di abilitare il crossContext sull'application server.-->
+    <!--Nel caso di TOMCAT: andare in $THOME/conf/context.xml ed aggiungere:-->
+    <!--    crossContext="true" dentro il nodo root.             -->
+    <!--    es: <Context crossContext="true">...</Context>       -->
+    <!--
+    <filter-mapping>
+        <filter-name>Federa CrossSession SAVE Authentication</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    -->
+
+    <!-- ************************************************************ -->
+    <!-- ********************* FAKE FEDERA ************************** -->
+
+    <filter>
+        <filter-name>Federa Fake Authentication</filter-name>
+        <filter-class>it.kdm.docer.commons.sso.filter.FakeFederaAuthentication</filter-class>
+        <init-param>
+            <param-name>authBeanPath</param-name>
+            <param-value>/sso/filter/auth-bean.dump</param-value>
+        </init-param>
+        <init-param>
+            <param-name>configFile</param-name>
+            <param-value>/sso/filter/fake-federa-config.properties</param-value>
+        </init-param>
+    </filter>
+
+    <!--Questi filtri devono essere abilitati se si vuole SIMULARE Federa-->
+
+    <!--INFO UTENTE FEDERA-->
+    <!--scommentare per abilitare le informazioni sull'utenza federa-->
+    <!--<filter-mapping>
+        <filter-name>Federa Fake Authentication</filter-name>
+        <url-pattern>/federaInfo/*</url-pattern>
+    </filter-mapping>-->
+
+    <!--XFORMS-->
+    <!--scommentare questa riga se si vuole abilitare l'autenticazione federa sul frontend-->
+    <!--<filter-mapping>
+        <filter-name>Federa Fake Authentication</filter-name>
+        <url-pattern>/XForms</url-pattern>
+    </filter-mapping>-->
+
+
+    <!-- ************************************************************ -->
+    <!-- ********************* ORBEON ******************************* -->
+
+    <display-name>Orbeon Forms</display-name>
+    <description>
+        Orbeon Forms is an open source, standard-based web forms solution, which
+        includes Form Builder, a WYSIWYG browser-based authoring tool, and Form
+        Runner, a runtime environment which facilitates the deployment and
+        integration of a large number of complex forms. Orbeon Forms implements
+        different technologies, such as XForms and Ajax, with no need for
+        client-side software or plug-ins.
+    </description>
+    <!--Initialize main resource manager-->
+    <context-param>
+        <param-name>oxf.resources.factory</param-name>
+        <param-value>org.orbeon.oxf.resources.PriorityResourceManagerFactory</param-value>
+    </context-param>
+    <!-- Uncomment this for the filesystem resource manager (development mode) -->
+    <!--
+    <context-param>
+        <param-name>oxf.resources.priority.0</param-name>
+        <param-value>org.orbeon.oxf.resources.FilesystemResourceManagerFactory</param-value>
+    </context-param>
+    <context-param>
+        <param-name>oxf.resources.priority.0.oxf.resources.filesystem.sandbox-directory</param-name>
+        <param-value>/home/teamcity/TeamCity/buildAgent/work/da2a3a9789afdbe/src/resources-local</param-value>
+    </context-param>
+    <context-param>
+        <param-name>oxf.resources.priority.1</param-name>
+        <param-value>org.orbeon.oxf.resources.FilesystemResourceManagerFactory</param-value>
+    </context-param>
+    <context-param>
+        <param-name>oxf.resources.priority.1.oxf.resources.filesystem.sandbox-directory</param-name>
+        <param-value>/home/teamcity/TeamCity/buildAgent/work/da2a3a9789afdbe/src/test/resources</param-value>
+    </context-param>
+    <context-param>
+        <param-name>oxf.resources.priority.2</param-name>
+        <param-value>org.orbeon.oxf.resources.FilesystemResourceManagerFactory</param-value>
+    </context-param>
+    <context-param>
+        <param-name>oxf.resources.priority.2.oxf.resources.filesystem.sandbox-directory</param-name>
+        <param-value>/home/teamcity/TeamCity/buildAgent/work/da2a3a9789afdbe/src/resources</param-value>
+    </context-param>-->
+    <!-- End filesystem resource manager (development mode) -->
+    <!--Web application resource manager for resources-->
+    <context-param>
+        <param-name>oxf.resources.priority.3</param-name>
+        <param-value>org.orbeon.oxf.resources.WebAppResourceManagerFactory</param-value>
+    </context-param>
+    <context-param>
+        <param-name>oxf.resources.priority.3.oxf.resources.webapp.rootdir</param-name>
+        <param-value>/WEB-INF/resources</param-value>
+    </context-param>
+    <!-- Uncomment this for the filesystem resource manager (development mode) -->
+    <!--
+    <context-param>
+        <param-name>oxf.resources.priority.4</param-name>
+        <param-value>org.orbeon.oxf.resources.FilesystemResourceManagerFactory</param-value>
+    </context-param>
+    <context-param>
+        <param-name>oxf.resources.priority.4.oxf.resources.filesystem.sandbox-directory</param-name>
+        <param-value>/home/teamcity/TeamCity/buildAgent/work/da2a3a9789afdbe/src/resources-packaged</param-value>
+    </context-param>-->
+    <!-- End filesystem resource manager (development mode) -->
+    <!--Classloader resource manager-->
+    <context-param>
+        <param-name>oxf.resources.priority.5</param-name>
+        <param-value>org.orbeon.oxf.resources.ClassLoaderResourceManagerFactory</param-value>
+    </context-param>
+    <!--Set run mode ("dev" or "prod")-->
+    <context-param>
+        <param-name>oxf.run-mode</param-name>
+        <param-value>prod</param-value>
+    </context-param>
+    <!--Set location of properties.xml-->
+    <context-param>
+        <param-name>oxf.properties</param-name>
+        <param-value>oxf:/config/properties-${oxf.run-mode}.xml</param-value>
+    </context-param>
+    <!--Determine whether logging initialization must take place-->
+    <context-param>
+        <param-name>oxf.initialize-logging</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <!--Set context listener processors-->
+    <!-- Uncomment this for the context listener processors -->
+    <!--
+    <context-param>
+        <param-name>oxf.context-initialized-processor.name</param-name>
+        <param-value>{http://www.orbeon.com/oxf/processors}pipeline</param-value>
+    </context-param>
+    <context-param>
+        <param-name>oxf.context-initialized-processor.input.config</param-name>
+        <param-value>oxf:/apps/context/context-initialized.xpl</param-value>
+    </context-param>
+    <context-param>
+        <param-name>oxf.context-destroyed-processor.name</param-name>
+        <param-value>{http://www.orbeon.com/oxf/processors}pipeline</param-value>
+    </context-param>
+    <context-param>
+        <param-name>oxf.context-destroyed-processor.input.config</param-name>
+        <param-value>oxf:/apps/context/context-destroyed.xpl</param-value>
+    </context-param>-->
+    <!-- End context listener processors -->
+    <!--Set session listener processors-->
+    <!-- Uncomment this for the session listener processors -->
+    <!--
+    <context-param>
+        <param-name>oxf.session-created-processor.name</param-name>
+        <param-value>{http://www.orbeon.com/oxf/processors}pipeline</param-value>
+    </context-param>
+    <context-param>
+        <param-name>oxf.session-created-processor.input.config</param-name>
+        <param-value>oxf:/apps/context/session-created.xpl</param-value>
+    </context-param>
+    <context-param>
+        <param-name>oxf.session-destroyed-processor.name</param-name>
+        <param-value>{http://www.orbeon.com/oxf/processors}pipeline</param-value>
+    </context-param>
+    <context-param>
+        <param-name>oxf.session-destroyed-processor.input.config</param-name>
+        <param-value>oxf:/apps/context/session-destroyed.xpl</param-value>
+    </context-param>-->
+    <!-- End session listener processors -->
+    <!--All JSP files under /xforms-jsp go through the XForms filter-->
+    <filter>
+        <filter-name>orbeon-xforms-filter</filter-name>
+        <filter-class>org.orbeon.oxf.servlet.OrbeonXFormsFilter</filter-class>
+        <!-- Uncomment this for the separate WAR deployment -->
+        <!--
+    <init-param>
+        <param-name>oxf.xforms.renderer.context</param-name>
+        <param-value>/orbeon</param-value>
+    </init-param>
+    <init-param>
+        <param-name>oxf.xforms.renderer.default-encoding</param-name>
+        <param-value>UTF-8</param-value>
+    </init-param>-->
+        <!-- End separate WAR deployment -->
+    </filter>
+    <filter-mapping>
+        <filter-name>orbeon-xforms-filter</filter-name>
+        <url-pattern>/xforms-jsp/*</url-pattern>
+        <!--Servlet 2.4 configuration allowing the filter to run upon forward in addition to request-->
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+    <!-- Uncomment this for the eXist security filter -->
+    <filter>
+        <filter-name>orbeon-exist-filter</filter-name>
+        <filter-class>org.orbeon.oxf.servlet.TokenSecurityFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>orbeon-exist-filter</filter-name>
+        <url-pattern>/exist/*</url-pattern>
+        <!--Security filter for eXist-->
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+    <!-- End eXist security filter -->
+    <!--Orbeon context listener-->
+    <listener>
+        <listener-class>org.orbeon.oxf.webapp.OrbeonServletContextListener</listener-class>
+    </listener>
+    <!--Orbeon session listener-->
+    <listener>
+        <listener-class>org.orbeon.oxf.webapp.OrbeonSessionListener</listener-class>
+    </listener>
+    <!--Ehcache shutdown listener-->
+    <listener>
+        <listener-class>net.sf.ehcache.constructs.web.ShutdownListener</listener-class>
+    </listener>
+    <!--This is the main Orbeon Forms servlet-->
+    <servlet>
+        <servlet-name>orbeon-main-servlet</servlet-name>
+        <servlet-class>org.orbeon.oxf.servlet.OrbeonServlet</servlet-class>
+        <!--Set main processor-->
+        <init-param>
+            <param-name>oxf.main-processor.name</param-name>
+            <param-value>{http://www.orbeon.com/oxf/processors}pipeline</param-value>
+        </init-param>
+        <init-param>
+            <param-name>oxf.main-processor.input.config</param-name>
+            <param-value>oxf:/config/prologue-servlet.xpl</param-value>
+        </init-param>
+        <!--Set error processor-->
+        <init-param>
+            <param-name>oxf.error-processor.name</param-name>
+            <param-value>{http://www.orbeon.com/oxf/processors}page-flow</param-value>
+        </init-param>
+        <init-param>
+            <param-name>oxf.error-processor.input.controller</param-name>
+            <param-value>oxf:/config/error-page-flow.xml</param-value>
+        </init-param>
+        <!--Set supported methods-->
+        <init-param>
+            <param-name>oxf.http.accept-methods</param-name>
+            <param-value>get,post,head,put,delete</param-value>
+        </init-param>
+        <!--Set servlet initialization and destruction listeners-->
+        <!-- Uncomment this for the servlet listener processors -->
+        <!--
+    <init-param>
+        <param-name>oxf.servlet-initialized-processor.name</param-name>
+        <param-value>{http://www.orbeon.com/oxf/processors}pipeline</param-value>
+    </init-param>
+    <init-param>
+        <param-name>oxf.servlet-initialized-processor.input.config</param-name>
+        <param-value>oxf:/apps/context/servlet-initialized.xpl</param-value>
+    </init-param>
+    <init-param>
+        <param-name>oxf.servlet-destroyed-processor.name</param-name>
+        <param-value>{http://www.orbeon.com/oxf/processors}pipeline</param-value>
+    </init-param>
+    <init-param>
+        <param-name>oxf.servlet-destroyed-processor.input.config</param-name>
+        <param-value>oxf:/apps/context/servlet-destroyed.xpl</param-value>
+    </init-param>-->
+        <!-- End servlet listener processors -->
+    </servlet>
+    <!--This is the XForms Renderer servlet, used to deploy Orbeon Forms as a separate WAR-->
+    <servlet>
+        <servlet-name>orbeon-renderer-servlet</servlet-name>
+        <servlet-class>org.orbeon.oxf.servlet.OrbeonServlet</servlet-class>
+        <!--Set main processor-->
+        <init-param>
+            <param-name>oxf.main-processor.name</param-name>
+            <param-value>{http://www.orbeon.com/oxf/processors}page-flow</param-value>
+        </init-param>
+        <init-param>
+            <param-name>oxf.main-processor.input.controller</param-name>
+            <param-value>oxf:/ops/xforms/xforms-renderer-page-flow.xml</param-value>
+        </init-param>
+        <!--Set error processor-->
+        <init-param>
+            <param-name>oxf.error-processor.name</param-name>
+            <param-value>{http://www.orbeon.com/oxf/processors}pipeline</param-value>
+        </init-param>
+        <init-param>
+            <param-name>oxf.error-processor.input.config</param-name>
+            <param-value>oxf:/config/error.xpl</param-value>
+        </init-param>
+    </servlet>
+    <!-- Uncomment this for the Experimental MongoDB Form Runner persistence implementation -->
+    <!--
+    <servlet>
+        <servlet-name>form-runner-mongodb-servlet</servlet-name>
+        <servlet-class>org.orbeon.oxf.fr.mongodb.MongoDBPersistence</servlet-class>
+    </servlet>-->
+    <!-- End Experimental MongoDB Form Runner persistence implementation -->
+    <servlet>
+        <servlet-name>display-chart-servlet</servlet-name>
+        <servlet-class>org.jfree.chart.servlet.DisplayChart</servlet-class>
+    </servlet>
+    <!-- Uncomment this for the eXist XMLRPC support -->
+    <!--
+    <servlet>
+        <servlet-name>exist-xmlrpc-servlet</servlet-name>
+        <servlet-class>org.exist.xmlrpc.RpcServlet</servlet-class>
+    </servlet>-->
+    <!-- End eXist XMLRPC support -->
+    <servlet>
+        <servlet-name>exist-rest-servlet</servlet-name>
+        <servlet-class>org.exist.http.servlets.EXistServlet</servlet-class>
+        <init-param>
+            <param-name>basedir</param-name>
+            <param-value>WEB-INF/</param-value>
+        </init-param>
+        <init-param>
+            <param-name>configuration</param-name>
+            <param-value>exist-conf.xml</param-value>
+        </init-param>
+        <init-param>
+            <param-name>start</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </servlet>
+    <!-- Uncomment this for the eXist WebDAV support -->
+    <!--
+    <servlet>
+        <servlet-name>exist-webdav-servlet</servlet-name>
+        <servlet-class>org.exist.http.servlets.WebDAVServlet</servlet-class>
+        <init-param>
+            <param-name>authentication</param-name>
+            <param-value>basic</param-value>
+        </init-param>
+    </servlet>-->
+    <!-- End eXist WebDAV support -->
+    <servlet-mapping>
+        <servlet-name>orbeon-main-servlet</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>orbeon-renderer-servlet</servlet-name>
+        <url-pattern>/xforms-renderer</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>exist-rest-servlet</servlet-name>
+        <url-pattern>/exist/rest/*</url-pattern>
+    </servlet-mapping>
+    <!-- Uncomment this for the Experimental MongoDB Form Runner persistence implementation -->
+    <!--
+    <servlet-mapping>
+        <servlet-name>form-runner-mongodb-servlet</servlet-name>
+        <url-pattern>/fr/service/mongo/*</url-pattern>
+    </servlet-mapping>-->
+    <!-- End Experimental MongoDB Form Runner persistence implementation -->
+    <!-- Uncomment this for the eXist XMLRPC support -->
+    <!--
+    <servlet-mapping>
+        <servlet-name>exist-xmlrpc-servlet</servlet-name>
+        <url-pattern>/exist/xmlrpc</url-pattern>
+    </servlet-mapping>-->
+    <!-- End eXist XMLRPC support -->
+    <!-- Uncomment this for the eXist WebDAV support -->
+    <!--
+    <servlet-mapping>
+        <servlet-name>exist-webdav-servlet</servlet-name>
+        <url-pattern>/exist/webdav/*</url-pattern>
+    </servlet-mapping>-->
+    <!-- End eXist WebDAV support -->
+    <servlet-mapping>
+        <servlet-name>display-chart-servlet</servlet-name>
+        <url-pattern>/chartDisplay</url-pattern>
+    </servlet-mapping>
+    <!-- Uncomment this for the Form Runner authentication -->
+    <!--
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Form Runner pages</web-resource-name>
+            <url-pattern>/fr/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>orbeon-user</role-name>
+        </auth-constraint>
+    </security-constraint>
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Form Runner services and public pages and resources</web-resource-name>
+            <url-pattern>/fr/service/*</url-pattern>
+            <url-pattern>/fr/style/*</url-pattern>
+            <url-pattern>/fr/not-found</url-pattern>
+            <url-pattern>/fr/unauthorized</url-pattern>
+            <url-pattern>/fr/error</url-pattern>
+            <url-pattern>/fr/login</url-pattern>
+            <url-pattern>/fr/login-error</url-pattern>
+        </web-resource-collection>
+    </security-constraint>
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <form-login-config>
+            <form-login-page>/fr/login</form-login-page>
+            <form-error-page>/fr/login-error</form-error-page>
+        </form-login-config>
+    </login-config>
+    <security-role>
+        <role-name>orbeon-user</role-name>
+    </security-role>-->
+    <!-- End Form Runner authentication -->
+    <session-config>
+        <session-timeout>720</session-timeout>
+        <cookie-config>
+            <path>/</path>
+        </cookie-config>
+    </session-config>
+
+</web-app>

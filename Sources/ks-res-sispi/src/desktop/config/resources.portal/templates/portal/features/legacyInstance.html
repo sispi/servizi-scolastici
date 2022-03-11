@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" @view="portal/master-portale">
+    <head @ignore>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Gestione Istanza</title>
+    </head>
+    <body>
+        <script>
+            var username = '${$.userInfo.username}';
+        </script>
+        <script @server id="data-legacy-instance" @ftl-model="legacyInstance" type="application/json" src="/portale/v1/legacy-instances/{id}"></script>
+        <div id="app">
+            <App></App>
+        </div>
+        <script type="module" src="/static/portal/js/features/legacyInstance.js?no-cache"></script>
+    </body>
+</html>
+

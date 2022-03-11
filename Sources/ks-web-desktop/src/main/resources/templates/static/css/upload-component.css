@@ -1,0 +1,57 @@
+.file-wrapper {
+  text-align: center;
+  height: 4em;
+  vertical-align: middle;
+  position: relative;
+  overflow: hidden;
+  border: 1px dotted #b5b5b5;
+  border-radius: 8px;
+  font-size: 14px;
+  padding-top: 16px;
+  margin-right: 9px;
+}
+
+.file-wrapper input {
+    position: absolute;
+    top: 0;
+    right: 0; 
+    cursor: pointer;
+    opacity: 0.0;
+    filter: alpha(opacity=0); 
+    font-size: 300px;
+    height: 200px;
+}
+.file-wrapper:hover{
+    background-color: #e5e5e5;
+}
+.listaUpload{
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: -10px;
+}
+.radioUpload{
+    padding: 0px 6px 0px 6px;
+    margin-bottom: 10px;
+}
+
+
+input.disabled-radio {
+  pointer-events:none;
+  opacity:0.5;
+}
+
+.disabled-text {
+  opacity:0.5;
+}
+
+.mrg-dx{
+    margin-right: 20px;
+}
+
+.red{
+    color: red;
+}
+
+#btn-uploadFile{
+    margin-bottom: 15px; display: none;
+}

@@ -1,0 +1,10 @@
+ <esito>
+    <codice>0</codice>
+    <descrizione></descrizione>
+    <dati_registro>
+        <DataRegistrazione>2012-06-12T10:22:12.584+02:00</DataRegistrazione>
+        <NumeroRegistrazione>10</NumeroRegistrazione>
+        <OggettoRegistrazione>Oggetto1</OggettoRegistrazione>
+        <IDRegistro>registro1</IDRegistro>
+    </dati_registro>
+</esito>

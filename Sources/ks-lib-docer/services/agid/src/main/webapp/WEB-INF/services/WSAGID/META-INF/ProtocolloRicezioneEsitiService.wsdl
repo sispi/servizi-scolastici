@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="protocollo" targetNamespace="http://www.digitPa.gov.it/protocollo/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.digitPa.gov.it/protocollo/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.digitPa.gov.it/protocollo/">
+<xsd:include schemaLocation="Segnatura.xsd"> </xsd:include>
+<xsd:complexType name="ConfermaAggiornamentoType">
+<xsd:sequence>
+<xsd:element ref="tns:AggiornamentoConferma"/>
+<xsd:element maxOccurs="1" minOccurs="0" name="DocumentoAggiornato" type="xsd:base64Binary"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:element name="ConfermaAggiornamento" type="tns:ConfermaAggiornamentoType"/>
+<xsd:complexType name="NotificaType">
+<xsd:choice>
+<xsd:element ref="tns:ConfermaRicezione"/>
+<xsd:element ref="tns:ConfermaAggiornamento"/>
+<xsd:element ref="tns:NotificaEccezione"/>
+<xsd:element ref="tns:AnnullamentoProtocollazione"/>
+</xsd:choice>
+</xsd:complexType>
+Agenzia per l’Italia Digitale
+ Agenzia per l’Italia Digitale 62
+<xsd:complexType name="SegnaturaEnvelopeType">
+<xsd:sequence>
+<xsd:element ref="tns:Segnatura"/>
+</xsd:sequence>
+</xsd:complexType>
+<xsd:simpleType name="esitoType">
+<xsd:restriction base="xsd:string">
+<xsd:enumeration value="OK"/>
+<xsd:enumeration value="KO"/>
+</xsd:restriction>
+</xsd:simpleType>
+<xsd:element name="EsitoConsegna" type="tns:esitoType"/>
+<xsd:element name="Notifica" type="tns:NotificaType"/>
+<xsd:element name="SegnaturaEnvelope" type="tns:SegnaturaEnvelopeType"/>
+</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="MessaggioProtocollato">
+    <wsdl:part name="Segnatura" element="tns:SegnaturaEnvelope">
+    </wsdl:part>
+    <wsdl:part name="Allegati" type="xsd:base64Binary">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="Notifica">
+    <wsdl:part name="Notifica" element="tns:Notifica">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="EsitoConsegna">
+    <wsdl:part name="EsitoConsegna" element="tns:EsitoConsegna">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ProtocolloRicezioneEsiti">
+    <wsdl:operation name="RicezioneEsiti">
+      <wsdl:input message="tns:Notifica">
+    </wsdl:input>
+      <wsdl:output message="tns:EsitoConsegna">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="Protocollo">
+    <wsdl:operation name="Consegna">
+      <wsdl:input message="tns:MessaggioProtocollato">
+    </wsdl:input>
+      <wsdl:output message="tns:EsitoConsegna">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ProtocolloRicezioneEsitiBinding" type="tns:ProtocolloRicezioneEsiti">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="RicezioneEsiti">
+      <soap:operation soapAction="http://www.digitPa.gov.it/protocollo/RicezioneEsiti"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="protocolloBinding" type="tns:Protocollo">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="Consegna">
+      <soap:operation soapAction="http://www.digitPa.gov.it/protocollo/Consegna"/>
+      <wsdl:input>
+        <mime:multipartRelated>
+          <mime:part>
+            <soap:body parts="Segnatura" use="literal"/>
+          </mime:part>
+          <mime:part>
+            <mime:content part="Allegati" type="application/zip"/>
+          </mime:part>
+        </mime:multipartRelated>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ProtocolloRicezioneEsitiService">
+    <wsdl:port name="ProtocolloRicezioneEsitiService" binding="tns:ProtocolloRicezioneEsitiBinding">
+      <soap:address location="http://servizioProtocolloRicezioneEsiti.nomeAmministrazione.gov.it/"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

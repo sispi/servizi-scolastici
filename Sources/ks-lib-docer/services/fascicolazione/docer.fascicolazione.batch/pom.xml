@@ -1,0 +1,88 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>it.kdm.docer</groupId>
+		<artifactId>docer.services.fascicolazione</artifactId>
+		<version>Docer-2.4.6.1</version>
+	</parent>
+	<artifactId>docer.services.fascicolazione.batch</artifactId>
+
+    <build>
+        <finalName>batch-load-fascicoli</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>1.7.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/spring.handlers</resource>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                    <resource>META-INF/spring.schemas</resource>
+                                </transformer>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>it.kdm.docer.fascicolazione.batch.Main</mainClass>
+                                </transformer>
+                            </transformers>
+                            <filters>
+                                <filter>
+                                    <artifact>*:*</artifact>
+                                    <excludes>
+                                        <exclude>META-INF/*.SF</exclude>
+                                        <exclude>META-INF/*.DSA</exclude>
+                                        <exclude>META-INF/*.RSA</exclude>
+                                    </excludes>
+                                </filter>
+                            </filters>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <dependencies>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.37</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
+
+        <dependency>
+            <groupId>it.kdm.docer</groupId>
+            <artifactId>docer.services.wsdocer.BusinessLogic</artifactId>
+            <version>Docer-2.4.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>it.kdm.docer</groupId>
+            <artifactId>docer.commons.wsclients</artifactId>
+            <version>Docer-2.4.6.1</version>
+        </dependency>
+		<dependency>
+			<groupId>it.kdm.docer</groupId>
+			<artifactId>docer.services.wsdocer.provider.solr-4.10.3</artifactId>
+			<version>Docer-2.4.6.1</version>
+		</dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>docer.services.wsdocer.provider.solr-6.6.5</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+	</dependencies>
+
+</project>

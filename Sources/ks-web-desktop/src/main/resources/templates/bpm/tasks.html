@@ -1,0 +1,118 @@
+<head>
+    <title>tasks</title>
+</head>
+
+<body>
+<script @ignore @server @server-model="tasks" src="/bpm/v1/tasks?expiration=${ ((query.expiration!'')=='in scadenza')?string('1d', ( (query.expiration!'')=='scadute')?string('-1s','') ) }&status={status}&processId={processId}&assignedAs={assignedAs}&fetch=instance,rootInstance,assignments&orderBy=startTs:desc&pageSize=10&pageNumber={pageNumber}" type="application/json" ></script>
+
+<script @server id="model-tasks" type="javascript">
+
+    for( x in tasks.data ){
+        tasks.data[x].assignments.actualOwner = $.format(tasks.data[x].assignments.actualOwner);
+        tasks.data[x].assignments.potentialOwners = $.format( tasks.data[x].assignments.potentialOwners );
+    }
+    tasks;
+</script>
+
+<script @server id="model-configurations" src="/bpm/v1/configurations" type="application/json" ></script>
+
+<style>
+    .facets {
+        width: 30%;
+        display: inline-block;
+        vertical-align: bottom;
+    }
+    .combos {
+        width: 69%;
+        display: inline-block;
+        vertical-align: bottom;
+    }
+    .combos .dropdown-menu {
+        width: 200px;
+    }
+    .combo {
+        min-width: 200px;
+    }
+</style>
+
+<div id="app" class="" >
+    <h2>{{model.title}}</h2>
+    <!--<report-buttons style="float:right" :model="model"></report-buttons>-->
+    <results-stats style="position:absolute;right:15px" :tot-results="model.totResults" :elapsed="model.elapsed" ></results-stats>
+
+    <facets class="col-12" :model="model" page-field="pageNumber"></facets>
+
+    <!--<facets :model="model" page-field="pageNumber"></facets>-->
+    <report-table :model="model" ></report-table>
+    <pager style="text-align: center"  :tot-page="model.totPage" :page-number="model.pageNumber" ></pager>
+</div>
+
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: function() {
+            var model = bpmdata("model-tasks");
+            var configurations = bpmdata("model-configurations");
+
+            var processIds = {};
+
+            for (x in configurations.data ){
+                processIds[configurations.data[x].deployment.processId] = null;
+            }
+
+            //Created, Ready, Reserved, InProgress, Suspended, Completed, Failed, Error, Exited, Obsolete
+
+            model.counts = {
+                assignedAs : {
+                    ActualOwner : null,
+                    PotentialOwner : null,
+                    TaskStakeholder : null
+                },
+                status : {
+                    Ready : null,
+                    InProgress : null,
+                    Completed : null
+                },
+                expiration : {
+                    "in scadenza" : null,
+                    "scadute" : null
+                },
+                processId : processIds
+            }
+            model.combos = {processId:false,assignedAs:false,expiration:false};
+            model.facets = ["status"];
+
+            for( x in model.data){
+                var task = model.data[x];
+
+                if (task.rootInstance){
+                    task.instanceId = task.instance.id;
+                    task.instanceName = task.instance.businessName;
+                    task.rootInstanceId = task.rootInstance.id;
+                    task.rootInstanceName = task.rootInstance.businessName;
+                } else {
+                    task.rootInstanceId = task.instance.id;
+                    task.rootInstanceName = task.instance.businessName;
+                }
+                task.actualOwner = task.assignments.actualOwner;
+                task.potentialOwners = task.assignments.potentialOwners;
+            }
+
+            model.columns = "id,name,subject,instanceName,rootInstanceName,status,startTs,expireTs,endTs,potentialOwners,actualOwner".split(',');
+
+            model.params["column.name.href"] = "/~task?id={id}";
+            model.params["column.instanceName.href"] = "/~instance?id={instanceId}";
+            model.params["column.rootInstanceName.href"] = "/~instance?id={rootInstanceId}";
+
+            //model.columns.push("crea");
+            //model.params["column.crea.href"] = "home/bpm/instances?id={id}";
+            //model.params["column.crea.label"] = " ";
+
+            return {
+                model:model
+            }
+        }
+    });
+</script>
+</body>
+

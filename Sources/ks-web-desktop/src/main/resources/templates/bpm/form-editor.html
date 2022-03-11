@@ -1,0 +1,324 @@
+<script src="https://unpkg.com/sortablejs@1.4.2"></script>
+<link rel="stylesheet" href="/static/js/components/renderer.css?no-cache"  >
+<script type="text/javascript" src="/static/js/components/renderer.js?no-cache" ></script>
+
+<link rel="stylesheet" href="/static/js/components/ks-section.css?no-cache"  >
+<script type="text/javascript" src="/static/js/components/ks-section.js?no-cache" ></script>
+
+<script id="options" @server type="text/x-template" src="/bpm/renderer?form=editor" ></script>
+
+<div id="editor1">
+
+    <div class="container-fluid">
+
+        <div class="row">
+
+        <div class="col-12">
+            <nav class="tabs row">
+                <div :key="tick" class="nav nav-tabs col-auto" id="nav-tab" role="tablist"
+                     v-sortable="{group:'tabs',draggable: '.nav-tab',handle:'.nav-link', onUpdate: onReorderTabs}"
+                >
+                    <a v-for="($tab,$index) in form.tabs" :class="{ active : $index==tab }" class="text-center nav-tab nav-item nav-link " data-toggle="tab" :href="'#tab'+$index" role="tab" >
+                        <span @click="tab = $index" >{{$tab.title||'no title'}}</span>
+                        <i class="bi bi-pencil tb-icon" style="cursor:pointer;" @click="edittab($index)" ></i>
+                        <i class="bi bi-x-circle-fill text-danger tb-icon" @click="removetab($index)" ></i>
+                    </a>
+
+                    <b role="button" class="m-2 bi bi-plus-circle-fill text-info tb-icon" @click="newtab()">&nbsp;Add tab</b>
+                </div>
+            </nav>
+
+            <div class="tab-content">
+
+                <div v-for="($tab,$tabindex) in form.tabs"
+                     class="tab-pane fade"
+                     :class="{ show : $tabindex==tab , active : $tabindex==tab }"
+                     role="tabpanel" :id="'tab'+$tabindex"
+
+                     v-sortable="{group:'sections',draggable: '.section',handle:'.bi-arrows-move', onUpdate: onReorder}"
+                      >
+
+                        <div class="section" v-if="form.tabs[tab].sections" v-for="(section,$section) in (form.tabs[tab]).sections">
+
+                            <span class="row">
+                                <span  class="row col-12">
+                                    <i class="bi bi-arrows-move tb-icon" style="cursor: move"></i>
+                                    <span class="font-weight-bold mx-2" style="font-size: 20px">{{ (section.header||{}).title||('no title')}}</span>
+                                    <i class="bi bi-pencil tb-icon" style="cursor:pointer;cursor:pointer;" @click="editsection($section)" ></i>
+                                    <i style="cursor:pointer;" class="bi bi-x-circle-fill text-danger tb-icon" @click="removesection($section)" ></i>
+                                </span>
+                            </span>
+
+                            <ks-section :tab-index="tab" :key="tick" :section-index="$section" :ref="'sec'+tab+'-'+$section" :selected="selected == 'sec'+tab+'-'+$section" @select="selected = 'sec'+tab+'-'+$section;" :id="'sec'+tab+'-'+$section" :schema="schema" :form="form" ></ks-section>
+
+                        </div>
+                        <div class="row">
+                            <b role="button" class="bi bi-plus-circle-fill text-info tb-icon" @click="newsection()">&nbsp;Add section</b>
+                        </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-3">
+            <ul id="toolbar" v-sortable="{ sort:false, group: {name:'list',pull:'clone',put:false,handle: '.bi-arrows-move' } }">
+                <li :data-tool="tool" class="list-group-item" v-for="tool in toolbar">
+                    <i @dblclick="addcontrol(tool)" class="bi bi-arrows-move tb-icon" style="cursor: move"></i>
+                    &nbsp;<span disabled style="display: inline-block;" >{{tool}}</span>
+                </li>
+            </ul>
+        </div>
+
+        </div>
+    </div>
+
+    <simplemodal ref="confirm" buttons="ok|close">
+        <span>sei sicuro?</span>
+    </simplemodal>
+
+    <simplemodal ref="tab" title="tab" buttons="ok">
+        <div v-if="current && current.sections"  >
+            <span  class="form-group">
+                <label>title</label>
+                <input class="form-control" v-model="current.title" type="text" />
+            </span>
+            <span  class="form-group">
+                <span class="form-check">
+                    <input class="form-check-input" v-model="current.sticky" type="checkbox" />
+                    <label class="form-check-label" >sticky</label>
+                </span>
+            </span>
+        </div>
+    </simplemodal>
+
+    <simplemodal ref="section" title="section" buttons="ok">
+        <div v-if="current && current.elements"  >
+            <span  class="form-group">
+                <label>title</label>
+                <input class="form-control" v-model="current.header.title" type="text" />
+            </span>
+            <span  class="form-group">
+                <span class="form-check">
+                    <input class="form-check-input" v-model="current.header.collapsible" type="checkbox" />
+                    <label class="form-check-label" >collapsible</label>
+                </span>
+            </span>
+            <span  class="form-group">
+                <label>input</label>
+                <select2 class="form-control" allow-clear = "true" v-model="current.input" minimum-input-length="0" >
+                    <option v-for="option in getSectionInputs(current)" :value="option.id">{{option.text}}</option>
+                </select2>
+            </span>
+            <span  class="form-group">
+                <label>output</label>
+                <select2 class="form-control" allow-clear = "true" v-model="current.output" minimum-input-length="0" >
+                    <option v-for="option in getSectionOutputs(current)" value="option.id">{{option.text}}</option>
+                </select2>
+            </span>
+            <span  class="form-group">
+                <label>class</label>
+                <input class="form-control" v-model="current.class" type="text" />
+            </span>
+            <span  class="form-group">
+                <label>repeatable</label>
+                <select class="form-control" v-model="current.type">
+                    <option value="single" >single</option>
+                    <option value="multiple">multiple</option>
+                    <option value="repeatable">repeatable</option>
+                </select>
+            </span>
+            <fieldset :disabled="current.type!='repeatable'" class="row">
+                <span  class="form-group col-6">
+                    <label>addLabel</label>
+                    <input class="form-control" v-model="current.repeatable.addLabel" type="text" />
+                </span>
+                <span  class="form-group col-3">
+                    <label>min</label>
+                    <input class="form-control" v-model="current.repeatable.min" type="number" />
+                </span>
+                <span  class="form-group col-3">
+                    <label>max</label>
+                    <input class="form-control" v-model="current.repeatable.max" type="number" />
+                </span>
+            </fieldset>
+
+        </div>
+    </simplemodal>
+
+</div>
+
+<script>
+
+
+Vue.directive('sortable', function (el, binding) {
+    new Sortable(el, binding.value || {});
+});
+
+var editor = new Vue({
+
+    el: "#editor1",
+    data: {
+        tick: 0,
+        form: { tabs : [] },
+        tab: 0,
+        selected: 0,
+        current: null,
+        schema: {
+            input : {
+                    pinEnum: {
+                        enum: ['a','b','c']
+                    },
+
+                    pinStr: {
+                        type: "string"
+                    },
+                    pinNum: {
+                        type: "number"
+                    },
+                    pinArr: {
+                        type: "array",
+                        items: {
+                            type: "string"
+                        }
+                    },
+                    pinObj : {
+                        type : "object",
+                        properties : {
+                            prop1 : {
+                                type : "number"
+                            }
+                        }
+                    },
+                    pinColl : {
+                        type : "array",
+                        items : {
+                            type: "object",
+                            properties: {
+                                prop1: {
+                                    type: "number"
+                                }
+                            }
+                        }
+                    }
+
+            },
+            output : {
+
+            }
+
+        }
+    },
+    mounted: function() {
+        this.newtab();
+        this.selected = 'sec0-0';
+    },
+
+    methods: {
+
+        getSectionInputs: function(context) {
+            var r = this.$refs['sec'+context.tabIndex+'-'+context.sectionIndex][0];
+            var hints = r.getPaths(this.schema.input,"",context.type=="repeatable",["object"]);
+
+            hints.push({id:"-",text:"(---- altri ----)"});
+            hints = hints.concat(r.getPaths(this.schema.input,"",context.type!="repeatable",["object"]));
+
+            return hints;
+
+        },
+        getSectionOutputs: function(context) {
+            var r = this.$refs['sec'+context.tabIndex+'-'+context.sectionIndex][0];
+            var hints = r.getPaths(this.schema.output,"",context.type=="repeatable",["object"]);
+
+            hints.push({id:"-",text:"(---- altri ----)"});
+            hints = hints.concat(r.getPaths(this.schema.output,"",context.type!="repeatable",["object"]));
+            return hints;
+        },
+
+        newsection: function(idx) {
+            var n = {
+                input: "",
+                output: "",
+                class: "",
+                header: {
+                    title: "",
+                    collapsible: false
+                },
+                type : "single",
+                repeatable: {
+                    addLabel: "",
+                    min: 0,
+                    max: null
+                },
+                elements: []
+            };
+            this.form.tabs[idx??this.tab].sections.push(n);
+        },
+
+        editsection: function(section) {
+            var item = this.form.tabs[this.tab].sections[section];
+            this.current = JSON.parse(JSON.stringify(item));
+            this.current.tabIndex = this.tab;
+            this.current.sectionIndex = section;
+            var self = this;
+            var ok = function() {
+                self.form.tabs[self.tab].sections[section] = self.current;
+                self.$forceUpdate();
+            }
+
+            this.$refs.section.show(ok);
+        },
+
+        removesection: function(section) {
+            var self = this;
+            this.section = null;
+            this.$refs.confirm.show( () => self.form.tabs[self.tab].sections.splice(section,1) );
+        },
+
+        newtab: function() {
+            var n = {
+                title: "New tab",
+                sticky : true,
+                sections : []
+            };
+            this.form.tabs.push(n);
+            this.newsection(this.form.tabs.length-1);
+        },
+
+        edittab: function(tab) {
+            var item = this.form.tabs[tab];
+            this.current = JSON.parse(JSON.stringify(item));
+            var self = this;
+            var ok = function() {
+                self.form.tabs[tab] = self.current;
+                self.$forceUpdate();
+            }
+
+            this.$refs.tab.show(ok);
+        },
+
+        removetab: function(tab){
+            if (this.form.tabs.length<=1)
+                return;
+            var self = this;
+            var next = this.tab;
+            if (this.tab==tab && tab!=0)
+                next--;
+            this.$refs.confirm.show( () => { self.tab = next; self.form.tabs.splice(tab,1); } );
+        },
+
+        onReorder: function (event) {
+            this.form.tabs[this.tab].sections.splice(event.newIndex, 0, this.form.tabs[this.tab].sections.splice(event.oldIndex, 1)[0]);
+            this.tick++;
+        },
+
+        onReorderTabs: function (event) {
+            this.form.tabs.splice(event.newIndex, 0, this.form.tabs.splice(event.oldIndex, 1)[0]);
+            this.tick++;
+        }
+
+    }
+});
+
+</script>
+
+

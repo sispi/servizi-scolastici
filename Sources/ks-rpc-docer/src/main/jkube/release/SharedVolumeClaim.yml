@@ -1,0 +1,11 @@
+kind: PersistentVolumeClaim
+metadata:
+    name: shared-${deployment.id}
+    labels:
+        application: ${deployment.id}
+spec:
+    resources:
+        requests:
+            storage: 1Gi
+    accessModes:
+        - ReadWriteMany

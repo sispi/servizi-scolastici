@@ -1,0 +1,786 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Please Type your service description here",
+    "title": "AuthenticationService"
+  },
+  "host": "192.168.0.9:8080",
+  "basePath": "/docersystem/services/AuthenticationService.AuthenticationServiceHttpSoap11Endpoint/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "#loginSSO": {
+      "post": {
+        "tags": [
+          "SOAP11",
+          "SOAP"
+        ],
+        "summary": "loginSSO",
+        "consumes": [
+          "text/xml; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "schema": {
+              "properties": {
+                "saml": {
+                  "type": "string",
+                  "title": "saml"
+                },
+                "codiceEnte": {
+                  "type": "string",
+                  "title": "codiceEnte"
+                },
+                "application": {
+                  "type": "string",
+                  "title": "application"
+                }
+              },
+              "title": "parameters",
+              "xml": {
+                "name": "loginSSO",
+                "namespace": "http://authentication.core.docer.kdm.it",
+                "prefix": ""
+              },
+              "x-namespaces": "xmlns:soapEnv=http://schemas.xmlsoap.org/soap/envelope/"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "title": "parameters",
+              "properties": {
+                "return": {
+                  "type": "string",
+                  "title": "return"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Soap Generic Fault",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "faultcode": {
+                  "type": "string"
+                },
+                "faultstring": {
+                  "type": "string"
+                },
+                "faultfactor": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "510": {
+            "description": "AuthenticationServiceException: { Message : string }",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "faultcode": {
+                  "type": "string"
+                },
+                "faultstring": {
+                  "type": "string"
+                },
+                "faultfactor": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "object",
+                  "title": "AuthenticationServiceException",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "title": "Message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "#loginOnDemand": {
+      "post": {
+        "tags": [
+          "SOAP11",
+          "SOAP"
+        ],
+        "summary": "loginOnDemand",
+        "consumes": [
+          "text/xml; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "schema": {
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "title": "token"
+                },
+                "serviceName": {
+                  "type": "string",
+                  "title": "serviceName"
+                },
+                "serviceUrl": {
+                  "type": "string",
+                  "title": "serviceUrl"
+                }
+              },
+              "title": "parameters",
+              "xml": {
+                "name": "loginOnDemand",
+                "namespace": "http://authentication.core.docer.kdm.it",
+                "prefix": ""
+              },
+              "x-namespaces": "xmlns:soapEnv=http://schemas.xmlsoap.org/soap/envelope/"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "title": "parameters",
+              "properties": {
+                "return": {
+                  "type": "string",
+                  "title": "return"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Soap Generic Fault",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "faultcode": {
+                  "type": "string"
+                },
+                "faultstring": {
+                  "type": "string"
+                },
+                "faultfactor": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "510": {
+            "description": "AuthenticationServiceException: { Message : string }",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "faultcode": {
+                  "type": "string"
+                },
+                "faultstring": {
+                  "type": "string"
+                },
+                "faultfactor": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "object",
+                  "title": "AuthenticationServiceException",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "title": "Message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "#logout": {
+      "post": {
+        "tags": [
+          "SOAP11",
+          "SOAP"
+        ],
+        "summary": "logout",
+        "consumes": [
+          "text/xml; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "schema": {
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "title": "token"
+                }
+              },
+              "title": "parameters",
+              "xml": {
+                "name": "logout",
+                "namespace": "http://authentication.core.docer.kdm.it",
+                "prefix": ""
+              },
+              "x-namespaces": "xmlns:soapEnv=http://schemas.xmlsoap.org/soap/envelope/"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "title": "parameters",
+              "properties": {
+                "return": {
+                  "type": "boolean",
+                  "title": "return"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Soap Generic Fault",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "faultcode": {
+                  "type": "string"
+                },
+                "faultstring": {
+                  "type": "string"
+                },
+                "faultfactor": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "510": {
+            "description": "AuthenticationServiceException: { Message : string }",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "faultcode": {
+                  "type": "string"
+                },
+                "faultstring": {
+                  "type": "string"
+                },
+                "faultfactor": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "object",
+                  "title": "AuthenticationServiceException",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "title": "Message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "#login": {
+      "post": {
+        "tags": [
+          "SOAP11",
+          "SOAP"
+        ],
+        "summary": "login",
+        "consumes": [
+          "text/xml; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "schema": {
+              "properties": {
+                "username": {
+                  "type": "string",
+                  "title": "username"
+                },
+                "password": {
+                  "type": "string",
+                  "title": "password"
+                },
+                "codiceEnte": {
+                  "type": "string",
+                  "title": "codiceEnte"
+                },
+                "application": {
+                  "type": "string",
+                  "title": "application"
+                }
+              },
+              "title": "parameters",
+              "xml": {
+                "name": "login",
+                "namespace": "http://authentication.core.docer.kdm.it",
+                "prefix": ""
+              },
+              "x-namespaces": "xmlns:soapEnv=http://schemas.xmlsoap.org/soap/envelope/"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "title": "parameters",
+              "properties": {
+                "return": {
+                  "type": "string",
+                  "title": "return"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Soap Generic Fault",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "faultcode": {
+                  "type": "string"
+                },
+                "faultstring": {
+                  "type": "string"
+                },
+                "faultfactor": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "510": {
+            "description": "AuthenticationServiceException: { Message : string }",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "faultcode": {
+                  "type": "string"
+                },
+                "faultstring": {
+                  "type": "string"
+                },
+                "faultfactor": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "object",
+                  "title": "AuthenticationServiceException",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "title": "Message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "#getUserInfo": {
+      "post": {
+        "tags": [
+          "SOAP11",
+          "SOAP"
+        ],
+        "summary": "getUserInfo",
+        "consumes": [
+          "text/xml; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "schema": {
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "title": "token"
+                }
+              },
+              "title": "parameters",
+              "xml": {
+                "name": "getUserInfo",
+                "namespace": "http://authentication.core.docer.kdm.it",
+                "prefix": ""
+              },
+              "x-namespaces": "xmlns:soapEnv=http://schemas.xmlsoap.org/soap/envelope/"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "title": "parameters",
+              "properties": {
+                "return": {
+                  "type": "array",
+                  "format": "object",
+                  "title": "return",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "key": {
+                        "type": "string",
+                        "title": "key"
+                      },
+                      "value": {
+                        "type": "string",
+                        "title": "value"
+                      }
+                    }
+                  },
+                  "maxItems": -1,
+                  "minItems": 0
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Soap Generic Fault",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "faultcode": {
+                  "type": "string"
+                },
+                "faultstring": {
+                  "type": "string"
+                },
+                "faultfactor": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "510": {
+            "description": "AuthenticationServiceException: { Message : string }",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "faultcode": {
+                  "type": "string"
+                },
+                "faultstring": {
+                  "type": "string"
+                },
+                "faultfactor": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "object",
+                  "title": "AuthenticationServiceException",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "title": "Message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "#getEnteDescription": {
+      "post": {
+        "tags": [
+          "SOAP11",
+          "SOAP"
+        ],
+        "summary": "getEnteDescription",
+        "consumes": [
+          "text/xml; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "schema": {
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "title": "token"
+                }
+              },
+              "title": "parameters",
+              "xml": {
+                "name": "getEnteDescription",
+                "namespace": "http://authentication.core.docer.kdm.it",
+                "prefix": ""
+              },
+              "x-namespaces": "xmlns:soapEnv=http://schemas.xmlsoap.org/soap/envelope/"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "title": "parameters",
+              "properties": {
+                "return": {
+                  "type": "string",
+                  "title": "return"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Soap Generic Fault",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "faultcode": {
+                  "type": "string"
+                },
+                "faultstring": {
+                  "type": "string"
+                },
+                "faultfactor": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "510": {
+            "description": "AuthenticationServiceException: { Message : string }",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "faultcode": {
+                  "type": "string"
+                },
+                "faultstring": {
+                  "type": "string"
+                },
+                "faultfactor": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "object",
+                  "title": "AuthenticationServiceException",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "title": "Message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "#verifyToken": {
+      "post": {
+        "tags": [
+          "SOAP11",
+          "SOAP"
+        ],
+        "summary": "verifyToken",
+        "consumes": [
+          "text/xml; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "schema": {
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "title": "token"
+                }
+              },
+              "title": "parameters",
+              "xml": {
+                "name": "verifyToken",
+                "namespace": "http://authentication.core.docer.kdm.it",
+                "prefix": ""
+              },
+              "x-namespaces": "xmlns:soapEnv=http://schemas.xmlsoap.org/soap/envelope/"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "title": "parameters",
+              "properties": {
+                "return": {
+                  "type": "boolean",
+                  "title": "return"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Soap Generic Fault",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "faultcode": {
+                  "type": "string"
+                },
+                "faultstring": {
+                  "type": "string"
+                },
+                "faultfactor": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "510": {
+            "description": "AuthenticationServiceException: { Message : string }",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "faultcode": {
+                  "type": "string"
+                },
+                "faultstring": {
+                  "type": "string"
+                },
+                "faultfactor": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "object",
+                  "title": "AuthenticationServiceException",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "title": "Message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "#getRealUser": {
+      "post": {
+        "tags": [
+          "SOAP11",
+          "SOAP"
+        ],
+        "summary": "getRealUser",
+        "consumes": [
+          "text/xml; charset=utf-8"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "required": false,
+            "schema": {
+              "properties": {
+                "saml": {
+                  "type": "string",
+                  "title": "saml"
+                }
+              },
+              "title": "parameters",
+              "xml": {
+                "name": "getRealUser",
+                "namespace": "http://authentication.core.docer.kdm.it",
+                "prefix": ""
+              },
+              "x-namespaces": "xmlns:soapEnv=http://schemas.xmlsoap.org/soap/envelope/"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "schema": {
+              "type": "object",
+              "title": "parameters",
+              "properties": {
+                "return": {
+                  "type": "string",
+                  "title": "return"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Soap Generic Fault",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "faultcode": {
+                  "type": "string"
+                },
+                "faultstring": {
+                  "type": "string"
+                },
+                "faultfactor": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "510": {
+            "description": "AuthenticationServiceException: { Message : string }",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "faultcode": {
+                  "type": "string"
+                },
+                "faultstring": {
+                  "type": "string"
+                },
+                "faultfactor": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "object",
+                  "title": "AuthenticationServiceException",
+                  "properties": {
+                    "Message": {
+                      "type": "string",
+                      "title": "Message"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

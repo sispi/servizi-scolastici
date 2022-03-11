@@ -1,0 +1,24 @@
+
+ul.token-input-list-facebook{
+	width: 100%;
+	border: 1px solid #cccccc !important;
+}
+
+ul.token-input-list-facebook li input {
+	width: 100%;
+	padding: 5px 8px;
+}
+
+#token-input-classificaField{
+	width: 100% !important;
+}
+
+li.token-input-input-token-facebook{
+	width: 100% !important;
+}
+
+li.token-input-token-facebook{
+	margin: 2px;
+    padding: 5px 3px;
+}
+

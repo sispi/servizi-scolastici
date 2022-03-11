@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns="http://www.regione.emilia-romagna.it/rer-import/docer/"
+	xmlns:rer="http://www.regione.emilia-romagna.it/rer-import/" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://www.regione.emilia-romagna.it/rer-import/docer/"
+	targetNamespace="http://www.regione.emilia-romagna.it/rer-import/docer/">
+	<xs:element name="rer-import-docer">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="importHeader" type="import-header" />
+				<xs:element name="importBody">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="notification" minOccurs="1"
+								maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:choice>
+										<xs:element name="saveOrUpdate">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="record">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="commonFields" type="commonFields" />
+																<xs:element name="EntitaDocumentale">
+																	<xs:complexType>
+																		<xs:choice>
+																			<xs:element name="Fascicolo" type="Fascicolo" />
+																			<xs:element name="Documento" type="Documento" />
+																		</xs:choice>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+															<xs:attribute name="uid" use="required"
+																type="xs:ID" />
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="delete">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="record">
+														<xs:complexType>
+															<xs:attribute name="uid" use="required"
+																type="xs:ID" />
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:choice>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:complexType name="Fascicolo">
+		<xs:sequence>
+			<xs:element name="numero" type="stringNotEmpty" />
+			<xs:element name="classifica" type="stringNotEmpty" />
+			<xs:element name="anno" type="xs:integer" />
+			<xs:element name="progressivo" type="stringNotEmpty" />
+			<xs:element name="areaOrganizzativaOmogenea">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="codice" type="stringNotEmpty" />
+						<xs:element name="denominazione" type="stringNotEmpty" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="stato">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="stringNotEmpty">
+							<xs:attribute name="statoAttivo" type="xs:boolean"
+								use="required" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="dataApertura" type="xs:date" minOccurs="0" />
+			<xs:element name="dataChiusura" type="xs:date" minOccurs="0" />
+			<xs:element name="identificativoProcedimento" type="stringNotEmpty"
+				minOccurs="0" />
+			<xs:element name="idFascicoloPadre" type="xs:NCName"
+				minOccurs="0" />
+
+			<xs:element name="custom_fields" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="custom_field" minOccurs="1"
+							maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="key" type="stringNotEmpty" />
+									<xs:element name="value" type="stringNotEmpty" />
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Documento">
+		<xs:sequence>
+			<xs:element name="numero" type="stringNotEmpty" />
+			<xs:element name="classifica" type="stringNotEmpty"
+				minOccurs="0" />
+			<xs:element name="tipologiaDocumentaria">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="codice" type="stringNotEmpty" />
+						<xs:element name="denominazione" type="stringNotEmpty" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="idFascicolo" type="xs:NCName" minOccurs="0" />
+			<xs:element name="stato">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="stringNotEmpty">
+							<xs:attribute name="statoAttivo" type="xs:boolean"
+								use="required" />
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="registrazioni">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="registrazione" minOccurs="1"
+							maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="numero" type="stringNotEmpty" />
+									<xs:element name="registro" type="stringNotEmpty" />
+									<xs:element name="data" type="xs:date" />
+									<xs:element name="anno" type="xs:integer" />
+									<xs:element name="oggetto" type="stringNotEmpty"
+										minOccurs="0" />
+								</xs:sequence>
+								<xs:attribute name="protocollo" type="xs:boolean"
+									use="required" />
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="allegati">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="allegato" minOccurs="1" maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="nomeFile" type="stringNotEmpty" />
+									<xs:element name="descrizione" type="stringNotEmpty"
+										minOccurs="0" />
+									<xs:element name="url" type="stringNotEmpty"
+										minOccurs="0" />
+								</xs:sequence>
+								<xs:attribute name="documentoPrincipale" type="xs:boolean"
+									use="required" />
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+
+			<xs:element name="custom_fields" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="custom_field" minOccurs="1"
+							maxOccurs="unbounded">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="key" type="stringNotEmpty" />
+									<xs:element name="value" type="stringNotEmpty" />
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+
+	<xs:complexType name="import-header">
+		<xs:sequence>
+			<xs:element name="id-fonte" type="xs:NMTOKEN">
+				<xs:annotation>
+					<xs:documentation>Id della fonte che alimenta il raccoglitore
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="id-flusso" type="xs:NMTOKEN">
+				<xs:annotation>
+					<xs:documentation>Id univoco del flusso prodotto dalla fonte
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="timestamp-flusso" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>timestamp di generazione del flusso
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="commonFields">
+		<xs:sequence>
+			<xs:element name="creation-timestamp" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Timestamp di creazione dell'entita' informativa
+						nel sistema di provenienza
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="last-update-timestamp" type="xs:dateTime">
+				<xs:annotation>
+					<xs:documentation>Timestamp di ultima modifica dell'entita'
+						informativa nel sistema di provenienza
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="dataFineValidita" type="xs:date"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>la data di fine validità dell'entità informativa
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="codice-ente" type="xs:NMTOKEN">
+				<xs:annotation>
+					<xs:documentation>Codice dell'ente che detiene l'entita'
+						informativa, cosi' come censito nel raccoglitore
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="url" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>URL per accedere al dettaglio dell'informazione
+						direttamente sulla fonte</xs:documentation>
+				</xs:annotation>
+				<xs:simpleType>
+					<xs:restriction base="xs:anyURI">
+						<xs:minLength value="1" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="latitudine" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Latitudine espressa in gradi decimali
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="longitudine" type="xs:double" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Latitudine espressa in gradi decimali
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="descrizione" type="stringNotEmpty"
+				minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Descrizione dell'entita' informativa
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="keywords" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Lista delle parole chiave con cui ricercare
+						l'entita' informativa
+					</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="keyword" type="stringNotEmpty"
+							maxOccurs="unbounded" />
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="relazioni" type="relazioni" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>Lista delle relazioni dell'entita' informativa
+						con entita' informative in altre fonti. Viene utilizzato per
+						specificare anche gli utenti abilitati ad accedere al dato.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="relazioni">
+		<xs:sequence maxOccurs="unbounded">
+			<xs:element name="relazione">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="stringNotEmpty">
+							<xs:attribute name="tipoRelazione">
+								<xs:annotation>
+									<xs:documentation>Specifica la tipologia della relazione con
+										l'entita' informativa in oggetto (e.g. titolare).
+									</xs:documentation>
+								</xs:annotation>
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="accomandatarioDiSapa" />
+										<xs:enumeration value="affittuario" />
+										<xs:enumeration value="amministratore" />
+										<xs:enumeration value="amministratoreConPostilla" />
+										<xs:enumeration value="amministratoreConRequisiti" />
+										<xs:enumeration value="amministratoreDelegato" />
+										<xs:enumeration value="amministratoreDelegatoEPreposto" />
+										<xs:enumeration value="amministratoreEPreposto" />
+										<xs:enumeration value="amministratoreEResponsabileTecnico" />
+										<xs:enumeration value="amministratoreGiudiziario" />
+										<xs:enumeration value="amministratoreProvvisorio" />
+										<xs:enumeration value="amministratoreStraordinario" />
+										<xs:enumeration value="amministratoreUnico" />
+										<xs:enumeration value="amministratoreUnicoEPreposto" />
+										<xs:enumeration value="capoAgenzia" />
+										<xs:enumeration value="capoCantiere" />
+										<xs:enumeration value="capoServizioAmministrativo" />
+										<xs:enumeration value="capoUfficio" />
+										<xs:enumeration value="coamministratore" />
+										<xs:enumeration value="coerede" />
+										<xs:enumeration value="coltivatoreDiretto" />
+										<xs:enumeration value="comitatoEsecutivo" />
+										<xs:enumeration value="commissarioGiudiziale" />
+										<xs:enumeration value="commissarioGiudiziario" />
+										<xs:enumeration value="commissarioGovernativo" />
+										<xs:enumeration value="commissarioLiquidatore" />
+										<xs:enumeration value="commissarioStraordinario" />
+										<xs:enumeration value="condirettore" />
+										<xs:enumeration value="condirettoreCentrale" />
+										<xs:enumeration value="condirettoreCommerciale" />
+										<xs:enumeration value="condirettoreFiliale" />
+										<xs:enumeration value="condirettoreGenerale" />
+										<xs:enumeration value="condirettoreStabilimento" />
+										<xs:enumeration value="condirettoreTecnico" />
+										<xs:enumeration value="coniuge" />
+										<xs:enumeration value="consigliere" />
+										<xs:enumeration value="consigliereDelegato" />
+										<xs:enumeration value="consiglierediAmministrazione" />
+										<xs:enumeration value="consiglierediGestione" />
+										<xs:enumeration value="consiglierediSorveglianza" />
+										<xs:enumeration value="consiglierediSorveglianzaSupplente" />
+										<xs:enumeration value="consigliereEPreposto" />
+										<xs:enumeration value="consigliereSegretario" />
+										<xs:enumeration value="curatore" />
+										<xs:enumeration value="curatoreDelloEmancipato" />
+										<xs:enumeration value="curatoreFallimentare" />
+										<xs:enumeration value="curatoreSpecialeMinore" />
+										<xs:enumeration value="custodeSequestroGiudiziario" />
+										<xs:enumeration value="delegatoAllaFirma" />
+										<xs:enumeration value="delegatoArt2" />
+										<xs:enumeration value="delegatoArt2L287" />
+										<xs:enumeration value="delegatoIscrizioneRec" />
+										<xs:enumeration value="delegatoSomministrazione" />
+										<xs:enumeration value="delegatoRitiroCapitaleVersato" />
+										<xs:enumeration value="dipendente" />
+										<xs:enumeration value="direttore" />
+										<xs:enumeration value="direttoreAmministrativo" />
+										<xs:enumeration value="direttoreArtistico" />
+										<xs:enumeration value="direttoreCentrale" />
+										<xs:enumeration value="direttoreCommericiale" />
+										<xs:enumeration value="direttoreEsercizio" />
+										<xs:enumeration value="direttoreFiliale" />
+										<xs:enumeration value="direttoreFinanze" />
+										<xs:enumeration value="direttoreGenerale" />
+										<xs:enumeration value="direttoreInterinale" />
+										<xs:enumeration value="direttoreMarketing" />
+										<xs:enumeration value="direttorePersonale" />
+										<xs:enumeration value="direttoreRegionale" />
+										<xs:enumeration value="direttoreResponsabile" />
+										<xs:enumeration value="direttoreStabilimento" />
+										<xs:enumeration value="direttoreTecnico" />
+										<xs:enumeration value="dirigente" />
+										<xs:enumeration value="dirigenteAmministrativo" />
+										<xs:enumeration value="dirigenteCommerciale" />
+										<xs:enumeration value="dirigenteConPotere" />
+										<xs:enumeration value="elettore" />
+										<xs:enumeration value="familiare" />
+										<xs:enumeration value="fattoreDiCampagna" />
+										<xs:enumeration value="funzionario" />
+										<xs:enumeration value="gerente" />
+										<xs:enumeration value="gestoreEsercizio" />
+										<xs:enumeration value="giudiceDelegato" />
+										<xs:enumeration value="impresaMandataria" />
+										<xs:enumeration value="institore" />
+										<xs:enumeration value="ispettore" />
+										<xs:enumeration value="legaleRappresentante" />
+										<xs:enumeration value="legaleRappresentanteArt2L287" />
+										<xs:enumeration value="legaleRappresentanteDiSocieta" />
+										<xs:enumeration value="legaleRappresentanteFiglioMinore" />
+										<xs:enumeration value="legaleRappresentanteIncapace" />
+										<xs:enumeration value="legaleRappresentanteIntestatarioDelTesserino" />
+										<xs:enumeration value="liquidatore" />
+										<xs:enumeration value="liquidatoreGiudiziario" />
+										<xs:enumeration value="mandatario" />
+										<xs:enumeration value="mandatoSpeciale" />
+										<xs:enumeration value="membroComitatoDirettivo" />
+										<xs:enumeration value="membroComitatoControlloGestione" />
+										<xs:enumeration value="membroComitatoEsecutivo" />
+										<xs:enumeration value="membroComitatoGestione" />
+										<xs:enumeration value="membroComitatoSorveglianza" />
+										<xs:enumeration value="membroComunioneEreditaria" />
+										<xs:enumeration value="membroConsiglioDirettivo" />
+										<xs:enumeration value="membroGiuntaEsecutiva" />
+										<xs:enumeration value="minoreRappresentatoDalTutore" />
+										<xs:enumeration value="nominaAConsigliere" />
+										<xs:enumeration value="nominaAConsigliereDelegato" />
+										<xs:enumeration value="nominaAdAmministratore" />
+										<xs:enumeration value="nominaAdAmministratoreUnico" />
+										<xs:enumeration value="nominaALegaleRappresentanteSocieta" />
+										<xs:enumeration value="nominaALiquidatore" />
+										<xs:enumeration value="nominaAPreposto" />
+										<xs:enumeration value="nominaAPresidenteCollegioSindacale" />
+										<xs:enumeration value="nominaAPresidenteConsiglioAmministrazione" />
+										<xs:enumeration value="nominaASindacoEffettivo" />
+										<xs:enumeration value="nominaASindacoSupplente" />
+										<xs:enumeration
+											value="nominaAVicepresidenteConsiglioAmministrazione" />
+										<xs:enumeration value="nonElettore" />
+										<xs:enumeration value="padreOMadreEsercentePatriaPotesta" />
+										<xs:enumeration value="personaAutorizzataAllaFirma" />
+										<xs:enumeration value="personaOperantePerContoSocieta" />
+										<xs:enumeration value="preposto" />
+										<xs:enumeration value="prepostoArt2L37" />
+										<xs:enumeration value="prepostoCommercioIngrossoSettoreAlimentare" />
+										<xs:enumeration value="prepostoEsercizio" />
+										<xs:enumeration value="prepostoGestioneRepartoL248" />
+										<xs:enumeration value="prepostoGestioneTecnicaArt7" />
+										<xs:enumeration value="prepostoGestioneTecnicaDM221" />
+										<xs:enumeration value="prepostoGestioneTecnicaDM274/97" />
+										<xs:enumeration value="prepostoGestioneTecnicaDM37/2008" />
+										<xs:enumeration value="prepostoGestioneTecnicaL46/90" />
+										<xs:enumeration value="prepostoMediazioneArt11" />
+										<xs:enumeration value="prepostoSedeSecondaria" />
+										<xs:enumeration value="presidente" />
+										<xs:enumeration value="presidenteAggiunto" />
+										<xs:enumeration value="presidenteCollegioSindacale" />
+										<xs:enumeration value="presidenteComitatoControlloGestione" />
+										<xs:enumeration value="presidenteComitatoDirettivo" />
+										<xs:enumeration value="presidenteComitatoEsecutivo" />
+										<xs:enumeration value="presidenteComitatoGestione" />
+										<xs:enumeration value="presidenteConsigliereDelegato" />
+										<xs:enumeration value="presidenteConsiglioAmministrazione" />
+										<xs:enumeration value="presidenteConsiglioDirettivo" />
+										<xs:enumeration value="presidenteConsiglioGestione" />
+										<xs:enumeration value="presidenteConsiglioSorveglianza" />
+										<xs:enumeration value="presidenteConsorzio" />
+										<xs:enumeration value="presidenteDiConsorzio" />
+										<xs:enumeration value="presidenteEffettivoCondiglioDirettivo" />
+										<xs:enumeration value="presidenteEPreposto" />
+										<xs:enumeration value="presidenteOnorario" />
+										<xs:enumeration value="presidenteRevisoriLegali" />
+										<xs:enumeration value="procuratore" />
+										<xs:enumeration value="procuratoreAdNegotia" />
+										<xs:enumeration value="procuratoreAmministrativo" />
+										<xs:enumeration value="procuratoreCentrale" />
+										<xs:enumeration value="procuratoreCommerciale" />
+										<xs:enumeration value="procuratoreConPostilla" />
+										<xs:enumeration value="procuratoreFiliale" />
+										<xs:enumeration value="procuratoreGenerale" />
+										<xs:enumeration value="procuratoreSocietaConSomministrazione" />
+										<xs:enumeration value="procuratoreSpeciale" />
+										<xs:enumeration value="procuratoreSuperiore" />
+										<xs:enumeration value="procuratoreTecnico" />
+										<xs:enumeration value="proprietario" />
+										<xs:enumeration value="protutore" />
+										<xs:enumeration value="rappresentanteAzionisti" />
+										<xs:enumeration value="rappresentanteComuneObbligazionisti" />
+										<xs:enumeration value="rappresentanteComunePatrimoniFinanziamenti" />
+										<xs:enumeration value="rappresentanteInItalia" />
+										<xs:enumeration value="rappresentanteLegaleSediSecondarie" />
+										<xs:enumeration value="rappresentanteLeggePS" />
+										<xs:enumeration value="rappresentanteprepostoAllaDipendenzaInItalia" />
+										<xs:enumeration value="rappresentantePrepostoSedeSecondariaInItalia" />
+										<xs:enumeration value="rappresentanteSocietaEstera" />
+										<xs:enumeration value="rappresentanteStabile" />
+										<xs:enumeration value="receduto" />
+										<xs:enumeration value="responsabile" />
+										<xs:enumeration value="responsabileAcquisti" />
+										<xs:enumeration value="responsabileTecnico" />
+										<xs:enumeration value="responsabileVendite" />
+										<xs:enumeration value="revisoreContiSupplente" />
+										<xs:enumeration value="revisoreLegale" />
+										<xs:enumeration value="revisoreUnico" />
+										<xs:enumeration value="segretarioConsiglioAmministrazione" />
+										<xs:enumeration value="segretarioGenerale" />
+										<xs:enumeration value="sindacoEffettivo" />
+										<xs:enumeration value="sindacoProTempore" />
+										<xs:enumeration value="sindacoSupplente" />
+										<xs:enumeration value="societaDiRevisione" />
+										<xs:enumeration value="socio" />
+										<xs:enumeration value="socioAbilitato" />
+										<xs:enumeration value="socioAccomandante" />
+										<xs:enumeration value="socioAccomandatario" />
+										<xs:enumeration value="socioAccomandatarioERappresentanteLegale" />
+										<xs:enumeration value="socioAccomandatarioOpera" />
+										<xs:enumeration value="socioAmministratore" />
+										<xs:enumeration value="socioCompropretario" />
+										<xs:enumeration value="socioContitolare" />
+										<xs:enumeration value="socioDiOpera" />
+										<xs:enumeration value="socioDiSocietaInNomeCollettivo" />
+										<xs:enumeration value="socioEPreposto" />
+										<xs:enumeration value="socioImpresaArtigiana" />
+										<xs:enumeration value="socioFinanziatore" />
+										<xs:enumeration value="socioLavorante" />
+										<xs:enumeration value="socioNonPartcecipaLavorazioni" />
+										<xs:enumeration value="socioRappresentante" />
+										<xs:enumeration value="socioResponsabileTecnico" />
+										<xs:enumeration value="socioSocietaDiFatto" />
+										<xs:enumeration value="socioSocietaPersoneRappr" />
+										<xs:enumeration value="socioUnico" />
+										<xs:enumeration value="sovrintendente" />
+										<xs:enumeration value="tesoriere" />
+										<xs:enumeration value="titolare" />
+										<xs:enumeration value="titolareArt2L287" />
+										<xs:enumeration value="titolareFirmatario" />
+										<xs:enumeration value="titolareImpresaArtigiana" />
+										<xs:enumeration value="titolareLicenzaPS" />
+										<xs:enumeration value="titolareMarchioIdentificativo" />
+										<xs:enumeration value="tutore" />
+										<xs:enumeration value="usufruttuario" />
+										<xs:enumeration value="viceAmministratore" />
+										<xs:enumeration value="viceDirettore" />
+										<xs:enumeration value="viceDirettoreCentrale" />
+										<xs:enumeration value="viceDirettoreCommerciale" />
+										<xs:enumeration value="viceDirettoreFiliale" />
+										<xs:enumeration value="viceDirettoreGenerale" />
+										<xs:enumeration value="vicePresidente" />
+										<xs:enumeration value="vicePresidenteConsiglioAmministrazione" />
+										<xs:enumeration value="vicePresidenteConsiglioDirettivo" />
+										<xs:enumeration value="vicePresidenteEffettivoConsiglioDirettivo" />
+										<xs:enumeration value="vicePresidenteVicario" />
+										<xs:enumeration value="poteriDaStatutoOPattiSociali" />
+										<xs:enumeration value="poteriDaStatuto" />
+										<xs:enumeration value="oggetto" />
+										<xs:enumeration value="delegatoFascicoloArchivistico" />
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+							<xs:attribute name="tipoId" type="stringNotEmpty"
+								use="required">
+								<xs:annotation>
+									<xs:documentation>Specifica la tipologia dell'id utilizzato per
+										indicare l'entita' informativa relazionata (e.g.
+										codiceFiscale, partitaIva)
+									</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="autorizzazione" type="xs:boolean"
+								use="required">
+								<xs:annotation>
+									<xs:documentation>Indica se la relazione deve essere
+										considerata per la determinazione dei diritti di accesso
+										all'entita informativa
+									</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="dataInizio" type="xs:date">
+								<xs:annotation>
+									<xs:documentation>Indica la data in cui ha inizio la relazione
+										indicata</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+							<xs:attribute name="dataFine" type="xs:date">
+								<xs:annotation>
+									<xs:documentation>Indica la data in cui ha fine la relazione
+										indicata</xs:documentation>
+								</xs:annotation>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="stringNotEmpty">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+			<xs:pattern value=".*[^\s].*" />
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

@@ -1,0 +1,48 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+### VS Code ###
+.vscode/
+/docer.iml
+/HELP.md
+/mvnw
+/mvnw.cmd
+/target/
+/.mvn/
+/.idea/
+/logs/docer/
+/src/main/files/
+/src/main/upload/
+/src/main/resources/pec-validation.xsd
+/src/main/resources/pec-provider-validation.xsd
+/src/main/resources/pec-provider.properties
+/src/main/resources/configuration.xml
+/src/main/resources/ENTE_UNIT_TEST/configuration.xml
+/src/main/resources/security.properties
+/src/main/swaggertest/

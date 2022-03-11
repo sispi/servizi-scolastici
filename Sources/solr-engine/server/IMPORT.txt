@@ -1,0 +1,72 @@
+A - Per configurare il nuovo solr2solr import seguire i seguenti step:
+
+1) configurare nel solrconfig.xml la sezione relativa all'import:
+
+    <requestHandler name="/solrimport" class="org.apache.solr.handler.dataimport.DataImportHandler">
+        <lst name="defaults">
+            <str name="update.chain">solr2solrChain</str>
+            <str name="config">solrimport.xml</str>
+        </lst>
+    </requestHandler>
+
+    <updateRequestProcessorChain name="solr2solrChain">
+
+        <processor class="solr.LogUpdateProcessorFactory" >
+            <int name="maxNumToLog">100</int>
+        </processor>
+
+        <processor class="solr.StatelessScriptUpdateProcessorFactory">
+            <str name="script">solr2solr.js</str>
+        </processor>
+
+
+        <processor class="solr.RemoveBlankFieldUpdateProcessorFactory" >
+
+        </processor>
+
+        <processor class="solr.CloneFieldUpdateProcessorFactory">
+            <str name="source">created_by</str>
+            <str name="source">acl_explicit</str>
+            <str name="dest">acl_read</str>
+        </processor>
+
+        <processor class="solr.RegexReplaceProcessorFactory">
+            <str name="fieldName">acl_read</str>
+            <str name="pattern">^([^\:]+)\:.*$</str>
+            <str name="replacement">$1</str>
+            <bool name="literalReplacement">false</bool>
+        </processor>
+
+        <processor class="solr.UniqFieldsUpdateProcessorFactory">
+            <str name="fieldName">acl_explicit</str>
+            <str name="fieldName">acl_parents</str>
+            <str name="fieldName">acl_read</str>
+            <str name="fieldName">related</str>
+            <str name="fieldName">state</str>
+            <str name="fieldName">error</str>
+        </processor>
+
+        <processor class="solr.DistributedUpdateProcessorFactory" />
+
+        <processor class="solr.RunUpdateProcessorFactory" />
+
+    </updateRequestProcessorChain>
+
+2) dopo il RELOAD della configurazione sarà disponibile il nuovo import nella sezione DataImport
+
+3) specificare come parametri di esecuzione "host" e "port" del solr di origine
+
+4) specificare l'eventuale prefix di destinazione con il parametro "orgprefix" includendo anche il doppio underscore come da specifica DOCER.
+
+Parametri di esempio: host=192.168.0.234&port=8983&orgprefix=PREFIX__
+
+5) al termine dell'importazione ottimizzare l'indice
+
+
+B - Esecuzione alfresco2solr import
+
+Il batch funziona esattamente come la precedente versione.
+E' necessario opzionalmente specificare il prefisso per Docer
+
+Parametri di esempio: server=192.168.0.234&orgprefix=PREFIX__
+

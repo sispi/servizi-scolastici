@@ -1,0 +1,154 @@
+#   attributi root:
+#   locales: lista dei locales utilizzati con chiave parte dell'url e valore il locale
+#   baseUrl: da specificare se si vuole stabilizzare il baseUrl per i link relativi delle app
+#
+#   menu: default menu se non esiste il menu dell'app
+#   home: homepage area autenticata che per default è /
+#   public-home: homepage per l'utente guest che per default è l'home
+#
+#   theme: default theme page (altrimenti è default). Può essere una semplice stringa o una mappa per specificare parametri del tema
+#
+#   ogni app può avere i seguenti attributi:
+#
+#   appName (o name) : identifica l'app . Questo attriuto o il link va specificato obbligatoriamente.
+#
+#   link: è il link sull'header, per default è /appName. Se inizia per http:
+#         - viene aggiunto il tag per passare il Bearer al cambio app
+#         - il match degli url viene fatto sulla base della prima parte dell'host che deve essere alfanumerico
+#
+#   regex: la espressione che relaziona gli url all'app.
+#         - per default se link è sel tipo http://context.domain/... : ^https?://&amp;amp;amp;amp;amp;lt;context&amp;amp;amp;amp;amp;gt;\\.[^/](?:/.*)?$
+#         - per default se link è sel tipo http://context/... : ^https?://&amp;amp;amp;amp;amp;lt;context&amp;amp;amp;amp;amp;gt;(?:/.*)?$
+#         - per default se link è sel tipo /context... : ^https?://[^/]+(/&amp;amp;amp;amp;amp;lt;context&amp;amp;amp;amp;amp;gt;)(?:/.*)?$
+#
+#   il capture è utilizzato per estrarre il context (sempre vuoto nei primi due casi)
+#
+#   roles: specifica i ruoli che possono accedere all'app. L'area pubblica deve avere "guest"
+#
+#   order: per specificare l'ordine di presentazione
+#   folder: per specificare un sub-folder per i templates (per default è l'appName)
+#   menu: può essere null, string, list o map. Per default il menu è il path (folder) dell'app o , se esiste, il menu omonimo
+#         se è una string può rappresentare la chiave in menus.yaml oppure un path (/...) in resources/templates
+#         altrimenti direttamente la chiave "menu" del modello per il template ftl
+#
+#   Le seguenti chiavi (insieme a tutte le altre eventualmente presenti) vengono utilizzate dall'header.ftl:
+#
+#       - icon: icona accostata al nome
+#       - title: testo presentato, per default l'appName
+#       - visible: nasconde l'app dall'header
+#
+#   Le chiavi destinate a divenire parte della pagina (ad esempio il title) possno usare la sintassi $[...] per essere tradotte
+#
+#   Le seguenti chiavi vengono utilizzate dallo zuul proxy:
+#   targetUri:  se presente imposta l'app come web application proxata da zuul
+#               se include $ viene processato come regex/replace
+#   template: ftl che produce l'html iniettita facendo proxy, per default è proxy/proxy.ftl
+#   FormBodyWrapperFilter: abilita/disabilita il filtro per intercettare i form body in zuul (default true)
+#
+####################################################################################
+theme: default
+
+locales:
+  it: it-IT
+  en: en-GB
+  es: es-ES
+  fr: fr-FR
+  de: de-DE
+menu: default
+home: documenti/listaRisultati?fq=DOCNUM:*&sort=modified_on%20desc
+public-home: public
+defaultAoo: 'AOO1'
+baseUrl: https://ks-backoffice:8082
+apps:
+- link: public
+  title: Public
+  folder: public
+  visible: false
+  menu: null
+  roles:
+  - guest
+- link: admin/info
+  title: Admin
+  icon: fa-cog
+  style: "color: #ffc107!important"
+  roles:
+  - admins
+  "@menu": vertical
+  menu:
+  - url: config
+    name: Config
+    icon: fa-tools
+  - url: resources
+    name: Resources
+    icon: fa-file-code
+  - url: info
+    name: Server Info
+    icon: fa-user-secret
+  - url: ~auth/userinfo
+    name: userinfo
+    icon: glyphicon-user
+    style: "color:yellow!important"
+
+- link: documenti/listaRisultati?fq=DOCNUM:*&sort=modified_on%20desc
+  icon: fa-file-alt
+  title: "$[it:Documenti,en:Documents]"
+  menu: documenti
+  roles:
+  - everyone
+- link: reports/reportlist
+  title: "$[it:Reportistica,en:Reports]"
+  icon: fa-list
+  roles:
+  - everyone
+#- link: scrivania
+#  title: Scrivania
+#  icon: fa-tag
+#  roles:
+#  - everyone
+- link: bpm/tasks
+  title: BPM
+  icon: fa-project-diagram
+  folder: bpm
+  roles:
+  - everyone
+
+- link: esempi
+  title: Esempi
+  icon: fa-code
+  menu: /esempi
+  roles:
+  - admins
+
+- link: wiki/wiki?id=1wh2Dgqff2eg1y0vF8FK55GMp5QvcMjtF
+  title: Wikies
+  icon: fa-blog
+  menu:
+  - url: wiki?id=11emL7_PKaK8cJy-xCjyFNinPSopgBa-C
+    name: KeySuite 4
+  - url: wiki?id=1knxkY5SLOjmUIIRgMYIRJZvWrFYcjg16
+    name: KeySuite 6
+- link: FlowDesigner/
+  title: FlowDesigner
+  icon: fa-palette
+  targetUri: http://flowdesigner:8080
+  FormBodyWrapperFilter: false
+  template: proxy/flowdesigner.ftl
+  menu: null
+  roles:
+  - admins
+- link: solr/#/
+  title: Solr
+  icon: fa-search
+  targetUri: http://solr-persistent:8983
+  template: proxy/mini.ftl
+  menu: null
+  roles:
+  - admins
+- link: form-manager/console
+  title: Form manager
+  icon: fa-search
+  targetUri: http://ks-spa-form-backend-v1:8080
+  template: proxy/mini.ftl
+  menu: null
+  roles:
+    - admins

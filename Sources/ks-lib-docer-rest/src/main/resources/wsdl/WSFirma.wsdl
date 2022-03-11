@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:ns1="http://org.apache.axis2/xsd"
+                  xmlns:ns="http://firma.docer.kdm.it"
+                  xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl"
+                  xmlns:http="http://schemas.xmlsoap.org/wsdl/http/"
+                  xmlns:ax23="http://model.firma.docer.kdm.it/xsd"
+                  xmlns:ax21="http://firma.docer.kdm.it/xsd"
+                  xmlns:xs="http://www.w3.org/2001/XMLSchema"
+                  xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/"
+                  targetNamespace="http://firma.docer.kdm.it">
+   <wsdl:documentation>
+		Servizio per WSFirma
+	</wsdl:documentation>
+   <wsdl:types>
+      <xs:schema xmlns:ax24="http://model.firma.docer.kdm.it/xsd"
+                 xmlns:ax22="http://firma.docer.kdm.it/xsd"
+                 attributeFormDefault="qualified"
+                 elementFormDefault="qualified"
+                 targetNamespace="http://firma.docer.kdm.it">
+         <xs:import namespace="http://firma.docer.kdm.it/xsd"/>
+         <xs:import namespace="http://model.firma.docer.kdm.it/xsd"/>
+         <xs:element name="WSFirmaFirmaException">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="FirmaException" nillable="true" type="ax21:FirmaException"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="firmaAutomaticaFile">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="alias" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="pin" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="tipo" nillable="true" type="xs:string"/>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="file" nillable="true"
+                              type="ax23:KeyValuePairDF"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="firmaAutomaticaFileResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="return" nillable="true"
+                              type="ax23:StreamDescriptor"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="firmaAutomatica">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="alias" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="pin" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="tipo" nillable="true" type="xs:string"/>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="documenti" nillable="true"
+                              type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="firmaAutomaticaResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="return" nillable="true"
+                              type="ax23:StreamDescriptor"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="firmaRemota">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="alias" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="pin" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="tipo" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="OTP" nillable="true" type="xs:string"/>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="documenti" nillable="true"
+                              type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="firmaRemotaResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="return" nillable="true"
+                              type="ax23:StreamDescriptor"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="requestOTP">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="alias" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="pin" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="requestOTPResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="firmaRemotaFile">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="alias" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="pin" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="tipo" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="OTP" nillable="true" type="xs:string"/>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="file" nillable="true"
+                              type="ax23:KeyValuePairDF"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="firmaRemotaFileResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element maxOccurs="unbounded" minOccurs="0" name="return" nillable="true"
+                              type="ax23:StreamDescriptor"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginSSO">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="saml" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="codiceEnte" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginSSOResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="writeConfig">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="xmlConfig" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="writeConfigResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="readConfig">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="readConfigResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="login">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="userId" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="password" nillable="true" type="xs:string"/>
+                  <xs:element minOccurs="0" name="codiceEnte" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="loginResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="logout">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="token" nillable="true" type="xs:string"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+         <xs:element name="logoutResponse">
+            <xs:complexType>
+               <xs:sequence>
+                  <xs:element minOccurs="0" name="return" type="xs:boolean"/>
+               </xs:sequence>
+            </xs:complexType>
+         </xs:element>
+      </xs:schema>
+      <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified"
+                 targetNamespace="http://firma.docer.kdm.it/xsd">
+         <xs:complexType name="FirmaException">
+            <xs:sequence/>
+         </xs:complexType>
+      </xs:schema>
+      <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified"
+                 targetNamespace="http://model.firma.docer.kdm.it/xsd">
+         <xs:complexType name="KeyValuePairDF">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="fileName" nillable="true" type="xs:string"/>
+               <xs:element minOccurs="0" name="stream" nillable="true" type="xs:base64Binary"/>
+            </xs:sequence>
+         </xs:complexType>
+         <xs:complexType name="StreamDescriptor">
+            <xs:sequence>
+               <xs:element minOccurs="0" name="byteSize" type="xs:long"/>
+               <xs:element minOccurs="0" name="dataHandler" nillable="true" type="xs:base64Binary"/>
+               <xs:element minOccurs="0" name="docNum" nillable="true" type="xs:string"/>
+               <xs:element minOccurs="0" name="message" nillable="true" type="xs:string"/>
+               <xs:element minOccurs="0" name="name" nillable="true" type="xs:string"/>
+               <xs:element minOccurs="0" name="originalName" nillable="true" type="xs:string"/>
+            </xs:sequence>
+         </xs:complexType>
+      </xs:schema>
+   </wsdl:types>
+   <wsdl:message name="logoutRequest">
+      <wsdl:part name="parameters" element="ns:logout"/>
+   </wsdl:message>
+   <wsdl:message name="logoutResponse">
+      <wsdl:part name="parameters" element="ns:logoutResponse"/>
+   </wsdl:message>
+   <wsdl:message name="WSFirmaFirmaException">
+      <wsdl:part name="parameters" element="ns:WSFirmaFirmaException"/>
+   </wsdl:message>
+   <wsdl:message name="firmaRemotaFileRequest">
+      <wsdl:part name="parameters" element="ns:firmaRemotaFile"/>
+   </wsdl:message>
+   <wsdl:message name="firmaRemotaFileResponse">
+      <wsdl:part name="parameters" element="ns:firmaRemotaFileResponse"/>
+   </wsdl:message>
+   <wsdl:message name="requestOTPRequest">
+      <wsdl:part name="parameters" element="ns:requestOTP"/>
+   </wsdl:message>
+   <wsdl:message name="requestOTPResponse">
+      <wsdl:part name="parameters" element="ns:requestOTPResponse"/>
+   </wsdl:message>
+   <wsdl:message name="firmaRemotaRequest">
+      <wsdl:part name="parameters" element="ns:firmaRemota"/>
+   </wsdl:message>
+   <wsdl:message name="firmaRemotaResponse">
+      <wsdl:part name="parameters" element="ns:firmaRemotaResponse"/>
+   </wsdl:message>
+   <wsdl:message name="writeConfigRequest">
+      <wsdl:part name="parameters" element="ns:writeConfig"/>
+   </wsdl:message>
+   <wsdl:message name="writeConfigResponse">
+      <wsdl:part name="parameters" element="ns:writeConfigResponse"/>
+   </wsdl:message>
+   <wsdl:message name="loginRequest">
+      <wsdl:part name="parameters" element="ns:login"/>
+   </wsdl:message>
+   <wsdl:message name="loginResponse">
+      <wsdl:part name="parameters" element="ns:loginResponse"/>
+   </wsdl:message>
+   <wsdl:message name="readConfigRequest">
+      <wsdl:part name="parameters" element="ns:readConfig"/>
+   </wsdl:message>
+   <wsdl:message name="readConfigResponse">
+      <wsdl:part name="parameters" element="ns:readConfigResponse"/>
+   </wsdl:message>
+   <wsdl:message name="firmaAutomaticaFileRequest">
+      <wsdl:part name="parameters" element="ns:firmaAutomaticaFile"/>
+   </wsdl:message>
+   <wsdl:message name="firmaAutomaticaFileResponse">
+      <wsdl:part name="parameters" element="ns:firmaAutomaticaFileResponse"/>
+   </wsdl:message>
+   <wsdl:message name="loginSSORequest">
+      <wsdl:part name="parameters" element="ns:loginSSO"/>
+   </wsdl:message>
+   <wsdl:message name="loginSSOResponse">
+      <wsdl:part name="parameters" element="ns:loginSSOResponse"/>
+   </wsdl:message>
+   <wsdl:message name="firmaAutomaticaRequest">
+      <wsdl:part name="parameters" element="ns:firmaAutomatica"/>
+   </wsdl:message>
+   <wsdl:message name="firmaAutomaticaResponse">
+      <wsdl:part name="parameters" element="ns:firmaAutomaticaResponse"/>
+   </wsdl:message>
+   <wsdl:portType name="WSFirmaPortType">
+      <wsdl:operation name="logout">
+         <wsdl:input message="ns:logoutRequest" wsaw:Action="urn:logout"/>
+         <wsdl:output message="ns:logoutResponse" wsaw:Action="urn:logoutResponse"/>
+         <wsdl:fault message="ns:WSFirmaFirmaException" name="WSFirmaFirmaException"
+                     wsaw:Action="urn:logoutWSFirmaFirmaException"/>
+      </wsdl:operation>
+      <wsdl:operation name="firmaRemotaFile">
+         <wsdl:input message="ns:firmaRemotaFileRequest" wsaw:Action="urn:firmaRemotaFile"/>
+         <wsdl:output message="ns:firmaRemotaFileResponse" wsaw:Action="urn:firmaRemotaFileResponse"/>
+         <wsdl:fault message="ns:WSFirmaFirmaException" name="WSFirmaFirmaException"
+                     wsaw:Action="urn:firmaRemotaFileWSFirmaFirmaException"/>
+      </wsdl:operation>
+      <wsdl:operation name="requestOTP">
+         <wsdl:input message="ns:requestOTPRequest" wsaw:Action="urn:requestOTP"/>
+         <wsdl:output message="ns:requestOTPResponse" wsaw:Action="urn:requestOTPResponse"/>
+         <wsdl:fault message="ns:WSFirmaFirmaException" name="WSFirmaFirmaException"
+                     wsaw:Action="urn:requestOTPWSFirmaFirmaException"/>
+      </wsdl:operation>
+      <wsdl:operation name="firmaRemota">
+         <wsdl:input message="ns:firmaRemotaRequest" wsaw:Action="urn:firmaRemota"/>
+         <wsdl:output message="ns:firmaRemotaResponse" wsaw:Action="urn:firmaRemotaResponse"/>
+         <wsdl:fault message="ns:WSFirmaFirmaException" name="WSFirmaFirmaException"
+                     wsaw:Action="urn:firmaRemotaWSFirmaFirmaException"/>
+      </wsdl:operation>
+      <wsdl:operation name="writeConfig">
+         <wsdl:input message="ns:writeConfigRequest" wsaw:Action="urn:writeConfig"/>
+         <wsdl:output message="ns:writeConfigResponse" wsaw:Action="urn:writeConfigResponse"/>
+         <wsdl:fault message="ns:WSFirmaFirmaException" name="WSFirmaFirmaException"
+                     wsaw:Action="urn:writeConfigWSFirmaFirmaException"/>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <wsdl:input message="ns:loginRequest" wsaw:Action="urn:login"/>
+         <wsdl:output message="ns:loginResponse" wsaw:Action="urn:loginResponse"/>
+         <wsdl:fault message="ns:WSFirmaFirmaException" name="WSFirmaFirmaException"
+                     wsaw:Action="urn:loginWSFirmaFirmaException"/>
+      </wsdl:operation>
+      <wsdl:operation name="readConfig">
+         <wsdl:input message="ns:readConfigRequest" wsaw:Action="urn:readConfig"/>
+         <wsdl:output message="ns:readConfigResponse" wsaw:Action="urn:readConfigResponse"/>
+         <wsdl:fault message="ns:WSFirmaFirmaException" name="WSFirmaFirmaException"
+                     wsaw:Action="urn:readConfigWSFirmaFirmaException"/>
+      </wsdl:operation>
+      <wsdl:operation name="firmaAutomaticaFile">
+         <wsdl:input message="ns:firmaAutomaticaFileRequest" wsaw:Action="urn:firmaAutomaticaFile"/>
+         <wsdl:output message="ns:firmaAutomaticaFileResponse"
+                      wsaw:Action="urn:firmaAutomaticaFileResponse"/>
+         <wsdl:fault message="ns:WSFirmaFirmaException" name="WSFirmaFirmaException"
+                     wsaw:Action="urn:firmaAutomaticaFileWSFirmaFirmaException"/>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <wsdl:input message="ns:loginSSORequest" wsaw:Action="urn:loginSSO"/>
+         <wsdl:output message="ns:loginSSOResponse" wsaw:Action="urn:loginSSOResponse"/>
+         <wsdl:fault message="ns:WSFirmaFirmaException" name="WSFirmaFirmaException"
+                     wsaw:Action="urn:loginSSOWSFirmaFirmaException"/>
+      </wsdl:operation>
+      <wsdl:operation name="firmaAutomatica">
+         <wsdl:input message="ns:firmaAutomaticaRequest" wsaw:Action="urn:firmaAutomatica"/>
+         <wsdl:output message="ns:firmaAutomaticaResponse" wsaw:Action="urn:firmaAutomaticaResponse"/>
+         <wsdl:fault message="ns:WSFirmaFirmaException" name="WSFirmaFirmaException"
+                     wsaw:Action="urn:firmaAutomaticaWSFirmaFirmaException"/>
+      </wsdl:operation>
+   </wsdl:portType>
+   <wsdl:binding name="WSFirmaSoap11Binding" type="ns:WSFirmaPortType">
+      <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="logout">
+         <soap:operation soapAction="urn:logout" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="firmaRemotaFile">
+         <soap:operation soapAction="urn:firmaRemotaFile" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="requestOTP">
+         <soap:operation soapAction="urn:requestOTP" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="firmaRemota">
+         <soap:operation soapAction="urn:firmaRemota" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="writeConfig">
+         <soap:operation soapAction="urn:writeConfig" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <soap:operation soapAction="urn:login" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="readConfig">
+         <soap:operation soapAction="urn:readConfig" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="firmaAutomaticaFile">
+         <soap:operation soapAction="urn:firmaAutomaticaFile" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <soap:operation soapAction="urn:loginSSO" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="firmaAutomatica">
+         <soap:operation soapAction="urn:firmaAutomatica" style="document"/>
+         <wsdl:input>
+            <soap:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:binding name="WSFirmaSoap12Binding" type="ns:WSFirmaPortType">
+      <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+      <wsdl:operation name="logout">
+         <soap12:operation soapAction="urn:logout" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap12:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="firmaRemotaFile">
+         <soap12:operation soapAction="urn:firmaRemotaFile" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap12:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="requestOTP">
+         <soap12:operation soapAction="urn:requestOTP" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap12:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="firmaRemota">
+         <soap12:operation soapAction="urn:firmaRemota" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap12:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="writeConfig">
+         <soap12:operation soapAction="urn:writeConfig" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap12:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <soap12:operation soapAction="urn:login" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap12:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="readConfig">
+         <soap12:operation soapAction="urn:readConfig" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap12:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="firmaAutomaticaFile">
+         <soap12:operation soapAction="urn:firmaAutomaticaFile" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap12:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <soap12:operation soapAction="urn:loginSSO" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap12:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+      <wsdl:operation name="firmaAutomatica">
+         <soap12:operation soapAction="urn:firmaAutomatica" style="document"/>
+         <wsdl:input>
+            <soap12:body use="literal"/>
+         </wsdl:input>
+         <wsdl:output>
+            <soap12:body use="literal"/>
+         </wsdl:output>
+         <wsdl:fault name="WSFirmaFirmaException">
+            <soap12:fault use="literal" name="WSFirmaFirmaException"/>
+         </wsdl:fault>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:binding name="WSFirmaHttpBinding" type="ns:WSFirmaPortType">
+      <http:binding verb="POST"/>
+      <wsdl:operation name="logout">
+         <http:operation location="logout"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="firmaRemotaFile">
+         <http:operation location="firmaRemotaFile"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="requestOTP">
+         <http:operation location="requestOTP"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="firmaRemota">
+         <http:operation location="firmaRemota"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="writeConfig">
+         <http:operation location="writeConfig"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="login">
+         <http:operation location="login"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="readConfig">
+         <http:operation location="readConfig"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="firmaAutomaticaFile">
+         <http:operation location="firmaAutomaticaFile"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="loginSSO">
+         <http:operation location="loginSSO"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+      <wsdl:operation name="firmaAutomatica">
+         <http:operation location="firmaAutomatica"/>
+         <wsdl:input>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:input>
+         <wsdl:output>
+            <mime:content type="application/xml" part="parameters"/>
+         </wsdl:output>
+      </wsdl:operation>
+   </wsdl:binding>
+   <wsdl:service name="WSFirma">
+      <wsdl:port name="WSFirmaHttpSoap11Endpoint" binding="ns:WSFirmaSoap11Binding">
+         <soap:address location="http://localhost:8080/WSFirma/services/WSFirma.WSFirmaHttpSoap11Endpoint/"/>
+      </wsdl:port>
+      <wsdl:port name="WSFirmaHttpSoap12Endpoint" binding="ns:WSFirmaSoap12Binding">
+         <soap12:address location="http://localhost:8080/WSFirma/services/WSFirma.WSFirmaHttpSoap12Endpoint/"/>
+      </wsdl:port>
+      <wsdl:port name="WSFirmaHttpEndpoint" binding="ns:WSFirmaHttpBinding">
+         <http:address location="http://localhost:8080/WSFirma/services/WSFirma.WSFirmaHttpEndpoint/"/>
+      </wsdl:port>
+   </wsdl:service>
+</wsdl:definitions>
